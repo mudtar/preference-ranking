@@ -1,4 +1,4 @@
-package UserCreation;
+package edu.pcc.fueledbyjava.rankingsystem.usercreation;
 
 /**
  * The LoginController is used to communicate

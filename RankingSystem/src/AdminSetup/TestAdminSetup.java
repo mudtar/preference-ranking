@@ -1,4 +1,4 @@
-package AdminSetup;
+package edu.pcc.fueledbyjava.rankingsystem.adminsetup;
 
 /**
  * @author BeeYean Tan

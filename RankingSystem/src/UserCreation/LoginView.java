@@ -1,4 +1,4 @@
-package UserCreation;
+package edu.pcc.fueledbyjava.rankingsystem.usercreation;
 
 /**
  * @author BeeYean Tan

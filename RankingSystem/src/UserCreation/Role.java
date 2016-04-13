@@ -1,4 +1,4 @@
-package UserCreation;
+package edu.pcc.fueledbyjava.rankingsystem.usercreation;
 
 /**
  * Role class is use to check whether the user

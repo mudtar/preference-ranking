@@ -1,4 +1,4 @@
-package ResultReporting;
+package edu.pcc.fueledbyjava.rankingsystem.resultreporting;
 
 /**
  * @author BeeYean Tan

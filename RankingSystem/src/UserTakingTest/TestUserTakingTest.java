@@ -1,4 +1,4 @@
-package UserTakingTest;
+package edu.pcc.fueledbyjava.rankingsystem.usertakingtest;
 
 /**
  * @author BeeYean Tan
