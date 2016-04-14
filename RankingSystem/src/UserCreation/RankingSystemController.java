@@ -1,4 +1,4 @@
-package edu.pcc.fueledbyjava.rankingsystem.usercreation;
+package UserCreation;
 
 /**
  * The RankingSystemController is used as the interface

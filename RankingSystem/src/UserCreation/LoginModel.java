@@ -1,4 +1,5 @@
-package edu.pcc.fueledbyjava.rankingsystem.usercreation;
+package UserCreation;
+
 
 import java.util.ArrayList;
 

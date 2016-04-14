@@ -1,4 +1,4 @@
-package edu.pcc.fueledbyjava.rankingsystem.usercreation;
+package UserCreation;
 
 /**
  * This LoginState class is used

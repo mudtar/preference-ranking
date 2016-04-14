@@ -1,4 +1,4 @@
-package edu.pcc.fueledbyjava.rankingsystem.usercreation;
+package UserCreation;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
