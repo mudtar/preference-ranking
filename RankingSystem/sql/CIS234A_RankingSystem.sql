@@ -103,7 +103,8 @@ CREATE TABLE FBJ_RESULT (
 		PK_ResultID INT IDENTITY(1,1) NOT NULL PRIMARY KEY
 		,Value INT default 0
 		,FK_TestID INT NOT NULL REFERENCES FBJ_TEST(PK_TestID)
-		,FK_ItemID INT NOT NULL REFERENCES FBJ_ITEM(PK_ItemID)
+		,FK_Item1ID INT NOT NULL REFERENCES FBJ_ITEM(PK_ItemID)
+		,FK_Item2ID INT NOT NULL REFERENCES FBJ_ITEM(PK_ItemID)
 		,Updt DATETIME Default GETDATE()
 	);
 
@@ -143,10 +144,11 @@ Print 'Insert test data to Result Table.' + CHAR(10);
 INSERT INTO FBJ_RESULT
 	(Value
 		,FK_TestID
-		,FK_ItemID)
-	VALUES(2, 1, 1)
-			,(1, 1, 2)
-			,(0, 1, 3);
+		,FK_Item1ID
+		,FK_Item2ID)
+	VALUES(2, 1, 1, 2)
+			,(1, 1, 1, 3)
+			,(0, 1, 2, 3);
 
 GO
 Print 'Insert test data to Test Item Line Table.' + CHAR(10);
