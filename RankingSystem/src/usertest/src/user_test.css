@@ -3,3 +3,10 @@
   -fx-background-image: url("dark_fish_skin.png");
   -fx-background-repeat: repeat;
 }
+
+.toggle-button:selected {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-border-color: white;
+    -fx-border-style: solid;
+}
