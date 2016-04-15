@@ -1,3 +1,33 @@
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToggleGroup?>
 
-<GridPane />
+<VBox
+  xmlns:fx="http://javafx.com/fxml"
+  stylesheets="user_test.css"
+>
+  <fx:define>
+    <ToggleGroup
+      fx:id="options"
+    />
+  </fx:define>
+  <children>
+    <ToggleButton
+      text="option1"
+      toggleGroup="$options"
+    />
+    <ToggleButton
+      text="option2"
+      toggleGroup="$options"
+    />
+    <ToggleButton
+      text="I Can't Decide"
+      toggleGroup="$options"
+    />
+    <Button
+      text="Submit"
+    />
+  </children>
+</VBox>

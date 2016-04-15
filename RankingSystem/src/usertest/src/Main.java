@@ -23,7 +23,8 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("user_test.fxml"));
         primaryStage.setTitle("Select Your Preference");
-        primaryStage.setScene(new Scene(root, 300, 275));
+        //primaryStage.setScene(new Scene(root, 300, 275));
+        primaryStage.setScene(new Scene(root, 150, 200));
         primaryStage.show();
     }
 

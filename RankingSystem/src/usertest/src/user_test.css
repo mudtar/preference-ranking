@@ -1,0 +1,5 @@
+.root {
+  /* Background pattern from subtlepatterns.com */
+  -fx-background-image: url("dark_fish_skin.png");
+  -fx-background-repeat: repeat;
+}
