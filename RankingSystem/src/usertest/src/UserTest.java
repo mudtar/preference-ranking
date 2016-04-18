@@ -11,7 +11,7 @@ import javafx.stage.Stage;
  * @author  Ian Burton
  * @version 2016.04.15.01
  */
-public class Main extends Application {
+public class UserTest extends Application {
     /**
      * The JavaFX entry point.
      *
@@ -23,8 +23,8 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("user_test.fxml"));
         primaryStage.setTitle("Select Your Preference");
-        //primaryStage.setScene(new Scene(root, 300, 275));
-        primaryStage.setScene(new Scene(root, 150, 200));
+        primaryStage.setScene(new Scene(root));
+        primaryStage.sizeToScene();
         primaryStage.show();
     }
 

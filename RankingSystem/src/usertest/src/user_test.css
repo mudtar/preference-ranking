@@ -4,9 +4,17 @@
   -fx-background-repeat: repeat;
 }
 
+.vbox {
+  -fx-spacing: 10px;
+}
+
+.button {
+  -fx-alignment: center;
+}
+
 .toggle-button:selected {
-    -fx-background-color: transparent;
-    -fx-text-fill: white;
-    -fx-border-color: white;
-    -fx-border-style: solid;
+  -fx-background-color: transparent;
+  -fx-text-fill: white;
+  -fx-border-color: white;
+  -fx-border-style: solid;
 }

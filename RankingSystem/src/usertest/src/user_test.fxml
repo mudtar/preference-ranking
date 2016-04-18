@@ -6,6 +6,7 @@
 
 <VBox
   xmlns:fx="http://javafx.com/fxml"
+  fx:controller="UserTestController"
   stylesheets="user_test.css"
 >
   <fx:define>
@@ -15,11 +16,11 @@
   </fx:define>
   <children>
     <ToggleButton
-      text="option1"
+      fx:id="option1"
       toggleGroup="$options"
     />
     <ToggleButton
-      text="option2"
+      fx:id="option2"
       toggleGroup="$options"
     />
     <ToggleButton
@@ -28,6 +29,7 @@
     />
     <Button
       text="Submit"
+      onAction="#handleSubmit"
     />
   </children>
 </VBox>
