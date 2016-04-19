@@ -1,3 +1,4 @@
+import java.util.List;
 import javafx.fxml.FXML;
 import javafx.scene.control.ToggleButton;
 
@@ -8,6 +9,8 @@ import javafx.scene.control.ToggleButton;
  * @version 2016.04.18.01
  */
 public class UserTestController {
+    private UserTestModel model = new UserTestModel();
+
     /**
      * The ToggleButton representing the first test option.
      */
@@ -21,15 +24,19 @@ public class UserTestController {
     private ToggleButton option2;
 
     /**
-     * This method is executed when the associated FXML view is loaded.
+     * This method is executed automatically when the associated FXML
+     * view is loaded.
      */
     public void initialize() {
-        System.out.println("Initializing");
-        option1.setText("one");
-        option2.setText("two");
+        List<List<String>> testItemPairs = model.getTestItemPairs();
+        List<String> firstPair = testItemPairs.get(0);
+
+        // Populate the button labels with the items in the first pair.
+        option1.setText(firstPair.get(0));
+        option2.setText(firstPair.get(1));
     }
 
     public void handleSubmit() {
-        System.out.println("Submit pressed");
+        System.out.println("Preference submitted.");
     }
 }
