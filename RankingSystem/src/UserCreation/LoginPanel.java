@@ -1,9 +1,16 @@
 package UserCreation;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;;
 
 /**
  * This LoginPanel class provides general-purpose
@@ -13,24 +20,28 @@ import java.awt.event.KeyListener;
  * @author BeeYean Tan
  * @version 2016-04-11
  */
+
+
 public class LoginPanel
         extends JPanel
 {
     private JTextField userEmailTextField;
     private JTextField passwordTextField;
     private JTextField noAccountTextField;
-    private JLabel usernameLabel;
+    private JLabel userEmailnameLabel;
     private JLabel passwordLabel;
 
     private JButton loginButton;
     private JButton registerButton;
     private JLabel registerLabel;
-    private JLabel noAccountLabel;
 
     public LoginPanel()
     {
         setupPanel();
+        setupLayout();
     }
+
+    public void setupLayout() {}
 
     public void setupPanel()
     {
@@ -41,7 +52,7 @@ public class LoginPanel
         gridBagLayoutEmail.columnWeights = new double[] { 0.0D, 0.0D, 0.0D, 0.0D, 0.0D };
         gridBagLayoutEmail.rowWeights = new double[] { 0.0D, 0.0D };
         setLayout(gridBagLayoutEmail);
-        this.usernameLabel = new JLabel("Email:");
+        this.userEmailnameLabel = new JLabel("Email:");
 
         setPreferredSize(new Dimension(380, 130));
         GridBagLayout gridBagLayoutPassword = new GridBagLayout();
@@ -52,18 +63,13 @@ public class LoginPanel
         setLayout(gridBagLayoutPassword);
         this.passwordLabel = new JLabel("Password:");
 
-        setPreferredSize(new Dimension(380, 130));
-        GridBagLayout gridBagLayoutNoAccount = new GridBagLayout();
-        setLayout(gridBagLayoutNoAccount);
-        this.noAccountLabel = new JLabel("Don't have any account?");
-
         GridBagConstraints gbc_usernameLabel = new GridBagConstraints();
         gbc_usernameLabel.gridwidth = 2;
         gbc_usernameLabel.anchor = 14;
         gbc_usernameLabel.insets = new Insets(0, 0, 5, 5);
         gbc_usernameLabel.gridx = 0;
         gbc_usernameLabel.gridy = 0;
-        add(this.usernameLabel, gbc_usernameLabel);
+        add(this.userEmailnameLabel, gbc_usernameLabel);
         this.userEmailTextField = new JTextField("");
         GridBagConstraints gbc_userEmailTextField = new GridBagConstraints();
         gbc_userEmailTextField.anchor = 15;
@@ -100,14 +106,6 @@ public class LoginPanel
         gbc_loginButton.gridy = 4;
         add(this.loginButton, gbc_loginButton);
 
-        GridBagConstraints gbc_noAccountLabel = new GridBagConstraints();
-        gbc_noAccountLabel.gridwidth = 2;
-        gbc_noAccountLabel.anchor = 14;
-        gbc_noAccountLabel.insets = new Insets(0, 0, 5, 5);
-        gbc_noAccountLabel.gridx = 3;
-        gbc_noAccountLabel.gridy = 3;
-        add(this.noAccountLabel, gbc_noAccountLabel);
-
         this.registerButton = new JButton("Register");
         GridBagConstraints gbc_btnRegister = new GridBagConstraints();
         gbc_btnRegister.anchor = 13;
@@ -141,10 +139,10 @@ public class LoginPanel
         this.userEmailTextField.addKeyListener(kl);
     }
 
-    //public void addRegisterButtonActionListener(ActionListener al)
-    //{
-    //  this.registerButton.addActionListener(al);
-    //}
+    public void addRegisterButtonActionListener(ActionListener al)
+    {
+        this.registerButton.addActionListener(al);
+    }
 
     public String getUserEmailTextField()
     {

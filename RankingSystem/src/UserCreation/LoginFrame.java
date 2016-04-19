@@ -53,16 +53,16 @@ public class LoginFrame
                 }
             }
         });
-       // this.loginPanel.addRegisterButtonActionListener(new ActionListener()
-       // {
-       //     public void actionPerformed(ActionEvent ae)
-       //    {
-       //        LoginFrame.this.loginPanel.setUserEmailTextField("");
-       //        LoginFrame.this.loginPanel.setPasswordTextField("");
-                 LoginFrame.this.setVisible(false);
-       //       LoginFrame.this.controller.launchRegistrationFrame();
-       //     }
-       //  });
+        this.loginPanel.addRegisterButtonActionListener(new ActionListener()
+       {
+            public void actionPerformed(ActionEvent ae)
+           {
+               LoginFrame.this.loginPanel.setUserEmailTextField("");
+               LoginFrame.this.loginPanel.setPasswordTextField("");
+               LoginFrame.this.setVisible(false);
+               LoginFrame.this.controller.launchRegistrationFrame();
+            }
+        });
         return this.loginPanel;
     }
 

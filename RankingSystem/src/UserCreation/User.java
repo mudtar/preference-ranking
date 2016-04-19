@@ -19,7 +19,6 @@ public class User
         this.loginState = new LoginState();
     }
 
-
     public String getUsername()
     {
         return this.username;
