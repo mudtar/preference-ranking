@@ -12,9 +12,11 @@
   -fx-alignment: center;
 }
 
+.toggle-button {
+  -fx-opacity: 0.5;
+}
+
 .toggle-button:selected {
-  -fx-background-color: transparent;
-  -fx-text-fill: white;
-  -fx-border-color: white;
-  -fx-border-style: solid;
+  -fx-opacity: 1.0;
+  -fx-background-color: #fffe90;
 }
