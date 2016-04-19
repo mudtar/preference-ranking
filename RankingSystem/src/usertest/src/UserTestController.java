@@ -9,7 +9,7 @@ import javafx.scene.control.ToggleButton;
  * @version 2016.04.18.01
  */
 public class UserTestController {
-    private UserTestModel model = new UserTestModel();
+    private UserTestItemManager userTestItems = new UserTestItemManager();
 
     /**
      * The ToggleButton representing the first test option.
@@ -28,8 +28,8 @@ public class UserTestController {
      * view is loaded.
      */
     public void initialize() {
-        List<List<String>> testItemPairs = model.getTestItemPairs();
-        List<String> firstPair = testItemPairs.get(0);
+        // Get the first pair of test items.
+        List<String> firstPair = userTestItems.getTestItemPair();
 
         // Populate the button labels with the items in the first pair.
         option1.setText(firstPair.get(0));
