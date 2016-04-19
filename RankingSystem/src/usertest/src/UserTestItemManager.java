@@ -37,8 +37,10 @@ public class UserTestItemManager
      * the collection of pairs hasn't yet been created, do so first.
      * 
      * @return the next of the randomly-ordered pairs of test items
+     * @throws IndexOutOfBoundsException if there are no more test item
+     *                                   pairs to return
      */
-    public List<String> getTestItemPair()
+    public List<String> getTestItemPair() throws IndexOutOfBoundsException
     {
         if (testItemPairs == null)
         {
@@ -50,15 +52,15 @@ public class UserTestItemManager
         try
         {
             nextTestItemPair = testItemPairs.get(nextTestItemPairIndex);
+
+            nextTestItemPairIndex++;
+            return nextTestItemPair;
         }
         catch (IndexOutOfBoundsException e)
         {
-            nextTestItemPair = null;
+            // There are no more test item pairs.
+            throw e;
         }
-
-        nextTestItemPairIndex++;
-
-        return nextTestItemPair;
     }
 
     /**

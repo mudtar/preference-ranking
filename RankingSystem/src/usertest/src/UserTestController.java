@@ -60,29 +60,50 @@ public class UserTestController
             // Unselect the previously selected toggle.
             selectedToggle.setSelected(false);
 
-            updateOptionButtons();
+            try
+            {
+                updateOptionButtons();
+            }
+            catch (IndexOutOfBoundsException e)
+            {
+                // There are no more test item pairs to handle. This is
+                // where the "You're Finished!" screen should be called
+                // to replace the test screen.
+                System.out.println("You're Finished!");
+            }
         }
     }
 
     /**
      * Update the GUI's option buttons with the next pair of items to be
      * considered.
+     *
+     * @throws IndexOutOfBoundsException if there are no more test item
+     *                                   pairs to handle
      */
-    public void updateOptionButtons()
+    public void updateOptionButtons() throws IndexOutOfBoundsException
     {
         // This method should throw an exception if testItemPair is
         // null, signifying that there are no more pairs to test. The
         // caller can handle the exception by producing the "you're
         // finished!" screen and pushing the test results to the
         // database.
-        List<String> testItemPair = userTestItems.getTestItemPair();
+        try
+        {
+            List<String> testItemPair = userTestItems.getTestItemPair();
 
-        // Populate the buttons with the names of the items.
-        option1.setUserData(testItemPair.get(0));
-        option2.setUserData(testItemPair.get(1));
+            // Populate the buttons with the names of the items.
+            option1.setUserData(testItemPair.get(0));
+            option2.setUserData(testItemPair.get(1));
 
-        // Create the labels for the buttons.
-        option1.setText(testItemPair.get(0));
-        option2.setText(testItemPair.get(1));
+            // Create the labels for the buttons.
+            option1.setText(testItemPair.get(0));
+            option2.setText(testItemPair.get(1));
+        }
+        catch (IndexOutOfBoundsException e)
+        {
+            // There are no more test item pairs to handle.
+            throw e;
+        }
     }
 }
