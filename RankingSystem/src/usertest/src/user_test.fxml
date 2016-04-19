@@ -28,6 +28,7 @@
       toggleGroup="$options"
     />
     <Button
+      fx:id="submitButton"
       text="Submit"
       onAction="#handleSubmit"
     />
