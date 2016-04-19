@@ -49,11 +49,19 @@ public class UserTestController
     public void handleSubmit()
     {
         Toggle selectedToggle = options.getSelectedToggle();
-        System.out.println("Preference submitted: " + selectedToggle.getUserData());
-        // Unselect the previously selected toggle.
-        selectedToggle.setSelected(false);
 
-        updateOptionButtons();
+        // For now, this just disables the submit button when nothing is
+        // selected. The user should be notified of this condition
+        // somehow.
+        if (selectedToggle != null)
+        {
+            System.out.println("Preference submitted: " +
+                               selectedToggle.getUserData());
+            // Unselect the previously selected toggle.
+            selectedToggle.setSelected(false);
+
+            updateOptionButtons();
+        }
     }
 
     /**
