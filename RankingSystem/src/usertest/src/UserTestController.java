@@ -1,6 +1,8 @@
 import java.util.List;
 import javafx.fxml.FXML;
+import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
 
 /**
  * The main controller for the User Taking Test package.
@@ -10,6 +12,13 @@ import javafx.scene.control.ToggleButton;
  */
 public class UserTestController {
     private UserTestItemManager userTestItems = new UserTestItemManager();
+
+    /**
+     * The ToggleGroup that contains all of the user's options when
+     * taking the test.
+     */
+    @FXML
+    private ToggleGroup options;
 
     /**
      * The ToggleButton representing the first test option. For
@@ -36,7 +45,11 @@ public class UserTestController {
     }
 
     public void handleSubmit() {
-        System.out.println("Preference submitted.");
+        Toggle selectedToggle = options.getSelectedToggle();
+        System.out.println("Preference submitted: " + selectedToggle.getUserData());
+        // Unselect the previously selected toggle.
+        selectedToggle.setSelected(false);
+
         updateOptionButtons();
     }
 
@@ -52,7 +65,11 @@ public class UserTestController {
         // database.
         List<String> testItemPair = userTestItems.getTestItemPair();
 
-        // Populate the button labels with the items in the pair.
+        // Populate the buttons with the names of the items.
+        option1.setUserData(testItemPair.get(0));
+        option2.setUserData(testItemPair.get(1));
+
+        // Create the labels for the buttons.
         option1.setText(testItemPair.get(0));
         option2.setText(testItemPair.get(1));
     }
