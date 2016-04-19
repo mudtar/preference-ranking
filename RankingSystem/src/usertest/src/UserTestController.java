@@ -10,7 +10,8 @@ import javafx.scene.control.ToggleGroup;
  * @author  Ian Burton
  * @version 2016.04.18.01
  */
-public class UserTestController {
+public class UserTestController
+{
     private UserTestItemManager userTestItems = new UserTestItemManager();
 
     /**
@@ -40,11 +41,13 @@ public class UserTestController {
      * This method is executed automatically when the associated FXML
      * view is loaded.
      */
-    public void initialize() {
+    public void initialize()
+    {
         updateOptionButtons();
     }
 
-    public void handleSubmit() {
+    public void handleSubmit()
+    {
         Toggle selectedToggle = options.getSelectedToggle();
         System.out.println("Preference submitted: " + selectedToggle.getUserData());
         // Unselect the previously selected toggle.
@@ -57,7 +60,8 @@ public class UserTestController {
      * Update the GUI's option buttons with the next pair of items to be
      * considered.
      */
-    public void updateOptionButtons() {
+    public void updateOptionButtons()
+    {
         // This method should throw an exception if testItemPair is
         // null, signifying that there are no more pairs to test. The
         // caller can handle the exception by producing the "you're

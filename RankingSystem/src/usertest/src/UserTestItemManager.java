@@ -9,7 +9,8 @@ import java.util.List;
  * @author  Ian Burton
  * @version 2016.04.18.1
  */
-public class UserTestItemManager {
+public class UserTestItemManager
+{
     /**
      * A dummy list of items to present to the user. This will not be
      * part of the final program, but is used here until code is written
@@ -37,17 +38,21 @@ public class UserTestItemManager {
      * 
      * @return the next of the randomly-ordered pairs of test items
      */
-    public List<String> getTestItemPair() {
-        if (testItemPairs == null) {
+    public List<String> getTestItemPair()
+    {
+        if (testItemPairs == null)
+        {
             createTestItemPairs();
         }
 
         List<String> nextTestItemPair;
 
-        try {
+        try
+        {
             nextTestItemPair = testItemPairs.get(nextTestItemPairIndex);
         }
-        catch (IndexOutOfBoundsException e) {
+        catch (IndexOutOfBoundsException e)
+        {
             nextTestItemPair = null;
         }
 
@@ -61,7 +66,8 @@ public class UserTestItemManager {
      * items. Look into: how will this work with an odd number of
      * testItems?
      */
-    private void createTestItemPairs() {
+    private void createTestItemPairs()
+    {
         if (testItemPairs == null) {
             testItemPairs = new ArrayList<>();
 
@@ -70,16 +76,19 @@ public class UserTestItemManager {
             // haven't handled any yet, so start at -1.
             int handledUpToIndex = -1;
 
-            for (String testItem1 : testItems) {
+            for (String testItem1 : testItems)
+            {
                 // The List index of the current item being paired.
                 int innerLoopIndex = 0;
 
-                for (String testItem2 : testItems) {
+                for (String testItem2 : testItems)
+                {
                     // Make sure that the item being paired is not one
                     // that's already been fully handled. Also make sure
                     // that we aren't making a pair of duplicates.
                     if ((innerLoopIndex > handledUpToIndex) &&
-                        (testItem1 != testItem2)) {
+                        (testItem1 != testItem2))
+                    {
                         // Add a List of two unique test items to the
                         // List of pairs. Randomize the order of the
                         // pair.
