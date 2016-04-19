@@ -12,7 +12,11 @@ public class UserTestController {
     private UserTestItemManager userTestItems = new UserTestItemManager();
 
     /**
-     * The ToggleButton representing the first test option.
+     * The ToggleButton representing the first test option. For
+     * scalability's sake, it might make sense to use an array of
+     * ToggleButton rather than two individual ToggleButton variables. I
+     * won't know without doing some research whether this would mesh
+     * well with the FXML view.
      */
     @FXML
     private ToggleButton option1;
@@ -28,15 +32,28 @@ public class UserTestController {
      * view is loaded.
      */
     public void initialize() {
-        // Get the first pair of test items.
-        List<String> firstPair = userTestItems.getTestItemPair();
-
-        // Populate the button labels with the items in the first pair.
-        option1.setText(firstPair.get(0));
-        option2.setText(firstPair.get(1));
+        updateOptionButtons();
     }
 
     public void handleSubmit() {
         System.out.println("Preference submitted.");
+        updateOptionButtons();
+    }
+
+    /**
+     * Update the GUI's option buttons with the next pair of items to be
+     * considered.
+     */
+    public void updateOptionButtons() {
+        // This method should throw an exception if testItemPair is
+        // null, signifying that there are no more pairs to test. The
+        // caller can handle the exception by producing the "you're
+        // finished!" screen and pushing the test results to the
+        // database.
+        List<String> testItemPair = userTestItems.getTestItemPair();
+
+        // Populate the button labels with the items in the pair.
+        option1.setText(testItemPair.get(0));
+        option2.setText(testItemPair.get(1));
     }
 }
