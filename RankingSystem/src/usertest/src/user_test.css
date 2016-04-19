@@ -17,10 +17,12 @@
 
 .button {
   -fx-alignment: center;
+  -fx-pref-width: 200px;
 }
 
 .toggle-button {
   -fx-opacity: 0.5;
+  -fx-pref-width: 200px;
 }
 
 .toggle-button:selected {

@@ -51,7 +51,7 @@ public class UserTest extends Application
     {
         Parent root = FXMLLoader.load(getClass().getResource("user_test.fxml"));
         primaryStage.setTitle("Select Your Preference");
-        primaryStage.setScene(new Scene(root));
+        primaryStage.setScene(new Scene(root, 250, 150));
         primaryStage.sizeToScene();
         primaryStage.show();
     }
