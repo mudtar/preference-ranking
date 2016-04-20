@@ -36,6 +36,9 @@ public class UserTestResultManager {
      * Right now, the test option parameters are passed as Strings, but
      * in the future they should be database PK item IDs.
      *
+     * A next step is to add a collection field to this object that can
+     * store the test results until they can be stored in the database.
+     *
      * @param option1 the first of the two options presented to the user
      * @param option2 the second of the two options presented to the
      *                user
@@ -47,5 +50,19 @@ public class UserTestResultManager {
      */
     public void registerTestResult(String option1, String option2, int result)
     {
+        switch (result)
+        {
+        case -1:
+            System.out.println("Winner: " + option1);
+            System.out.println(" Loser: " + option2);
+            break;
+        case 0:
+            System.out.println(option1 + " and " + option2 + " tied.");
+            break;
+        case 1:
+            System.out.println("Winner: " + option2);
+            System.out.println(" Loser: " + option1);
+            break;
+        }
     }
 }

@@ -59,27 +59,61 @@ public class UserTestController
         {
             String winner = "";
             String loser = "";
+            boolean tie = false;
             for (Toggle t : options.getToggles())
             {
-                // The winner is the toggle that is selected.
-                if (t.isSelected())
+                Object userData = t.getUserData();
+
+                if (userData == null)
                 {
-                    winner = t.getUserData().toString();
+                    // This toggle is the "I Can't Decide" button.
+
+                    if (t.isSelected())
+                    {
+                        // And the "I Can't Decide" button is selected.
+                        // Since we know that this submission is a tie,
+                        // we know there are no winners or losers, so we
+                        // can break out of the loop.
+                        tie = true;
+                        break;
+                    }
                 }
-                // The loser is the toggle that is not selected and
-                // whose getUserData() is not null. The toggle with null
-                // getUserData() is the "I Can't Decide" button.
-                else if (t.getUserData() != null)
+                else
                 {
-                    loser = t.getUserData().toString();
+                    // This toggle must be one of the test items.
+
+                    if (t.isSelected())
+                    {
+                        // The winner is the selected toggle.
+                        winner = userData.toString();
+                    }
+                    else
+                    {
+                        // The loser is the unselected toggle.
+                        loser = userData.toString();
+                    }
                 }
             }
 
-            System.out.println("Winner: " + winner);
-            System.out.println(" Loser: " + loser);
-
-            // This is the place to make a call to
-            // userTestResults.registerTestResult();
+            if (tie)
+            {
+                // It doesn't feel right to reach back to the
+                // ToggleButtons to get their text. For now, this will
+                // do.
+                userTestResults.registerTestResult(option1.getText(),
+                                                   option2.getText(), 0);
+            }
+            else
+            {
+                // This properly reflects which item was the winner and
+                // which was the loser, but by this design, the winner
+                // is always the first argument and the loser always the
+                // second. I'd like to be able to pass option1 as the
+                // first argument and option2 as the second, with the
+                // result argument varying based on which won or lost.
+                // For now, this will do.
+                userTestResults.registerTestResult(winner, loser, -1);
+            }
 
             // Unselect the previously selected toggle.
             selectedToggle.setSelected(false);
