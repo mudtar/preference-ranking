@@ -74,8 +74,12 @@ public class UserTestController
                     loser = t.getUserData().toString();
                 }
             }
+
             System.out.println("Winner: " + winner);
             System.out.println(" Loser: " + loser);
+
+            // This is the place to make a call to
+            // userTestResults.registerTestResult();
 
             // Unselect the previously selected toggle.
             selectedToggle.setSelected(false);
