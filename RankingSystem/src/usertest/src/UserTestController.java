@@ -55,8 +55,26 @@ public class UserTestController
         // somehow.
         if (selectedToggle != null)
         {
-            System.out.println("Preference submitted: " +
-                               selectedToggle.getUserData());
+            String winner = "";
+            String loser = "";
+            for (Toggle t : options.getToggles())
+            {
+                // The winner is the toggle that is selected.
+                if (t.isSelected())
+                {
+                    winner = t.getUserData().toString();
+                }
+                // The loser is the toggle that is not selected and
+                // whose getUserData() is not null. The toggle with null
+                // getUserData() is the "I Can't Decide" button.
+                else if (t.getUserData() != null)
+                {
+                    loser = t.getUserData().toString();
+                }
+            }
+            System.out.println("Winner: " + winner);
+            System.out.println(" Loser: " + loser);
+
             // Unselect the previously selected toggle.
             selectedToggle.setSelected(false);
 
