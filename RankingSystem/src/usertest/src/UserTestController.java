@@ -14,6 +14,8 @@ public class UserTestController
 {
     private UserTestItemManager userTestItems = new UserTestItemManager();
 
+    private UserTestResultManager userTestResults = new UserTestResultManager();
+
     /**
      * The ToggleGroup that contains all of the user's options when
      * taking the test.
