@@ -17,13 +17,11 @@ public class AdminSetupView {
     private JPanel rootPanel;
     private JList itemList;
     private JTextField itemTextField;
-    private JButton addButton;
     private JButton finishedButton;
-    private JLabel directionsLabel;
     private JButton removeButton;
     private JButton cancelButton;
 
-    private DefaultListModel listModel;
+    private DefaultListModel listModel = new DefaultListModel();
 
     /**
      * Constructor holding action handlers
@@ -32,42 +30,30 @@ public class AdminSetupView {
     {
 
         //listeners
-        addButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                addButtonClicked();
-            }
-        });
         removeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //remove selected items from list
+                removeItem();
             }
         });
-
         finishedButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //finished ... go do something else
+                finishedMessage();
             }
         });
         cancelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //cancel the addition of any new data, and go to main page
+                cacelAdmin();
             }
         });
-    }
-
-    /**
-     * This class will handle the add Button click code
-     * -will probably add the textField string to a struct or class
-     * until user hits finish
-     */
-    public void addButtonClicked()
-    {
-        listSetUp();
-        JOptionPane.showMessageDialog(rootPanel, "This is a dialog");
+        itemTextField.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                listSetUp();
+            }
+        });
     }
 
     /**
@@ -77,15 +63,13 @@ public class AdminSetupView {
     public void listSetUp()
     {
         // add items to a default list
-        listModel = new DefaultListModel();
-        listModel.addElement("Jane Doe");
-        listModel.addElement("John Smith");
-        listModel.addElement("Kathy Green");
+
+        listModel.addElement(itemTextField.getText());
+        itemTextField.setText("");
 
         // set data in itemList
         itemList.setModel(listModel);
     }
-
 
     /**
      *
@@ -109,13 +93,42 @@ public class AdminSetupView {
     }
 
     /**
-     * @return JList returned my idea was to separate work done on this control in
-     * a controller class... Not sure yet if that is appropriate
+     *
      */
-    public JButton getAddButton()
+    public void removeItem()
     {
-        return addButton;
+        listModel.remove(itemList.getSelectedIndex());
+        // set data in itemList
+        itemList.setModel(listModel);
+
     }
+
+    /**
+     *
+     */
+    public void finishedMessage()
+    {
+        String result = "";
+        for(int i = 0; i < listModel.size(); i++) {
+            result += listModel.getElementAt(i) + "\n";
+        }
+
+        JOptionPane.showMessageDialog(rootPanel, result + "You are all finished!");
+    }
+
+    /**
+     *
+     */
+    public void cacelAdmin()
+    {
+        listModel.removeAllElements();
+        // set data in itemList
+        itemList.setModel(listModel);
+
+        JOptionPane.showMessageDialog(rootPanel, "You have canceled, and will be redirected");
+    }
+
+
 
     /**
      * @return JTextField returned my idea was to separate work done on this control in
