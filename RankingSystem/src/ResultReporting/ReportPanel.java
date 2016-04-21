@@ -1,11 +1,8 @@
 package ResultReporting;
 
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import javax.swing.JComboBox;
-import javax.swing.JTable;
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.JScrollPane;
+import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.HashMap;
@@ -17,6 +14,11 @@ import java.util.Vector;
  *
  * @Author:  David Li
  * @Version: 2016.04.06
+ *
+ * @Author David Li
+ * @Version 2016.04.21
+ * 1. Center the column titles and values of the report table;
+ * 2. Resize the size of the report table;
  */
 
 public class ReportPanel extends JPanel implements ActionListener{
@@ -84,7 +86,7 @@ public class ReportPanel extends JPanel implements ActionListener{
 
 
         table = new JTable(new DefaultTableModel(data, columnNames));
-        table.setPreferredScrollableViewportSize(new Dimension(500, 100));
+        table.setPreferredScrollableViewportSize(new Dimension(500, 260));
         table.setFillsViewportHeight(true);
 
         if (DEBUG) {
@@ -118,6 +120,7 @@ public class ReportPanel extends JPanel implements ActionListener{
         }
 
         setLayout(new GridBagLayout());
+        setPreferredSize(new Dimension(500, 300));
         GridBagConstraints c = new GridBagConstraints();
 
         userLabel = new JLabel("Please select a user to view the result:");
@@ -129,7 +132,7 @@ public class ReportPanel extends JPanel implements ActionListener{
         add(userLabel, c);
 
         userList = new JComboBox(listItem);
-        userList.setPreferredSize(new Dimension(500, 20));
+        userList.setPreferredSize(new Dimension(500, 25));
         userList.setSelectedIndex(0);
         userList.addActionListener(this);
 
@@ -142,12 +145,20 @@ public class ReportPanel extends JPanel implements ActionListener{
         add(userList, c);
 
         table = new JTable(new DefaultTableModel(listToTableData.get(listItem.get(0)), columnNames));
-        table.setPreferredScrollableViewportSize(new Dimension(500, 100));
-        table.setFillsViewportHeight(true);
+
+        //Center table title and cell values
+        ((DefaultTableCellRenderer)table.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment( SwingConstants.CENTER );
+        for(int i = 1;i < table.getModel().getColumnCount(); i++){
+            table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        }
 
         JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.setPreferredSize(new Dimension(500,300));
+
         c.fill = GridBagConstraints.HORIZONTAL;
-        c.ipady = 100;
+        c.ipady = 500;
         c.weighty = 1.0;
         c.anchor = GridBagConstraints.PAGE_START;
         c.insets = new Insets(0,10,10,10);
@@ -155,6 +166,7 @@ public class ReportPanel extends JPanel implements ActionListener{
         c.gridwidth = 1;
         c.gridy = 2;
         add(scrollPane, c);
+
     }
 
     /**
