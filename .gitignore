@@ -11,3 +11,17 @@ out/
 
 
 lib/
+
+*Submit*
+*.zip
+
+
+META*/
+release/
+release/*
+*DS*
+
+.gitignore
+
+*.jar
+*.sql
