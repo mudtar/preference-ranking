@@ -10,6 +10,11 @@ import java.awt.event.ActionListener;
  *
  * @Author: David Li
  * @Version: 2016.04.20
+ * 1. Initial version
+ *
+ * @Author: David Li
+ * @Version: 2016.04.25
+ * 1. Launch report panel in another window.
  */
 public class AdminDashboard extends JPanel implements ActionListener {
 
@@ -43,9 +48,17 @@ public class AdminDashboard extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e){
         if(e.getActionCommand().equals(REPORT)) {
             ReportTable data = new ReportTable();
+            /*JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
             JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
             frame.setContentPane(data.getReportPanel());
             frame.revalidate();
+            */
+            JFrame frame = new JFrame("User Test Result Report");
+            frame.setPreferredSize(new Dimension(500,300));
+            frame.setContentPane(data.getReportPanel());
+            frame.setLocationByPlatform(true);
+            frame.pack();
+            frame.setVisible(true);
         } else if(e.getActionCommand().equals(SETUP)){
             System.out.println(SETUP);
         }
