@@ -136,7 +136,10 @@ Print 'Insert test data to Test Table.' + CHAR(10);
 
 INSERT INTO FBJ_TEST
 	(FK_UserID)
-	VALUES(1);
+	VALUES(1),
+		   (3),
+		   (4),
+		   (2);
 
 GO
 Print 'Insert test data to Result Table.' + CHAR(10);
@@ -151,7 +154,25 @@ INSERT INTO FBJ_RESULT
 			,(1, 1, 1, 3)
 			,(-1, 1, 3, 1)
 			,(-1, 1, 2, 3)
-			,(1, 1, 3, 2);
+			,(1, 1, 3, 2)
+			,(1, 2, 1, 2)
+			,(-1, 2, 2, 1)
+			,(-1, 2, 1, 3)
+			,(1, 2, 3, 1)
+			,(1, 2, 2, 3)
+			,(-1, 2, 3, 2)
+			,(1, 3, 1, 2)
+			,(-1, 3, 2, 1)
+			,(-1, 3, 1, 3)
+			,(1, 3, 3, 1)
+			,(-1, 3, 2, 3)
+			,(1, 3, 3, 2)
+			,(0, 4, 1, 2)
+			,(0, 4, 2, 1)
+			,(-1, 4, 1, 3)
+			,(1, 4, 3, 1)
+			,(-1, 4, 2, 3)
+			,(1, 4, 3, 2);
 
 GO
 Print 'Insert test data to Test Item Line Table.' + CHAR(10);
