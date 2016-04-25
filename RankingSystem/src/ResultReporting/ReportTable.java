@@ -9,6 +9,11 @@ import java.util.Vector;
  * Create report GUI and retrieve report data.
  * @Author: David Li
  * @Version: 2016.04.13
+ *
+ * @Author: David Li
+ * @Version: 2016.04.24
+ * 1. Fix NullPointerException;
+ *
  */
 public class ReportTable {
 
@@ -28,21 +33,26 @@ public class ReportTable {
         userEmailList = reportDAO.getUserEmailList();
         String[] columnNames = {"Item", "Wins", "Losses", "Ties"};
 
-        for(String email : userEmailList)
-        {
-            System.out.println(email);
-            userTestResults = reportDAO.getUserTestResult(email);
-            Object[][] userResults = new Object[userTestResults.size()][ReportTestResult.COLUMN_NUMBER];
-            for (int i=0; i<userTestResults.size(); i++) {
-                userResults[i][0] = userTestResults.get(i).getItem1Name();
-                userResults[i][1] = userTestResults.get(i).getWins();
-                userResults[i][2] = userTestResults.get(i).getLosses();
-                userResults[i][3] = userTestResults.get(i).getTies();
+        if(userEmailList != null) {
+            for (String email : userEmailList) {
+                System.out.println(email);
+                userTestResults = reportDAO.getUserTestResult(email);
+                if(userTestResults != null) {
+                    Object[][] userResults = new Object[userTestResults.size()][ReportTestResult.COLUMN_NUMBER];
+                    for (int i = 0; i < userTestResults.size(); i++) {
+                        userResults[i][0] = userTestResults.get(i).getItem1Name();
+                        userResults[i][1] = userTestResults.get(i).getWins();
+                        userResults[i][2] = userTestResults.get(i).getLosses();
+                        userResults[i][3] = userTestResults.get(i).getTies();
+                    }
+                    usersToResults.put(email, userResults);
+                }
             }
-            usersToResults.put(email, userResults);
         }
+
         reportPane = new ReportPanel(userEmailList, columnNames, usersToResults);
         reportPane.setOpaque(true);
+
     }
 
     /**

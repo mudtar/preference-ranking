@@ -19,6 +19,10 @@ import java.util.Vector;
  * @Version 2016.04.21
  * 1. Center the column titles and values of the report table;
  * 2. Resize the size of the report table;
+ *
+ * @Authot David Li
+ * @Version 2016.04.24
+ * 1. Display message on the panel when exception happens;
  */
 
 public class ReportPanel extends JPanel implements ActionListener{
@@ -26,7 +30,7 @@ public class ReportPanel extends JPanel implements ActionListener{
     private boolean DEBUG = false;
     final static boolean shouldFill = true;
     final static boolean shouldWeightX = true;
-    final static boolean RIGHT_TO_LEFT = false;
+    //final static boolean RIGHT_TO_LEFT = false;
     private JLabel userLabel;
     private String labelText;
     private JTable table;
@@ -36,78 +40,22 @@ public class ReportPanel extends JPanel implements ActionListener{
 
 
     /**
-     * Initialzie Report Panel only used for test with sample data.
+     * Initialize message panel
      */
-    private void initPanel() {
-        if (RIGHT_TO_LEFT) {
-            setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
-        }
-
+    private void initPanel()
+    {
         setLayout(new GridBagLayout());
+        setPreferredSize(new Dimension(500, 300));
         GridBagConstraints c = new GridBagConstraints();
+        userLabel = new JLabel("Report is not available. Please check netowrk connection.");
+        add(userLabel);
+    }
 
-        userLabel = new JLabel("Please select a user to view the result:");
-        c.weightx = 0.5;
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.insets = new Insets(10,10,10,10);  //top padding
-        c.gridx = 0;
-        c.gridy = 0;
-        add(userLabel, c);
-
-
-        String[] emailList = { "david@gmail.com", "ian@gmail.com", "eric@gmail.com", "beeyean@gmail.com" };
-
-        userList = new JComboBox(emailList);
-        userList.setPreferredSize(new Dimension(500, 20));
-        userList.setSelectedIndex(3);
-        userList.addActionListener(this);
-
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.anchor = GridBagConstraints.CENTER;
-        c.insets = new Insets(0,10,10,10);
-        c.weightx = 0.5;
-        c.gridx = 0;
-        c.gridy = 1;
-        add(userList, c);
-
-
-        String[] columnNames = {"Item",
-                "Wins",
-                "Losses",
-                "Ties"
-        };
-
-        Object[][] data = {
-                {"Dog", "4", "1", "0"},
-                {"Cat", "2", "1", "0"},
-                {"horse", "3", "1", "0"},
-                {"Lion", "1", "1", "0"},
-                {"Tiger", "3", "1", "0"}};
-
-
-        table = new JTable(new DefaultTableModel(data, columnNames));
-        table.setPreferredScrollableViewportSize(new Dimension(500, 260));
-        table.setFillsViewportHeight(true);
-
-        if (DEBUG) {
-            table.addMouseListener(new MouseAdapter() {
-                public void mouseClicked(MouseEvent e) {
-                    printDebugData(table);
-                }
-            });
-        }
-
-        JScrollPane scrollPane = new JScrollPane(table);
-
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.ipady = 100;
-        c.weighty = 1.0;
-        c.anchor = GridBagConstraints.PAGE_START;
-        c.insets = new Insets(0,10,10,10);
-        c.gridx = 0;
-        c.gridwidth = 1;
-        c.gridy = 2;
-        add(scrollPane, c);
+    /**
+     * Constructor used for display message.
+     */
+    public ReportPanel(){
+        initPanel();
     }
 
     /**
@@ -115,9 +63,6 @@ public class ReportPanel extends JPanel implements ActionListener{
      * @param columnNames   - define column names of report table.
      */
     private void initPanel(String[] columnNames) {
-        if (RIGHT_TO_LEFT) {
-            setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
-        }
 
         setLayout(new GridBagLayout());
         setPreferredSize(new Dimension(500, 300));
@@ -126,12 +71,17 @@ public class ReportPanel extends JPanel implements ActionListener{
         userLabel = new JLabel("Please select a user to view the result:");
         c.weightx = 0.5;
         c.fill = GridBagConstraints.HORIZONTAL;
-        c.insets = new Insets(10,10,10,10);  //top padding
+        c.insets = new Insets(10,10,10,10);
         c.gridx = 0;
         c.gridy = 0;
         add(userLabel, c);
 
-        userList = new JComboBox(listItem);
+        if(listItem != null) {
+            userList = new JComboBox(listItem);
+        } else {
+            userList = new JComboBox();
+        }
+
         userList.setPreferredSize(new Dimension(500, 25));
         userList.setSelectedIndex(0);
         userList.addActionListener(this);
@@ -144,7 +94,11 @@ public class ReportPanel extends JPanel implements ActionListener{
         c.gridy = 1;
         add(userList, c);
 
-        table = new JTable(new DefaultTableModel(listToTableData.get(listItem.get(0)), columnNames));
+        if(listToTableData != null) {
+            table = new JTable(new DefaultTableModel(listToTableData.get(listItem.get(0)), columnNames));
+        }else {
+            table = new JTable();
+        }
 
         //Center table title and cell values
         ((DefaultTableCellRenderer)table.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
@@ -170,22 +124,19 @@ public class ReportPanel extends JPanel implements ActionListener{
     }
 
     /**
-     * Constructor used for test.
-     */
-    public ReportPanel(){
-        initPanel();
-    }
-
-    /**
      * Constructor used for defining a ReportPanel object.
      * @param userEmailList - data for ComboBoxList
      * @param columnNames - data for column names of report table.
      * @param userToResults - data for test result.
      */
     public ReportPanel(Vector<String> userEmailList, String[] columnNames, HashMap<String, Object[][]> userToResults){
-        this.listItem = userEmailList;
-        this.listToTableData = userToResults;
-        initPanel(columnNames);
+        if(userEmailList != null && userToResults != null) {
+            this.listItem = userEmailList;
+            this.listToTableData = userToResults;
+            initPanel(columnNames);
+        } else {
+            initPanel();
+        }
     }
 
     /**

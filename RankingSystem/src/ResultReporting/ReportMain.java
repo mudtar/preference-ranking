@@ -3,6 +3,8 @@ package ResultReporting;
 import javax.swing.JFrame;
 import ResultReporting.ReportPanel;
 
+import java.awt.*;
+
 /**
  * Main class used for tesing report module.
  * @Author:  David Li
@@ -16,12 +18,14 @@ public class ReportMain {
      */
     private static void createAndShowGUI() {
 
-        JFrame frame = new JFrame("User Test Result Table");
+        JFrame frame = new JFrame("User Test Result Report");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        ReportTable data = new ReportTable();
-        frame.setContentPane(data.getReportPanel());
+        AdminDashboard dashboard = new AdminDashboard();
+        frame.setPreferredSize(new Dimension(500,300));
+        frame.setContentPane(dashboard);
 
+        frame.setLocationByPlatform(true);
         frame.pack();
         frame.setVisible(true);
     }
