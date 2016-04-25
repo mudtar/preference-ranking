@@ -1,7 +1,10 @@
 package UserCreation;
 
 /**
- * Created by BeeYean on 4/10/2016.
+ * The RegistrationModel class takes care of the behavior of the user registration logic.
+ *
+ * @author BeeYean Tan
+ * @version  2016-04-16
  */
 public class RegistrationModel
 {

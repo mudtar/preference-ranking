@@ -1,5 +1,11 @@
-package UserCreation; /**
- * Created by BeeYean on 4/10/2016.
+package UserCreation;
+
+/**
+ *
+ * The RegistrationPanel class contains the RegistrationFrame components.
+ *
+ * @author BeeYean Tan
+ * @version  2016-04-16
  */
 
 import javax.swing.*;
@@ -12,10 +18,13 @@ public class RegistrationPanel
     private static final Dimension DIM = new Dimension(463, 405);
     private JButton submitButton;
     private JLabel eMailLabel;
+    private JLabel eMailErrorLabel;
     private JTextField eMailTextField;
     private JLabel usernameLabel;
+
     private JTextField usernameTextField;
     private JLabel passwordLabel;
+    private JLabel passwordErrorLabel;
 
     private JLabel reenterPasswordLabel;
     private JButton cancelButton;
@@ -71,6 +80,17 @@ public class RegistrationPanel
         gbc_eMailTextField.gridy = 1;
         this.eMailTextField.setColumns(10);
 
+       /* this.eMailErrorLabel = new JLabel("eMail cannot be empty.");
+        this.eMailErrorLabel.setFont(new Font("Tahoma", 2, 11));
+        this.eMailErrorLabel.setForeground(Color.RED);
+        GridBagConstraints gbc_eMailErrorLabel = new GridBagConstraints();
+        gbc_eMailErrorLabel.anchor = 17;
+        gbc_eMailErrorLabel.gridwidth = 3;
+        gbc_eMailErrorLabel.insets = new Insets(0, 0, 5, 0);
+        gbc_eMailErrorLabel.gridx = 1;
+        gbc_eMailErrorLabel.gridy = 2;
+        add(this.eMailErrorLabel, gbc_eMailErrorLabel);
+*/
         setPreferredSize(new Dimension(400, 180));
         this.passwordLabel = new JLabel("Password:");
         GridBagConstraints gbc_passwordLabel = new GridBagConstraints();
@@ -80,6 +100,18 @@ public class RegistrationPanel
         gbc_passwordLabel.gridy = 2;
         add(this.passwordLabel, gbc_passwordLabel);
 
+        /*this.passwordErrorLabel = new JLabel("Password cannot be empty.");
+        this.passwordErrorLabel.setFont(new Font("Tahoma", 2, 11));
+        this.passwordErrorLabel.setForeground(Color.red);
+        GridBagConstraints gbc_passwordErrorLabel = new GridBagConstraints();
+        gbc_passwordErrorLabel.anchor = 17;
+        gbc_passwordErrorLabel.gridwidth = 3;
+        gbc_passwordErrorLabel.insets = new Insets(0, 0, 5, 0);
+        gbc_passwordErrorLabel.gridx = 3;
+        gbc_passwordErrorLabel.gridy = 4;
+        add(this.passwordErrorLabel, gbc_passwordErrorLabel);
+        //add(this.submitButton, gbc_submitButton);
+*/
         setPreferredSize(new Dimension(400, 180));
         this.reenterPasswordLabel = new JLabel("Reenter Password:");
         GridBagConstraints gbc_reenterPasswordLabel = new GridBagConstraints();
@@ -88,8 +120,8 @@ public class RegistrationPanel
         gbc_reenterPasswordLabel.gridx = 0;
         gbc_reenterPasswordLabel.gridy = 3;
         add(this.reenterPasswordLabel, gbc_reenterPasswordLabel);
-        this.submitButton = new JButton("Submit");
 
+        this.submitButton = new JButton("Submit");
         GridBagConstraints gbc_submitButton = new GridBagConstraints();
         gbc_submitButton.insets = new Insets(0, 0, 0, 5);
         gbc_submitButton.gridx = 1;
@@ -130,6 +162,7 @@ public class RegistrationPanel
     public void addSubmitButtonActionListener(ActionListener al)
     {
         this.submitButton.addActionListener(al);
+        this.requestFocusInWindow();
     }
 
     public void addCancelButtonActionListener(ActionListener al)
@@ -149,12 +182,28 @@ public class RegistrationPanel
 
     public String getEmail()
     {
+        //this.eMailTextField.requestFocus();
         return this.eMailTextField.getText();
+
     }
 
     public String getPassword()
     {
         return this.passwordTextField.getText();
     }
+
+    public String getReenterPassword() {
+        return this.reenterPasswordTextField.getText();
+    }
+
+    //public void setPasswordErrorLabelVisibility(boolean visibleState)
+   // {
+   //     this.passwordErrorLabel.setVisible(visibleState);
+   // }
+
+   // public void setEmailErrorLabelVisibility(boolean visibleState)
+   //{
+    //    this.eMailErrorLabel.setVisible(visibleState);
+   // }
 
 }

@@ -1,5 +1,14 @@
-package UserCreation; /**
- * Created by BeeYean on 4/10/2016.
+package UserCreation;
+
+import java.util.ArrayList;
+
+/**
+ * The Registration takes care of the user registration verification, user registration state
+ * and user access role logic.
+ * i.e valid user's email in the database, logged in or logged out state.
+ *
+ * @author BeeYean Tan
+ * @version  2016-04-16
  */
 
 public class RegistrationController
@@ -7,7 +16,7 @@ public class RegistrationController
     private RankingSystemController controller;
     private RegistrationModel model;
     private RegistrationView view;
-    //private 234a_FueledByJava sqlUser;
+    private UserCreationDB sqlUser;
 
     public RegistrationController(RankingSystemController controller, RegistrationModel model, RegistrationView view)
     {
@@ -15,7 +24,7 @@ public class RegistrationController
         this.model = model;
         this.view = view;
 
-        //this.sqlUser = 234a_FueledByJava.INSTANCE;
+        this.sqlUser = UserCreationDB.INSTANCE;
 
         updateView();
     }
@@ -41,24 +50,24 @@ public class RegistrationController
         this.controller.launchRegistration();
     }
 
-    //public boolean CheckUsernameAvailability(String username)
-    //{
-        //return !this.sqlUser.validateUser(username);
-    //}
+    public void saveUser(ArrayList<String> user)
+    {
+        this.sqlUser.saveUser(user);
+    }
 
-   // public void saveUser(ArrayList<String> user)
-   // {
-        //this.sqlUser.saveUser(user);
-   // }
+    public void saveUserAccess(int userID)
+    {
+        this.sqlUser.saveUserAccess(userID);
+    }
+    public int getUserID(String emailAddress)
+    {
+        return this.sqlUser.getUserID(emailAddress);
+    }
 
-    //public void saveUserAccess(int userID)
-    //{
-        //this.sqlUser.saveUserAccess(userID);
-    //}
-
-   // public int getUserID(String username)
-   // {
-        //return this.sqlUser.getUserID(username);
-   /// }
+    public boolean checkUserEmailAvailability(String userEmail)
+    {
+        System.out.println("RegistrationController::checkUserEmailAvailability()");
+        return !this.sqlUser.validateUser(userEmail);
+    }
 }
 

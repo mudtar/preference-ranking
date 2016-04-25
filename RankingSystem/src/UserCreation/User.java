@@ -1,6 +1,9 @@
 package UserCreation;
 
+import java.util.BitSet;
+
 /**
+ * The User class handles the user's information, user access role and user login state.
  * @author BeeYean Tan
  * @version 2016-04-11
  */
@@ -8,9 +11,12 @@ package UserCreation;
 public class User
 {
     private String username;
-    private String eMail;
+    private String email;
     private String password;
+    private String reenterPassword;
+    private int isAdmin;
     private Role role;
+    private User user;
     private LoginState loginState;
 
     public User()
@@ -26,12 +32,25 @@ public class User
 
     public String getUserEmail()
     {
-        return this.eMail;
+        return this.email;
     }
 
-    public String getPassword() {return this.password ;}
+    public String getPassword()
+    {
+        return this.password ;
+    }
 
-    public Role.UserAccessRole getUserAccessRole()
+    public String getReenterPassword()
+    {
+        return this.reenterPassword;
+    }
+
+    public int getIsAdmin() {
+
+        return this.isAdmin;
+    }
+
+    public boolean getUserAccessRole()
     {
         return this.role.getUserAccessRole();
     }
@@ -41,9 +60,9 @@ public class User
         return this.loginState.getLoginState();
     }
 
-    public void setEmail(String eMail)
+    public void setEmail(String email)
     {
-        this.eMail = eMail;
+        this.email = email;
     }
 
     public void setUsername(String username)
@@ -51,9 +70,21 @@ public class User
         this.username = username;
     }
 
-    public void setPassword(String password) { this.password = password; }
+    public void setPassword(String password)
+    {
+        this.password = password;
+    }
 
-    public void setUserAccessRole(Role.UserAccessRole role)
+    public void setReenterPassword(String reenterPassword)
+    {
+        this.reenterPassword = reenterPassword;
+    }
+    public void setIsAdmin(int isAdmin)
+    {
+        this.isAdmin = isAdmin;
+    }
+
+    public void setUserAccessRole(boolean role)
     {
         this.role.setUserAccessRole(role);
     }
@@ -62,4 +93,5 @@ public class User
     {
         this.loginState.setLoginState(loginState);
     }
+
 }

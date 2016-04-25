@@ -16,6 +16,7 @@ import javax.swing.JTextField;;
  * This LoginPanel class provides general-purpose
  * container for lightweight components. It basically
  * create the look and feel of the GUI of the login page.
+ * It also contains the components for the LoginFrame.
  *
  * @author BeeYean Tan
  * @version 2016-04-11
@@ -35,6 +36,10 @@ public class LoginPanel
     private JButton registerButton;
     private JLabel registerLabel;
 
+    /**
+     * Constructor of the class
+     *
+     */
     public LoginPanel()
     {
         setupPanel();
@@ -43,6 +48,9 @@ public class LoginPanel
 
     public void setupLayout() {}
 
+    /**
+     * Setup the JPanel components
+     */
     public void setupPanel()
     {
         setPreferredSize(new Dimension(380, 130));
@@ -124,11 +132,19 @@ public class LoginPanel
         gbc_registerLabel.gridy = 6;
     }
 
+    /**
+     * Add the action listener to the login button
+     * @param al an ActionListener
+     */
     public void addLoginButtonActionListener(ActionListener al)
     {
         this.loginButton.addActionListener(al);
     }
 
+    /**
+     * Add the key event listener to capture the keyboards typed
+     * @param kl an KeyListener
+     */
     public void addUserEmailTextFieldKeyListener(KeyListener kl)
     {
         this.userEmailTextField.addKeyListener(kl);
@@ -136,9 +152,13 @@ public class LoginPanel
 
     public void addPasswordTextFieldKeyListener(KeyListener kl)
     {
-        this.userEmailTextField.addKeyListener(kl);
+        this.passwordTextField.addKeyListener(kl);
     }
 
+    /**
+     * Add an action listener to the register button
+     * @param al an ActionListener
+     */
     public void addRegisterButtonActionListener(ActionListener al)
     {
         this.registerButton.addActionListener(al);

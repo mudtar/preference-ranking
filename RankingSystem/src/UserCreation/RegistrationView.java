@@ -1,7 +1,11 @@
 package UserCreation;
 
 /**
- * Created by BeeYean on 4/10/2016.
+ *
+ * The interface view of the RegistrationModel
+ *
+ * @author BeeYean Tan
+ * @version  2016-04-16
  */
 
 public abstract interface RegistrationView
