@@ -1,5 +1,10 @@
 package UserCreation;
 
+import javax.swing.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
 /**
  * The LoginController is used to communicate
  * between classes in the LoginModel and LoginView.
@@ -10,6 +15,8 @@ package UserCreation;
  *      launchAdminTestSetup(), login(),
  *      checkUserAccessRoleForAdmin(), checkUserAccessRoleForUser(),
  *      launchUserTestFrame(), launchRegistrationFrame().
+ * The LoginController handles the user login checks, user
+ * login state and user access role.
  *
  * @author BeeYean Tan
  * @version 2016-04-11
@@ -19,73 +26,86 @@ public class LoginController
     private RankingSystemController controller;
     private LoginModel model;
     private LoginView view;
-    //private SqlUser_FueledByJava sqlUser;
+    private UserCreationDB sqlUser;
+    private LoginPanel loginPanel;
 
+    /**
+     *
+     * @param controller for communication
+     * @param model will manage the data and logic of the login
+     * @param view output the login information
+     */
     public LoginController(RankingSystemController controller, LoginModel model, LoginView view)
     {
         this.controller = controller;
         this.model = model;
         this.view = view;
 
-       // this.sqlUser = SqlUser_FueledByJava.INSTANCE;
+       this.sqlUser = UserCreationDB.INSTANCE;
 
         updateView();
     }
 
+    /**
+     * Update the view of the login frame
+     */
     private void updateView()
     {
+        // loginState is false when it is logged off, true when it is logged in
         this.view.updateLoginFrameState(this.model.getLoggedInState());
     }
 
     /**
-     *
-     * @param username the user's name
-     *
+     * The user is attempt to login in
+     * @param email entered by the current user
+     * @return true if the user's email is found in the database
      */
-    public boolean loginAttempt(String username)
+    public boolean loginAttempt(String email)
     {
-      //  if (this.sqlUser.validateUser(username))
-      //  {
-     //       this.model.setValidatedUser(this.sqlUser.getUser(username));
-     //       this.model.setUserAccessRole(this.sqlUser.getUserAccessRole(username));
-     //       this.model.setLoginState(true);
-          return true;
-    //    }
-      //return false;
+        if (this.sqlUser.validateUser(email))
+          {
+               this.model.setValidatedUser(this.sqlUser.getUser(email));
+               this.model.setUserAccessRole(this.sqlUser.getUserAccessRole(email));
+               this.model.setLoginState(true);
+
+              return true;
+         }
+
+        System.out.println("LoginController::loginAttempt - false");
+        //invalidEmailMessage();
+        return false;
+
     }
 
     /**
-     *
      * @return the user's name
      */
-    public String getUsername()
+   public String getUsername()
     {
-        return this.model.getUsername();
+      return this.model.getUsername();
     }
 
-    /**
-     *
-     * @return the user's email address
-     */
-    public String getUserEmail()
-    {
-        return this.model.getUserEmail();
-    }
+   // public String getUserEmail()
+   // {
+  //      return this.model.getUserEmail();
+   // }
+
+  //  public String getPassword()
+   // {
+   //     return this.model.getPassword();
+   // }
 
     /**
-     *
-     * @return the user's password
-     */
-    public String getPassword() { return this.model.getPassword();}
-
-    /**
-     * This will launch Admin Setup Test Page
+     * Launch Admin Setup Page
      */
     public void launchAdminTestSetup()
     {
-       // this.controller.launchAdminTestSetup();
+        this.controller.launchAdminTestSetup();
     }
 
+    /**
+     * Hide the login page when the user is logged in
+     */
     public void login()
     {
         this.model.setLoginState(true);
@@ -93,40 +113,51 @@ public class LoginController
     }
 
     /**
-     *
-     * @return the value of true or false to check if user is Admin
+     * Check the user access role to see if it is an Administrator
+     * @return true if the user access role is Admin, false if it is not
      */
-
     public boolean checkUserAccessRoleForAdmin()
     {
-        if (this.model.getUserAccessRole() == Role.UserAccessRole.Admin) {
-            return true;
-        }
-        return false;
-    }
-
-    public boolean checkUserAccessRoleForUser()
-    {
-        if (this.model.getUserAccessRole() == Role.UserAccessRole.User) {
+        if (this.model.getUserAccessRole() == true)
+        {
             return true;
         }
         return false;
     }
 
     /**
-     * This method will launch User Test Page
+     * Check the user access role to see if it is an User
+     * @return true if the user access role is User, false if it is not
+     */
+    public boolean checkUserAccessRoleForUser()
+    {
+        if (this.model.getUserAccessRole() == false)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Launch User Test Page
      */
     public void launchUserTestFrame()
     {
-        //this.controller.launchUserTest();
+        this.controller.launchUserTest();
     }
 
     /**
-     * This method will launch Registration Page
+     * Launch the user registration page
      */
-
     public void launchRegistrationFrame()
     {
-        //this.controller.launchRegistration();
+        this.controller.launchRegistration();
     }
+
+   // public void invalidEmailMessage()
+   // {
+  //      JOptionPane.showMessageDialog(null, "'" + this.loginPanel.getUserEmailTextField().trim()
+   //             + "' is not a registered email.", "Login Failed - Invalid Email", 2);
+   // }
+
 }
