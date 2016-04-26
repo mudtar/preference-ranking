@@ -182,9 +182,22 @@ public class RegistrationPanel
 
     public String getEmail()
     {
-        //this.eMailTextField.requestFocus();
         return this.eMailTextField.getText();
+    }
 
+    public JTextField getEmailControl()
+    {
+        return eMailTextField;
+    }
+
+    public JTextField getNameControl()
+    {
+        return usernameTextField;
+    }
+
+    public JTextField getPasswordControl()
+    {
+        return usernameTextField;
     }
 
     public String getPassword()

@@ -1,5 +1,11 @@
 package UserCreation;
 
+import ResultReporting.AdminDashboard;
+
+
+import javax.swing.*;
+import java.awt.*;
+
 /**
  * The RankingSystemController is used as the interface
  * to connect Login, Registration, AdminSetup
@@ -47,20 +53,14 @@ public enum RankingSystemController
      */
      public void launchAdminTestSetup()
      {
+        AdminDashboard adminPanel = new AdminDashboard();
         System.out.println("RankingSystemController::launchAdminTestSetup()");
-        RegistrationModel model = new RegistrationModel();
-        RegistrationView view = new RegistrationFrame();
-        RegistrationController controller = new RegistrationController(this, model, view);
-        view.registerController(controller);
-            //AdminTestSetupModel model = new AdminTestSetupModel();
-            //model.setExistingItemsList(this.sqlUser.pullExistingItems());
-            //model.setTestItemsList(this.sqlUser.pullTestItemsAndImages());
-           // model.setImagesList(this.sqlUser.pullAllImages());
-            //model.setUser(this.user);
-
-            //AdminTestSetupView view = new AdminTestSetupFrame();
-           // AdminTestSetupController controller = new AdminTestSetupController(this, model, view);
-            //view.registerController(controller);
+        JFrame frame = new JFrame("User Test Result Report");
+        frame.setPreferredSize(new Dimension(500,300));
+        frame.setContentPane(adminPanel);
+        frame.setLocationByPlatform(true);
+        frame.pack();
+        frame.setVisible(true);
      }
 
     /**
@@ -73,16 +73,7 @@ public enum RankingSystemController
         RegistrationView view = new RegistrationFrame();
         RegistrationController controller = new RegistrationController(this, model, view);
         view.registerController(controller);
-       /*
-        UserTestModel model = new UserTestModel();
-        model.setTestItemsList(this.sqlUser.pullTestItemsAndImages());
-        model.setUserTest();
-        model.setUser(this.user);
-        model.setTestSessionID(this.sqlUser.getTestSessionIDScopeIdentity());
-        UserTestView view = new UserTestFrame();
-        UserTestController controller = new UserTestController(this, model, view); */
 
-        //view.registerController(controller);
     }
 
     /**
