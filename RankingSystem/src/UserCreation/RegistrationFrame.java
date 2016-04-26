@@ -33,8 +33,6 @@ public class RegistrationFrame
         setResizable(false);
         setDefaultCloseOperation(0);
         pack();
-        //registrationPanel.requestFocusInWindow();
-        //registrationPanel.requestFocus();
         setVisible(false);
         setLocationRelativeTo(null);
     }
@@ -52,9 +50,7 @@ public class RegistrationFrame
                RegistrationFrame.this.resetErrorLabelVisibility(RegistrationFrame.this.registrationPanel);
                boolean valid = RegistrationFrame.this.
                        noEmptyRegistrationTextFields(RegistrationFrame.this.registrationPanel);
-                //RegistrationFrame.this.registrationPanel.requestFocus();
-                //RegistrationFrame.this.registrationPanel.grabFocus();
-                //RegistrationFrame.this.registrationPanel.requestFocusInWindow();
+
            // if (!RegistrationFrame.this.checkUsernameAvailability(RegistrationFrame.this.registrationPanel))
            // {
            //    RegistrationFrame.this.emailAlreadyTakenUsernameMessage(RegistrationFrame.this.registrationPanel);
@@ -68,24 +64,14 @@ public class RegistrationFrame
             else if (RegistrationFrame.this.registrationPanel.getEmail().trim().equals(""))
             {
                 RegistrationFrame.this.emptyEmailMessage(RegistrationFrame.this.registrationPanel);
-               // RegistrationFrame.this.registrationPanel.grabFocus();
-                //RegistrationFrame.this.registrationPanel.requestFocus();
-                RegistrationFrame.this.registrationPanel.requestFocusInWindow();
-               // component.requestFocusInWindow();
+
             }
             else if (!registrationPanel.getEmail().trim().matches(EMAIL_REGEX))
             {
                 RegistrationFrame.this.invalidEmailFormatMessage(RegistrationFrame.this.registrationPanel);
 
            }
-           // else if (RegistrationFrame.this.registrationPanel.getEmail().trim().length() !=0)
-           // {
-           //     EmailValidator validator = EmailValidator.getInstance();
-          //      if (!validator.isValid(RegistrationFrame.this.registrationPanel.getEmail().trim())) {
-                    // is invalid, do something
-
-          //  }
-            else if (!RegistrationFrame.this.checkUsernameAvailability(RegistrationFrame.this.registrationPanel))
+           else if (!RegistrationFrame.this.checkUsernameAvailability(RegistrationFrame.this.registrationPanel))
             {
                 RegistrationFrame.this.emailAlreadyTakenUsernameMessage(RegistrationFrame.this.registrationPanel);
 
@@ -157,7 +143,7 @@ public class RegistrationFrame
     {
         JOptionPane.showMessageDialog(null, "User Registration has been cancelled. " +
                 "Returning to the login screen.", "New User Registration Cancelled", -1);
-        //registrationPanel.requestFocus();
+
     }
 
     private void emailAlreadyTakenUsernameMessage(RegistrationPanel registrationPanel)
@@ -166,7 +152,9 @@ public class RegistrationFrame
                 + "' is already taken. The email must contain at least 1 character and can not match " +
                 "another email in the database.", "Email  '" + registrationPanel.getEmail().trim()
                 + "' Is Already Taken", 2);
-        //registrationPanel.requestFocus();
+        JTextField temp =  RegistrationFrame.this.registrationPanel.getEmailControl();
+        temp.requestFocus();
+
     }
 
     private void validUsernameMessage(RegistrationPanel registrationPanel)
@@ -178,47 +166,60 @@ public class RegistrationFrame
     private void matchPasswordField(RegistrationPanel registrationPane) {
         JOptionPane.showMessageDialog(null, "Both Password match!",
                 "matchPassword", 1);
+        JTextField temp =  RegistrationFrame.this.registrationPanel.getPasswordControl();
+        temp.requestFocus();
     }
 
     private void emptyEmailMessage(RegistrationPanel registrationPanel)
     {
         JOptionPane.showMessageDialog(null, "The Email can not be empty, " +
                 "please fill in the email field.", "Empty Email", 2);
-        registrationPanel.requestFocus();
+        JTextField temp =  RegistrationFrame.this.registrationPanel.getEmailControl();
+        temp.requestFocus();
     }
 
     private void invalidEmailFormatMessage(RegistrationPanel registrationPanel)
     {
         JOptionPane.showMessageDialog(null, "The Email format invalid, " +
                 "please fill in the email field.", "Empty Email", 2);
-        registrationPanel.requestFocus();
+        JTextField temp =  RegistrationFrame.this.registrationPanel.getEmailControl();
+        temp.requestFocus();
+
     }
     private void emptyPasswordMessage(RegistrationPanel registrationPanel)
     {
         JOptionPane.showMessageDialog(null, "The Password can not be empty, " +
                 "please fill in the password field.", "Empty Password", 3);
-        registrationPanel.requestFocus();
+        JTextField temp =  RegistrationFrame.this.registrationPanel.getPasswordControl();
+        temp.requestFocus();
+
     }
 
     private void  emptyReenterPasswordMessage(RegistrationPanel registrationPanel)
     {
         JOptionPane.showMessageDialog(null, "The Reenter Password can not be empty, " +
                 "please fill in the password field.", "Empty Password", 3);
-        registrationPanel.requestFocus();
+        JTextField temp =  RegistrationFrame.this.registrationPanel.getPasswordControl();
+        temp.requestFocus();
+
     }
 
     private void emptyNameMessage(RegistrationPanel registrationPanel)
     {
         JOptionPane.showMessageDialog(null, "The Name can not be empty, please " +
                 "fill in the name field.", "Empty Name", 1);
-        registrationPanel.requestFocus();
+        JTextField temp =  RegistrationFrame.this.registrationPanel.getNameControl();
+        temp.requestFocus();
+
     }
 
     private void noMatchPasswordField(RegistrationPanel registrationPanel)
     {
         JOptionPane.showMessageDialog(null, "Both Password fields must match, please reenter password fields.",
                 "Empty NoMatchPassword", 1);
-        registrationPanel.requestFocus();
+        JTextField temp =  RegistrationFrame.this.registrationPanel.getPasswordControl();
+        temp.requestFocus();
+
     }
 
     private void resetErrorLabelVisibility(RegistrationPanel registrationPanel)
