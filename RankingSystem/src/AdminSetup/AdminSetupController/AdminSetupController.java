@@ -3,6 +3,7 @@ package AdminSetupController;
 import AdminSetupView.AdminSetupView;
 import AdminSetupModel.AdminSetupModel;
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * This Class will hold the code for facilitating action between the view
@@ -14,7 +15,7 @@ import javax.swing.*;
 public class AdminSetupController {
 
     //add controller stuff
-    AdminSetupView view;
+    private static AdminSetupView view = new AdminSetupView();
     AdminSetupModel model;
 
     /**
@@ -26,12 +27,17 @@ public class AdminSetupController {
         // create and set up window
         JFrame frame = new JFrame("Admin SetUp");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        frame.getContentPane().add(new AdminSetupView().getRootPanel());
+        frame.getContentPane().add(view.getRootPanel());
+        frame.setPreferredSize(new Dimension(480,320));
 
         // Display the window
         frame.pack();
         frame.setVisible(true);
+    }
+
+    public javax.swing.JPanel getRootPanel()
+    {
+        return view.getRootPanel();
     }
 
 }

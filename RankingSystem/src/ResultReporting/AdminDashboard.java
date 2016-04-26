@@ -1,5 +1,6 @@
 package ResultReporting;
 
+import AdminSetupController.AdminSetupController;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -60,7 +61,22 @@ public class AdminDashboard extends JPanel implements ActionListener {
             frame.pack();
             frame.setVisible(true);
         } else if(e.getActionCommand().equals(SETUP)){
-            System.out.println(SETUP);
+            try
+            {
+                AdminSetupController adminSetupController = new AdminSetupController();
+                JFrame frame = new JFrame("Admin Setup");
+                frame.setPreferredSize(new Dimension(480,320));
+
+                frame.setContentPane(adminSetupController.getRootPanel());
+                frame.setLocationByPlatform(true);
+                frame.pack();
+                frame.setVisible(true);
+            }
+            catch (Exception ex)
+            {
+                System.out.println(ex.toString());
+            }
+
         }
 
     }

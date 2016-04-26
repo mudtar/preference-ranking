@@ -1,8 +1,6 @@
 package ResultReporting;
 
-import javax.swing.JFrame;
-import ResultReporting.ReportPanel;
-
+import javax.swing.*;
 import java.awt.*;
 
 /**
