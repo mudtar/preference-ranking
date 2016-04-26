@@ -12,8 +12,8 @@ import java.util.List;
  */
 public class AdminSetupModel {
 
-    private static final String DB_NAME = "Countries";
-    private static final String FUELDBYJAVA_URL = "jdbc:jtds:sqlserver://cisdbss.pcc.edu/234a_FueledByJava";
+    private static final String DB_NAME = "234a_FueledByJava";
+    private static final String FUELDBYJAVA_URL = "jdbc:jtds:sqlserver://cisdbss.pcc.edu/" + DB_NAME;
     private static final String USERNAME = "234a_FueledByJava";
     private static final String PASSWORD = "avaJyBdeleuF_a432#";
 
