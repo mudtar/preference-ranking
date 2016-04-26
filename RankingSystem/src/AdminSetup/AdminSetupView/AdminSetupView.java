@@ -1,6 +1,9 @@
 package AdminSetupView;
 
+import AdminSetupController.AdminSetupController;
+import AdminSetupModel.*;
 import javax.swing.*;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -20,6 +23,7 @@ public class AdminSetupView {
     private JButton finishedButton;
     private JButton removeButton;
     private JButton cancelButton;
+    //private AdminSetupController controller = new AdminSetupController();
 
     private DefaultListModel listModel = new DefaultListModel();
 
@@ -28,7 +32,6 @@ public class AdminSetupView {
      */
     public AdminSetupView()
     {
-
         //listeners
         removeButton.addActionListener(new ActionListener() {
             @Override
@@ -45,7 +48,7 @@ public class AdminSetupView {
         cancelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                cacelAdmin();
+                cancelAdmin();
             }
         });
         itemTextField.addActionListener(new ActionListener() {
@@ -100,7 +103,6 @@ public class AdminSetupView {
         listModel.remove(itemList.getSelectedIndex());
         // set data in itemList
         itemList.setModel(listModel);
-
     }
 
     /**
@@ -109,17 +111,21 @@ public class AdminSetupView {
     public void finishedMessage()
     {
         String result = "";
+        ArrayList<Item> passItems = new ArrayList<>();
+
         for(int i = 0; i < listModel.size(); i++) {
             result += listModel.getElementAt(i) + "\n";
+            passItems.add(new Item(listModel.getElementAt(i).toString()));
         }
 
         JOptionPane.showMessageDialog(rootPanel, result + "You are all finished!");
+        AdminSetupController.setItems(passItems);
     }
 
     /**
      *
      */
-    public void cacelAdmin()
+    public void cancelAdmin()
     {
         listModel.removeAllElements();
         // set data in itemList

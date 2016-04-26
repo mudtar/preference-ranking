@@ -1,7 +1,7 @@
 package AdminSetupController;
 
-import AdminSetupView.AdminSetupView;
-import AdminSetupModel.AdminSetupModel;
+import AdminSetupModel.*;
+import AdminSetupView.*;
 import javax.swing.*;
 import java.awt.*;
 
@@ -16,10 +16,10 @@ public class AdminSetupController {
 
     //add controller stuff
     private static AdminSetupView view = new AdminSetupView();
-    AdminSetupModel model;
+    private static AdminSetupModel model = new AdminSetupModel();
 
     /**
-     * This function is called from the main method to do the work
+     * This method is called from the main method to do the work
      * of instantiating the GUI
      */
     public static void createAndShowGUI()
@@ -35,9 +35,30 @@ public class AdminSetupController {
         frame.setVisible(true);
     }
 
+
+    /**
+     * This method is called to get the root pael for the AdminSetup Functionality
+     * @return JPanel
+     */
     public javax.swing.JPanel getRootPanel()
     {
         return view.getRootPanel();
+    }
+
+    /**
+     * This Method is called to return the items from the database
+     */
+    public java.util.List<Item> getItems()
+    {
+        return model.getItems();
+    }
+
+    /**
+     * This Method is called to set the items from the database
+     */
+    public static void setItems(java.util.List<Item> passItems)
+    {
+        model.setItems(passItems);
     }
 
 }
