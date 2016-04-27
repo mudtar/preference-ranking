@@ -6,8 +6,8 @@
 
 <VBox
   xmlns:fx="http://javafx.com/fxml"
-  fx:controller="UserTestController"
-  stylesheets="user_test.css"
+  fx:controller="edu.pcc.fbj.rankingsystem.usertest.UserTestController"
+  stylesheets="/edu/pcc/fbj/rankingsystem/usertest/user_test.css"
 >
   <fx:define>
     <ToggleGroup
