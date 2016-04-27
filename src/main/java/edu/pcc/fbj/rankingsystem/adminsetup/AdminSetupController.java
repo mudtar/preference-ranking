@@ -52,6 +52,7 @@ public class AdminSetupController {
      */
     public javax.swing.JPanel getRootPanel()
     {
+        view.setItemList(model.getItems());
         return view.getRootPanel();
     }
 

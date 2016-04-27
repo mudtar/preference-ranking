@@ -25,7 +25,6 @@ public class AdminDashboard extends JPanel implements ActionListener {
     private static final String SETUP = "setup";
     //private ReportTable data;
 
-
     public AdminDashboard(){
         setOpaque(true);
         setLayout(new GridBagLayout());
@@ -60,10 +59,13 @@ public class AdminDashboard extends JPanel implements ActionListener {
             frame.setLocationByPlatform(true);
             frame.pack();
             frame.setVisible(true);
-        } else if(e.getActionCommand().equals(SETUP)){
+        }
+        else if(e.getActionCommand().equals(SETUP))
+        {
             try
             {
                 AdminSetupController adminSetupController = new AdminSetupController();
+
                 JFrame frame = new JFrame("Admin Setup");
                 frame.setPreferredSize(new Dimension(480,320));
 
@@ -75,6 +77,7 @@ public class AdminDashboard extends JPanel implements ActionListener {
             catch (Exception ex)
             {
                 System.out.println(ex.toString());
+                ex.printStackTrace();
             }
 
         }
