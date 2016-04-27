@@ -23,7 +23,6 @@ public class AdminSetupController {
      */
     public static void createAndShowGUI()
     {
-
         try
         {
             // create and set up window
@@ -31,6 +30,8 @@ public class AdminSetupController {
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.getContentPane().add(view.getRootPanel());
             frame.setPreferredSize(new Dimension(480,320));
+
+            view.setItemList(model.getItems());
 
             // Display the window
             frame.pack();
@@ -41,12 +42,7 @@ public class AdminSetupController {
             System.out.println(ex.toString());
             ex.printStackTrace();
         }
-
-
-
-
     }
-
 
     /**
      * This method is called to get the root pael for the AdminSetup Functionality
@@ -67,10 +63,20 @@ public class AdminSetupController {
 
     /**
      * This Method is called to set the items from the database
+     * @return DefaultListModel to initialize Jlist in View
      */
-    public static void setItems(java.util.List<Item> passItems)
+    public static DefaultListModel setItems()
     {
-        model.setItems(passItems);
+        DefaultListModel listModel = new DefaultListModel();
+        java.util.List<Item> items = model.getItems();
+
+        //add items to list Model
+        for (Item item: items)
+        {
+            listModel.addElement(item.toString());
+        }
+
+        return listModel;
     }
 
 }

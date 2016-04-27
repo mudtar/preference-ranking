@@ -19,7 +19,6 @@ public class Main {
         try
         {
             javax.swing.SwingUtilities.invokeLater( () -> controller.createAndShowGUI());
-
         }
         catch(Exception ex)
         {

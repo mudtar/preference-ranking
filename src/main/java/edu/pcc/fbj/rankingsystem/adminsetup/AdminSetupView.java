@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 /**
  * This class I read in a combination of view and controller
@@ -21,7 +22,6 @@ public class AdminSetupView {
     private JButton finishedButton;
     private JButton removeButton;
     private JButton cancelButton;
-    //private AdminSetupController controller = new AdminSetupController();
 
     private DefaultListModel listModel = new DefaultListModel();
 
@@ -52,16 +52,19 @@ public class AdminSetupView {
         itemTextField.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                listSetUp();
+                appendTextFieldText();
             }
         });
+
+        //itemList = new JList();
+        //itemList.setModel(AdminSetupController.setItems());
     }
 
     /**
      * This is just a function I was playing with to better understand the list setup
      * It is currently called on the add button handler
      */
-    public void listSetUp()
+    public void appendTextFieldText()
     {
         // add items to a default list
 
@@ -82,6 +85,21 @@ public class AdminSetupView {
     {
         rootPanel.setBorder(new javax.swing.border.EmptyBorder(20, 50, 20, 50));
         return rootPanel;
+    }
+
+    /**
+     * set the initial item list
+     * @param passList is list of item objects
+     */
+    public void setItemList(List<Item> passList)
+    {
+        //add items to list Model
+        for (Item item: passList)
+        {
+            listModel.addElement(item.toString());
+        }
+        itemList.setModel(listModel);
+
     }
 
     /**
@@ -117,7 +135,7 @@ public class AdminSetupView {
         }
 
         JOptionPane.showMessageDialog(rootPanel, result + "You are all finished!");
-        AdminSetupController.setItems(passItems);
+        //AdminSetupController.setItems(passItems);
     }
 
     /**
