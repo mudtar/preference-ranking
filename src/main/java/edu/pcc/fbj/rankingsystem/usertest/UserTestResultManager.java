@@ -1,3 +1,5 @@
+package edu.pcc.fbj.rankingsystem.usertest;
+
 import java.util.UUID;
 
 /**

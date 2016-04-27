@@ -1,3 +1,5 @@
+package edu.pcc.fbj.rankingsystem.usertest;
+
 import java.util.List;
 import javafx.fxml.FXML;
 import javafx.scene.control.Toggle;
