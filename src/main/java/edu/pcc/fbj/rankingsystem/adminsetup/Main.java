@@ -16,8 +16,21 @@ public class Main {
      */
     public static void main(String[] args)
     {
-        javax.swing.SwingUtilities.invokeLater( () -> controller.createAndShowGUI());
+        try
+        {
+            javax.swing.SwingUtilities.invokeLater( () -> controller.createAndShowGUI());
+
+        }
+        catch(Exception ex)
+        {
+            System.out.println(ex.toString());
+            ex.printStackTrace();
+        }
+
     }
+
+
+
 
 
 }

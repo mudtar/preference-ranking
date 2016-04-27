@@ -1,5 +1,6 @@
 package edu.pcc.fbj.rankingsystem.adminsetup;
 
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -22,15 +23,28 @@ public class AdminSetupController {
      */
     public static void createAndShowGUI()
     {
-        // create and set up window
-        JFrame frame = new JFrame("Admin SetUp");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.getContentPane().add(view.getRootPanel());
-        frame.setPreferredSize(new Dimension(480,320));
 
-        // Display the window
-        frame.pack();
-        frame.setVisible(true);
+        try
+        {
+            // create and set up window
+            JFrame frame = new JFrame("Admin SetUp");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.getContentPane().add(view.getRootPanel());
+            frame.setPreferredSize(new Dimension(480,320));
+
+            // Display the window
+            frame.pack();
+            frame.setVisible(true);
+        }
+        catch(Exception ex)
+        {
+            System.out.println(ex.toString());
+            ex.printStackTrace();
+        }
+
+
+
+
     }
 
 
