@@ -19,6 +19,11 @@ public class AdminSetupController {
 
     private static JFrame frame;
 
+    public  AdminSetupController(JFrame passFrame)
+    {
+        frame = passFrame;
+    }
+
     /**
      * This method is called from the main method to do the work
      * of instantiating the GUI

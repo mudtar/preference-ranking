@@ -94,6 +94,9 @@ public class AdminSetupView {
      */
     public void setItemList(List<Item> passList)
     {
+        // clear item list
+        listModel.clear();
+
         //add items to list Model
         for (Item item: passList)
         {
@@ -137,6 +140,7 @@ public class AdminSetupView {
 
         JOptionPane.showMessageDialog(rootPanel, result + "You are all finished!");
         AdminSetupController.setItems(passItems);
+        AdminSetupController.closeFrame();
     }
 
     /**

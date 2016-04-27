@@ -64,9 +64,10 @@ public class AdminDashboard extends JPanel implements ActionListener {
         {
             try
             {
-                AdminSetupController adminSetupController = new AdminSetupController();
-
                 JFrame frame = new JFrame("Admin Setup");
+
+                AdminSetupController adminSetupController = new AdminSetupController(frame);
+
                 frame.setPreferredSize(new Dimension(480,320));
 
                 frame.setContentPane(adminSetupController.getRootPanel());

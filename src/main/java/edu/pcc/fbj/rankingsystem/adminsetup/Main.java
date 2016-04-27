@@ -1,5 +1,7 @@
 package edu.pcc.fbj.rankingsystem.adminsetup;
 
+import javax.swing.*;
+
 /**
  *
  * This is the Main Class which is just an entry point
@@ -9,7 +11,7 @@ package edu.pcc.fbj.rankingsystem.adminsetup;
  */
 public class Main {
 
-    private static AdminSetupController controller = new AdminSetupController();
+    private static AdminSetupController controller = new AdminSetupController(new JFrame());
 
     /**
      * Main method
