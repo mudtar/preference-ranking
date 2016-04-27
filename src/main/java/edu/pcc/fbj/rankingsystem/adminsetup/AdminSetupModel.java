@@ -78,7 +78,10 @@ public class AdminSetupModel {
      * @param passItems
      */
     public void setItems(List<Item> passItems) {
-        //set items here
+
+        //Todo: Write to database
+
+        //set items here for testing
         for(Item i: passItems)
         {
             System.out.println(i.toString());

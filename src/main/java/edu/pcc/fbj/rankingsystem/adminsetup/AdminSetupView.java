@@ -47,6 +47,7 @@ public class AdminSetupView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 cancelAdmin();
+
             }
         });
         itemTextField.addActionListener(new ActionListener() {
@@ -135,7 +136,7 @@ public class AdminSetupView {
         }
 
         JOptionPane.showMessageDialog(rootPanel, result + "You are all finished!");
-        //AdminSetupController.setItems(passItems);
+        AdminSetupController.setItems(passItems);
     }
 
     /**
@@ -147,7 +148,8 @@ public class AdminSetupView {
         // set data in itemList
         itemList.setModel(listModel);
 
-        JOptionPane.showMessageDialog(rootPanel, "You have canceled, and will be redirected");
+        JOptionPane.showMessageDialog(rootPanel, "You have canceled, and will exit");
+        AdminSetupController.closeFrame();
     }
 
 

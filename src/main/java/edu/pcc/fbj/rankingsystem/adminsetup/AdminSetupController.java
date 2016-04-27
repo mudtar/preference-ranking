@@ -17,6 +17,8 @@ public class AdminSetupController {
     private static AdminSetupView view = new AdminSetupView();
     private static AdminSetupModel model = new AdminSetupModel();
 
+    private static JFrame frame;
+
     /**
      * This method is called from the main method to do the work
      * of instantiating the GUI
@@ -26,7 +28,7 @@ public class AdminSetupController {
         try
         {
             // create and set up window
-            JFrame frame = new JFrame("Admin SetUp");
+            frame = new JFrame("Admin SetUp");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.getContentPane().add(view.getRootPanel());
             frame.setPreferredSize(new Dimension(480,320));
@@ -63,20 +65,19 @@ public class AdminSetupController {
 
     /**
      * This Method is called to set the items from the database
-     * @return DefaultListModel to initialize Jlist in View
+     * @param
      */
-    public static DefaultListModel setItems()
+    public static void setItems(java.util.List<Item> passItems)
     {
-        DefaultListModel listModel = new DefaultListModel();
-        java.util.List<Item> items = model.getItems();
+        model.setItems(passItems);
+    }
 
-        //add items to list Model
-        for (Item item: items)
-        {
-            listModel.addElement(item.toString());
-        }
-
-        return listModel;
+    /**
+     * This Method is called to close frame
+     */
+    public static void closeFrame()
+    {
+        frame.dispose();
     }
 
 }
