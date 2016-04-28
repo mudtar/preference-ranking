@@ -5,17 +5,18 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
 import edu.pcc.fbj.rankingsystem.resultreporting.dao.*;
 
 /**
  * This is data accss object used for communicate with database to retrieve data
- * @Author: David Li
- * @Version: 2016.04.14
+ * @author David Li
+ * @version 2016.04.14
  *
- * @Author: David Li
- * @Version: 2016.04.21
+ * @author David Li
+ * @version 2016.04.21
  * 1. Only display users who have already completed a test;
  * 2. Display result in order of total values;
  */
@@ -39,13 +40,14 @@ public class ReportDB implements ReportDAO{
                " GROUP BY FBJ_USER.Email, FBJ_ITEM.Name " +
                " ORDER BY SUM(FBJ_RESULT.Value) DESC";
 
+    private Vector<String> userEmailList;
+
     /**
      * Retrieve user test result according to user's email
-     * @param String email
+     * @param   email String
      * @return List<ReportTestResult>
      */
-    @Override
-    public List<ReportTestResult> getUserTestResult(String email) {
+     public List<ReportTestResult> getUserTestResult(String email) {
         List<ReportTestResult> results = new ArrayList<>();
         try (
                 Connection connection = RankingSystemDB.getConnection();
@@ -59,10 +61,10 @@ public class ReportDB implements ReportDAO{
                         rs.getInt("Losses"),
                         rs.getInt("Ties")));
             }
+            stmt.close();
             return results;
         }
         catch (SQLException se) {
-            System.err.println(se);
             return null;
         }
     }
@@ -73,20 +75,47 @@ public class ReportDB implements ReportDAO{
      */
     @Override
     public Vector<String> getUserEmailList() {
-        Vector<String> results = new Vector<>();
+        userEmailList = new Vector<>();
         try (
                 Connection connection = RankingSystemDB.getConnection();
                 PreparedStatement stmt = connection.prepareStatement(GET_USER_EMAIL_LIST_SQL);
                 ResultSet rs = stmt.executeQuery()
         ) {
             while (rs.next()) {
-                results.add(rs.getString("Email"));
+                userEmailList.add(rs.getString("Email"));
             }
-            return results;
+            stmt.close();
+            return userEmailList;
         }
         catch (SQLException se) {
-            System.err.println(se);
             return null;
         }
+    }
+
+    /**
+     * Format report data to be fill in JTable
+     * @return HashMap <String, Object[][]>
+     */
+    @Override
+    public HashMap<String, Object[][]> getHashTable() {
+        HashMap<String, Object[][]> usersToResults = new HashMap<>();
+        List<ReportTestResult> userTestResults;
+        if(userEmailList != null) {
+            for (String email : userEmailList) {
+                System.out.println(email);
+                userTestResults = getUserTestResult(email);
+                if(userTestResults != null) {
+                    Object[][] userResults = new Object[userTestResults.size()][ReportTestResult.COLUMN_NUMBER];
+                    for (int i = 0; i < userTestResults.size(); i++) {
+                        userResults[i][0] = userTestResults.get(i).getItem1Name();
+                        userResults[i][1] = userTestResults.get(i).getWins();
+                        userResults[i][2] = userTestResults.get(i).getLosses();
+                        userResults[i][3] = userTestResults.get(i).getTies();
+                    }
+                    usersToResults.put(email, userResults);
+                }
+            }
+        }
+        return usersToResults;
     }
 }

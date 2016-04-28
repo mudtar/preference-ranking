@@ -6,37 +6,30 @@ import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Vector;
 
 /**
  * Main GUI of reporting module
  *
- * @Author:  David Li
- * @Version: 2016.04.06
+ * @author  David Li
+ * @version 2016.04.06
  *
- * @Author David Li
- * @Version 2016.04.21
+ * @author David Li
+ * @version 2016.04.21
  * 1. Center the column titles and values of the report table;
  * 2. Resize the size of the report table;
  *
- * @Authot David Li
- * @Version 2016.04.24
+ * @author David Li
+ * @version 2016.04.24
  * 1. Display message on the panel when exception happens;
  */
 
 public class ReportPanel extends JPanel implements ActionListener{
 
-    private boolean DEBUG = false;
-    final static boolean shouldFill = true;
-    final static boolean shouldWeightX = true;
-    //final static boolean RIGHT_TO_LEFT = false;
-    private JLabel userLabel;
-    private String labelText;
     private JTable table;
     private HashMap<String, Object[][]> listToTableData;
-    private JComboBox userList;
     private Vector<String> listItem;
+    private final String[] columnNames = {"Item", "Wins", "Losses", "Ties"};
 
 
     /**
@@ -46,17 +39,9 @@ public class ReportPanel extends JPanel implements ActionListener{
     {
         setLayout(new GridBagLayout());
         setPreferredSize(new Dimension(500, 300));
-        GridBagConstraints c = new GridBagConstraints();
-        userLabel = new JLabel("Report is not available. Please check netowrk connection.");
-        add(userLabel);
+        add(new JLabel("Report is not available. Please check netowrk connection."));
     }
 
-    /**
-     * Constructor used for display message.
-     */
-    public ReportPanel(){
-        initPanel();
-    }
 
     /**
      * Initialize Report Panel.
@@ -64,17 +49,17 @@ public class ReportPanel extends JPanel implements ActionListener{
      */
     private void initPanel(String[] columnNames) {
 
+        JComboBox userList;
+
         setLayout(new GridBagLayout());
         setPreferredSize(new Dimension(500, 300));
         GridBagConstraints c = new GridBagConstraints();
-
-        userLabel = new JLabel("Please select a user to view the result:");
         c.weightx = 0.5;
         c.fill = GridBagConstraints.HORIZONTAL;
         c.insets = new Insets(10,10,10,10);
         c.gridx = 0;
         c.gridy = 0;
-        add(userLabel, c);
+        add(new JLabel("Please select a user to view the result:"), c);
 
         if(listItem != null) {
             userList = new JComboBox(listItem);
@@ -126,10 +111,9 @@ public class ReportPanel extends JPanel implements ActionListener{
     /**
      * Constructor used for defining a ReportPanel object.
      * @param userEmailList - data for ComboBoxList
-     * @param columnNames - data for column names of report table.
      * @param userToResults - data for test result.
      */
-    public ReportPanel(Vector<String> userEmailList, String[] columnNames, HashMap<String, Object[][]> userToResults){
+    public ReportPanel(Vector<String> userEmailList, HashMap<String, Object[][]> userToResults){
         if(userEmailList != null && userToResults != null) {
             this.listItem = userEmailList;
             this.listToTableData = userToResults;
@@ -174,7 +158,7 @@ public class ReportPanel extends JPanel implements ActionListener{
 
     /**
      * Display debug information Used for debugging.
-     * @param table
+     * @param  table JTable
      */
     private void printDebugData(JTable table) {
         int numRows = table.getRowCount();

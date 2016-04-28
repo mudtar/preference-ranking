@@ -3,13 +3,12 @@ package edu.pcc.fbj.rankingsystem.resultreporting;
 /**
  * Test Result Class defining test report structure
  *
- * @Author: David Li
- * @Version: 2016.04.14
+ * @author David Li
+ * @version 2016.04.14
  */
 public class ReportTestResult {
-    private String userEmail;
+
     private String item1Name;
-    private String item2Name;
     private int wins;
     private int losses;
     private int ties;
@@ -23,21 +22,13 @@ public class ReportTestResult {
      * @param ties - points of ties
      */
     public ReportTestResult(String item1Name, int wins, int losses, int ties) {
-        this.userEmail = userEmail;
+
         this.item1Name = item1Name;
-        this.item2Name = item2Name;
         this.wins = wins;
         this.losses = losses;
         this.ties = ties;
     }
 
-    /**
-     * Retrieve user email
-     * @return String userEmail
-     */
-    public String getUserEmail() {
-        return userEmail;
-    }
 
     /**
      * Retrieve item1 name
@@ -47,13 +38,6 @@ public class ReportTestResult {
         return item1Name;
     }
 
-    /**
-     * REtrieve item2 name
-     * @return String item2Name
-     */
-    public String getItem2Name () {
-        return item2Name;
-    }
 
     /**
      * Retrieve points of wins
@@ -79,6 +63,10 @@ public class ReportTestResult {
         return ties;
     }
 
+    /**
+     * Print data
+     * @return String
+     */
     @Override
     public String toString() {
         return "User Test Result-> " //+
