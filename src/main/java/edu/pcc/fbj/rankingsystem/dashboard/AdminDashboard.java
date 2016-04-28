@@ -1,11 +1,12 @@
 package edu.pcc.fbj.rankingsystem.dashboard;
 
 import edu.pcc.fbj.rankingsystem.adminsetup.AdminSetupController;
+import edu.pcc.fbj.rankingsystem.resultreporting.ReportTable;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import edu.pcc.fbj.rankingsystem.resultreporting.ReportTable;
 
 /**
  * AdminDashboard is used to test launching report panel.
@@ -65,8 +66,9 @@ public class AdminDashboard extends JPanel implements ActionListener {
         } else if(e.getActionCommand().equals(SETUP)){
             try
             {
-                AdminSetupController adminSetupController = new AdminSetupController();
                 JFrame frame = new JFrame("Admin Setup");
+                AdminSetupController adminSetupController = new AdminSetupController(frame);
+
                 frame.setPreferredSize(new Dimension(480,320));
 
                 frame.setContentPane(adminSetupController.getRootPanel());
