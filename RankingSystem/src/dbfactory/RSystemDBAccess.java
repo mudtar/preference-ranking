@@ -1,4 +1,4 @@
-package ResultReporting;
+package dbfactory;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
+import ResultReporting.ReportTestResult;
 
 /**
  * This is data accss object used for communicate with database to retrieve data
@@ -18,7 +19,8 @@ import java.util.Vector;
  * 1. Only display users who have already completed a test;
  * 2. Display result in order of total values;
  */
-public class ReportDB implements ReportDAO{
+public class RSystemDBAccess implements RSystemDAO{
+
     private static final String GET_USER_EMAIL_LIST_SQL
                                      = "SELECT FBJ_USER.Email FROM FBJ_USER " +
                                        " JOIN FBJ_TEST ON FBJ_USER.PK_UserID = FBJ_TEST.FK_UserID";
@@ -46,7 +48,7 @@ public class ReportDB implements ReportDAO{
     public List<ReportTestResult> getUserTestResult(String email) {
         List<ReportTestResult> results = new ArrayList<>();
         try (
-                Connection connection = RankingSystemDB.getConnection();
+                Connection connection = RSystemConnection.getConnection();
                 PreparedStatement stmt = connection.prepareStatement(GET_USER_TEST_RESULT_SQL)
         ) {
             stmt.setString(1, email);
@@ -73,7 +75,7 @@ public class ReportDB implements ReportDAO{
     public Vector<String> getUserEmailList() {
         Vector<String> results = new Vector<>();
         try (
-                Connection connection = RankingSystemDB.getConnection();
+                Connection connection = RSystemConnection.getConnection();
                 PreparedStatement stmt = connection.prepareStatement(GET_USER_EMAIL_LIST_SQL);
                 ResultSet rs = stmt.executeQuery()
         ) {
