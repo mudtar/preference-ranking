@@ -1,8 +1,9 @@
-package edu.pcc.fbj.rankingsystem.resultreporting;
+package edu.pcc.fbj.rankingsystem.resultreporting.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+
 
 /**
  * Used for defining parameters of database to establish connection to database

@@ -1,6 +1,6 @@
 package edu.pcc.fbj.rankingsystem.usercreation;
 
-import edu.pcc.fbj.rankingsystem.resultreporting.AdminDashboard;
+import edu.pcc.fbj.rankingsystem.dashboard.AdminDashboard;
 
 
 import javax.swing.*;
