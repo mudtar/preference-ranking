@@ -1,9 +1,13 @@
 package edu.pcc.fbj.rankingsystem.resultreporting;
 
+import edu.pcc.fbj.rankingsystem.dbfactory.RSystemDAO;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
+
+import edu.pcc.fbj.rankingsystem.dbfactory.RSystemDAOFactory;
 
 /**
  * Create report GUI and retrieve report data.
@@ -17,7 +21,7 @@ import java.util.Vector;
  */
 public class ReportTable {
 
-    private ReportDAO reportDAO;
+    private RSystemDAO reportDAO;
     private List<ReportTestResult> userTestResults;
     private Vector<String> userEmailList;
     private HashMap<String, Object[][]> usersToResults;
@@ -27,9 +31,9 @@ public class ReportTable {
     /**
      * Constructor - construct GUI and retrieve report data
      */
-    ReportTable(){
+    public ReportTable(){
         usersToResults = new HashMap<>();
-        reportDAO = ReportDAOFactory.getReportDAO();
+        reportDAO = RSystemDAOFactory.getReportDAO();
         userEmailList = reportDAO.getUserEmailList();
         String[] columnNames = {"Item", "Wins", "Losses", "Ties"};
 
