@@ -2,6 +2,7 @@ package ResultReporting;
 
 import javax.swing.*;
 import java.awt.*;
+import dashboard.AdminDashboard;
 
 /**
  * Main class used for tesing report module.

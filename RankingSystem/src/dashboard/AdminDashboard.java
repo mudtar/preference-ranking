@@ -1,10 +1,13 @@
-package ResultReporting;
+package dashboard;
 
-import AdminSetupController.AdminSetupController;
+import AdminSetup.AdminSetupController.AdminSetupController;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import ResultReporting.ReportTable;
+
+
 
 /**
  * AdminDashboard is used to test launching report panel.
@@ -48,7 +51,8 @@ public class AdminDashboard extends JPanel implements ActionListener {
      */
     public void actionPerformed(ActionEvent e){
         if(e.getActionCommand().equals(REPORT)) {
-            ReportTable data = new ReportTable();
+            ReportTable data;
+            data = new ReportTable();
             /*JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
             JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
             frame.setContentPane(data.getReportPanel());
