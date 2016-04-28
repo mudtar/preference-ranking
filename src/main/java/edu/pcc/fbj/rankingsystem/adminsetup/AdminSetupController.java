@@ -52,7 +52,7 @@ public class AdminSetupController {
     }
 
     /**
-     * This method is called to get the root pael for the AdminSetup Functionality
+     * This method is called to get the root panel for the AdminSetup Functionality
      * @return JPanel
      */
     public javax.swing.JPanel getRootPanel()

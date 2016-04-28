@@ -8,7 +8,6 @@ import java.awt.*;
  * @Author:  David Li
  * @Version: 2016.04.06
  */
-
 public class ReportMain {
 
     /**
