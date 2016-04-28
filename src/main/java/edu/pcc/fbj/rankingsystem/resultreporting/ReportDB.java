@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
+import edu.pcc.fbj.rankingsystem.resultreporting.dao.*;
 
 /**
  * This is data accss object used for communicate with database to retrieve data
@@ -19,6 +20,7 @@ import java.util.Vector;
  * 2. Display result in order of total values;
  */
 public class ReportDB implements ReportDAO{
+
     private static final String GET_USER_EMAIL_LIST_SQL
                                      = "SELECT FBJ_USER.Email FROM FBJ_USER " +
                                        " JOIN FBJ_TEST ON FBJ_USER.PK_UserID = FBJ_TEST.FK_UserID";
