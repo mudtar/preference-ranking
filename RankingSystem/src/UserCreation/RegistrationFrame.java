@@ -51,11 +51,6 @@ public class RegistrationFrame
                boolean valid = RegistrationFrame.this.
                        noEmptyRegistrationTextFields(RegistrationFrame.this.registrationPanel);
 
-           // if (!RegistrationFrame.this.checkUsernameAvailability(RegistrationFrame.this.registrationPanel))
-           // {
-           //    RegistrationFrame.this.emailAlreadyTakenUsernameMessage(RegistrationFrame.this.registrationPanel);
-
-           // }
             if (RegistrationFrame.this.registrationPanel.getUsername().trim().equals(""))
             {
                 RegistrationFrame.this.emptyNameMessage(RegistrationFrame.this.registrationPanel);
@@ -290,7 +285,8 @@ public class RegistrationFrame
     private boolean checkUsernameAvailability(RegistrationPanel registrationPanel)
     {
         System.out.println("RegistrationController::checkUsernameAvailability");
-        return this.controller.checkUserEmailAvailability(registrationPanel.getEmail().trim());
+        return this.controller.checkUserEmailAvailability1(registrationPanel.getEmail().trim(),
+                registrationPanel.getPassword().trim());
     }
 
 }

@@ -1,8 +1,6 @@
 package UserCreation;
 
 import ResultReporting.AdminDashboard;
-
-
 import javax.swing.*;
 import java.awt.*;
 

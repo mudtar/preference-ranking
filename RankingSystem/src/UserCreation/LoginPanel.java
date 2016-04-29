@@ -7,10 +7,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;;
+import javax.swing.*;
+;
 
 /**
  * This LoginPanel class provides general-purpose
@@ -28,6 +26,7 @@ public class LoginPanel
 {
     private JTextField userEmailTextField;
     private JTextField passwordTextField;
+    //private JPasswordField passwordTextField;
     private JTextField noAccountTextField;
     private JLabel userEmailnameLabel;
     private JLabel passwordLabel;
@@ -95,6 +94,7 @@ public class LoginPanel
         gbc_passwordLabel.gridx = 0;
         gbc_passwordLabel.gridy = 1;
         add(this.passwordLabel, gbc_passwordLabel);
+        //this.getPasswordTextField() =  char[] new JPasswordField("");
         this.passwordTextField = new JTextField("");
         GridBagConstraints gbc_passwordTextField = new GridBagConstraints();
         gbc_passwordTextField.anchor = 15;
@@ -171,8 +171,13 @@ public class LoginPanel
 
     public String getPasswordTextField()
     {
-        return this.passwordTextField.getText();
+       return this.passwordTextField.getText();
     }
+
+   // public char[] getPasswordTextField()
+   // {
+  //      return this.passwordTextField.getPassword();
+   // }
 
     public void loginButtonClick()
     {
@@ -186,6 +191,19 @@ public class LoginPanel
 
     public void setPasswordTextField(String value)
     {
-        this.userEmailTextField.setText(value);
+        this.passwordTextField.setText(value);
     }
+
+    public JTextField getLoginEmailControl()
+    {
+        return userEmailTextField;
+    }
+
+    public JTextField getLoginPasswordControl()
+    {
+        return passwordTextField;
+    }
+
+
+
 }

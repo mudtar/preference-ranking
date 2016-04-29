@@ -84,6 +84,45 @@ public enum UserCreationDB
         return false;
     }
 
+    public boolean validateUser1(String email, String password)
+    {
+        String emailAddress = " ";
+        String userpassword = " ";
+        try {
+            connection();
+            //Connection connection = UserCreationDB.getConnection();
+            System.out.println("UserCreationDB::validateUser()");
+            PreparedStatement preparedStmt = this.connect.prepareStatement("SELECT Email, Password FROM FBJ_USER " +
+                    "WHERE Email = ? AND Password = ?;");
+            preparedStmt.setString(1, email);
+            preparedStmt.setString(2, password);
+            ResultSet rs = preparedStmt.executeQuery();
+            while (rs.next())
+            {
+                emailAddress = rs.getString("Email");
+                System.out.println("Email : " + emailAddress );
+                userpassword = rs.getString("Password");
+                System.out.println("Password : " + password );
+            }
+            if (email.equalsIgnoreCase(emailAddress) && password.equalsIgnoreCase(userpassword))
+            {
+                return true;
+            }
+            else {
+                //System.out.println("Invalid Email address or Invalid Password" + emailAddress + password );
+                //System.out.println("Invalid Password" + password);
+                System.out.println("Invalid Email address or Invalid Password");
+                return false;
+            }
+
+        } catch (SQLException e)
+        {
+            System.err.println("There is an exception in USerCreationDB::validateUser1()! ");
+            System.err.println(e.getMessage());
+        }
+        return false;
+    }
+
     public ArrayList<String> getUser(String email)
     {
         ArrayList<String> user = new ArrayList();
