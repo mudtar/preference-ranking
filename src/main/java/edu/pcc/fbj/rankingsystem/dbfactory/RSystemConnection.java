@@ -11,11 +11,11 @@ import java.sql.SQLException;
  */
 public class RSystemConnection {
 
-    private static final String FUELDBYJAVA_URL = "jdbc:jtds:sqlserver://cisdbss.pcc.edu/234a_FueledByJava";
+    private static final String FUELEDBYJAVA_URL = "jdbc:jtds:sqlserver://cisdbss.pcc.edu/234a_FueledByJava";
     private static final String USERNAME = "234a_FueledByJava";
     private static final String PASSWORD = "avaJyBdeleuF_a432#";
 
     public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(FUELDBYJAVA_URL, USERNAME, PASSWORD);
+        return DriverManager.getConnection(FUELEDBYJAVA_URL, USERNAME, PASSWORD);
     }
 }
