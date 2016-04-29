@@ -6,8 +6,8 @@ import java.sql.SQLException;
 
 /**
  * Used for defining parameters of database to establish connection to database
- * @Author: David Li
- * @Version: 2016.04.14
+ * @author David Li
+ * @version 2016.04.14
  */
 public class RSystemConnection {
 
@@ -16,7 +16,6 @@ public class RSystemConnection {
     private static final String PASSWORD = "avaJyBdeleuF_a432#";
 
     public static Connection getConnection() throws SQLException {
-        Connection connection = DriverManager.getConnection(FUELDBYJAVA_URL, USERNAME, PASSWORD);
-        return connection;
+        return DriverManager.getConnection(FUELDBYJAVA_URL, USERNAME, PASSWORD);
     }
 }

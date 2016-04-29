@@ -25,6 +25,7 @@ public class ReportMain {
 
         frame.setLocationByPlatform(true);
         frame.pack();
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
 
