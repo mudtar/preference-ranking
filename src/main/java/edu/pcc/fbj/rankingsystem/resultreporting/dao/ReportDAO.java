@@ -12,7 +12,9 @@ import edu.pcc.fbj.rankingsystem.resultreporting.ReportTestResult;
  * @version 2016.04.14
  */
 public interface ReportDAO {
-    //List<ReportTestResult> getUserTestResult(String email);
     Vector<String> getUserEmailList();
     HashMap<String, Object[][]> getHashTable();
+    void DBConnection();
+    String getMessage();
+    boolean getStatus();
 }

@@ -27,6 +27,8 @@ import java.util.Vector;
 public class ReportPanel extends JPanel implements ActionListener{
 
     private JTable table;
+    private JComboBox userList;
+    private JLabel label;
     private HashMap<String, Object[][]> listToTableData;
     private Vector<String> listItem;
     private final String[] columnNames = {"Item", "Wins", "Losses", "Ties"};
@@ -42,24 +44,33 @@ public class ReportPanel extends JPanel implements ActionListener{
         add(new JLabel("Report is not available. Please check netowrk connection."));
     }
 
+    /**
+     * Default constructor
+     */
+    public ReportPanel()
+    {
+        initPanel(columnNames);
+    }
+
 
     /**
      * Initialize Report Panel.
      * @param columnNames   - define column names of report table.
      */
-    private void initPanel(String[] columnNames) {
-
-        JComboBox userList;
+    private void initPanel(String[] columnNames)
+    {
 
         setLayout(new GridBagLayout());
         setPreferredSize(new Dimension(500, 300));
         GridBagConstraints c = new GridBagConstraints();
+
+        label = new JLabel("Please select a user to view the result:");
         c.weightx = 0.5;
         c.fill = GridBagConstraints.HORIZONTAL;
         c.insets = new Insets(10,10,10,10);
         c.gridx = 0;
         c.gridy = 0;
-        add(new JLabel("Please select a user to view the result:"), c);
+        add(label, c);
 
         if(listItem != null) {
             userList = new JComboBox(listItem);
@@ -68,7 +79,9 @@ public class ReportPanel extends JPanel implements ActionListener{
         }
 
         userList.setPreferredSize(new Dimension(500, 25));
-        userList.setSelectedIndex(0);
+        if(listItem != null) {
+            userList.setSelectedIndex(0);
+        }
         userList.addActionListener(this);
 
         c.fill = GridBagConstraints.HORIZONTAL;
@@ -83,6 +96,10 @@ public class ReportPanel extends JPanel implements ActionListener{
             table = new JTable(new DefaultTableModel(listToTableData.get(listItem.get(0)), columnNames));
         }else {
             table = new JTable();
+            DefaultTableModel model = (DefaultTableModel) table.getModel();
+            for(String name : columnNames) {
+                model.addColumn(name);
+            }
         }
 
         //Center table title and cell values
@@ -97,10 +114,10 @@ public class ReportPanel extends JPanel implements ActionListener{
         scrollPane.setPreferredSize(new Dimension(500,300));
 
         c.fill = GridBagConstraints.HORIZONTAL;
-        c.ipady = 500;
+        c.ipady = 1000;
         c.weighty = 1.0;
         c.anchor = GridBagConstraints.PAGE_START;
-        c.insets = new Insets(0,10,10,10);
+        c.insets = new Insets(10,10,10,10);
         c.gridx = 0;
         c.gridwidth = 1;
         c.gridy = 2;
@@ -113,7 +130,8 @@ public class ReportPanel extends JPanel implements ActionListener{
      * @param userEmailList - data for ComboBoxList
      * @param userToResults - data for test result.
      */
-    public ReportPanel(Vector<String> userEmailList, HashMap<String, Object[][]> userToResults){
+    public ReportPanel(Vector<String> userEmailList, HashMap<String, Object[][]> userToResults)
+    {
         if(userEmailList != null && userToResults != null) {
             this.listItem = userEmailList;
             this.listToTableData = userToResults;
@@ -123,11 +141,37 @@ public class ReportPanel extends JPanel implements ActionListener{
         }
     }
 
+    public void setLabelText(String text) {
+        label.setText(text);
+    }
+
+    /**
+     * Set items for ComboBoxList
+     * @param listItem Vector<String>
+     */
+    public void setListItem(Vector<String> listItem)
+    {
+        if(listItem == null)
+            return;
+
+        for(String item: listItem) {
+            this.userList.addItem(item);
+        }
+        userList.setSelectedIndex(0);
+    }
+
+    public void setListToTableData(HashMap<String, Object[][]> listToTableData)
+    {
+        this.listToTableData = listToTableData;
+        updateData((String)userList.getItemAt(0));
+    }
+
     /**
      * Action listener userd for respond to event of Changing iteln in ComboBoxList.
      * @param e  - action event
      */
-    public void actionPerformed(ActionEvent e){
+    public void actionPerformed(ActionEvent e)
+    {
         JComboBox user = (JComboBox)e.getSource();
         updateData((String)user.getSelectedItem());
     }
@@ -136,7 +180,11 @@ public class ReportPanel extends JPanel implements ActionListener{
      *Used for updating data in the table.
      * @param userEmail - user email related to data in table.
      */
-    private void updateData(String userEmail) {
+    private void updateData(String userEmail)
+    {
+
+        if(listToTableData == null)
+            return;
 
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         Object [][] data = listToTableData.get(userEmail);
@@ -144,7 +192,6 @@ public class ReportPanel extends JPanel implements ActionListener{
 
         for(int i = rowCount-1; i>=0; i--){
             model.removeRow(i);
-
         }
 
         model.setRowCount(data.length);
@@ -153,7 +200,6 @@ public class ReportPanel extends JPanel implements ActionListener{
                 model.setValueAt(data[i][j], i ,j);
             }
         }
-
     }
 
     /**
