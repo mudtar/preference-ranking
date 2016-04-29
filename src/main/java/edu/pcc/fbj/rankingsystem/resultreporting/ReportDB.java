@@ -35,8 +35,8 @@ public class ReportDB implements ReportDAO{
             = "SELECT FBJ_USER.Email " +
                " ,FBJ_ITEM.Name " +
                " ,ISNULL(SUM(CASE WHEN FBJ_RESULT.Value = 1 THEN 1 END), 0) AS Wins " +
-               " ,ISNULL(SUM(CASE WHEN FBJ_RESULT.Value = -1 THEN -1 END), 0) AS Losses " +
-               " ,ISNULL(SUM(CASE WHEN FBJ_RESULT.Value = 0 THEN 0 END), 0) AS Ties " +
+               " ,ISNULL(SUM(CASE WHEN FBJ_RESULT.Value = -1 THEN 1 END), 0) AS Losses " +
+               " ,ISNULL(SUM(CASE WHEN FBJ_RESULT.Value = 0 THEN 1 END), 0) AS Ties " +
                " FROM FBJ_USER " +
                " JOIN FBJ_TEST ON FBJ_USER.PK_UserID = FBJ_TEST.FK_UserID " +
                " JOIN FBJ_RESULT ON FBJ_TEST.PK_TestID = FBJ_RESULT.FK_TestID " +
@@ -74,7 +74,7 @@ public class ReportDB implements ReportDAO{
             System.out.println(message);
         }
         catch(SQLException se) {
-            setMessage(DATABASE_CONNECTION_CONNECTING);
+            setMessage(DATABASE_CONNECTION_FAILED);
             System.out.println(message);
         }
     }
