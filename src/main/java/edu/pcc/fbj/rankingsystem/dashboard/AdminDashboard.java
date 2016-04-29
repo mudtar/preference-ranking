@@ -68,6 +68,7 @@ public class AdminDashboard extends JPanel implements ActionListener {
         }
         frame.setLocationByPlatform(true);
         frame.pack();
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
     }

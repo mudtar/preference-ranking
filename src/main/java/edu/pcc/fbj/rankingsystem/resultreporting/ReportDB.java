@@ -175,9 +175,7 @@ public class ReportDB implements ReportDAO{
      */
     @Override
     public boolean getStatus(){
-        if(message.equals(DATABASE_DATA_SELECTION))
-            return true;
-        return false;
+        return message.equals(DATABASE_DATA_SELECTION);
     }
 
     /**
