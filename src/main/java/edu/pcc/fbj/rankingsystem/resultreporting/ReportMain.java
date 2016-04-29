@@ -6,8 +6,8 @@ import edu.pcc.fbj.rankingsystem.dashboard.AdminDashboard;
 
 /**
  * Main class used for tesing report module.
- * @Author:  David Li
- * @Version: 2016.04.06
+ * @author  David Li
+ * @version 2016.04.06
  */
 public class ReportMain {
 
@@ -16,11 +16,11 @@ public class ReportMain {
      */
     private static void createAndShowGUI() {
 
-        JFrame frame = new JFrame("User Test Result Report");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JFrame frame = new JFrame("Admin Dashboard");
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         AdminDashboard dashboard = new AdminDashboard();
-        frame.setPreferredSize(new Dimension(500,300));
+        frame.setPreferredSize(new Dimension(480,320));
         frame.setContentPane(dashboard);
 
         frame.setLocationByPlatform(true);
