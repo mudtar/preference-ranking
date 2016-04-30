@@ -1,7 +1,7 @@
 package edu.pcc.fbj.rankingsystem.usercreation;
 
 import edu.pcc.fbj.rankingsystem.dashboard.AdminDashboard;
-
+import edu.pcc.fbj.rankingsystem.usertest.UserTest;
 
 import javax.swing.*;
 import java.awt.*;
@@ -69,11 +69,7 @@ public enum RankingSystemController
    public void launchUserTest()
     {
         System.out.println("RankingSystemController::launchUserTest()");
-        RegistrationModel model = new RegistrationModel();
-        RegistrationView view = new RegistrationFrame();
-        RegistrationController controller = new RegistrationController(this, model, view);
-        view.registerController(controller);
-
+        UserTest.beginUserTest(user);
     }
 
     /**
