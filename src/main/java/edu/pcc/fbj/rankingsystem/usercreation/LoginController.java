@@ -91,23 +91,6 @@ public class LoginController
         return false;
 
     }
-    /**
-     * @return the user's name
-     */
-   public String getUsername()
-    {
-      return this.model.getUsername();
-    }
-
-   public String getUserEmail()
-   {
-       return this.model.getUserEmail();
-   }
-
-  //  public String getPassword()
-   // {
-   //     return this.model.getPassword();
-   // }
 
     /**
      * Launch Admin Setup Page

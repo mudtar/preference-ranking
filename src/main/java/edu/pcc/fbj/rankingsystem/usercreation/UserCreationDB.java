@@ -91,7 +91,7 @@ public enum UserCreationDB
         try {
             connection();
             //Connection connection = UserCreationDB.getConnection();
-            System.out.println("UserCreationDB::validateUser()");
+            System.out.println("UserCreationDB::validateUser1()");
             PreparedStatement preparedStmt = this.connect.prepareStatement("SELECT Email, Password FROM FBJ_USER " +
                     "WHERE Email = ? AND Password = ?;");
             preparedStmt.setString(1, email);

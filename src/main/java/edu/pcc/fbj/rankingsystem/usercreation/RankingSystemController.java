@@ -22,6 +22,8 @@ public enum RankingSystemController
 
     private User user;
     private UserCreationDB sqlUser;
+    private LoginState loginState;
+    LoginFrame loginFrame;
 
     /**
      * Constructor of the class

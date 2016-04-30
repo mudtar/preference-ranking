@@ -26,8 +26,6 @@ public class LoginPanel
 {
     private JTextField userEmailTextField;
     private JTextField passwordTextField;
-    //private JPasswordField passwordTextField;
-    private JTextField noAccountTextField;
     private JLabel userEmailnameLabel;
     private JLabel passwordLabel;
 
@@ -94,7 +92,7 @@ public class LoginPanel
         gbc_passwordLabel.gridx = 0;
         gbc_passwordLabel.gridy = 1;
         add(this.passwordLabel, gbc_passwordLabel);
-        //this.getPasswordTextField() =  char[] new JPasswordField("");
+
         this.passwordTextField = new JTextField("");
         GridBagConstraints gbc_passwordTextField = new GridBagConstraints();
         gbc_passwordTextField.anchor = 15;
@@ -173,11 +171,6 @@ public class LoginPanel
     {
        return this.passwordTextField.getText();
     }
-
-   // public char[] getPasswordTextField()
-   // {
-  //      return this.passwordTextField.getPassword();
-   // }
 
     public void loginButtonClick()
     {

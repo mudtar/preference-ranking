@@ -22,6 +22,8 @@ public class LoginFrame
     private LoginController controller;
     private UserCreationDB sqlUser;
     private RegistrationPanel registrationPanel;
+    private User user;
+    private LoginModel loginModel;
 
     /**
      * Constructor of the class
@@ -123,38 +125,18 @@ public class LoginFrame
 
                 if (this.controller.checkUserAccessRoleForAdmin())
                 {
-                    //JOptionPane.showMessageDialog(null, " Welcome to Admin Setup Page."
-                     //               + "\r\n You must setup the test criteria.",
-                     ///       "Ranking System - Welcome Message", 1);
                     this.controller.launchAdminTestSetup();
                 }
                 if (this.controller.checkUserAccessRoleForUser())
                 {
-                    //JOptionPane.showMessageDialog(null, "Welcome, " + this.controller.getUsername().trim() +
-                    //         "\r\n\r\n This test compares items in groups of 2." +
-                    //         "\r\n Each item on the test will be compared to every other item on the test." +
-                    //         "\r\n You must complete the test in order to save the test results.", "User Test - Welcome Message", 1);
                     JOptionPane.showMessageDialog(null, " Welcome to User Test Page."
-                                    + "\r\n You must must complete the test.",
+                             + "\r\n You must must complete the test.",
                             "Ranking System - Welcome Message", 1);
                     this.controller.launchUserTestFrame();
 
                 }
              }
-/*
-            else if ((this.loginPanel.getUserEmailTextField().trim().equalsIgnoreCase("")) ||
-                    (!this.loginPanel.getUserEmailTextField().trim().matches(EMAIL_REGEX)) ||
-                    (this.loginPanel.getPasswordTextField().trim().equalsIgnoreCase("")))// ||
-                   // (!this.loginPanel.getUserEmailTextField().trim().matches(PASSWORD_REGEX)))
-            {
-                emptyEmailMessage();
-                //this.loginPanel.setUserEmailTextField("");
-                //this.loginPanel.setPasswordTextField("");
-            }
-*/
-
              else if (this.loginPanel.getUserEmailTextField().trim().equalsIgnoreCase(""))
-
             {
                 emptyEmailMessage();
                 this.loginPanel.setUserEmailTextField("");
@@ -172,7 +154,6 @@ public class LoginFrame
             }
             else if (this.loginPanel.getPasswordTextField().trim().equalsIgnoreCase(""))
             {
-                //invalidPasswordFormatMessage();
                 emptyPasswordMessage();
                 this.loginPanel.setPasswordTextField("");
                 JTextField temp =  LoginFrame.this.loginPanel.getLoginPasswordControl();
@@ -186,13 +167,13 @@ public class LoginFrame
                 temp.requestFocus();
 
             }
-            else
-            {
-                invalidEmailMessage();
-                System.out.println("LoginFrame:: Invalid Email-> LoginAttempt Failed)");
+           else {
+                invalidMessage();
+                System.out.println("LoginFrame:: Invalid Email & Password-> LoginAttempt Failed)");
 
                 this.loginPanel.setUserEmailTextField("");
-                JTextField temp =  LoginFrame.this.loginPanel.getLoginEmailControl();
+                this.loginPanel.setPasswordTextField("");
+                JTextField temp = LoginFrame.this.loginPanel.getLoginEmailControl();
                 temp.requestFocus();
             }
 
@@ -205,12 +186,19 @@ public class LoginFrame
                     "Login Failed - Invalid Email Format", 2);
         }
 
-        public void invalidEmailMessage()
+        public void invalidMessage()
         {
-            JOptionPane.showMessageDialog(null, "'" + this.loginPanel.getUserEmailTextField().trim()
-                    + "' is not a registered email.", "Login Failed - Invalid Email", 2);
+            JOptionPane.showMessageDialog(null, "'" +
+                   "' This is either not a registered email or password, please verify information!",
+                    "Login Failed - Invalid Email", 2);
         }
 
+        public void invalidEmailMessage()
+        {
+            JOptionPane.showMessageDialog(null, "'" + this.loginPanel.getUserEmailTextField().trim() +
+                            "' is not a registered email or password, please verify information!",
+                    "Login Failed - Invalid Email", 2);
+        }
         public void emptyEmailMessage()
         {
             JOptionPane.showMessageDialog(null, "Email field must not be empty " +
