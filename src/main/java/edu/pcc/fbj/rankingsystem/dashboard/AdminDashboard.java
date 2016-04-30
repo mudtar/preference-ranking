@@ -23,20 +23,29 @@ public class AdminDashboard extends JPanel implements ActionListener {
 
     private static final String REPORT = "report";
     private static final String SETUP = "setup";
+    private static final String LOGIN = "login";
 
     public AdminDashboard(){
         setOpaque(true);
         setLayout(new GridBagLayout());
+
+        //report
         JButton reportBtn = new JButton("Open Report List");
         reportBtn.setActionCommand("report");
         reportBtn.addActionListener(this);
         add(reportBtn);
 
+        //setup
         JButton setupBtn = new JButton("Setup Test Items");
         setupBtn.setActionCommand("setup");
         setupBtn.addActionListener(this);
-
         add(setupBtn);
+
+        //login
+        JButton loginBtn = new JButton("Back to Login");
+        loginBtn.setActionCommand("login");
+        loginBtn.addActionListener(this);
+        add(loginBtn);
 
     }
 
@@ -48,6 +57,7 @@ public class AdminDashboard extends JPanel implements ActionListener {
 
         JFrame frame = new JFrame();
         frame.setPreferredSize(new Dimension(480,320));
+
         if(e.getActionCommand().equals(REPORT)) {
             ReportTable report = new ReportTable();
             frame.setContentPane(report.getReportPanel());
@@ -66,6 +76,12 @@ public class AdminDashboard extends JPanel implements ActionListener {
             }
 
         }
+        else if(e.getActionCommand().equals(LOGIN))
+        {
+            //launch login
+            System.out.println("TODO: launch login, and close AdminDashboard - line 82 AdminDashboard");
+        }
+
         frame.setLocationByPlatform(true);
         frame.pack();
         frame.setLocationRelativeTo(null);
