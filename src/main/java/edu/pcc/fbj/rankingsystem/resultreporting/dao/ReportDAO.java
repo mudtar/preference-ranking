@@ -1,4 +1,4 @@
-package main.java.edu.pcc.fbj.rankingsystem.resultreporting.dao;
+package edu.pcc.fbj.rankingsystem.resultreporting.dao;
 
 import java.util.HashMap;
 import java.util.Vector;

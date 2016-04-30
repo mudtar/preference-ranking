@@ -1,7 +1,7 @@
-package main.java.edu.pcc.fbj.rankingsystem.dashboard;
+package edu.pcc.fbj.rankingsystem.dashboard;
 
-import  main.java.edu.pcc.fbj.rankingsystem.adminsetup.AdminSetupController;
-import  main.java.edu.pcc.fbj.rankingsystem.resultreporting.ReportTable;
+import edu.pcc.fbj.rankingsystem.adminsetup.AdminSetupController;
+import edu.pcc.fbj.rankingsystem.resultreporting.ReportTable;
 
 import javax.swing.*;
 import java.awt.*;

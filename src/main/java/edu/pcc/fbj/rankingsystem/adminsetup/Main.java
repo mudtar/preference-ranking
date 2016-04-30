@@ -1,4 +1,4 @@
-package  main.java.edu.pcc.fbj.rankingsystem.adminsetup;
+package edu.pcc.fbj.rankingsystem.adminsetup;
 
 import javax.swing.*;
 

@@ -1,4 +1,4 @@
-package main.java.edu.pcc.fbj.rankingsystem.resultreporting;
+package edu.pcc.fbj.rankingsystem.resultreporting;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

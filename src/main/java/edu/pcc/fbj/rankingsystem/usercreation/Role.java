@@ -1,4 +1,4 @@
-package main.java.edu.pcc.fbj.rankingsystem.usercreation;
+package edu.pcc.fbj.rankingsystem.usercreation;
 
 /**
  *  The Role class is used to check whether

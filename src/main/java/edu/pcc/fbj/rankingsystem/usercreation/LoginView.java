@@ -1,4 +1,4 @@
-package main.java.edu.pcc.fbj.rankingsystem.usercreation;
+package edu.pcc.fbj.rankingsystem.usercreation;
 /**
  * The interface for the Login Model view
  *

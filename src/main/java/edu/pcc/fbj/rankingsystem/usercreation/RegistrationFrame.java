@@ -1,4 +1,4 @@
-package main.java.edu.pcc.fbj.rankingsystem.usercreation;
+package edu.pcc.fbj.rankingsystem.usercreation;
 
 /**
  * The RegistrationFrame class is the GUI of the user registration page.

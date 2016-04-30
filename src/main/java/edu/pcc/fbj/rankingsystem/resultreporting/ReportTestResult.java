@@ -1,4 +1,4 @@
-package main.java.edu.pcc.fbj.rankingsystem.resultreporting;
+package edu.pcc.fbj.rankingsystem.resultreporting;
 
 /**
  * Test Result Class defining test report structure
