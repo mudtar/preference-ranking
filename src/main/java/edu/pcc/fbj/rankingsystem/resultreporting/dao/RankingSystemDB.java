@@ -1,4 +1,4 @@
-package edu.pcc.fbj.rankingsystem.resultreporting.dao;
+package main.java.edu.pcc.fbj.rankingsystem.resultreporting.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

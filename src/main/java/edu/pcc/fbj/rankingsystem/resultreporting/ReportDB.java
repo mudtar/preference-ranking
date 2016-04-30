@@ -1,4 +1,4 @@
-package edu.pcc.fbj.rankingsystem.resultreporting;
+package main.java.edu.pcc.fbj.rankingsystem.resultreporting;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
-import edu.pcc.fbj.rankingsystem.resultreporting.dao.*;
+import main.java.edu.pcc.fbj.rankingsystem.resultreporting.dao.*;
 
 /**
  * This is data accss object used for communicate with database to retrieve data

@@ -1,4 +1,4 @@
-package edu.pcc.fbj.rankingsystem.usercreation;
+package main.java.edu.pcc.fbj.rankingsystem.usercreation;
 
 /**
  *
@@ -185,6 +185,8 @@ public class RegistrationPanel
         return this.eMailTextField.getText();
     }
 
+    //public String getPassword() {return this.passwordTextField.getText(); }
+
     public JTextField getEmailControl()
     {
         return eMailTextField;
@@ -197,7 +199,7 @@ public class RegistrationPanel
 
     public JTextField getPasswordControl()
     {
-        return usernameTextField;
+        return passwordTextField;
     }
 
     public String getPassword()

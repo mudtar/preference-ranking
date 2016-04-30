@@ -1,7 +1,7 @@
-package edu.pcc.fbj.rankingsystem.resultreporting;
+package main.java.edu.pcc.fbj.rankingsystem.resultreporting;
 
-import edu.pcc.fbj.rankingsystem.resultreporting.dao.ReportDAO;
-import edu.pcc.fbj.rankingsystem.resultreporting.dao.ReportDAOFactory;
+import  main.java.edu.pcc.fbj.rankingsystem.resultreporting.dao.ReportDAO;
+import  main.java.edu.pcc.fbj.rankingsystem.resultreporting.dao.ReportDAOFactory;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

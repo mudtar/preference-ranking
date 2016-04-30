@@ -1,4 +1,4 @@
-package edu.pcc.fbj.rankingsystem.adminsetup;
+package  main.java.edu.pcc.fbj.rankingsystem.adminsetup;
 
 import java.sql.*;
 import java.util.ArrayList;

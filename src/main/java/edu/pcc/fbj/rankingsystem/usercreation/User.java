@@ -1,4 +1,4 @@
-package edu.pcc.fbj.rankingsystem.usercreation;
+package main.java.edu.pcc.fbj.rankingsystem.usercreation;
 
 import java.util.BitSet;
 

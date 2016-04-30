@@ -1,7 +1,7 @@
-package edu.pcc.fbj.rankingsystem.dashboard;
+package main.java.edu.pcc.fbj.rankingsystem.dashboard;
 
-import edu.pcc.fbj.rankingsystem.adminsetup.AdminSetupController;
-import edu.pcc.fbj.rankingsystem.resultreporting.ReportTable;
+import  main.java.edu.pcc.fbj.rankingsystem.adminsetup.AdminSetupController;
+import  main.java.edu.pcc.fbj.rankingsystem.resultreporting.ReportTable;
 
 import javax.swing.*;
 import java.awt.*;
@@ -71,5 +71,15 @@ public class AdminDashboard extends JPanel implements ActionListener {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
+    }
+
+    public void showAdminDashboardDisplay()
+    {
+        JFrame frame = new JFrame("User Test Result Report");
+        frame.setPreferredSize(new Dimension(500,300));
+        frame.setContentPane(this);
+        frame.setLocationByPlatform(true);
+        frame.pack();
+        frame.setVisible(true);
     }
 }

@@ -1,6 +1,6 @@
-package edu.pcc.fbj.rankingsystem.resultreporting.dao;
+package main.java.edu.pcc.fbj.rankingsystem.resultreporting.dao;
 
-import edu.pcc.fbj.rankingsystem.resultreporting.ReportDB;
+import main.java.edu.pcc.fbj.rankingsystem.resultreporting.ReportDB;
 /**
  * Data access object factory used to have access to DAO
  * @author David Li

@@ -1,4 +1,4 @@
-package edu.pcc.fbj.rankingsystem.dbfactory;
+package main.java.edu.pcc.fbj.rankingsystem.dbfactory;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

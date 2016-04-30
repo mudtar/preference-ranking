@@ -1,7 +1,6 @@
-package edu.pcc.fbj.rankingsystem.usercreation;
+package main.java.edu.pcc.fbj.rankingsystem.usercreation;
 
-import edu.pcc.fbj.rankingsystem.dashboard.AdminDashboard;
-
+import main.java.edu.pcc.fbj.rankingsystem.dashboard.AdminDashboard;
 
 import javax.swing.*;
 import java.awt.*;
@@ -55,12 +54,7 @@ public enum RankingSystemController
      {
         AdminDashboard adminPanel = new AdminDashboard();
         System.out.println("RankingSystemController::launchAdminTestSetup()");
-        JFrame frame = new JFrame("User Test Result Report");
-        frame.setPreferredSize(new Dimension(500,300));
-        frame.setContentPane(adminPanel);
-        frame.setLocationByPlatform(true);
-        frame.pack();
-        frame.setVisible(true);
+        adminPanel.showAdminDashboardDisplay();
      }
 
     /**

@@ -1,4 +1,4 @@
-package edu.pcc.fbj.rankingsystem.usercreation;
+package main.java.edu.pcc.fbj.rankingsystem.usercreation;
 
 /**
  * The RegistrationModel class takes care of the behavior of the user registration logic.

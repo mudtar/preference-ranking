@@ -1,6 +1,6 @@
-package edu.pcc.fbj.rankingsystem.resultreporting;
+package main.java.edu.pcc.fbj.rankingsystem.resultreporting;
 
-import edu.pcc.fbj.rankingsystem.resultreporting.dao.ReportDAO;
+import  main.java.edu.pcc.fbj.rankingsystem.resultreporting.dao.ReportDAO;
 
 /**
  * Start a thread to process database transaction

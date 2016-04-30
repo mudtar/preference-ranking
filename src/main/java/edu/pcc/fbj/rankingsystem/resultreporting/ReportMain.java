@@ -1,8 +1,8 @@
-package edu.pcc.fbj.rankingsystem.resultreporting;
+package main.java.edu.pcc.fbj.rankingsystem.resultreporting;
 
 import javax.swing.*;
 import java.awt.*;
-import edu.pcc.fbj.rankingsystem.dashboard.AdminDashboard;
+import  main.java.edu.pcc.fbj.rankingsystem.dashboard.AdminDashboard;
 
 /**
  * Main class used for tesing report module.
