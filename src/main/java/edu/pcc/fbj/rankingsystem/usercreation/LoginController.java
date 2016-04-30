@@ -72,28 +72,25 @@ public class LoginController
          }
 
         System.out.println("LoginController::loginAttempt - false");
-        //invalidEmailMessage();
         return false;
 
     }
 
-    /**
-     * @return the user's name
-     */
-   public String getUsername()
+    public boolean loginAttempt1(String email, String password)
     {
-      return this.model.getUsername();
+        if (this.sqlUser.validateUser1(email, password))
+        {
+            this.model.setValidatedUser(this.sqlUser.getUser(email));
+            this.model.setUserAccessRole(this.sqlUser.getUserAccessRole(email));
+            this.model.setLoginState(true);
+
+            return true;
+        }
+
+        System.out.println("LoginController::loginAttempt - false");
+        return false;
+
     }
-
-   // public String getUserEmail()
-   // {
-  //      return this.model.getUserEmail();
-   // }
-
-  //  public String getPassword()
-   // {
-   //     return this.model.getPassword();
-   // }
 
     /**
      * Launch Admin Setup Page
@@ -153,11 +150,5 @@ public class LoginController
     {
         this.controller.launchRegistration();
     }
-
-   // public void invalidEmailMessage()
-   // {
-  //      JOptionPane.showMessageDialog(null, "'" + this.loginPanel.getUserEmailTextField().trim()
-   //             + "' is not a registered email.", "Login Failed - Invalid Email", 2);
-   // }
 
 }

@@ -72,4 +72,14 @@ public class AdminDashboard extends JPanel implements ActionListener {
         frame.setVisible(true);
 
     }
+
+    public void showAdminDashboardDisplay()
+    {
+        JFrame frame = new JFrame("User Test Result Report");
+        frame.setPreferredSize(new Dimension(500,300));
+        frame.setContentPane(this);
+        frame.setLocationByPlatform(true);
+        frame.pack();
+        frame.setVisible(true);
+    }
 }

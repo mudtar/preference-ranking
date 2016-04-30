@@ -23,6 +23,8 @@ public enum RankingSystemController
 
     private User user;
     private UserCreationDB sqlUser;
+    private LoginState loginState;
+    LoginFrame loginFrame;
 
     /**
      * Constructor of the class
@@ -55,12 +57,7 @@ public enum RankingSystemController
      {
         AdminDashboard adminPanel = new AdminDashboard();
         System.out.println("RankingSystemController::launchAdminTestSetup()");
-        JFrame frame = new JFrame("User Test Result Report");
-        frame.setPreferredSize(new Dimension(500,300));
-        frame.setContentPane(adminPanel);
-        frame.setLocationByPlatform(true);
-        frame.pack();
-        frame.setVisible(true);
+        adminPanel.showAdminDashboardDisplay();
      }
 
     /**

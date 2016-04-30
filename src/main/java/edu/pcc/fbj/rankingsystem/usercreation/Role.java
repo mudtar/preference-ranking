@@ -12,30 +12,6 @@ public class Role
 {
     private boolean userAccessRole;
 
-   // public static enum UserAccessRole
-   // {
-   //     Unassigned(),  Admin("Admin"),  User;
-   // }
-
-    //public Role()
-   // {
-    //    setUserAccessRole(UserAccessRole.Unassigned);
-   // }
-  //  public Role()
-  //  {
-  //      setUserAccessRole(null);
-   // }
-
-    //public UserAccessRole getUserAccessRole()
-    //{
-   //     return this.userAccessRole;
-   // }
-
-    //public void setUserAccessRole(UserAccessRole userAccessRole)
-    //{
-    //    this.userAccessRole = userAccessRole;
-    //}
-
     /**
      * Constructor of the class
      * Set the user access role to false

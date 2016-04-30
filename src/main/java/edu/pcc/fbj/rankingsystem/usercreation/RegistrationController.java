@@ -68,6 +68,14 @@ public class RegistrationController
     {
         System.out.println("RegistrationController::checkUserEmailAvailability()");
         return !this.sqlUser.validateUser(userEmail);
+
     }
+
+    public boolean checkUserEmailAvailability1(String userEmail, String password)
+    {
+        System.out.println("RegistrationController::checkUserEmailAvailability1()");
+        return !this.sqlUser.validateUser1(userEmail, password);
+    }
+
 }
 
