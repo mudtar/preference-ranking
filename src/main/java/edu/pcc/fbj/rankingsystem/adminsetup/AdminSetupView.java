@@ -7,12 +7,11 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 /**
- * This class I read in a combination of view and controller
- * my task will be to seperate the functionality... forcing SWING into
- * a more MVC design... so, I think
+ * This is the view Class. It holds everything intended to be part of the GUI,
+ * as well as the handlers for those controls.
  *
  * @author Eric Kristiansen
- * @version 4/19/16
+ * @version 4/30/16
  */
 public class AdminSetupView {
 
@@ -47,7 +46,6 @@ public class AdminSetupView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 cancelAdmin();
-
             }
         });
         itemTextField.addActionListener(new ActionListener() {
@@ -57,19 +55,17 @@ public class AdminSetupView {
             }
         });
 
-        //itemList = new JList();
-        //itemList.setModel(AdminSetupController.setItems());
     }
 
     /**
-     * This is just a function I was playing with to better understand the list setup
-     * It is currently called on the add button handler
+     * This method takes the value of the textfield, and
+     * appends the list of items.
      */
     public void appendTextFieldText()
     {
         // add items to a default list
-
         listModel.addElement(itemTextField.getText());
+
         itemTextField.setText("");
 
         // set data in itemList
@@ -78,9 +74,8 @@ public class AdminSetupView {
 
     /**
      *
-     * This function sets a border on the root panel, because the default is extremely bad
-     * looking
-     * @return JPanel currently returned to the Main class in order to instantiate the GUI
+     * This function sets a border on the root panel, and returns it to be used by the controller.
+     * @return JPanel returned to the controller for instantiating
      */
     public JPanel getRootPanel()
     {
@@ -90,7 +85,8 @@ public class AdminSetupView {
 
     /**
      * set the initial item list
-     * @param passList is list of item objects
+     * @param passList is list of item objects passed from the controller
+     *                 for use here in the view controls
      */
     public void setItemList(List<Item> passList)
     {
@@ -107,8 +103,8 @@ public class AdminSetupView {
     }
 
     /**
-     * @return JList returned my idea was to separate work done on this control in
-     * a controller class... Not sure yet if that is appropriate
+     * @return JList returned to the controller for use by the model
+     * to update the dataBase
      */
     public JList getItemList()
     {
@@ -116,17 +112,35 @@ public class AdminSetupView {
     }
 
     /**
-     *
+     * This method is called when the user selects an item in the list,
+     * and presses the remove item button
      */
     public void removeItem()
     {
-        listModel.remove(itemList.getSelectedIndex());
-        // set data in itemList
-        itemList.setModel(listModel);
+        try
+        {
+            listModel.remove(itemList.getSelectedIndex());
+            // set data in itemList
+            itemList.setModel(listModel);
+        }
+        catch(ArrayIndexOutOfBoundsException ex) {
+            removeItemExceptionHandler(ex);
+        }
     }
 
     /**
-     *
+     * Handle array out of bounds issue
+     * @param ex out of bounds thrown from removeItem
+     *                  -appropriate item not selected
+     */
+    public void removeItemExceptionHandler(Exception ex)
+    {
+        JOptionPane.showMessageDialog(rootPanel, "You must choose an appropriate item to remove");
+    }
+
+    /**
+     * pass the itemList back to the controller for use by the model, and
+     * display a finished message
      */
     public void finishedMessage()
     {
@@ -144,7 +158,7 @@ public class AdminSetupView {
     }
 
     /**
-     *
+     * Cancel, do not write list to database, close frame
      */
     public void cancelAdmin()
     {
@@ -157,15 +171,6 @@ public class AdminSetupView {
     }
 
 
-
-    /**
-     * @return JTextField returned my idea was to separate work done on this control in
-     * a controller class... Not sure yet if that is appropriate
-     */
-    public JTextField getTextField()
-    {
-        return itemTextField;
-    }
 
 
 
