@@ -1,6 +1,7 @@
 package edu.pcc.fbj.rankingsystem.usertest;
 
 import java.util.List;
+import java.sql.SQLException;
 import javafx.fxml.FXML;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleButton;
@@ -14,9 +15,8 @@ import javafx.scene.control.ToggleGroup;
  */
 public class UserTestController
 {
-    private UserTestItemManager userTestItems = new UserTestItemManager();
-
-    private UserTestResultManager userTestResults = new UserTestResultManager();
+    private UserTestItemManager userTestItems;
+    private UserTestResultManager userTestResults;
 
     /**
      * The ToggleGroup that contains all of the user's options when
@@ -40,6 +40,18 @@ public class UserTestController
      */
     @FXML
     private ToggleButton option2;
+
+    /**
+     * Default constructor.
+     *
+     * @throws SQLException if a database access error occurs or the url
+     *                      is null
+     */
+    public UserTestController() throws SQLException
+    {
+        userTestItems = new UserTestItemManager();
+        userTestResults = new UserTestResultManager();
+    }
 
     /**
      * This method is executed automatically when the associated FXML

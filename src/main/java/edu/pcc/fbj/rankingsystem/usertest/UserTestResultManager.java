@@ -1,14 +1,23 @@
 package edu.pcc.fbj.rankingsystem.usertest;
 
+import edu.pcc.fbj.rankingsystem.dbfactory.RSystemConnection;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.UUID;
 
 /**
  * A model class to handle user test results.
  *
  * @author  Ian Burton
- * @version 2016.04.19.1
+ * @version 2016.04.29.1
  */
-public class UserTestResultManager {
+public class UserTestResultManager
+{
+    /**
+     * The connection to the database used throughout the application.
+     */
+    private Connection connection = null;
+
     /**
      * Uniquely identifies this group of test results.
      */
@@ -16,9 +25,13 @@ public class UserTestResultManager {
 
     /**
      * Default constructor.
+     *
+     * @throws SQLException if a database access error occurs or the url
+     *                      is null
      */
-    public UserTestResultManager()
+    public UserTestResultManager() throws SQLException
     {
+        connection = RSystemConnection.getConnection();
         generateUniqueTestId();
     }
 
