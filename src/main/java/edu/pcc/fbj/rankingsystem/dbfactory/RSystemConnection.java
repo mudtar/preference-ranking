@@ -39,10 +39,10 @@ public class RSystemConnection {
      * Return a connection to URL. If one already has been created,
      * return it. Otherwise, create one and save it as a field.
      *
-     * @return                 the one and only connection to the
-     *                         database used throughout the application
-     * @exception SQLException if a database access error occurs or the
-     *                         url is null
+     * @return              the one and only connection to the database
+     *                      used throughout the application
+     * @throws SQLException if a database access error occurs or the url
+     *                      is null
      */
     public static Connection getConnection() throws SQLException
     {
