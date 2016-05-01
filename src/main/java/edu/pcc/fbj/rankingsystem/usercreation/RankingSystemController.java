@@ -24,12 +24,12 @@ public enum RankingSystemController
     private User user;
     private UserCreationDB sqlUser;
     private LoginState loginState;
-    LoginFrame loginFrame;
+    private LoginFrame loginFrame;
 
     /**
      * Constructor of the class
      */
-   RankingSystemController()
+    RankingSystemController()
     {
         this.user = new User();
         this.sqlUser = UserCreationDB.INSTANCE;
@@ -57,7 +57,9 @@ public enum RankingSystemController
      {
         AdminDashboard adminPanel = new AdminDashboard();
         System.out.println("RankingSystemController::launchAdminTestSetup()");
+        this.user.setLoginState(false);
         adminPanel.showAdminDashboardDisplay();
+
      }
 
     /**
