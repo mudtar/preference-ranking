@@ -3,7 +3,6 @@ package edu.pcc.fbj.rankingsystem.dashboard;
 import edu.pcc.fbj.rankingsystem.adminsetup.AdminSetupController;
 import edu.pcc.fbj.rankingsystem.resultreporting.ReportTable;
 import edu.pcc.fbj.rankingsystem.usercreation.RankingSystemController;
-import edu.pcc.fbj.rankingsystem.usercreation.LoginState;
 
 import javax.swing.*;
 import java.awt.*;
@@ -84,7 +83,8 @@ public class AdminDashboard extends JPanel implements ActionListener {
             System.out.println("TODO: launch login, and close AdminDashboard - line 82 AdminDashboard");
             RankingSystemController controller = RankingSystemController.INSTANCE;
             controller.launchLogin();
-
+            frame.dispose();
+            return;
         }
 
         frame.setLocationByPlatform(true);
