@@ -5,10 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class will hold all of the database code ideally
+ * This class handles all of the database operations necessary for our package
  *
  * @author Eric Kristiansen
- * @version 4/19/16
+ * @version 4/30/16
  */
 public class AdminSetupModel {
 
@@ -19,6 +19,8 @@ public class AdminSetupModel {
 
     //Queries
     private static final String GET_ITEMS_SQL = "SELECT * FROM FBJ_ITEM";
+    private static final String DELETE_ITEM = "DELETE FROM FBJ_ITEM WHERE Name = ?";
+    private static final String INSERT_ITEM = "INSERT INTO FBJ_ITEM(Name) VALUES(?)";
 
     //Object to hold items
     private List<Item> items;
@@ -75,17 +77,126 @@ public class AdminSetupModel {
 
     /**
      * sets a list of Items to the database
-     * @param passItems
+     * @param passItems list of items chosen by the user
      */
-    public void setItems(List<Item> passItems) {
-
+    public void setItems(List<Item> passItems)
+    {
         //Todo: Write to database
-
-        //set items here for testing
-        for(Item i: passItems)
+        try
         {
-            System.out.println(i.toString());
+            boolean insertItem;
+            boolean deleteItem;
+            ArrayList<Item> deleteList = new ArrayList<>();
+            ArrayList<Item> insertList = new ArrayList<>();
+
+            //if item is in items, but not pass Items, delete
+            for (Item i: items)  //exists in items
+            {
+                deleteItem = notFoundItem(i.toString(), passItems);
+                if (deleteItem)
+                {
+                    deleteList.add(i);
+                }
+            }
+
+            //after deletion, if item is in passItems, but not in Items, insert
+            for (Item j: passItems) //exists in passItems
+            {
+                insertItem = notFoundItem(j.toString(), items);
+                if (insertItem)
+                {
+                    insertList.add(j);
+                }
+            }
+
+            deleteRecords(deleteList);
+            insertRecords(insertList);
+
         }
+        catch (Exception ex)
+        {
+            System.out.println(ex.toString());
+            ex.printStackTrace();
+        }
+    }
+
+    /**
+     *  Search a List of Item objects for a match to the string passed in
+     * @param str
+     * @param itemList
+     * @return true if not found
+     */
+    protected Boolean notFoundItem(String str, List<Item> itemList)
+    {
+        for (Item i: itemList)
+        {
+            if (str.equals(i.toString()))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Delete appropriate records
+     * @param deleteList
+     */
+    protected void deleteRecords(List<Item> deleteList)
+    {
+        try
+        {
+            Connection connection = getConnection();
+            PreparedStatement st = connection.prepareStatement(DELETE_ITEM);
+            for (Item i : deleteList)
+            {
+                st.setString(1, i.toString());
+                st.executeUpdate();
+                System.out.println("deleting: " + i.toString());
+            }
+        }
+        catch (SQLException e)
+        {
+            System.err.println("ERROR: " + e.getMessage());
+            e.printStackTrace();
+        }
+        catch(Exception ex)
+        {
+            System.out.println(ex.toString());
+            ex.printStackTrace();
+        }
+    }
+
+    /**
+     * Insert appropriate recordsd
+     * @param insertList
+     */
+    protected void insertRecords(List<Item> insertList)
+    {
+        try
+        {
+            Connection connection = getConnection();
+            PreparedStatement st = connection.prepareStatement(INSERT_ITEM);
+
+            for(Item i : insertList)
+            {
+                st.setString(1, i.toString());
+                st.executeUpdate();
+                System.out.println("inserting: " + i.toString());
+            }
+
+        }
+        catch (SQLException e)
+        {
+            System.err.println("ERROR: " + e.getMessage());
+            e.printStackTrace();
+        }
+        catch(Exception ex)
+        {
+            System.out.println(ex.toString());
+            ex.printStackTrace();
+        }
+
     }
 
 

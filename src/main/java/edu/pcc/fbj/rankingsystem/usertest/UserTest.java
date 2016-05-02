@@ -1,5 +1,7 @@
 package edu.pcc.fbj.rankingsystem.usertest;
 
+import edu.pcc.fbj.rankingsystem.usercreation.User;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -60,12 +62,26 @@ public class UserTest extends Application
 
     /**
      * The entry point to the class which launches the JavaFX
-     * application.
+     * application. This is currently included only for ease of
+     * development and testing, as the application at large has no need
+     * for a main method here.
      *
      * @param args command line arguments
      */
     public static void main(String[] args)
     {
-        launch(args);
+        beginUserTest(new User());
+    }
+
+    /**
+     * The entry point to the class which launches the user test
+     * component of the application.
+     *
+     * @param user the user object representing the currently logged-in
+     *             user
+     */
+    public static void beginUserTest(User user)
+    {
+        launch();
     }
 }

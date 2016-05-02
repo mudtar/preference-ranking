@@ -5,9 +5,10 @@ import javax.swing.*;
 /**
  *
  * This is the Main Class which is just an entry point
+ * Enables package to run independently for testing
  *
  * @author Eric Kristiansen
- * @version 4/19/16
+ * @version 4/30/16
  */
 public class Main {
 
@@ -15,6 +16,7 @@ public class Main {
 
     /**
      * Main method
+     * @param args environment variables
      */
     public static void main(String[] args)
     {

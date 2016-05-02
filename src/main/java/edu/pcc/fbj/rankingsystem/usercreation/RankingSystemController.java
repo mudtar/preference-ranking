@@ -1,7 +1,7 @@
 package edu.pcc.fbj.rankingsystem.usercreation;
 
 import edu.pcc.fbj.rankingsystem.dashboard.AdminDashboard;
-
+import edu.pcc.fbj.rankingsystem.usertest.UserTest;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,11 +23,13 @@ public enum RankingSystemController
 
     private User user;
     private UserCreationDB sqlUser;
+    private LoginState loginState;
+    private LoginFrame loginFrame;
 
     /**
      * Constructor of the class
      */
-   RankingSystemController()
+    RankingSystemController()
     {
         this.user = new User();
         this.sqlUser = UserCreationDB.INSTANCE;
@@ -55,25 +57,18 @@ public enum RankingSystemController
      {
         AdminDashboard adminPanel = new AdminDashboard();
         System.out.println("RankingSystemController::launchAdminTestSetup()");
-        JFrame frame = new JFrame("User Test Result Report");
-        frame.setPreferredSize(new Dimension(500,300));
-        frame.setContentPane(adminPanel);
-        frame.setLocationByPlatform(true);
-        frame.pack();
-        frame.setVisible(true);
+        this.user.setLoginState(false);
+        adminPanel.showAdminDashboardDisplay();
+
      }
 
-    /**
-     * Launch the User Test Page
-     */
+   /**
+    * Launch the User Test Page
+    */
    public void launchUserTest()
     {
         System.out.println("RankingSystemController::launchUserTest()");
-        RegistrationModel model = new RegistrationModel();
-        RegistrationView view = new RegistrationFrame();
-        RegistrationController controller = new RegistrationController(this, model, view);
-        view.registerController(controller);
-
+        UserTest.beginUserTest(user);
     }
 
     /**

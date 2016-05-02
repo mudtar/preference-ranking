@@ -13,8 +13,6 @@ public class User
     private String username;
     private String email;
     private String password;
-    private String reenterPassword;
-    private int isAdmin;
     private Role role;
     private User user;
     private LoginState loginState;
@@ -40,16 +38,6 @@ public class User
         return this.password ;
     }
 
-    public String getReenterPassword()
-    {
-        return this.reenterPassword;
-    }
-
-    public int getIsAdmin() {
-
-        return this.isAdmin;
-    }
-
     public boolean getUserAccessRole()
     {
         return this.role.getUserAccessRole();
@@ -73,15 +61,6 @@ public class User
     public void setPassword(String password)
     {
         this.password = password;
-    }
-
-    public void setReenterPassword(String reenterPassword)
-    {
-        this.reenterPassword = reenterPassword;
-    }
-    public void setIsAdmin(int isAdmin)
-    {
-        this.isAdmin = isAdmin;
     }
 
     public void setUserAccessRole(boolean role)

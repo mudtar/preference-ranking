@@ -89,8 +89,4 @@ public class LoginModel
         return this.user.getPassword();
     }
 
-    public int getIsAdmin() {
-
-        return this.user.getIsAdmin();
-    }
 }
