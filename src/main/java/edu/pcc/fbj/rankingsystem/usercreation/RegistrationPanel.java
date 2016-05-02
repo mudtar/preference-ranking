@@ -104,7 +104,6 @@ public class RegistrationPanel
         gbc_submitButton.gridx = 1;
         gbc_submitButton.gridy = 5;
 
-
         add(this.eMailTextField, gbc_eMailTextField);
         this.passwordTextField = new JTextField();
         GridBagConstraints gbc_passwordTextField = new GridBagConstraints();

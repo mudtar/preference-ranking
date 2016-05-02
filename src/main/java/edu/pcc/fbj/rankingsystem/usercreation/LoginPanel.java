@@ -197,6 +197,4 @@ public class LoginPanel
         return passwordTextField;
     }
 
-
-
 }

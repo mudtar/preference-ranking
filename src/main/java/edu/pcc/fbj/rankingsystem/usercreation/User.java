@@ -38,11 +38,6 @@ public class User
         return this.password ;
     }
 
-   // public int getIsAdmin() {
-//
-      //  return this.isAdmin;
-  //  }
-
     public boolean getUserAccessRole()
     {
         return this.role.getUserAccessRole();

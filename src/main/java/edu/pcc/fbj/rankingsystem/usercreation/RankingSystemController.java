@@ -62,9 +62,9 @@ public enum RankingSystemController
 
      }
 
-    /**
-     * Launch the User Test Page
-     */
+   /**
+    * Launch the User Test Page
+    */
    public void launchUserTest()
     {
         System.out.println("RankingSystemController::launchUserTest()");

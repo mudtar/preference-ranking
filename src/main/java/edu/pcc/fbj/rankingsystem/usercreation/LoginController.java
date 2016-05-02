@@ -63,14 +63,13 @@ public class LoginController
     public boolean loginAttempt(String email)
     {
         if (this.sqlUser.validateUser(email))
-          {
+        {
                this.model.setValidatedUser(this.sqlUser.getUser(email));
                this.model.setUserAccessRole(this.sqlUser.getUserAccessRole(email));
                this.model.setLoginState(true);
 
               return true;
-         }
-
+        }
         System.out.println("LoginController::loginAttempt - false");
         return false;
 

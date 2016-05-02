@@ -23,11 +23,6 @@ public enum UserCreationDB
     private static final String PASSWORD = "avaJyBdeleuF_a432#";
     private Role role;
 
-   // public static Connection getConnection() throws SQLException {
-   //    Connection connection = DriverManager.getConnection(FUELDBYJAVA_URL, USERNAME, PASSWORD);
-   //     return connection;
-   // }
-
     /**
      * Creates a connection to the database
      */
@@ -56,7 +51,6 @@ public enum UserCreationDB
         String emailAddress = " ";
         try {
             connection();
-            //Connection connection = UserCreationDB.getConnection();
             System.out.println("UserCreationDB::validateUser()");
             PreparedStatement preparedStmt = this.connect.prepareStatement("SELECT Email FROM FBJ_USER " +
                     "WHERE Email = ?;");
@@ -90,7 +84,6 @@ public enum UserCreationDB
         String userpassword = " ";
         try {
             connection();
-            //Connection connection = UserCreationDB.getConnection();
             System.out.println("UserCreationDB::validateUser1()");
             PreparedStatement preparedStmt = this.connect.prepareStatement("SELECT Email, Password FROM FBJ_USER " +
                     "WHERE Email = ? AND Password = ?;");
@@ -108,14 +101,14 @@ public enum UserCreationDB
             {
                 return true;
             }
-            else {
-                //System.out.println("Invalid Email address or Invalid Password" + emailAddress + password );
-                //System.out.println("Invalid Password" + password);
+            else
+            {
                 System.out.println("Invalid Email address or Invalid Password");
                 return false;
             }
 
-        } catch (SQLException e)
+        }
+        catch (SQLException e)
         {
             System.err.println("There is an exception in USerCreationDB::validateUser1()! ");
             System.err.println(e.getMessage());
@@ -188,10 +181,7 @@ public enum UserCreationDB
             System.err.println("There is an exception in UserCreationDB::getUserAccessRole()! ");
             System.err.println(e.getMessage());
         }
-
-        //return Role.UserAccessRole.Unassigned;
         return false;
-       //role.setUserAccessRole(false);
     }
 
     public void saveUser(ArrayList<String> user)

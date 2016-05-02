@@ -59,6 +59,7 @@ public class RegistrationController
     {
         this.sqlUser.saveUserAccess(userID);
     }
+
     public int getUserID(String emailAddress)
     {
         return this.sqlUser.getUserID(emailAddress);

@@ -112,7 +112,7 @@ public class RegistrationFrame
                 RegistrationFrame.this.controller.saveUser(user);
                 int userID = RegistrationFrame.this.controller.getUserID(RegistrationFrame.
                         this.registrationPanel.getUsername());
-               // RegistrationFrame.this.controller.saveUserAccess(userID);
+                // RegistrationFrame.this.controller.saveUserAccess(userID);
                 RegistrationFrame.this.controller.hideRegistration();
                 //RegistrationFrame.this.newUserWelcomeMessage(RegistrationFrame.this.registrationPanel);
                 RegistrationFrame.this.controller.launchLogin();
@@ -125,7 +125,7 @@ public class RegistrationFrame
             {
                 RegistrationFrame.this.controller.hideRegistration();
                 RegistrationFrame.this.updateRegistrationFrameState(true);
-                RegistrationFrame.this.cancelRegistrationMessage(RegistrationFrame.this.registrationPanel);
+                //RegistrationFrame.this.cancelRegistrationMessage(RegistrationFrame.this.registrationPanel);
                 RegistrationFrame.this.controller.launchLogin();
             }
         });
@@ -258,9 +258,9 @@ public class RegistrationFrame
             valid = false;
         }
        if (registrationPanel.getReenterPassword().trim().equals(""))
-       {
+        {
             valid = false;
-       }
+        }
         if (!RegistrationFrame.this.registrationPanel.getPassword().trim()
                 .equalsIgnoreCase(RegistrationFrame.this.registrationPanel.getReenterPassword().trim()))
         {
