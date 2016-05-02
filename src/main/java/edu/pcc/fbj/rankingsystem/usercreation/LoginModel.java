@@ -14,6 +14,8 @@ import java.util.ArrayList;
 public class LoginModel
 {
     private User user;
+    private String email;
+    private String password;
 
     /**
      * Set the user login state to true
@@ -84,8 +86,18 @@ public class LoginModel
        return this.user.getUserEmail();
     }
 
-    public String getPassword() {
+    public void setUserEmail(String email)
+    {
+      this.email = email;
+    }
 
+    public void setUserPassword(String password)
+    {
+      this.password = password;
+    }
+
+    public String getPassword()
+    {
         return this.user.getPassword();
     }
 

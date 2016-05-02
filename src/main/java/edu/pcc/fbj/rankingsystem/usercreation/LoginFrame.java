@@ -126,6 +126,7 @@ public class LoginFrame
                 if (this.controller.checkUserAccessRoleForAdmin())
                 {
                     this.controller.launchAdminTestSetup();
+                    //this.loginModel.setUserPassword();
                 }
                 if (this.controller.checkUserAccessRoleForUser())
                 {
