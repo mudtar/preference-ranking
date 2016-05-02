@@ -1,5 +1,6 @@
 package edu.pcc.fbj.rankingsystem.resultreporting.dao;
 
+import java.sql.Connection;
 import java.util.HashMap;
 import java.util.Vector;
 
@@ -12,7 +13,7 @@ import java.util.Vector;
 public interface ReportDAO {
     Vector<String> getUserEmailList();
     HashMap<String, Object[][]> getHashTable();
-    void DBConnection();
+    Connection DBConnection();
     String getMessage();
     boolean getStatus();
 }

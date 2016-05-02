@@ -31,7 +31,7 @@ public class ReportPanel extends JPanel implements ActionListener{
     private JLabel label;
     private HashMap<String, Object[][]> listToTableData;
     private Vector<String> listItem;
-    private final String[] columnNames = {"Item", "Wins", "Losses", "Ties"};
+    private final String[] columnNames = {"Item", "Wins", "Losses", "Ties", "Score"};
 
 
     /**

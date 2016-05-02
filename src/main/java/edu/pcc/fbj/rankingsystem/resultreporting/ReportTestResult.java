@@ -12,7 +12,8 @@ public class ReportTestResult {
     private int wins;
     private int losses;
     private int ties;
-    static final int COLUMN_NUMBER = 4;
+    private int scores;
+    static final int COLUMN_NUMBER = 5;
 
     /**
      * Constructor
@@ -21,12 +22,13 @@ public class ReportTestResult {
      * @param losses - points of losses
      * @param ties - points of ties
      */
-    public ReportTestResult(String item1Name, int wins, int losses, int ties) {
+    public ReportTestResult(String item1Name, int wins, int losses, int ties, int scores) {
 
         this.item1Name = item1Name;
         this.wins = wins;
         this.losses = losses;
         this.ties = ties;
+        this.scores = scores;
     }
 
 
@@ -64,6 +66,13 @@ public class ReportTestResult {
     }
 
     /**
+     * Retrieve total score;
+     */
+    public int getScores () {
+        return scores;
+    }
+
+    /**
      * Print data
      * @return String
      */
@@ -75,6 +84,7 @@ public class ReportTestResult {
                 //+ " Item 2: " + item2Name
                 + " Wins: " + wins
                 + " Losses: " + losses
-                + " Ties: " + ties;
+                + " Ties: " + ties
+                + " Score: " + scores;
     }
 }
