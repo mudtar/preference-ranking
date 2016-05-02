@@ -74,7 +74,7 @@ public class UserTestItemManager
             Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery(
                 "SELECT DISTINCT Name " +
-                "FROM [234a_FueledByJava].[dbo].[FBJ_ITEM] " +
+                "FROM FBJ_ITEM " +
                 ";");
             while (rs.next())
             {
