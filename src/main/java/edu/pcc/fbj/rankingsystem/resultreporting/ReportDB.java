@@ -37,6 +37,7 @@ public class ReportDB implements ReportDAO{
                " ,ISNULL(SUM(CASE WHEN FBJ_RESULT.Value = 1 THEN 1 END), 0) AS Wins " +
                " ,ISNULL(SUM(CASE WHEN FBJ_RESULT.Value = -1 THEN 1 END), 0) AS Losses " +
                " ,ISNULL(SUM(CASE WHEN FBJ_RESULT.Value = 0 THEN 1 END), 0) AS Ties " +
+               " ,SUM(FBJ_RESULT.Value) AS Points " +
                " FROM FBJ_USER " +
                " JOIN FBJ_TEST ON FBJ_USER.PK_UserID = FBJ_TEST.FK_UserID " +
                " JOIN FBJ_RESULT ON FBJ_TEST.PK_TestID = FBJ_RESULT.FK_TestID " +
@@ -97,7 +98,8 @@ public class ReportDB implements ReportDAO{
                 results.add(new ReportTestResult(rs.getString("Name"),
                         rs.getInt("Wins"),
                         rs.getInt("Losses"),
-                        rs.getInt("Ties")));
+                        rs.getInt("Ties"),
+                        rs.getInt("Points")));
             }
             setMessage(DATABASE_DATA_COMPLETE);
             stmt.close();
@@ -151,6 +153,7 @@ public class ReportDB implements ReportDAO{
                         userResults[i][1] = userTestResults.get(i).getWins();
                         userResults[i][2] = userTestResults.get(i).getLosses();
                         userResults[i][3] = userTestResults.get(i).getTies();
+                        userResults[i][4] = userTestResults.get(i).getScores();
                     }
                     usersToResults.put(email, userResults);
                 }
