@@ -2,6 +2,8 @@ package edu.pcc.fbj.rankingsystem.usertest;
 
 import java.util.List;
 import java.sql.SQLException;
+import java.util.Map;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleButton;
@@ -162,15 +164,16 @@ public class UserTestController
         // database.
         try
         {
-            List<String> testItemPair = userTestItems.getTestItemPair();
+            List<Map.Entry<Integer, String>> testItemPair =
+                userTestItems.getTestItemPair();
 
             // Populate the buttons with the names of the items.
-            option1.setUserData(testItemPair.get(0));
-            option2.setUserData(testItemPair.get(1));
+            option1.setUserData(testItemPair.get(0).getValue());
+            option2.setUserData(testItemPair.get(1).getValue());
 
             // Create the labels for the buttons.
-            option1.setText(testItemPair.get(0));
-            option2.setText(testItemPair.get(1));
+            option1.setText(testItemPair.get(0).getValue());
+            option2.setText(testItemPair.get(1).getValue());
         }
         catch (IndexOutOfBoundsException e)
         {

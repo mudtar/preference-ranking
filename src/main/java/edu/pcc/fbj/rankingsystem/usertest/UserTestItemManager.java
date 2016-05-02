@@ -5,10 +5,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * A model class to handle the basic data elements of the user test.
@@ -32,13 +29,15 @@ public class UserTestItemManager
     private List<String> testItems = new ArrayList<>(
         Arrays.asList("a", "b", "c", "d"));
     */
-    private List<String> testItems = new ArrayList<>();
+    //private List<String> testItems = new ArrayList<>();
+    private List<Map.Entry<Integer, String>> testItems = new ArrayList<>();
 
     /**
      * A list of paired test items. This is populated by
      * createTestItemPairs() from testItems.
      */
-    private List<List<String>> testItemPairs = null;
+    //private List<List<String>> testItemPairs = null;
+    private List<List<Map.Entry<Integer, String>>> testItemPairs = null;
 
     /**
      * The list index of the next element of testItemPairs to return. I
@@ -67,18 +66,19 @@ public class UserTestItemManager
      * @throws SQLException if a database access error occurs or the url
      *                      is null
      */
-    private List<String> getTestItems() throws SQLException
+    private List<Map.Entry<Integer, String>> getTestItems() throws SQLException
     {
         if (testItems.isEmpty())
         {
             Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery(
-                "SELECT DISTINCT Name " +
+                "SELECT DISTINCT PK_ItemID, Name " +
                 "FROM FBJ_ITEM " +
                 ";");
             while (rs.next())
             {
-                testItems.add(rs.getString("Name"));
+                testItems.add(new AbstractMap.SimpleEntry<Integer, String>(
+                    rs.getInt("PK_ItemID"), rs.getString("Name")));
             }
         }
 
@@ -93,19 +93,19 @@ public class UserTestItemManager
      * @throws IndexOutOfBoundsException if there are no more test item
      *                                   pairs to return
      */
-    public List<String> getTestItemPair() throws IndexOutOfBoundsException
+    public List<Map.Entry<Integer, String>> getTestItemPair()
+        throws IndexOutOfBoundsException
     {
         if (testItemPairs == null)
         {
             createTestItemPairs();
         }
 
-        List<String> nextTestItemPair;
+        List<Map.Entry<Integer, String>> nextTestItemPair;
 
         try
         {
             nextTestItemPair = testItemPairs.get(nextTestItemPairIndex);
-
             nextTestItemPairIndex++;
             return nextTestItemPair;
         }
@@ -131,12 +131,12 @@ public class UserTestItemManager
             // haven't handled any yet, so start at -1.
             int handledUpToIndex = -1;
 
-            for (String testItem1 : testItems)
+            for (Map.Entry<Integer, String> testItem1 : testItems)
             {
                 // The List index of the current item being paired.
                 int innerLoopIndex = 0;
 
-                for (String testItem2 : testItems)
+                for (Map.Entry<Integer, String> testItem2 : testItems)
                 {
                     // Make sure that the item being paired is not one
                     // that's already been fully handled. Also make sure
@@ -147,7 +147,8 @@ public class UserTestItemManager
                         // Add a List of two unique test items to the
                         // List of pairs. Randomize the order of the
                         // pair.
-                        List<String> pair = Arrays.asList(testItem1, testItem2);
+                        List<Map.Entry<Integer, String>> pair =
+                            Arrays.asList(testItem1, testItem2);
                         Collections.shuffle(pair);
                         testItemPairs.add(pair);
                     }
