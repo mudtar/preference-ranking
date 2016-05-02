@@ -46,8 +46,8 @@ public class LoginModel
     {
         System.out.println("LoginModel::setValidatedUser()");
         this.user.setUsername((String)user.get(0));
-        this.user.setEmail((String)user.get(1));
-        this.user.setPassword((String)user.get(2));
+        this.user.setPassword((String)user.get(1));
+        this.user.setEmail((String)user.get(2));
     }
 
     /**
