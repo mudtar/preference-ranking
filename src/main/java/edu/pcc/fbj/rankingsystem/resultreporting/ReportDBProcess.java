@@ -27,9 +27,10 @@ public class ReportDBProcess implements Runnable
      */
     public void run() {
         System.out.println("Start a DB processing thread");
-        dao.DBConnection();
-        reportPane.setListItem(dao.getUserEmailList());
-        reportPane.setListToTableData(dao.getHashTable());
+        if(dao.DBConnection() != null) {
+            reportPane.setListItem(dao.getUserEmailList());
+            reportPane.setListToTableData(dao.getHashTable());
+        }
         System.out.println("End a DB processing thread");
 
     }

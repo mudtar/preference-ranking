@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
+import java.util.concurrent.ExecutorService;
+
+import edu.pcc.fbj.rankingsystem.dbfactory.RSystemConnection;
 import edu.pcc.fbj.rankingsystem.resultreporting.dao.*;
 
 /**
@@ -51,7 +54,7 @@ public class ReportDB implements ReportDAO{
     private final String DATABASE_CONNECTION_SUCCESS = "Connect to database successfully!";
     private final String DATABASE_DATA_READING = "Reading data from database.....";
     private final String DATABASE_DATA_COMPLETE = "Reading data complete!";
-    static final String DATABASE_DATA_SELECTION = "Please select email address to display test result:";
+    private final String DATABASE_DATA_SELECTION = "Please select email address to display test result:";
 
 
     private Vector<String> userEmailList;
@@ -66,18 +69,18 @@ public class ReportDB implements ReportDAO{
      * eslablish database connection
      */
     @Override
-    public void DBConnection() {
+    public Connection DBConnection() {
         setMessage(DATABASE_CONNECTION_CONNECTING);
-        System.out.println(message);
         try {
-            connection = RankingSystemDB.getConnection();
+            connection = RSystemConnection.getConnection();
             setMessage(DATABASE_CONNECTION_SUCCESS);
-            System.out.println(message);
         }
         catch(SQLException se) {
             setMessage(DATABASE_CONNECTION_FAILED);
-            System.out.println(message);
+            return null;
         }
+
+        return connection;
     }
 
     /**
@@ -187,5 +190,6 @@ public class ReportDB implements ReportDAO{
      */
     private void setMessage(String msg) {
         message = msg;
+        System.out.println(message);
     }
 }
