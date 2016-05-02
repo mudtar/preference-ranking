@@ -49,6 +49,7 @@ public class ReportDB implements ReportDAO{
                " GROUP BY FBJ_USER.Email, FBJ_ITEM.Name " +
                " ORDER BY SUM(FBJ_RESULT.Value) DESC";
 
+    private final String DATABASE_MESSAGE_INIT = "Database initail ...";
     private final String DATABASE_CONNECTION_CONNECTING = "Connecting to database...";
     private final String DATABASE_CONNECTION_FAILED = "Failed to connect to database!";
     private final String DATABASE_CONNECTION_SUCCESS = "Connect to database successfully!";
@@ -62,6 +63,8 @@ public class ReportDB implements ReportDAO{
     private Connection connection;
 
     public ReportDB() {
+
+        message = DATABASE_MESSAGE_INIT;
         System.out.println("Create ReportDB.");
     }
 
