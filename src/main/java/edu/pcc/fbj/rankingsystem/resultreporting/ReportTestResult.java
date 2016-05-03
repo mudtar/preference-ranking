@@ -6,7 +6,8 @@ package edu.pcc.fbj.rankingsystem.resultreporting;
  * @author David Li
  * @version 2016.04.14
  */
-public class ReportTestResult {
+public class ReportTestResult
+{
 
     private String item1Name;
     private int wins;
@@ -22,7 +23,8 @@ public class ReportTestResult {
      * @param losses - points of losses
      * @param ties - points of ties
      */
-    public ReportTestResult(String item1Name, int wins, int losses, int ties, int scores) {
+    public ReportTestResult(String item1Name, int wins, int losses, int ties, int scores)
+    {
 
         this.item1Name = item1Name;
         this.wins = wins;
@@ -77,7 +79,8 @@ public class ReportTestResult {
      * @return String
      */
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "User Test Result-> " //+
                  // " User Email: " + userEmail
                 + " Item 1: " + item1Name

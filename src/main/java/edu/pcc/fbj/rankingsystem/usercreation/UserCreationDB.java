@@ -1,5 +1,7 @@
 package edu.pcc.fbj.rankingsystem.usercreation;
 
+import edu.pcc.fbj.rankingsystem.dbfactory.RSystemConnection;
+
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -18,9 +20,9 @@ public enum UserCreationDB
    INSTANCE;
 
     private Connection connect = null;
-    private static final String FUELDBYJAVA_URL = "jdbc:jtds:sqlserver://cisdbss.pcc.edu/234a_FueledByJava";
-    private static final String USERNAME = "234a_FueledByJava";
-    private static final String PASSWORD = "avaJyBdeleuF_a432#";
+    //private static final String FUELDBYJAVA_URL = "jdbc:jtds:sqlserver://cisdbss.pcc.edu/234a_FueledByJava";
+    //private static final String USERNAME = "234a_FueledByJava";
+    //private static final String PASSWORD = "avaJyBdeleuF_a432#";
     private Role role;
 
     /**
@@ -31,7 +33,8 @@ public enum UserCreationDB
         System.out.println("UserCreationDB::connection()");
         try
         {
-            this.connect = DriverManager.getConnection(FUELDBYJAVA_URL, USERNAME, PASSWORD);
+            this.connect = RSystemConnection.getConnection();
+            //this.connect = DriverManager.getConnection(FUELDBYJAVA_URL, USERNAME, PASSWORD);
         }
         catch (Exception e)
         {
@@ -121,7 +124,6 @@ public enum UserCreationDB
         ArrayList<String> user = new ArrayList();
         try {
             connection();
-            //Connection connection = UserCreationDB.getConnection();
             System.out.println("UserCreationDB::getUser()");
             PreparedStatement preparedStmt = this.connect.prepareStatement("SELECT Name, Password " +
                     "FROM FBJ_USER WHERE Email = ?;");
@@ -166,12 +168,10 @@ public enum UserCreationDB
                 if (accessRole == 1)
                 {
                     return true;
-                    //role.setUserAccessRole(true);
                 }
                 if (accessRole == 0)
                 {
                     return false;
-                    //role.setUserAccessRole(false);
                 }
             }
         }
@@ -201,7 +201,6 @@ public enum UserCreationDB
         }
         catch (SQLException e1)
         {
-            //System.err.println("Got an exception! ");
             System.err.println("There is an exception in USerCreationDB::getUserAccessRole()! ");
             System.err.println(e1.getMessage());
             e1.printStackTrace();

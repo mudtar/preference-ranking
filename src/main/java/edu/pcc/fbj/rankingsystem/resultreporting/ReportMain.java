@@ -9,12 +9,14 @@ import edu.pcc.fbj.rankingsystem.dashboard.AdminDashboard;
  * @author  David Li
  * @version 2016.04.06
  */
-public class ReportMain {
+public class ReportMain
+{
 
     /**
      * Create Main frame and display GUI.
      */
-    private static void createAndShowGUI() {
+    private static void createAndShowGUI()
+    {
 
         JFrame frame = new JFrame("Admin Dashboard");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);

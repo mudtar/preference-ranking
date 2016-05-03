@@ -26,7 +26,8 @@ public class ReportMsgProcess implements Runnable
     /**
      * Start a message thread
      */
-    public void run() {
+    public void run()
+    {
         System.out.println("Start a message processing thread");
         while(!dao.getStatus()){
             reportPane.setLabelText(dao.getMessage());
