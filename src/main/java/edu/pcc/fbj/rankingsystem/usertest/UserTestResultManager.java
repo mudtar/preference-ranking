@@ -64,12 +64,8 @@ public class UserTestResultManager
     }
 
     /**
-     * Store a test result in preparation of storing it to the database.
-     * Right now, the test option parameters are passed as Strings, but
-     * in the future they should be database PK item IDs.
-     *
-     * A next step is to add a collection field to this object that can
-     * store the test results until they can be stored in the database.
+     * Store a test result locally in preparation to store it to the
+     * database.
      *
      * @param option1 the first of the two options presented to the user
      * @param option2 the second of the two options presented to the
@@ -82,16 +78,12 @@ public class UserTestResultManager
      */
     public void registerTestResult(int option1, int option2, int result)
     {
-        /*
-        //                     comp. items  , result
-        private List<Map.Entry<List<Integer>, Integer>> result = new ArrayList<>();
-        */
-
         List<Integer> comparedItems = Arrays.asList(option1, option2);
 
         results.add(new AbstractMap.SimpleEntry<List<Integer>, Integer>(
             comparedItems, result));
 
+        // This output is for development/debugging purposes only.
         switch (result)
         {
             case -1:
