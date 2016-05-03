@@ -20,7 +20,8 @@ import java.awt.event.ActionListener;
  * @version 2016.04.25
  * 1. Launch report panel in another window.
  */
-public class AdminDashboard extends JPanel implements ActionListener {
+public class AdminDashboard extends JPanel implements ActionListener
+{
 
     private static final String REPORT = "report";
     private static final String SETUP = "setup";
@@ -66,7 +67,8 @@ public class AdminDashboard extends JPanel implements ActionListener {
             frame.setContentPane(report.getReportPanel());
             frame.setTitle("Test Report");
 
-        } else if(e.getActionCommand().equals(SETUP))
+        }
+        else if(e.getActionCommand().equals(SETUP))
         {
             try
             {
