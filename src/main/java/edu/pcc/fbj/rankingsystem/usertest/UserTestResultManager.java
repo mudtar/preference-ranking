@@ -3,6 +3,11 @@ package edu.pcc.fbj.rankingsystem.usertest;
 import edu.pcc.fbj.rankingsystem.dbfactory.RSystemConnection;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -22,6 +27,18 @@ public class UserTestResultManager
      * Uniquely identifies this group of test results.
      */
     private String uniqueTestId;
+
+    /**
+     * The data structure used to store the test results until they are
+     * committed to the database.
+     * A list of map entries where each map entry is made up of:
+     * Key:   a list of the two item IDs that were compared
+     * Value: the encoded result of the test between the two items,
+     *        where -1 is a win for option1,
+     *               0 is a tie, and
+     *               1 is a win for option2.
+     */
+    private List<Map.Entry<List<Integer>, Integer>> results = new ArrayList<>();
 
     /**
      * Default constructor.
@@ -63,21 +80,31 @@ public class UserTestResultManager
      *                   between the options.
      *                 1 represents that option1 lost and option2 won.
      */
-    public void registerTestResult(String option1, String option2, int result)
+    public void registerTestResult(int option1, int option2, int result)
     {
+        /*
+        //                     comp. items  , result
+        private List<Map.Entry<List<Integer>, Integer>> result = new ArrayList<>();
+        */
+
+        List<Integer> comparedItems = Arrays.asList(option1, option2);
+
+        results.add(new AbstractMap.SimpleEntry<List<Integer>, Integer>(
+            comparedItems, result));
+
         switch (result)
         {
-        case -1:
-            System.out.println("Winner: " + option1);
-            System.out.println(" Loser: " + option2);
-            break;
-        case 0:
-            System.out.println(option1 + " and " + option2 + " tied.");
-            break;
-        case 1:
-            System.out.println("Winner: " + option2);
-            System.out.println(" Loser: " + option1);
-            break;
+            case -1:
+                System.out.println("Winner: " + option1);
+                System.out.println(" Loser: " + option2);
+                break;
+            case 0:
+                System.out.println(option1 + " and " + option2 + " tied.");
+                break;
+            case 1:
+                System.out.println("Winner: " + option2);
+                System.out.println(" Loser: " + option1);
+                break;
         }
     }
 }

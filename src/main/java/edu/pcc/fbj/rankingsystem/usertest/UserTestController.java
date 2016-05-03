@@ -3,7 +3,6 @@ package edu.pcc.fbj.rankingsystem.usertest;
 import java.util.List;
 import java.sql.SQLException;
 import java.util.Map;
-
 import javafx.fxml.FXML;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleButton;
@@ -44,6 +43,12 @@ public class UserTestController
     private ToggleButton option2;
 
     /**
+     * The ToggleButton representing the "I Can't Decide" option.
+     */
+    @FXML
+    private ToggleButton tie;
+
+    /**
      * Default constructor.
      *
      * @throws SQLException if a database access error occurs or the url
@@ -64,71 +69,40 @@ public class UserTestController
         updateOptionButtons();
     }
 
+    /**
+     * Executed when the submit button is pressed. If one of the options
+     * has been selected, register the test result with the
+     * ResultManager.
+     */
     public void handleSubmit()
     {
         Toggle selectedToggle = options.getSelectedToggle();
 
-        // For now, this just disables the submit button when nothing is
-        // selected. The user should be notified of this condition
-        // somehow.
+        // Determine whether any of the toggles have been selected.
         if (selectedToggle != null)
         {
-            String winner = "";
-            String loser = "";
-            boolean tie = false;
-            for (Toggle t : options.getToggles())
+            // I would have preferred to get the fx:id of the selected
+            // toggle in order to identify which one was selected, but
+            // there doesn't seem to be a convenient way to do so.
+            // Instead, I have to call each toggle out by name and ask
+            // if it's selected or not.
+            if (option1.isSelected())
             {
-                Object userData = t.getUserData();
-
-                if (userData == null)
-                {
-                    // This toggle is the "I Can't Decide" button.
-
-                    if (t.isSelected())
-                    {
-                        // And the "I Can't Decide" button is selected.
-                        // Since we know that this submission is a tie,
-                        // we know there are no winners or losers, so we
-                        // can break out of the loop.
-                        tie = true;
-                        break;
-                    }
-                }
-                else
-                {
-                    // This toggle must be one of the test items.
-
-                    if (t.isSelected())
-                    {
-                        // The winner is the selected toggle.
-                        winner = userData.toString();
-                    }
-                    else
-                    {
-                        // The loser is the unselected toggle.
-                        loser = userData.toString();
-                    }
-                }
+                userTestResults.registerTestResult(
+                    (int) option1.getProperties().get("itemID"),
+                    (int) option2.getProperties().get("itemID"), -1);
             }
-
-            if (tie)
+            else if (option2.isSelected())
             {
-                // It doesn't feel right to reach back to the
-                // ToggleButtons to get their text. For now, this will
-                // do.
-                userTestResults.registerTestResult(option1.getText(),
-                                                   option2.getText(), 0);
+                userTestResults.registerTestResult(
+                    (int) option1.getProperties().get("itemID"),
+                    (int) option2.getProperties().get("itemID"), 1);
             }
-            else
+            else if (tie.isSelected())
             {
-                // This properly reflects which item was the winner and
-                // which was the loser, but by this design, the winner
-                // is always the first argument and the loser always the
-                // second. I'd like to be able to pass option1 as the
-                // first argument and option2 as the second, with the
-                // result argument varying based on which won or lost.
-                // For now, this will do.
-                userTestResults.registerTestResult(winner, loser, -1);
+                userTestResults.registerTestResult(
+                    (int) option1.getProperties().get("itemID"),
+                    (int) option2.getProperties().get("itemID"), 0);
             }
 
             // Unselect the previously selected toggle.
@@ -167,9 +141,9 @@ public class UserTestController
             List<Map.Entry<Integer, String>> testItemPair =
                 userTestItems.getTestItemPair();
 
-            // Populate the buttons with the names of the items.
-            option1.setUserData(testItemPair.get(0).getValue());
-            option2.setUserData(testItemPair.get(1).getValue());
+            // Associate the items' IDs with their toggle buttons.
+            option1.getProperties().put("itemID", testItemPair.get(0).getKey());
+            option2.getProperties().put("itemID", testItemPair.get(1).getKey());
 
             // Create the labels for the buttons.
             option1.setText(testItemPair.get(0).getValue());
