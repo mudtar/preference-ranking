@@ -51,9 +51,16 @@ public class UserTest extends Application
      * @throws Exception
      */
     @Override
-    public void start(Stage primaryStage) throws Exception
+    public void start(final Stage primaryStage) throws Exception
     {
-        Parent root = FXMLLoader.load(getClass().getResource("user_test.fxml"));
+        final FXMLLoader loader = new FXMLLoader(
+            getClass().getResource("user_test.fxml"));
+        final Parent root = (Parent) loader.load();
+        final UserTestController controller = loader.getController();
+        // Pass necessary data to the controller including a reference
+        // to the primary stage.
+        controller.initData(primaryStage);
+
         primaryStage.setTitle("Select Your Preference");
         primaryStage.setScene(new Scene(root, 250, 150));
         primaryStage.sizeToScene();

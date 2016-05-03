@@ -4,9 +4,11 @@ import java.util.List;
 import java.sql.SQLException;
 import java.util.Map;
 import javafx.fxml.FXML;
+import javafx.scene.Parent;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.stage.Stage;
 
 /**
  * The main controller for the User Taking Test package.
@@ -18,6 +20,11 @@ public class UserTestController
 {
     private UserTestItemManager userTestItems;
     private UserTestResultManager userTestResults;
+
+    /**
+     * The primary JavaFX stage.
+     */
+    private Stage primaryStage;
 
     /**
      * The ToggleGroup that contains all of the user's options when
@@ -67,6 +74,11 @@ public class UserTestController
     public void initialize()
     {
         updateOptionButtons();
+    }
+
+    public void initData(final Stage primaryStage)
+    {
+        this.primaryStage = primaryStage;
     }
 
     /**
@@ -119,6 +131,8 @@ public class UserTestController
                 // to replace the test screen.
                 System.out.println("You're Finished!");
                 userTestResults.storeResults();
+
+                primaryStage.close();
             }
         }
     }
