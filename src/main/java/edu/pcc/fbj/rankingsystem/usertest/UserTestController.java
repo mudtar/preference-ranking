@@ -118,6 +118,7 @@ public class UserTestController
                 // where the "You're Finished!" screen should be called
                 // to replace the test screen.
                 System.out.println("You're Finished!");
+                userTestResults.storeResults();
             }
         }
     }
