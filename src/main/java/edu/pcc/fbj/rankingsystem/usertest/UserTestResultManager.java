@@ -99,4 +99,14 @@ class UserTestResultManager
                 break;
         }
     }
+
+    /**
+     * Store to the database the results that have been collected. This
+     * usually takes place once the user has responded to all test
+     * options.
+     */
+    void storeResults()
+    {
+        System.out.println(results);
+    }
 }
