@@ -24,11 +24,12 @@
       toggleGroup="$options"
     />
     <ToggleButton
+      fx:id="tie"
       text="I Can't Decide"
       toggleGroup="$options"
     />
     <Button
-      fx:id="submitButton"
+      fx:id="submit"
       text="Submit"
       onAction="#handleSubmit"
     />
