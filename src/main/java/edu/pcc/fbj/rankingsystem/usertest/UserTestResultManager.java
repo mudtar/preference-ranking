@@ -16,7 +16,7 @@ import java.util.UUID;
  * @author  Ian Burton
  * @version 2016.04.29.1
  */
-public class UserTestResultManager
+class UserTestResultManager
 {
     /**
      * The connection to the database used throughout the application.
@@ -46,7 +46,7 @@ public class UserTestResultManager
      * @throws SQLException if a database access error occurs or the url
      *                      is null
      */
-    public UserTestResultManager() throws SQLException
+    UserTestResultManager() throws SQLException
     {
         connection = RSystemConnection.getConnection();
         generateUniqueTestId();
@@ -76,7 +76,7 @@ public class UserTestResultManager
      *                   between the options.
      *                 1 represents that option1 lost and option2 won.
      */
-    public void registerTestResult(int option1, int option2, int result)
+    void registerTestResult(int option1, int option2, int result)
     {
         List<Integer> comparedItems = Arrays.asList(option1, option2);
 

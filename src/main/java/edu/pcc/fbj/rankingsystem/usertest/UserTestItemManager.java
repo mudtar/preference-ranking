@@ -13,7 +13,7 @@ import java.util.*;
  * @author  Ian Burton
  * @version 2016.04.29.1
  */
-public class UserTestItemManager
+class UserTestItemManager
 {
     /**
      * The connection to the database used throughout the application.
@@ -52,7 +52,7 @@ public class UserTestItemManager
      * @throws SQLException if a database access error occurs or the url
      *                      is null
      */
-    public UserTestItemManager() throws SQLException
+    UserTestItemManager() throws SQLException
     {
         connection = RSystemConnection.getConnection();
         System.out.println(getTestItems());
@@ -93,7 +93,7 @@ public class UserTestItemManager
      * @throws IndexOutOfBoundsException if there are no more test item
      *                                   pairs to return
      */
-    public List<Map.Entry<Integer, String>> getTestItemPair()
+    List<Map.Entry<Integer, String>> getTestItemPair()
         throws IndexOutOfBoundsException
     {
         if (testItemPairs == null)

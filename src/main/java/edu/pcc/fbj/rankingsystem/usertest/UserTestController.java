@@ -129,7 +129,7 @@ public class UserTestController
      * @throws IndexOutOfBoundsException if there are no more test item
      *                                   pairs to handle
      */
-    public void updateOptionButtons() throws IndexOutOfBoundsException
+    void updateOptionButtons() throws IndexOutOfBoundsException
     {
         // This method should throw an exception if testItemPair is
         // null, signifying that there are no more pairs to test. The
