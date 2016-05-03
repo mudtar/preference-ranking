@@ -28,7 +28,8 @@ import edu.pcc.fbj.rankingsystem.resultreporting.dao.*;
  * 1. Refactor code;
  * 2. Use a separate thread to process database transaction.
  */
-public class ReportDB implements ReportDAO{
+public class ReportDB implements ReportDAO
+{
 
     private static final String GET_USER_EMAIL_LIST_SQL
                                      = "SELECT FBJ_USER.Email FROM FBJ_USER " +
@@ -62,7 +63,8 @@ public class ReportDB implements ReportDAO{
     private String message;
     private Connection connection;
 
-    public ReportDB() {
+    public ReportDB()
+    {
 
         message = DATABASE_MESSAGE_INIT;
         System.out.println("Create ReportDB.");
@@ -72,13 +74,16 @@ public class ReportDB implements ReportDAO{
      * eslablish database connection
      */
     @Override
-    public Connection DBConnection() {
+    public Connection DBConnection()
+    {
         setMessage(DATABASE_CONNECTION_CONNECTING);
-        try {
+        try
+        {
             connection = RSystemConnection.getConnection();
             setMessage(DATABASE_CONNECTION_SUCCESS);
         }
-        catch(SQLException se) {
+        catch(SQLException se)
+        {
             setMessage(DATABASE_CONNECTION_FAILED);
             return null;
         }
@@ -91,13 +96,15 @@ public class ReportDB implements ReportDAO{
      * @param   email String
      * @return List<ReportTestResult>
      */
-     public List<ReportTestResult> getUserTestResult(String email) {
+     public List<ReportTestResult> getUserTestResult(String email)
+     {
         List<ReportTestResult> results = new ArrayList<>();
 
          setMessage(DATABASE_DATA_READING);
         try (
                 PreparedStatement stmt = connection.prepareStatement(GET_USER_TEST_RESULT_SQL)
-        ) {
+        )
+        {
             stmt.setString(1, email);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
@@ -111,7 +118,8 @@ public class ReportDB implements ReportDAO{
             stmt.close();
             return results;
         }
-        catch (SQLException se) {
+        catch (SQLException se)
+        {
             return null;
         }
     }
@@ -121,21 +129,25 @@ public class ReportDB implements ReportDAO{
      * @return Vector<String>
      */
     @Override
-    public Vector<String> getUserEmailList() {
+    public Vector<String> getUserEmailList()
+    {
         userEmailList = new Vector<>();
         setMessage(DATABASE_DATA_READING);
         try (
                 PreparedStatement stmt = connection.prepareStatement(GET_USER_EMAIL_LIST_SQL);
                 ResultSet rs = stmt.executeQuery()
-        ) {
-            while (rs.next()) {
+        )
+        {
+            while (rs.next())
+            {
                 userEmailList.add(rs.getString("Email"));
             }
             stmt.close();
             setMessage(DATABASE_DATA_COMPLETE);
             return userEmailList;
         }
-        catch (SQLException se) {
+        catch (SQLException se)
+        {
             return null;
         }
     }
@@ -145,16 +157,21 @@ public class ReportDB implements ReportDAO{
      * @return HashMap <String, Object[][]>
      */
     @Override
-    public HashMap<String, Object[][]> getHashTable() {
+    public HashMap<String, Object[][]> getHashTable()
+    {
         HashMap<String, Object[][]> usersToResults = new HashMap<>();
         List<ReportTestResult> userTestResults;
-        if(userEmailList != null) {
-            for (String email : userEmailList) {
+        if(userEmailList != null)
+        {
+            for (String email : userEmailList)
+            {
                 System.out.println(email);
                 userTestResults = getUserTestResult(email);
-                if(userTestResults != null) {
+                if(userTestResults != null)
+                {
                     Object[][] userResults = new Object[userTestResults.size()][ReportTestResult.COLUMN_NUMBER];
-                    for (int i = 0; i < userTestResults.size(); i++) {
+                    for (int i = 0; i < userTestResults.size(); i++)
+                    {
                         userResults[i][0] = userTestResults.get(i).getItem1Name();
                         userResults[i][1] = userTestResults.get(i).getWins();
                         userResults[i][2] = userTestResults.get(i).getLosses();

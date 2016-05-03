@@ -1,7 +1,8 @@
 package edu.pcc.fbj.rankingsystem.usercreation;
 
 /**
- * Created by BeeYean on 5/2/2016.
+ * @author BeeYean Tan
+ * @version 2016-05-02
  */
 public class StaticUserCredential {
     private static String email = null;

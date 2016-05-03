@@ -18,7 +18,8 @@ public class ReportMsgProcess implements Runnable
      * @param dao ReportDAO
      * @param reportPane ReportPanel
      */
-    public ReportMsgProcess(ReportDAO dao, ReportPanel reportPane){
+    public ReportMsgProcess(ReportDAO dao, ReportPanel reportPane)
+    {
         this.dao = dao;
         this.reportPane = reportPane;
     }
@@ -29,7 +30,8 @@ public class ReportMsgProcess implements Runnable
     public void run()
     {
         System.out.println("Start a message processing thread");
-        while(!dao.getStatus()){
+        while(!dao.getStatus())
+        {
             reportPane.setLabelText(dao.getMessage());
         }
         reportPane.setLabelText(dao.getMessage());

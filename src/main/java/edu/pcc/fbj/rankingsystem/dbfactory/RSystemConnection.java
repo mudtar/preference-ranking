@@ -12,7 +12,8 @@ import java.sql.SQLException;
  * @author  Ian Burton
  * @version 2016.04.29
  */
-public class RSystemConnection {
+public class RSystemConnection
+{
     /**
      * the URL for the application's database
      */

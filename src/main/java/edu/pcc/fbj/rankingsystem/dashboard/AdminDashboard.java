@@ -27,7 +27,8 @@ public class AdminDashboard extends JPanel implements ActionListener
     private static final String SETUP = "setup";
     private static final String LOGOUT = "logout";
 
-    public AdminDashboard(){
+    public AdminDashboard()
+    {
         setOpaque(true);
         setLayout(new GridBagLayout());
 

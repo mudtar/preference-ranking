@@ -17,7 +17,8 @@ public class ReportDBProcess implements Runnable
      * @param dao ReportDAO
      * @param reportPane ReportPanel
      */
-    public ReportDBProcess(ReportDAO dao, ReportPanel reportPane){
+    public ReportDBProcess(ReportDAO dao, ReportPanel reportPane)
+    {
         this.dao = dao;
         this.reportPane = reportPane;
     }
@@ -25,7 +26,8 @@ public class ReportDBProcess implements Runnable
     /**
      * Start DB Processing thread
      */
-    public void run() {
+    public void run()
+    {
         System.out.println("Start a DB processing thread");
         if(dao.DBConnection() != null)
         {
