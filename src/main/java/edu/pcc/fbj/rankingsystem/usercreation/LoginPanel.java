@@ -24,8 +24,10 @@ import javax.swing.*;
 public class LoginPanel
         extends JPanel
 {
+
     private JTextField userEmailTextField;
-    private JTextField passwordTextField;
+    private JPasswordField passwordTextField;
+    //private JTextField passwordTextField;
     private JLabel userEmailnameLabel;
     private JLabel passwordLabel;
 
@@ -41,6 +43,19 @@ public class LoginPanel
     {
         setupPanel();
         setupLayout();
+        if (StaticUserCredential.getStaticEmail() != null)
+        {
+           //populate email field from registration
+            setUserEmailTextField(StaticUserCredential.getStaticEmail());
+            StaticUserCredential.setStaticEmail(null);
+
+        }
+        if (StaticUserCredential.getStaticPassword() != null)
+        {
+            //populate password field from registration
+            setPasswordTextField(StaticUserCredential.getStaticPassword());
+            StaticUserCredential.setStaticPassword(null);
+        }
     }
 
     public void setupLayout() {}
@@ -93,7 +108,7 @@ public class LoginPanel
         gbc_passwordLabel.gridy = 1;
         add(this.passwordLabel, gbc_passwordLabel);
 
-        this.passwordTextField = new JTextField("");
+        this.passwordTextField = new JPasswordField("");
         GridBagConstraints gbc_passwordTextField = new GridBagConstraints();
         gbc_passwordTextField.anchor = 15;
         gbc_passwordTextField.fill = 2;

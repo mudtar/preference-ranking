@@ -49,7 +49,20 @@ public enum RankingSystemController
         LoginController controller = new LoginController(this, model, view);
         view.registerController(controller);
     }
+/*
+    public void launchLogin1(String email, String password)
+    {
+        LoginModel model = new LoginModel();
+        model.setUser(this.user);
+        System.out.println("RankingSystemController::launchLogin()");
 
+        LoginView view = new LoginFrame();
+        LoginController controller = new LoginController(this, model, view);
+        view.registerController(controller);
+        loginFrame.setEmailField(email);
+        loginFrame.setPasswordField(password);
+    }
+*/
     /**
      * Launch the Admin Setup Page
      */

@@ -20,6 +20,8 @@ public class RegistrationFrame
     private RegistrationPanel registrationPanel;
     private RegistrationController controller;
     private LoginModel model;
+    private LoginController loginController;
+
     String EMAIL_REGEX = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)" +
            "+[a-zA-Z]{2,6}$";
 
@@ -116,11 +118,14 @@ public class RegistrationFrame
                 // RegistrationFrame.this.controller.saveUserAccess(userID);
                 RegistrationFrame.this.controller.hideRegistration();
                 //RegistrationFrame.this.newUserWelcomeMessage(RegistrationFrame.this.registrationPanel);
-                //String email = RegistrationFrame.this.registrationPanel.getUsername().trim();
-                //String password = RegistrationFrame.this.registrationPanel.getPassword().trim();
-                //model.setUserEmail(email);
-                //model.setUserPassword(password);
+                String email = RegistrationFrame.this.registrationPanel.getEmail().trim();
+                String password = RegistrationFrame.this.registrationPanel.getPassword().trim();
+                StaticUserCredential.setStaticEmail(email);
+                StaticUserCredential.setStaticPassword(password);
+                //RankingSystemController controller1 = RankingSystemController.INSTANCE;
                 RegistrationFrame.this.controller.launchLogin();
+                //RegistrationFrame.this.controller.controller.launchLogin1(email, password);
+
               }
             }
         });

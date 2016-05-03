@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class RegistrationController
 {
-    private RankingSystemController controller;
+    public RankingSystemController controller;
     private RegistrationModel model;
     private RegistrationView view;
     private UserCreationDB sqlUser;
