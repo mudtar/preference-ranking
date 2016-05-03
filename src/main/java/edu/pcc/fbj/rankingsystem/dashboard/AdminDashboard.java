@@ -24,7 +24,7 @@ public class AdminDashboard extends JPanel implements ActionListener {
 
     private static final String REPORT = "report";
     private static final String SETUP = "setup";
-    private static final String LOGIN = "login";
+    private static final String LOGOUT = "logout";
 
     public AdminDashboard(){
         setOpaque(true);
@@ -32,21 +32,21 @@ public class AdminDashboard extends JPanel implements ActionListener {
 
         //report
         JButton reportBtn = new JButton("Open Report List");
-        reportBtn.setActionCommand("report");
+        reportBtn.setActionCommand(REPORT);
         reportBtn.addActionListener(this);
         add(reportBtn);
 
         //setup
         JButton setupBtn = new JButton("Setup Test Items");
-        setupBtn.setActionCommand("setup");
+        setupBtn.setActionCommand(SETUP);
         setupBtn.addActionListener(this);
         add(setupBtn);
 
-        //login
-        JButton loginBtn = new JButton("Back to Login");
-        loginBtn.setActionCommand("login");
-        loginBtn.addActionListener(this);
-        add(loginBtn);
+        //logout
+        JButton logoutBtn = new JButton("Logout");
+        logoutBtn.setActionCommand(LOGOUT);
+        logoutBtn.addActionListener(this);
+        add(logoutBtn);
 
     }
 
@@ -77,7 +77,7 @@ public class AdminDashboard extends JPanel implements ActionListener {
             }
 
         }
-        else if(e.getActionCommand().equals(LOGIN))
+        else if(e.getActionCommand().equals(LOGOUT))
         {
             //launch login
             System.out.println("TODO: launch login, and close AdminDashboard - line 82 AdminDashboard");
@@ -85,6 +85,7 @@ public class AdminDashboard extends JPanel implements ActionListener {
             controller.launchLogin();
             frame.dispose();
             return;
+            //System.exit(0);
         }
 
         frame.setLocationByPlatform(true);

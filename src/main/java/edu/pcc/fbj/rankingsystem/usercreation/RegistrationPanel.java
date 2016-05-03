@@ -28,8 +28,8 @@ public class RegistrationPanel
 
     private JLabel reenterPasswordLabel;
     private JButton cancelButton;
-    private JTextField passwordTextField;
-    private JTextField reenterPasswordTextField;
+    private JPasswordField passwordTextField;
+    private JPasswordField reenterPasswordTextField;
 
     public RegistrationPanel()
     {
@@ -105,7 +105,7 @@ public class RegistrationPanel
         gbc_submitButton.gridy = 5;
 
         add(this.eMailTextField, gbc_eMailTextField);
-        this.passwordTextField = new JTextField();
+        this.passwordTextField = new JPasswordField();
         GridBagConstraints gbc_passwordTextField = new GridBagConstraints();
         gbc_passwordTextField.gridwidth = 2;
         gbc_passwordTextField.insets = new Insets(0, 0, 5, 5);
@@ -115,7 +115,7 @@ public class RegistrationPanel
         add(this.passwordTextField, gbc_passwordTextField);
         this.passwordTextField.setColumns(10);
 
-        this.reenterPasswordTextField = new JTextField();
+        this.reenterPasswordTextField = new JPasswordField();
         GridBagConstraints gbc_reenterPasswordTextField = new GridBagConstraints();
         gbc_reenterPasswordTextField.gridwidth = 2;
         gbc_reenterPasswordTextField.insets = new Insets(0, 0, 5, 5);

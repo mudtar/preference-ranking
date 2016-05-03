@@ -134,7 +134,6 @@ public class LoginFrame
                              + "\r\n You must must complete the test.",
                             "Ranking System - Welcome Message", 1);
                     this.controller.launchUserTestFrame();
-
                 }
              }
              else if (this.loginPanel.getUserEmailTextField().trim().equalsIgnoreCase(""))
@@ -226,5 +225,14 @@ public class LoginFrame
                     + "' is not a registered password.", "Login Failed - Invalid Password", 2);
         }
 
+       // public void setEmailField(String email)
+      //  {
+      //      loginPanel.setUserEmailTextField(email);
+      //  }
+
+     //   public void setPasswordField(String password)
+      //  {
+      //      loginPanel.setPasswordTextField(password);
+      //  }
     }
 
