@@ -27,7 +27,6 @@ public class LoginPanel
 
     private JTextField userEmailTextField;
     private JPasswordField passwordTextField;
-    //private JTextField passwordTextField;
     private JLabel userEmailnameLabel;
     private JLabel passwordLabel;
 

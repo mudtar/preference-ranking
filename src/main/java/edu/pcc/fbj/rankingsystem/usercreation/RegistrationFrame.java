@@ -117,14 +117,12 @@ public class RegistrationFrame
                         this.registrationPanel.getUsername());
                 // RegistrationFrame.this.controller.saveUserAccess(userID);
                 RegistrationFrame.this.controller.hideRegistration();
-                //RegistrationFrame.this.newUserWelcomeMessage(RegistrationFrame.this.registrationPanel);
+
                 String email = RegistrationFrame.this.registrationPanel.getEmail().trim();
                 String password = RegistrationFrame.this.registrationPanel.getPassword().trim();
                 StaticUserCredential.setStaticEmail(email);
                 StaticUserCredential.setStaticPassword(password);
-                //RankingSystemController controller1 = RankingSystemController.INSTANCE;
                 RegistrationFrame.this.controller.launchLogin();
-                //RegistrationFrame.this.controller.controller.launchLogin1(email, password);
 
               }
             }
@@ -135,7 +133,6 @@ public class RegistrationFrame
             {
                 RegistrationFrame.this.controller.hideRegistration();
                 RegistrationFrame.this.updateRegistrationFrameState(true);
-                //RegistrationFrame.this.cancelRegistrationMessage(RegistrationFrame.this.registrationPanel);
                 RegistrationFrame.this.controller.launchLogin();
             }
         });

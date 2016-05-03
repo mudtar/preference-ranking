@@ -24,7 +24,8 @@ import java.util.Vector;
  * 1. Display message on the panel when exception happens;
  */
 
-public class ReportPanel extends JPanel implements ActionListener{
+public class ReportPanel extends JPanel implements ActionListener
+{
 
     private JTable table;
     private JComboBox userList;
@@ -72,14 +73,18 @@ public class ReportPanel extends JPanel implements ActionListener{
         c.gridy = 0;
         add(label, c);
 
-        if(listItem != null) {
+        if(listItem != null)
+        {
             userList = new JComboBox(listItem);
-        } else {
+        }
+        else
+        {
             userList = new JComboBox();
         }
 
         userList.setPreferredSize(new Dimension(500, 25));
-        if(listItem != null) {
+        if(listItem != null)
+        {
             userList.setSelectedIndex(0);
         }
         userList.addActionListener(this);
@@ -92,12 +97,16 @@ public class ReportPanel extends JPanel implements ActionListener{
         c.gridy = 1;
         add(userList, c);
 
-        if(listToTableData != null) {
+        if(listToTableData != null)
+        {
             table = new JTable(new DefaultTableModel(listToTableData.get(listItem.get(0)), columnNames));
-        }else {
+        }
+        else
+        {
             table = new JTable();
             DefaultTableModel model = (DefaultTableModel) table.getModel();
-            for(String name : columnNames) {
+            for(String name : columnNames)
+            {
                 model.addColumn(name);
             }
         }
@@ -106,7 +115,8 @@ public class ReportPanel extends JPanel implements ActionListener{
         ((DefaultTableCellRenderer)table.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment( SwingConstants.CENTER );
-        for(int i = 1;i < table.getModel().getColumnCount(); i++){
+        for(int i = 1;i < table.getModel().getColumnCount(); i++)
+        {
             table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
 
@@ -132,11 +142,14 @@ public class ReportPanel extends JPanel implements ActionListener{
      */
     public ReportPanel(Vector<String> userEmailList, HashMap<String, Object[][]> userToResults)
     {
-        if(userEmailList != null && userToResults != null) {
+        if(userEmailList != null && userToResults != null)
+        {
             this.listItem = userEmailList;
             this.listToTableData = userToResults;
             initPanel(columnNames);
-        } else {
+        }
+        else
+        {
             initPanel();
         }
     }
@@ -154,7 +167,8 @@ public class ReportPanel extends JPanel implements ActionListener{
         if(listItem == null)
             return;
 
-        for(String item: listItem) {
+        for(String item: listItem)
+        {
             this.userList.addItem(item);
         }
         userList.setSelectedIndex(0);
@@ -190,13 +204,16 @@ public class ReportPanel extends JPanel implements ActionListener{
         Object [][] data = listToTableData.get(userEmail);
         int rowCount = model.getRowCount();
 
-        for(int i = rowCount-1; i>=0; i--){
+        for(int i = rowCount-1; i>=0; i--)
+        {
             model.removeRow(i);
         }
 
         model.setRowCount(data.length);
-        for(int i = 0; i<data.length; i++){
-            for(int j=0; j<data[0].length; j++) {
+        for(int i = 0; i<data.length; i++)
+        {
+            for(int j=0; j<data[0].length; j++)
+            {
                 model.setValueAt(data[i][j], i ,j);
             }
         }
@@ -206,15 +223,18 @@ public class ReportPanel extends JPanel implements ActionListener{
      * Display debug information Used for debugging.
      * @param  table JTable
      */
-    private void printDebugData(JTable table) {
+    private void printDebugData(JTable table)
+    {
         int numRows = table.getRowCount();
         int numCols = table.getColumnCount();
         javax.swing.table.TableModel model = table.getModel();
 
         System.out.println("Value of data: ");
-        for (int i=0; i < numRows; i++) {
+        for (int i=0; i < numRows; i++)
+        {
             System.out.print("    row " + i + ":");
-            for (int j=0; j < numCols; j++) {
+            for (int j=0; j < numCols; j++)
+            {
                 System.out.print("  " + model.getValueAt(i, j));
             }
             System.out.println();

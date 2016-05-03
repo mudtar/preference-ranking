@@ -126,13 +126,12 @@ public class LoginFrame
                 if (this.controller.checkUserAccessRoleForAdmin())
                 {
                     this.controller.launchAdminTestSetup();
-                    //this.loginModel.setUserPassword();
                 }
                 if (this.controller.checkUserAccessRoleForUser())
                 {
-                    JOptionPane.showMessageDialog(null, " Welcome to User Test Page."
-                             + "\r\n You must must complete the test.",
-                            "Ranking System - Welcome Message", 1);
+                    //JOptionPane.showMessageDialog(null, " Welcome to User Test Page."
+                    //        + "\r\n You must must complete the test.",
+                    //       "Ranking System - Welcome Message", 1);
                     this.controller.launchUserTestFrame();
                 }
              }
@@ -224,15 +223,5 @@ public class LoginFrame
             JOptionPane.showMessageDialog(null, "'" + this.loginPanel.getPasswordTextField().trim()
                     + "' is not a registered password.", "Login Failed - Invalid Password", 2);
         }
-
-       // public void setEmailField(String email)
-      //  {
-      //      loginPanel.setUserEmailTextField(email);
-      //  }
-
-     //   public void setPasswordField(String password)
-      //  {
-      //      loginPanel.setPasswordTextField(password);
-      //  }
     }
 

@@ -21,14 +21,16 @@ import java.util.concurrent.Executors;
  * 2. Use a separate thread to process database transaction.
  *
  */
-public class ReportTable {
+public class ReportTable
+{
 
     private ReportPanel reportPane;
 
     /**
      * Constructor - construct GUI and retrieve report data
      */
-    public ReportTable(){
+    public ReportTable()
+    {
 
         ReportDAO dao = ReportDAOFactory.getReportDAO();
         reportPane = new ReportPanel();

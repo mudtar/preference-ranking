@@ -191,7 +191,8 @@ public class ReportDB implements ReportDAO{
      * Set message
      * @param msg String
      */
-    private void setMessage(String msg) {
+    private void setMessage(String msg)
+    {
         message = msg;
         System.out.println(message);
     }

@@ -54,17 +54,20 @@ public class AdminDashboard extends JPanel implements ActionListener {
      * Action listener userd for respond to event of Report button.
      * @param e  - action event
      */
-    public void actionPerformed(ActionEvent e){
+    public void actionPerformed(ActionEvent e)
+    {
 
         JFrame frame = new JFrame();
         frame.setPreferredSize(new Dimension(480,320));
 
-        if(e.getActionCommand().equals(REPORT)) {
+        if(e.getActionCommand().equals(REPORT))
+        {
             ReportTable report = new ReportTable();
             frame.setContentPane(report.getReportPanel());
             frame.setTitle("Test Report");
 
-        } else if(e.getActionCommand().equals(SETUP)){
+        } else if(e.getActionCommand().equals(SETUP))
+        {
             try
             {
                 AdminSetupController adminSetupController = new AdminSetupController(frame);
@@ -80,19 +83,18 @@ public class AdminDashboard extends JPanel implements ActionListener {
         else if(e.getActionCommand().equals(LOGOUT))
         {
             //launch login
-            System.out.println("TODO: launch login, and close AdminDashboard - line 82 AdminDashboard");
-            RankingSystemController controller = RankingSystemController.INSTANCE;
-            controller.launchLogin();
-            frame.dispose();
-            return;
-            //System.exit(0);
+            //System.out.println("TODO: launch login, and close AdminDashboard - line 82 AdminDashboard");
+            //RankingSystemController controller = RankingSystemController.INSTANCE;
+            //controller.launchLogin();
+            //frame.dispose();
+            //return;
+            System.exit(0);
         }
 
         frame.setLocationByPlatform(true);
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
-
     }
 
     public void showAdminDashboardDisplay()
