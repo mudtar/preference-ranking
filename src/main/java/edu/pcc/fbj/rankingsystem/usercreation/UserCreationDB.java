@@ -20,9 +20,6 @@ public enum UserCreationDB
    INSTANCE;
 
     private Connection connect = null;
-    //private static final String FUELDBYJAVA_URL = "jdbc:jtds:sqlserver://cisdbss.pcc.edu/234a_FueledByJava";
-    //private static final String USERNAME = "234a_FueledByJava";
-    //private static final String PASSWORD = "avaJyBdeleuF_a432#";
     private Role role;
 
     /**
@@ -34,7 +31,6 @@ public enum UserCreationDB
         try
         {
             this.connect = RSystemConnection.getConnection();
-            //this.connect = DriverManager.getConnection(FUELDBYJAVA_URL, USERNAME, PASSWORD);
         }
         catch (Exception e)
         {

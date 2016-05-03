@@ -116,7 +116,7 @@ public class LoginFrame
             System.out.println("Starting LoginFrame:: loginAttempt1()function!");
             if ((this.controller.loginAttempt1(this.loginPanel.getUserEmailTextField().trim(),
                                               (this.loginPanel.getPasswordTextField().trim())))
-                    && (this.loginPanel.getUserEmailTextField().trim().matches(EMAIL_REGEX))//))
+                    && (this.loginPanel.getUserEmailTextField().trim().matches(EMAIL_REGEX))
                   &&(this.loginPanel.getPasswordTextField().trim().matches(PASSWORD_REGEX)))
 
             {
@@ -129,9 +129,6 @@ public class LoginFrame
                 }
                 if (this.controller.checkUserAccessRoleForUser())
                 {
-                    //JOptionPane.showMessageDialog(null, " Welcome to User Test Page."
-                    //        + "\r\n You must must complete the test.",
-                    //       "Ranking System - Welcome Message", 1);
                     this.controller.launchUserTestFrame();
                 }
              }
