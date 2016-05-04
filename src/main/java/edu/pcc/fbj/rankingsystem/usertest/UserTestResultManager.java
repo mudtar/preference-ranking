@@ -29,6 +29,11 @@ class UserTestResultManager
     private String uniqueTestId;
 
     /**
+     * The email address of the currently logged in user.
+     */
+    private String userEmail;
+
+    /**
      * The data structure used to store the test results until they are
      * committed to the database.
      * A list of map entries where each map entry is made up of:
@@ -43,6 +48,8 @@ class UserTestResultManager
     /**
      * Default constructor.
      *
+     * @param  userEmail    the email address of the currently logged in
+     *                      user
      * @throws SQLException if a database access error occurs or the url
      *                      is null
      */
@@ -50,6 +57,11 @@ class UserTestResultManager
     {
         connection = RSystemConnection.getConnection();
         generateUniqueTestId();
+    }
+
+    void setUserEmail(String userEmail)
+    {
+        this.userEmail = userEmail;
     }
 
     /**

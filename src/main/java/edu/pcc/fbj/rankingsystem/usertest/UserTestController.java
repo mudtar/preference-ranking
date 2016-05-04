@@ -76,9 +76,14 @@ public class UserTestController
         updateOptionButtons();
     }
 
-    public void initData(final Stage primaryStage)
+    public void setStage(final Stage primaryStage)
     {
         this.primaryStage = primaryStage;
+    }
+
+    public void setUserEmail(String userEmail)
+    {
+        userTestResults.setUserEmail(userEmail);
     }
 
     /**

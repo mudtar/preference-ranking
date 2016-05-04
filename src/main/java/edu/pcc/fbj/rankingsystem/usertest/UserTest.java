@@ -44,6 +44,11 @@ import javafx.stage.Stage;
 public class UserTest extends Application
 {
     /**
+     * The email address of the currently logged in user.
+     */
+    private static String userEmail;
+
+    /**
      * The JavaFX entry point.
      *
      * @param  primaryStage The stage created by JavaFX for use with
@@ -59,7 +64,8 @@ public class UserTest extends Application
         final UserTestController controller = loader.getController();
         // Pass necessary data to the controller including a reference
         // to the primary stage.
-        controller.initData(primaryStage);
+        controller.setStage(primaryStage);
+        controller.setUserEmail(userEmail);
 
         primaryStage.setTitle("Select Your Preference");
         primaryStage.setScene(new Scene(root, 250, 150));
@@ -89,6 +95,7 @@ public class UserTest extends Application
      */
     public static void beginUserTest(User user)
     {
+        userEmail = user.getUserEmail();
         launch();
     }
 }
