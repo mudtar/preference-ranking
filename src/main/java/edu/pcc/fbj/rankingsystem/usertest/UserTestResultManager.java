@@ -25,11 +25,6 @@ class UserTestResultManager
     private Connection connection = null;
 
     /**
-     * Uniquely identifies this group of test results.
-     */
-    private int uniqueTestID;
-
-    /**
      * The email address of the currently logged in user.
      */
     private String userEmail;
@@ -55,37 +50,11 @@ class UserTestResultManager
     UserTestResultManager() throws SQLException
     {
         connection = RSystemConnection.getConnection();
-        generateUniqueTestID();
     }
 
     void setUserEmail(String userEmail)
     {
         this.userEmail = userEmail;
-    }
-
-    /**
-     * Generate a new uniqueTestID.
-     *
-     * @throws SQLException if a database access error occurs or the url
-     *                      is null
-     */
-    private void generateUniqueTestID() throws SQLException
-    {
-        Statement stmt = connection.createStatement();
-        ResultSet rs = stmt.executeQuery(
-            "SELECT TOP 1 PK_TestID " +
-            "FROM FBJ_TEST " +
-            "ORDER BY PK_TestID DESC " +
-            ";");
-
-        // Get the first and only result. This is the most recently used
-        // TestID.
-        rs.next();
-        int mostRecentTestID = rs.getInt("PK_TestID");
-
-        // The test ID to use is the next largest integer.
-        uniqueTestID = ++mostRecentTestID;
-        System.out.println("uniqueTestID: " + uniqueTestID);
     }
 
     /**
