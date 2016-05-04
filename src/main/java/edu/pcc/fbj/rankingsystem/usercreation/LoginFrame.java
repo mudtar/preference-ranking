@@ -178,7 +178,7 @@ public class LoginFrame
         public void invalidEmailFormatMessage()
         {
                JOptionPane.showMessageDialog(null, "'" + this.loginPanel.getUserEmailTextField().trim()
-                    + "' is not a valid email format (must be in the format i.e user@domain.com.",
+                    + "' is not a valid email format (must be in the format i.e user@domain.com.)",
                     "Login Failed - Invalid Email Format", 2);
         }
 
@@ -209,9 +209,8 @@ public class LoginFrame
         public void invalidPasswordFormatMessage()
         {
             JOptionPane.showMessageDialog(null, "'" + this.loginPanel.getPasswordTextField().trim()
-                            + "' is either not a valid password format or registered password " +
-                    "(must be at least one digit, one uppercase, " +
-                    "one lowercase, 6 characters long with one special character.)", "Login Failed " +
+                            + "' is either not a valid password format or registered password. " +
+                    "Please reenter the password. ", "Login Failed " +
                     "- Invalid password Format", 2);
         }
 
