@@ -18,8 +18,8 @@ import javafx.stage.Stage;
  */
 public class UserTestController
 {
-    private UserTestItemManager userTestItems;
-    private UserTestResultManager userTestResults;
+    private Items userTestItems;
+    private Preferences userTestResults;
 
     /**
      * The primary JavaFX stage.
@@ -63,8 +63,8 @@ public class UserTestController
      */
     public UserTestController() throws SQLException
     {
-        userTestItems = new UserTestItemManager();
-        userTestResults = new UserTestResultManager();
+        userTestItems = new Items();
+        userTestResults = new Preferences();
     }
 
     /**

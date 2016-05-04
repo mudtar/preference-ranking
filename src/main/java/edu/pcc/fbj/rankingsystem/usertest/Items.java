@@ -13,7 +13,7 @@ import java.util.*;
  * @author  Ian Burton
  * @version 2016.04.29.1
  */
-class UserTestItemManager
+class Items
 {
     /**
      * The connection to the database used throughout the application.
@@ -52,7 +52,7 @@ class UserTestItemManager
      * @throws SQLException if a database access error occurs or the url
      *                      is null
      */
-    UserTestItemManager() throws SQLException
+    Items() throws SQLException
     {
         connection = RSystemConnection.getConnection();
         System.out.println(getTestItems());

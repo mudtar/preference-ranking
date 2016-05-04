@@ -17,7 +17,7 @@ import java.util.Map;
  * @author  Ian Burton
  * @version 2016.04.29.1
  */
-class UserTestResultManager
+class Preferences
 {
     /**
      * The connection to the database used throughout the application.
@@ -47,7 +47,7 @@ class UserTestResultManager
      * @throws SQLException if a database access error occurs or the url
      *                      is null
      */
-    UserTestResultManager() throws SQLException
+    Preferences() throws SQLException
     {
         connection = RSystemConnection.getConnection();
     }
