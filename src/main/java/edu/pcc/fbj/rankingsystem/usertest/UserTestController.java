@@ -91,7 +91,7 @@ public class UserTestController
      * has been selected, register the test result with the
      * ResultManager.
      */
-    public void handleSubmit()
+    public void handleSubmit() throws SQLException
     {
         Toggle selectedToggle = options.getSelectedToggle();
 

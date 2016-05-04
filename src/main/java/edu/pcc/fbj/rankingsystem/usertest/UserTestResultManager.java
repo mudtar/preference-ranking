@@ -2,13 +2,14 @@ package edu.pcc.fbj.rankingsystem.usertest;
 
 import edu.pcc.fbj.rankingsystem.dbfactory.RSystemConnection;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 /**
  * A model class to handle user test results.
@@ -26,7 +27,7 @@ class UserTestResultManager
     /**
      * Uniquely identifies this group of test results.
      */
-    private String uniqueTestId;
+    private int uniqueTestID;
 
     /**
      * The email address of the currently logged in user.
@@ -48,15 +49,13 @@ class UserTestResultManager
     /**
      * Default constructor.
      *
-     * @param  userEmail    the email address of the currently logged in
-     *                      user
      * @throws SQLException if a database access error occurs or the url
      *                      is null
      */
     UserTestResultManager() throws SQLException
     {
         connection = RSystemConnection.getConnection();
-        generateUniqueTestId();
+        generateUniqueTestID();
     }
 
     void setUserEmail(String userEmail)
@@ -65,14 +64,28 @@ class UserTestResultManager
     }
 
     /**
-     * Generate a new uniqueTestId. In a future implementation, make
-     * sure the uniqueTestId doesn't collide in the database with one
-     * that has already been used.
+     * Generate a new uniqueTestID.
+     *
+     * @throws SQLException if a database access error occurs or the url
+     *                      is null
      */
-    private void generateUniqueTestId()
+    private void generateUniqueTestID() throws SQLException
     {
-        uniqueTestId = UUID.randomUUID().toString();
-        System.out.println("uniqueTestId: " + uniqueTestId);
+        Statement stmt = connection.createStatement();
+        ResultSet rs = stmt.executeQuery(
+            "SELECT TOP 1 PK_TestID " +
+            "FROM FBJ_TEST " +
+            "ORDER BY PK_TestID DESC " +
+            ";");
+
+        // Get the first and only result. This is the most recently used
+        // TestID.
+        rs.next();
+        int mostRecentTestID = rs.getInt("PK_TestID");
+
+        // The test ID to use is the next largest integer.
+        uniqueTestID = ++mostRecentTestID;
+        System.out.println("uniqueTestID: " + uniqueTestID);
     }
 
     /**
@@ -117,8 +130,49 @@ class UserTestResultManager
      * usually takes place once the user has responded to all test
      * options.
      */
-    void storeResults()
+    void storeResults() throws SQLException
     {
         System.out.println(results);
+
+        Statement stmt;
+
+        // Get the UserID for this user.
+        stmt = connection.createStatement();
+        ResultSet rs = stmt.executeQuery(
+            "SELECT PK_UserID " +
+            "FROM FBJ_USER " +
+            "WHERE Email = '" + userEmail + "'" +
+            ";");
+        // There should only be one result
+        rs.next();
+        int userID = rs.getInt("PK_UserID");
+
+        // Create a FBJ_TEST for this user and get back the TestID.
+        stmt = connection.createStatement();
+        stmt.executeUpdate(
+            "INSERT INTO FBJ_TEST (FK_UserID)" +
+            "VALUES (" + userID + ")" +
+            ";",
+            Statement.RETURN_GENERATED_KEYS);
+        ResultSet generatedKeys = stmt.getGeneratedKeys();
+        // There should only be one result
+        generatedKeys.next();
+        int testID = generatedKeys.getInt(1);
+
+        // Iterate through the results and add them to the database.
+        for (Map.Entry<List<Integer>, Integer> result : results)
+        {
+            int option1 = result.getKey().get(0);
+            int option2 = result.getKey().get(1);
+            int outcome = result.getValue();
+
+            stmt = connection.createStatement();
+            stmt.executeUpdate(
+                "INSERT INTO FBJ_RESULT " +
+                "    (FK_TestID, FK_Item1ID, FK_Item2ID, Value) " +
+                "VALUES (" + testID + ", " + option1 + ", " + option2 + ", " +
+                             outcome + ")" +
+                ";");
+        }
     }
 }
