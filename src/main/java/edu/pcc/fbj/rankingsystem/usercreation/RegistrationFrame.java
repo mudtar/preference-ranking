@@ -123,7 +123,6 @@ public class RegistrationFrame
                 StaticUserCredential.setStaticEmail(email);
                 StaticUserCredential.setStaticPassword(password);
                 RegistrationFrame.this.controller.launchLogin();
-
               }
             }
         });
@@ -155,7 +154,6 @@ public class RegistrationFrame
     {
         JOptionPane.showMessageDialog(null, "User Registration has been cancelled. " +
                 "Returning to the login screen.", "New User Registration Cancelled", -1);
-
     }
 
     private void emailAlreadyTakenUsernameMessage(RegistrationPanel registrationPanel)
@@ -166,7 +164,6 @@ public class RegistrationFrame
                 + "' Is Already Taken", 2);
         JTextField temp =  RegistrationFrame.this.registrationPanel.getEmailControl();
         temp.requestFocus();
-
     }
 
     private void validUsernameMessage(RegistrationPanel registrationPanel)
@@ -193,7 +190,7 @@ public class RegistrationFrame
     private void invalidEmailFormatMessage(RegistrationPanel registrationPanel)
     {
         JOptionPane.showMessageDialog(null, "The Email format is invalid, " +
-                "it should looks like - i.e yyyy@yahoo.com.", "Invalid Email", 2);
+                "it should looks something like i.e yyyy@yahoo.com.", "Invalid Email", 2);
         JTextField temp =  RegistrationFrame.this.registrationPanel.getEmailControl();
         temp.requestFocus();
         this.registrationPanel.setEmailTextField("");
@@ -201,8 +198,10 @@ public class RegistrationFrame
 
     private void invalidPasswordFormatMessage(RegistrationPanel registrationPanel)
     {
-        JOptionPane.showMessageDialog(null, "The Password format is invalid, " +
-                "it should looks like - i.e: Cis234a$.", "Invalid Password", 2);
+        JOptionPane.showMessageDialog(null, "The Password format must be at least one uppercase, " +
+                "at least one lowercase, at least one digit, at least " +
+                "6 character with one special character and no whitespace" +
+                " - i.e: Cis234a$.", "Invalid Password", 2);
         JTextField temp =  RegistrationFrame.this.registrationPanel.getPasswordControl();
         temp.requestFocus();
         this.registrationPanel.setPasswordTextField("");
@@ -214,7 +213,6 @@ public class RegistrationFrame
                 "please fill in the password field.", "Empty Password", 3);
         JTextField temp =  RegistrationFrame.this.registrationPanel.getPasswordControl();
         temp.requestFocus();
-
     }
 
     private void  emptyReenterPasswordMessage(RegistrationPanel registrationPanel)
@@ -223,7 +221,6 @@ public class RegistrationFrame
                 "please fill in the password field.", "Empty Password", 3);
         JTextField temp =  RegistrationFrame.this.registrationPanel.getReenterPasswordControl();
         temp.requestFocus();
-
     }
 
     private void emptyNameMessage(RegistrationPanel registrationPanel)
@@ -232,7 +229,6 @@ public class RegistrationFrame
                 "fill in the name field.", "Empty Name", 1);
         JTextField temp =  RegistrationFrame.this.registrationPanel.getNameControl();
         temp.requestFocus();
-
     }
 
     private void noMatchPasswordField(RegistrationPanel registrationPanel)
