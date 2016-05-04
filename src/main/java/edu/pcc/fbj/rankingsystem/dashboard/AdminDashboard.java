@@ -2,7 +2,6 @@ package edu.pcc.fbj.rankingsystem.dashboard;
 
 import edu.pcc.fbj.rankingsystem.adminsetup.AdminSetupController;
 import edu.pcc.fbj.rankingsystem.resultreporting.ReportTable;
-import edu.pcc.fbj.rankingsystem.usercreation.RankingSystemController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -75,6 +74,14 @@ public class AdminDashboard extends JPanel implements ActionListener
                 AdminSetupController adminSetupController = new AdminSetupController(frame);
                 frame.setContentPane(adminSetupController.getRootPanel());
                 frame.setTitle("Admin Setup");
+                frame.setLocationByPlatform(true);
+                frame.pack();
+                frame.setLocationRelativeTo(null);
+                frame.setVisible(true);
+
+                //set focus after frame is visible
+                adminSetupController.setInitialFocus();
+                return;
             }
             catch (Exception ex)
             {
@@ -85,7 +92,7 @@ public class AdminDashboard extends JPanel implements ActionListener
         else if(e.getActionCommand().equals(LOGOUT))
         {
             //launch login
-            //System.out.println("TODO: launch login, and close AdminDashboard - line 82 AdminDashboard");
+            //System.out.println("launch login, and close AdminDashboard - line 82 AdminDashboard");
             //RankingSystemController controller = RankingSystemController.INSTANCE;
             //controller.launchLogin();
             //frame.dispose();

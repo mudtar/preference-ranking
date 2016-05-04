@@ -1,9 +1,11 @@
 package edu.pcc.fbj.rankingsystem.adminsetup;
 
 import javax.swing.*;
-import java.util.ArrayList;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,16 +13,17 @@ import java.util.List;
  * as well as the handlers for those controls.
  *
  * @author Eric Kristiansen
- * @version 4/30/16
+ * @version 5/3/16
  */
-public class AdminSetupView {
-
+public class AdminSetupView
+{
     private JPanel rootPanel;
     private JList itemList;
     private JTextField itemTextField;
     private JButton finishedButton;
     private JButton removeButton;
     private JButton cancelButton;
+    private JLabel errorLabel;
 
     private DefaultListModel listModel = new DefaultListModel();
 
@@ -55,6 +58,12 @@ public class AdminSetupView {
             }
         });
 
+        itemList.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                checkListSelection();
+            }
+        });
     }
 
     /**
@@ -63,13 +72,54 @@ public class AdminSetupView {
      */
     public void appendTextFieldText()
     {
-        // add items to a default list
-        listModel.addElement(itemTextField.getText());
+        if (validateItemField())
+        {
+            // add items to a default list
+            listModel.addElement(itemTextField.getText());
+            itemTextField.setText("");
 
-        itemTextField.setText("");
+            // set data in itemList
+            itemList.setModel(listModel);
 
-        // set data in itemList
-        itemList.setModel(listModel);
+            checkListLength();
+        }
+
+    }
+
+    /**
+     *
+     * @return true if item length is less than 18
+     * the database field is varchar(20)
+     */
+    public Boolean validateItemField()
+    {
+        if (itemTextField.getText().length() < 18)
+        {
+            resetErrorLabel();
+            return true;
+        }
+        else
+        {
+            itemTextField.requestFocus();
+            errorLabel.setText("Error: Item name too long");
+            return false;
+        }
+    }
+
+    /**
+     * This method checks the list length to enable or disable the finish button
+     * based on the criteria of > 2 items
+     */
+    public void checkListLength()
+    {
+        if(listModel.getSize() > 2)
+        {
+            finishedButton.setEnabled(true);
+        }
+        else
+        {
+            finishedButton.setEnabled(false);
+        }
     }
 
     /**
@@ -99,16 +149,6 @@ public class AdminSetupView {
             listModel.addElement(item.toString());
         }
         itemList.setModel(listModel);
-
-    }
-
-    /**
-     * @return JList returned to the controller for use by the model
-     * to update the dataBase
-     */
-    public JList getItemList()
-    {
-        return itemList;
     }
 
     /**
@@ -122,21 +162,32 @@ public class AdminSetupView {
             listModel.remove(itemList.getSelectedIndex());
             // set data in itemList
             itemList.setModel(listModel);
+            itemList.setSelectedIndex(-1);
+
+            // enable and disable components
+            checkListLength();
+            checkListSelection();
         }
         catch(ArrayIndexOutOfBoundsException ex) {
-            removeItemExceptionHandler(ex);
+            System.out.println(ex.toString());
         }
     }
 
     /**
-     * Handle array out of bounds issue
-     * @param ex out of bounds thrown from removeItem
-     *                  -appropriate item not selected
+     * Enable or disable Remove Item Button
+     * based on selected Index
      */
-    public void removeItemExceptionHandler(Exception ex)
-    {
-        JOptionPane.showMessageDialog(rootPanel, "You must choose an appropriate item to remove");
-    }
+     private void checkListSelection()
+     {
+         if (itemList.getSelectedIndex() != -1)
+         {
+             removeButton.setEnabled(true);
+         }
+         else
+         {
+             removeButton.setEnabled(false);
+         }
+     }
 
     /**
      * pass the itemList back to the controller for use by the model, and
@@ -144,15 +195,15 @@ public class AdminSetupView {
      */
     public void finishedMessage()
     {
-        String result = "";
         ArrayList<Item> passItems = new ArrayList<>();
 
-        for(int i = 0; i < listModel.size(); i++) {
-            result += listModel.getElementAt(i) + "\n";
+        for(int i = 0; i < listModel.size(); i++)
+        {
             passItems.add(new Item(listModel.getElementAt(i).toString()));
         }
 
-        JOptionPane.showMessageDialog(rootPanel, result + "You are all finished!");
+        resetErrorLabel();
+        itemTextField.setText("");
         AdminSetupController.setItems(passItems);
         AdminSetupController.closeFrame();
     }
@@ -162,17 +213,27 @@ public class AdminSetupView {
      */
     public void cancelAdmin()
     {
+        itemTextField.setText("");
         listModel.removeAllElements();
+        resetErrorLabel();
         // set data in itemList
-        itemList.setModel(listModel);
-
-        JOptionPane.showMessageDialog(rootPanel, "You have canceled, and will exit");
-        AdminSetupController.closeFrame();
+        setItemList(AdminSetupController.getItems());
+        setInitialFocus();
     }
 
+    /**
+     *
+     */
+    private void resetErrorLabel()
+    {
+        errorLabel.setText("Enter Items Below:");
+    }
 
-
-
-
-
+    /**
+     * Set Focus to itemList
+     */
+    public void setInitialFocus()
+    {
+        itemTextField.requestFocus();
+    }
 }

@@ -38,8 +38,8 @@ public class ReportDB implements ReportDAO
     private static final String GET_USER_TEST_RESULT_SQL
             = "SELECT FBJ_USER.Email " +
                " ,FBJ_ITEM.Name " +
-               " ,ISNULL(SUM(CASE WHEN FBJ_RESULT.Value = 1 THEN 1 END), 0) AS Wins " +
-               " ,ISNULL(SUM(CASE WHEN FBJ_RESULT.Value = -1 THEN 1 END), 0) AS Losses " +
+               " ,ISNULL(SUM(CASE WHEN FBJ_RESULT.Value = -1 THEN 1 END), 0) AS Wins " +
+               " ,ISNULL(SUM(CASE WHEN FBJ_RESULT.Value = 1 THEN 1 END), 0) AS Losses " +
                " ,ISNULL(SUM(CASE WHEN FBJ_RESULT.Value = 0 THEN 1 END), 0) AS Ties " +
                " ,SUM(FBJ_RESULT.Value) AS Points " +
                " FROM FBJ_USER " +
