@@ -65,7 +65,6 @@ public class ReportDB implements ReportDAO
 
     public ReportDB()
     {
-
         message = DATABASE_MESSAGE_INIT;
         System.out.println("Create ReportDB.");
     }

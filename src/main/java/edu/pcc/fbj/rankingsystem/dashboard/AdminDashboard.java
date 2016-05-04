@@ -67,7 +67,6 @@ public class AdminDashboard extends JPanel implements ActionListener
             ReportTable report = new ReportTable();
             frame.setContentPane(report.getReportPanel());
             frame.setTitle("Test Report");
-
         }
         else if(e.getActionCommand().equals(SETUP))
         {
