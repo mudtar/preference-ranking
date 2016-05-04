@@ -5,168 +5,140 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.*;
+import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 /**
- * A model class to handle the basic data elements of the user test.
+ * Handles the items to be presented to the user for preference testing.
  *
  * @author  Ian Burton
- * @version 2016.04.29.1
+ * @version 2016.05.04.1
  */
 class Items
 {
     /**
-     * The connection to the database used throughout the application.
+     * All of the items made into comparison pairs to be presented to
+     * the user.
      */
-    private Connection connection = null;
+    private List<List<Map.Entry<Integer, String>>> itemPairs;
 
     /**
-     * A dummy list of items to present to the user. This will not be
-     * part of the final program, but is used here until code is written
-     * to pull the test items from the database.
+     * The list index of the next element of itemPairs to return.
      */
-    /*
-    private List<String> testItems = new ArrayList<>(
-        Arrays.asList("a", "b", "c", "d"));
-    */
-    //private List<String> testItems = new ArrayList<>();
-    private List<Map.Entry<Integer, String>> testItems = new ArrayList<>();
+    private int nextItemPairIndex;
 
     /**
-     * A list of paired test items. This is populated by
-     * createTestItemPairs() from testItems.
-     */
-    //private List<List<String>> testItemPairs = null;
-    private List<List<Map.Entry<Integer, String>>> testItemPairs = null;
-
-    /**
-     * The list index of the next element of testItemPairs to return. I
-     * should look into handling this functionality with an iterator
-     * instead, but this works for the moment.
-     */
-    private int nextTestItemPairIndex = 0;
-
-    /**
-     * Default constructor.
+     * Constructs the Items object by getting the items from the
+     * database and putting them into pairs.
      *
-     * @throws SQLException if a database access error occurs or the url
-     *                      is null
+     * @throws SQLException if a database access error occurs
      */
     Items() throws SQLException
     {
-        connection = RSystemConnection.getConnection();
-        System.out.println(getTestItems());
-    }
+        // The database connection used throughout the application.
+        Connection con = RSystemConnection.getConnection();
 
-    /**
-     * Return the current test items. If the object doesn't yet have any
-     * test items, first populate them from the database.
-     *
-     * @return              a List of test items
-     * @throws SQLException if a database access error occurs or the url
-     *                      is null
-     */
-    private List<Map.Entry<Integer, String>> getTestItems() throws SQLException
-    {
-        if (testItems.isEmpty())
+        // All of the items that are to be made into pairs and presented
+        // to the user.This is a list of map entries where the key is
+        // the item's ID and the value is the item's name.
+        List<Map.Entry<Integer, String>> items = new ArrayList<>();
+
+        // Get from the database all existing items.
+        Statement stmt = con.createStatement();
+        ResultSet rs = stmt.executeQuery(
+            "SELECT DISTINCT PK_ItemID, Name " +
+            "FROM FBJ_ITEM " +
+            ";");
+
+        // For each of the items in the database, add a new map entry.
+        while (rs.next())
         {
-            Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery(
-                "SELECT DISTINCT PK_ItemID, Name " +
-                "FROM FBJ_ITEM " +
-                ";");
-            while (rs.next())
-            {
-                testItems.add(new AbstractMap.SimpleEntry<Integer, String>(
-                    rs.getInt("PK_ItemID"), rs.getString("Name")));
-            }
+            items.add(new AbstractMap.SimpleEntry<Integer, String>(
+                rs.getInt("PK_ItemID"), rs.getString("Name")));
         }
 
-        return testItems;
+        stmt.close();
+
+        createItemPairs(items);
     }
 
     /**
-     * Return the next of the randomly-ordered pairs of test items. If
-     * the collection of pairs hasn't yet been created, do so first.
+     * Return the next of the randomly-ordered pairs of test items.
      * 
      * @return the next of the randomly-ordered pairs of test items
-     * @throws IndexOutOfBoundsException if there are no more test item
-     *                                   pairs to return
+     * @throws IndexOutOfBoundsException when there are no more test
+     *                                   item pairs to return
      */
-    List<Map.Entry<Integer, String>> getTestItemPair()
+    List<Map.Entry<Integer, String>> getItemPair()
         throws IndexOutOfBoundsException
     {
-        if (testItemPairs == null)
-        {
-            createTestItemPairs();
-        }
+        // Get the first pair of items that hasn't yet been returned,
+        // i.e. the next pair of items.
+        List<Map.Entry<Integer, String>> itemPair =
+            itemPairs.get(nextItemPairIndex);
 
-        List<Map.Entry<Integer, String>> nextTestItemPair;
+        // Increment the index of the next pair of items so that this
+        // method grabs the next one next time it's called.
+        nextItemPairIndex++;
 
-        try
-        {
-            nextTestItemPair = testItemPairs.get(nextTestItemPairIndex);
-            nextTestItemPairIndex++;
-            return nextTestItemPair;
-        }
-        catch (IndexOutOfBoundsException e)
-        {
-            // There are no more test item pairs.
-            throw e;
-        }
+        return itemPair;
     }
 
     /**
-     * Creates and stores as a field a list of all unique pairs of test
-     * items. Look into: how will this work with an odd number of
-     * testItems?
+     * Creates and stores a list of all unique pairs of test items. The
+     * items are paired in random order, and the order of the pairs is
+     * randomized as well.
+     *
+     * @param items all of the items that are to be made into pairs.
+     *              This is a list of map entries where the key is the
+     *              item's ID and the value is the item's name.
      */
-    private void createTestItemPairs()
+    private void createItemPairs(List<Map.Entry<Integer, String>> items)
     {
-        if (testItemPairs == null) {
-            testItemPairs = new ArrayList<>();
+        itemPairs = new ArrayList<>();
 
-            // The List index of the most recent item whose unique
-            // permutations have all been generated and stored. We
-            // haven't handled any yet, so start at -1.
-            int handledUpToIndex = -1;
+        // The list index of the item that has most recently been paired
+        // with all other items. We haven't handled any yet, and indexes
+        // start at 0, so start our count at -1.
+        int item1Index = -1;
 
-            for (Map.Entry<Integer, String> testItem1 : testItems)
+        for (Map.Entry<Integer, String> item1 : items)
+        {
+            // The List index of the current item to be paired with
+            // item1.
+            int item2Index = 0;
+
+            for (Map.Entry<Integer, String> item2 : items)
             {
-                // The List index of the current item being paired.
-                int innerLoopIndex = 0;
-
-                for (Map.Entry<Integer, String> testItem2 : testItems)
+                // Make sure that the item being paired is not one
+                // that's already been fully paired. Also make sure that
+                // we aren't making a pair of duplicates.
+                if ((item2Index > item1Index) && (item1 != item2))
                 {
-                    // Make sure that the item being paired is not one
-                    // that's already been fully handled. Also make sure
-                    // that we aren't making a pair of duplicates.
-                    if ((innerLoopIndex > handledUpToIndex) &&
-                        (testItem1 != testItem2))
-                    {
-                        // Add a List of two unique test items to the
-                        // List of pairs. Randomize the order of the
-                        // pair.
-                        List<Map.Entry<Integer, String>> pair =
-                            Arrays.asList(testItem1, testItem2);
-                        Collections.shuffle(pair);
-                        testItemPairs.add(pair);
-                    }
-
-                    // Increment to represent the next item to be
-                    // paired.
-                    innerLoopIndex++;
+                    // Add a list of two unique test items to the list
+                    // of pairs. Randomize the order of the pair.
+                    List<Map.Entry<Integer, String>> pair =
+                        Arrays.asList(item1, item2);
+                    Collections.shuffle(pair);
+                    itemPairs.add(pair);
                 }
 
-                // All possible unique permutations for the most
-                // recently handled item have been generated and stored.
-                // Increment this so that we don't deal with this item
-                // anymore, so as not to generate duplicate pairs.
-                handledUpToIndex++;
+                // Increment to represent the next item to be paired.
+                item2Index++;
             }
 
-            // Randomize the order of the pairs.
-            Collections.shuffle(testItemPairs);
+            // All possible unique permutations for the most recently
+            // handled item have been generated and stored.  Increment
+            // this so that we don't deal with this item anymore, so as
+            // not to generate duplicate pairs.
+            item1Index++;
         }
+
+        // Randomize the order of the pairs.
+        Collections.shuffle(itemPairs);
     }
 }
