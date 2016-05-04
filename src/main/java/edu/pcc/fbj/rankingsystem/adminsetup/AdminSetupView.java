@@ -95,12 +95,11 @@ public class AdminSetupView
     {
         if (itemTextField.getText().length() < 18)
         {
-            errorLabel.setText("Enter Items Below: ");
+            resetErrorLabel();
             return true;
         }
         else
         {
-            itemTextField.setText("");
             itemTextField.requestFocus();
             errorLabel.setText("Error: Item name too long");
             return false;
@@ -203,6 +202,8 @@ public class AdminSetupView
             passItems.add(new Item(listModel.getElementAt(i).toString()));
         }
 
+        resetErrorLabel();
+        itemTextField.setText("");
         AdminSetupController.setItems(passItems);
         AdminSetupController.closeFrame();
     }
@@ -214,9 +215,18 @@ public class AdminSetupView
     {
         itemTextField.setText("");
         listModel.removeAllElements();
+        resetErrorLabel();
         // set data in itemList
         setItemList(AdminSetupController.getItems());
         setInitialFocus();
+    }
+
+    /**
+     *
+     */
+    private void resetErrorLabel()
+    {
+        errorLabel.setText("Enter Items Below:");
     }
 
     /**
