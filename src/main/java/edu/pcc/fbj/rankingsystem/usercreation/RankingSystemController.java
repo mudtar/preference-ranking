@@ -69,6 +69,8 @@ public enum RankingSystemController
     {
         System.out.println("RankingSystemController::launchUserTest()");
         UserTest.beginUserTest(user);
+        this.user.setLoginState(false);
+        this.launchLogin();
     }
 
     /**
