@@ -34,7 +34,7 @@ public class RSystemConnection
      * the static connection to be used by all aspects of the
      * application by which to access the database
      */
-    private static Connection connection = null;
+    private static Connection connection;
 
     /**
      * Return a connection to URL. If one already has been created,
