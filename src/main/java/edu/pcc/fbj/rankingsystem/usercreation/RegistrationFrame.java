@@ -32,9 +32,9 @@ public class RegistrationFrame
      *  (?=.*[A-Z]) an upper case letter must occur at least once
      *  (?=.*[@#$%^&+=]) a special character must occur at least once
      *  (?=\\S+$) no whitespace allowed in the entire string
-     *  .{8,} at least 8 characters
+     *  .{6, 10} at least 6 characters and maximum 10 characters
      */
-    String PASSWORD_REGEX = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{5,10}";
+    String PASSWORD_REGEX = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{6,10}";
 
     /**
      * constructor of the class
@@ -181,16 +181,16 @@ public class RegistrationFrame
 
     private void emptyEmailMessage(RegistrationPanel registrationPanel)
     {
-        JOptionPane.showMessageDialog(null, "The Email can not be empty, " +
-                "please fill in the email field.", "Empty Email", 2);
+        JOptionPane.showMessageDialog(registrationPanel, "Email format " +
+                "should looks something like i.e yyyy@yahoo.com", "Invalid Email", JOptionPane.ERROR_MESSAGE);
         JTextField temp =  RegistrationFrame.this.registrationPanel.getEmailControl();
         temp.requestFocus();
     }
 
     private void invalidEmailFormatMessage(RegistrationPanel registrationPanel)
     {
-        JOptionPane.showMessageDialog(null, "The Email format is invalid, " +
-                "it should looks something like i.e yyyy@yahoo.com.", "Invalid Email", 2);
+        JOptionPane.showMessageDialog(registrationPanel, "Email format " +
+                "should looks something like i.e yyyy@yahoo.com.", "Invalid Email Format", JOptionPane.ERROR_MESSAGE);
         JTextField temp =  RegistrationFrame.this.registrationPanel.getEmailControl();
         temp.requestFocus();
         this.registrationPanel.setEmailTextField("");
@@ -198,10 +198,14 @@ public class RegistrationFrame
 
     private void invalidPasswordFormatMessage(RegistrationPanel registrationPanel)
     {
-        JOptionPane.showMessageDialog(null, "The Password format must be at least one uppercase, " +
-                "at least one lowercase, at least one digit, at least " +
-                "6 character with one special character and no whitespace" +
-                " - i.e: Cis234a$.", "Invalid Password", 2);
+        JOptionPane.showMessageDialog(registrationPanel, "Password should be at least 6 characters,\n " +
+                "at least one uppercase, " + " at least one lowercase,\n " +
+                "at least one digit, with one special character and\n " +
+                "no whitespace.", "Invalid Password Format", JOptionPane.ERROR_MESSAGE);
+       // JOptionPane.showMessageDialog(null, "at least one uppercase, " +
+      //          "at least one lowercase, at least one digit, at least " +
+      //          "6 character with one special character and no whitespace" +
+      //          " - i.e: Cis234a$.", "Invalid Password", 2);
         JTextField temp =  RegistrationFrame.this.registrationPanel.getPasswordControl();
         temp.requestFocus();
         this.registrationPanel.setPasswordTextField("");
@@ -209,16 +213,17 @@ public class RegistrationFrame
 
     private void emptyPasswordMessage(RegistrationPanel registrationPanel)
     {
-        JOptionPane.showMessageDialog(null, "The Password can not be empty, " +
-                "please fill in the password field.", "Empty Password", 3);
+        JOptionPane.showMessageDialog(registrationPanel, "Password can not be empty, " +
+                "please enter password field.", "Password Field Empty", JOptionPane.ERROR_MESSAGE);
         JTextField temp =  RegistrationFrame.this.registrationPanel.getPasswordControl();
         temp.requestFocus();
     }
 
     private void  emptyReenterPasswordMessage(RegistrationPanel registrationPanel)
     {
-        JOptionPane.showMessageDialog(null, "The Reenter Password can not be empty, " +
-                "please fill in the password field.", "Empty Password", 3);
+        JOptionPane.showMessageDialog(registrationPanel, "Reenter Password can not be empty, " +
+                "please fill in the reenter password field.",
+                "Reenter Password Field Empty", JOptionPane.ERROR_MESSAGE);
         JTextField temp =  RegistrationFrame.this.registrationPanel.getReenterPasswordControl();
         temp.requestFocus();
     }
