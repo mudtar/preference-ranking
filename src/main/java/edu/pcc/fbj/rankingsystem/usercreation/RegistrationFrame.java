@@ -169,7 +169,8 @@ public class RegistrationFrame
     private void validUsernameMessage(RegistrationPanel registrationPanel)
     {
         JOptionPane.showMessageDialog(null, "The username: '" + registrationPanel.getUsername().trim()
-                + "' is available!", "Username  '" + registrationPanel.getUsername().trim() + "' Is Available", 1);
+                + "' is available!", "Username  '" + registrationPanel.getUsername().trim()
+                + "' Is Available", 1);
     }
 
     private void matchPasswordField(RegistrationPanel registrationPane) {
@@ -182,7 +183,8 @@ public class RegistrationFrame
     private void emptyEmailMessage(RegistrationPanel registrationPanel)
     {
         JOptionPane.showMessageDialog(registrationPanel, "Email format " +
-                "should looks something like i.e yyyy@yahoo.com", "Invalid Email", JOptionPane.ERROR_MESSAGE);
+                "should looks something like i.e yyyy@yahoo.com", "Invalid Email",
+                JOptionPane.ERROR_MESSAGE);
         JTextField temp =  RegistrationFrame.this.registrationPanel.getEmailControl();
         temp.requestFocus();
     }
@@ -190,7 +192,8 @@ public class RegistrationFrame
     private void invalidEmailFormatMessage(RegistrationPanel registrationPanel)
     {
         JOptionPane.showMessageDialog(registrationPanel, "Email format " +
-                "should looks something like i.e yyyy@yahoo.com.", "Invalid Email Format", JOptionPane.ERROR_MESSAGE);
+                "should looks something like i.e yyyy@yahoo.com.", "Invalid Email Format",
+                JOptionPane.ERROR_MESSAGE);
         JTextField temp =  RegistrationFrame.this.registrationPanel.getEmailControl();
         temp.requestFocus();
         this.registrationPanel.setEmailTextField("");
@@ -198,14 +201,11 @@ public class RegistrationFrame
 
     private void invalidPasswordFormatMessage(RegistrationPanel registrationPanel)
     {
-        JOptionPane.showMessageDialog(registrationPanel, "Password should be at least 6 characters,\n " +
+        JOptionPane.showMessageDialog(registrationPanel,
+                "Password should be at least 6 characters,\n " +
                 "at least one uppercase, " + " at least one lowercase,\n " +
                 "at least one digit, with one special character and\n " +
                 "no whitespace.", "Invalid Password Format", JOptionPane.ERROR_MESSAGE);
-       // JOptionPane.showMessageDialog(null, "at least one uppercase, " +
-      //          "at least one lowercase, at least one digit, at least " +
-      //          "6 character with one special character and no whitespace" +
-      //          " - i.e: Cis234a$.", "Invalid Password", 2);
         JTextField temp =  RegistrationFrame.this.registrationPanel.getPasswordControl();
         temp.requestFocus();
         this.registrationPanel.setPasswordTextField("");
@@ -238,8 +238,8 @@ public class RegistrationFrame
 
     private void noMatchPasswordField(RegistrationPanel registrationPanel)
     {
-        JOptionPane.showMessageDialog(null, "Both Password fields must match, please reenter password fields.",
-                "Empty NoMatchPassword", 1);
+        JOptionPane.showMessageDialog(null, "Both Password fields must match, " +
+                "please reenter password fields.", "Empty NoMatchPassword", 1);
         JTextField temp =  RegistrationFrame.this.registrationPanel.getReenterPasswordControl();
         temp.requestFocus();
         this.registrationPanel.setReenterPasswordTextField("");
