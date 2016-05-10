@@ -1,12 +1,27 @@
 package edu.pcc.fbj.rankingsystem.usertest;
 
 import edu.pcc.fbj.rankingsystem.usercreation.User;
+
+import java.awt.*;
 import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.*;
+import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ColorPicker;
+import javafx.scene.control.ProgressBar;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.*;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
+import javafx.scene.text.*;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import sun.net.ProgressEvent;
 
 /**
  * The entry point for the preference test component of the system used
@@ -26,6 +41,9 @@ public class UserTest extends Application
      * logged in.
      */
     private static String userEmail;
+    private ProgressBar progress;
+    private Label label;
+
 
     /**
      * The public interface provided to the rest of the application by
@@ -50,16 +68,32 @@ public class UserTest extends Application
     @Override
     public void start(final Stage primaryStage) throws IOException
     {
+
         final FXMLLoader loader = new FXMLLoader(
             getClass().getResource("user_test.fxml"));
         final Parent root = (Parent) loader.load();
-
         final UserTestController controller = loader.getController();
         controller.setStage(primaryStage);
         controller.setUserEmail(userEmail);
-
         primaryStage.setTitle("Select Your Preference");
-        primaryStage.setScene(new Scene(root, 250, 150));
+        primaryStage.setScene(new Scene(root, 400, 300));
+        GridPane grid = new GridPane();
+        grid.setAlignment(Pos.CENTER);
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(25, 25, 25, 25));
+        Scene scene = new Scene(grid, 300, 275);
+
+        Text sceneTitle = new Text("Progress Meter");
+        sceneTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+        sceneTitle.setFill(Color.RED);
+        grid.add(sceneTitle, 0, 0, 2, 1);
+
+
+
         primaryStage.show();
+
+
+
     }
 }

@@ -1,16 +1,25 @@
 package edu.pcc.fbj.rankingsystem.usertest;
 
+import java.awt.*;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Toggle;
-import javafx.scene.control.ToggleButton;
-import javafx.scene.control.ToggleGroup;
+import javafx.geometry.Pos;
+import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.scene.control.ProgressBar;
 
 /**
  * The controller for the preference test, which brings together the GUI
@@ -22,6 +31,18 @@ import javafx.stage.Stage;
  */
 public class UserTestController implements Initializable
 {
+    @FXML
+    private Button start,stop;
+
+    @FXML
+    private ProgressBar progress;
+
+    Task worker;
+    double y = 1.0;
+    double x;
+    double i = 0.1;
+
+
     /**
      * The items to be presented to the user by which to determine user
      * preferences.
@@ -65,6 +86,9 @@ public class UserTestController implements Initializable
      */
     @FXML
     private ToggleButton tie;
+
+    @FXML
+    private Label label;
 
     /**
      * Constructs the controller for the preference test.
@@ -125,9 +149,10 @@ public class UserTestController implements Initializable
      *
      * @throws SQLException if a database access error occurs
      */
-    public void handleSubmit() throws SQLException
-    {
+    public void handleSubmit() throws SQLException {
         Toggle selectedToggle = options.getSelectedToggle();
+
+        label.setText("Now your program is progressing!!");
 
         // Only register the user's preference if they actually made a
         // selection before pressing the submit button.
@@ -159,11 +184,41 @@ public class UserTestController implements Initializable
 
             // Unselect the selected button in preparation for the
             // buttons to be updated with new items.
+            if (i < 1.0)
+            {
+                progress.setProgress(i);
+
+                //ProgressBar progress = new ProgressBar();
+                //Label label = new Label();
+                label.setText("Now your program is progressing!!");
+                //label.setText("progress: " + i/100 + "%");
+                //final HBox hb = new HBox();
+                //hb.setSpacing(5);
+                //hb.setAlignment(Pos.CENTER);
+                //hb.getChildren().addAll(label, progress);
+                i = i + 0.1;
+
+            }
+            //final VBox vb = new VBox();
+            //vb.setSpacing(5);
+            //vb.getChildren().add(vb);
             selectedToggle.setSelected(false);
+
+            //double y = 1.0;
+            //for (double x= 0.1; x <y;  x++) {
+           //    progress.setProgress(x);
+           //}
+
+
 
             try
             {
                 updateOptionButtons();
+                //double y = 1.0;
+                //for (double x= 0.1; x <y;  x++) {
+                //    progress.setProgress(x);
+               // }
+               // i = i + 0.1;
             }
             catch (IndexOutOfBoundsException e)
             {
@@ -171,6 +226,8 @@ public class UserTestController implements Initializable
                 preferences.storePreferences();
                 primaryStage.close();
             }
+
+
         }
     }
 
@@ -194,5 +251,10 @@ public class UserTestController implements Initializable
         // Create the text labels for the buttons from the items' names.
         option1.setText(itemPair.get(0).getValue());
         option2.setText(itemPair.get(1).getValue());
+
+        //y = 1.0;
+        //for (x= 0.1; x < y;  x++) {
+       //     progress.setProgress(x);
+        //}
     }
 }
