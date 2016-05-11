@@ -89,6 +89,16 @@ class Items
     }
 
     /**
+     * Return the total count of item pairs.
+     *
+     * @return the total count of item pairs
+     */
+    int getItemPairsCount()
+    {
+        return itemPairs.size();
+    }
+
+    /**
      * Creates and stores a list of all unique pairs of test items. The
      * items are paired in random order, and the order of the pairs is
      * randomized as well.
