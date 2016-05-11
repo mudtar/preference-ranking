@@ -1,12 +1,13 @@
 .root {
   /* Background pattern from subtlepatterns.com */
-  -fx-background-image: url("dark_fish_skin.png");
+  /*-fx-background-image: url("dark_fish_skin.png");*/
   -fx-background-repeat: repeat;
   -fx-alignment: center;
 }
 
 .vbox {
   -fx-spacing: 10px;
+  -fx-alignment: center;
 }
 
 #submitButton {
@@ -28,5 +29,6 @@
   -fx-opacity: 1.0;
   -fx-background-color: #fffe90;
 }
+
 
 

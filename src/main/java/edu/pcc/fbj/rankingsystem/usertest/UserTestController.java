@@ -38,9 +38,8 @@ public class UserTestController implements Initializable
     private ProgressBar progress;
 
     Task worker;
-    double y = 1.0;
-    double x;
-    double i = 0.1;
+
+    private double i = 0;
 
 
     /**
@@ -152,8 +151,6 @@ public class UserTestController implements Initializable
     public void handleSubmit() throws SQLException {
         Toggle selectedToggle = options.getSelectedToggle();
 
-        label.setText("Now your program is progressing!!");
-
         // Only register the user's preference if they actually made a
         // selection before pressing the submit button.
         if (selectedToggle != null)
@@ -184,41 +181,23 @@ public class UserTestController implements Initializable
 
             // Unselect the selected button in preparation for the
             // buttons to be updated with new items.
-            if (i < 1.0)
+            if (i < items.getItemPairsCount())
             {
-                progress.setProgress(i);
+                label.setText("Question " + (int)i + " of " + items.getItemPairsCount());
+                i++;
+                System.out.println(items.getItemPairsCount());
+                progress.setProgress(i/(items.getItemPairsCount()));
 
-                //ProgressBar progress = new ProgressBar();
-                //Label label = new Label();
-                label.setText("Now your program is progressing!!");
-                //label.setText("progress: " + i/100 + "%");
-                //final HBox hb = new HBox();
-                //hb.setSpacing(5);
-                //hb.setAlignment(Pos.CENTER);
-                //hb.getChildren().addAll(label, progress);
-                i = i + 0.1;
-
+                //label.setText("Question " + (int)i + " of " + items.getItemPairsCount());
+                System.out.println(i);
             }
-            //final VBox vb = new VBox();
-            //vb.setSpacing(5);
-            //vb.getChildren().add(vb);
+
             selectedToggle.setSelected(false);
-
-            //double y = 1.0;
-            //for (double x= 0.1; x <y;  x++) {
-           //    progress.setProgress(x);
-           //}
-
 
 
             try
             {
                 updateOptionButtons();
-                //double y = 1.0;
-                //for (double x= 0.1; x <y;  x++) {
-                //    progress.setProgress(x);
-               // }
-               // i = i + 0.1;
             }
             catch (IndexOutOfBoundsException e)
             {
@@ -252,9 +231,5 @@ public class UserTestController implements Initializable
         option1.setText(itemPair.get(0).getValue());
         option2.setText(itemPair.get(1).getValue());
 
-        //y = 1.0;
-        //for (x= 0.1; x < y;  x++) {
-       //     progress.setProgress(x);
-        //}
     }
 }

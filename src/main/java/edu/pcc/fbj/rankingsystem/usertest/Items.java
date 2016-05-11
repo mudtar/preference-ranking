@@ -141,4 +141,13 @@ class Items
         // Randomize the order of the pairs.
         Collections.shuffle(itemPairs);
     }
+
+    public int getItemPairsCount()
+    {
+      if (itemPairs != null)
+      {
+          return itemPairs.size();
+      }
+        return -1;
+    }
 }
