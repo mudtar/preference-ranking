@@ -16,7 +16,7 @@
 
   <GridPane vgap="5" alignment="CENTER">
     <padding><Insets bottom="10"/></padding>
-    <Label fx:id="label" alignment="CENTER"/>
+    <Label fx:id="label" alignment="CENTER" text="0 questions answered"/>
   </GridPane>
 
   <GridPane vgap="10" alignment="CENTER">
