@@ -150,6 +150,7 @@ public class UserTestController implements Initializable
      */
     public void handleSubmit() throws SQLException {
         Toggle selectedToggle = options.getSelectedToggle();
+        //label.setText("Question " + (int)i + " of " + items.getItemPairsCount());
 
         // Only register the user's preference if they actually made a
         // selection before pressing the submit button.
@@ -183,8 +184,8 @@ public class UserTestController implements Initializable
             // buttons to be updated with new items.
             if (i < items.getItemPairsCount())
             {
-                label.setText("Question " + (int)i + " of " + items.getItemPairsCount());
                 i++;
+                label.setText("Question " + (int)i + " of " + items.getItemPairsCount());
                 System.out.println(items.getItemPairsCount());
                 progress.setProgress(i/(items.getItemPairsCount()));
 
