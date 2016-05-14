@@ -60,10 +60,10 @@ public class ReportDB implements ReportDAO
                     " ,I1.Name " +
                     //,I2.Name AS Item2
                     //,FBJ_RESULT.Value
-                    " ,ISNULL(SUM(CASE WHEN UnionResult.Value = 1 THEN 1 END), 0) AS Wins " +
-                    " ,ISNULL(SUM(CASE WHEN UnionResult.Value = -1 THEN 1 END), 0) AS Losses " +
+                    " ,ISNULL(SUM(CASE WHEN UnionResult.Value = -1 THEN 1 END), 0) AS Wins " +
+                    " ,ISNULL(SUM(CASE WHEN UnionResult.Value = 1 THEN 1 END), 0) AS Losses " +
                     " ,ISNULL(SUM(CASE WHEN UnionResult.Value = 0 THEN 1 END), 0) AS Ties " +
-                    " ,SUM(UnionResult.Value) AS Points " +
+                    " ,SUM(UnionResult.Value)*(-1) AS Points " +
                     " FROM FBJ_USER " +
                     " JOIN FBJ_TEST ON FBJ_USER.PK_UserID = FBJ_TEST.FK_UserID" +
                     //JOIN FBJ_RESULT ON FBJ_TEST.PK_TestID = FBJ_RESULT.FK_TestID
@@ -75,7 +75,7 @@ public class ReportDB implements ReportDAO
                     //JOIN FBJ_ITEM I2 ON I2.PK_ItemID = UnionResult.ITEM2
                     " WHERE FBJ_USER.Email = ?  AND UnionResult.FK_TestID   IN (SELECT MAX(PK_TestID) FROM FBJ_TEST GROUP BY FBJ_TEST.FK_UserID) " +
                     " GROUP BY  FBJ_USER.Email, UnionResult.FK_TestID, I1.Name " + //--, I2.Name " +
-                    " ORDER BY UnionResult.FK_TestID  , SUM(UnionResult.Value) DESC ";
+                    " ORDER BY UnionResult.FK_TestID  , SUM(UnionResult.Value)*(-1) DESC ";
 
 
 
