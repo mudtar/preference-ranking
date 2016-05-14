@@ -34,7 +34,8 @@ public class ReportDB implements ReportDAO
     private static final String GET_USER_EMAIL_LIST_SQL
                                      = "SELECT DISTINCT FBJ_USER.Email FROM FBJ_USER " +
                                        " JOIN FBJ_TEST ON FBJ_USER.PK_UserID = FBJ_TEST.FK_UserID";
-    
+
+    /*
     private static final String GET_USER_TEST_RESULT_SQL
             = " SELECT FBJ_USER.Email " +
             " ,FBJ_RESULT.FK_TestID " +
@@ -51,6 +52,33 @@ public class ReportDB implements ReportDAO
             " AND FBJ_RESULT.FK_TestID IN (SELECT MAX(PK_TestID) FROM FBJ_TEST GROUP BY FBJ_TEST.FK_UserID) " +
             " GROUP BY FBJ_USER.Email, FBJ_RESULT.FK_TestID, FBJ_ITEM.Name " +
             " ORDER BY FBJ_RESULT.FK_TestID, SUM(FBJ_RESULT.Value) DESC";
+    */
+
+    private static final String GET_USER_TEST_RESULT_SQL =
+                    " SELECT FBJ_USER.Email " +
+                    " ,UnionResult.FK_TestID " +
+                    " ,I1.Name " +
+                    //,I2.Name AS Item2
+                    //,FBJ_RESULT.Value
+                    " ,ISNULL(SUM(CASE WHEN UnionResult.Value = 1 THEN 1 END), 0) AS Wins " +
+                    " ,ISNULL(SUM(CASE WHEN UnionResult.Value = -1 THEN 1 END), 0) AS Losses " +
+                    " ,ISNULL(SUM(CASE WHEN UnionResult.Value = 0 THEN 1 END), 0) AS Ties " +
+                    " ,SUM(UnionResult.Value) AS Points " +
+                    " FROM FBJ_USER " +
+                    " JOIN FBJ_TEST ON FBJ_USER.PK_UserID = FBJ_TEST.FK_UserID" +
+                    //JOIN FBJ_RESULT ON FBJ_TEST.PK_TestID = FBJ_RESULT.FK_TestID
+                    " JOIN (SELECT FK_TestID, FK_Item1ID AS ITEM1, FK_Item2ID AS ITEM2, Value FROM FBJ_RESULT " +
+                    " UNION ALL " +
+                    " SELECT FK_TestID, FK_Item2ID AS ITEM1, FK_Item1ID AS ITEM1, -1*Value  FROM FBJ_RESULT ) AS UnionResult " +
+                    " ON FBJ_TEST.PK_TestID = UnionResult.FK_TestID " +
+                    " JOIN FBJ_ITEM I1 ON I1.PK_ItemID = UnionResult.ITEM1 " +
+                    //JOIN FBJ_ITEM I2 ON I2.PK_ItemID = UnionResult.ITEM2
+                    " WHERE FBJ_USER.Email = ?  AND UnionResult.FK_TestID   IN (SELECT MAX(PK_TestID) FROM FBJ_TEST GROUP BY FBJ_TEST.FK_UserID) " +
+                    " GROUP BY  FBJ_USER.Email, UnionResult.FK_TestID, I1.Name " + //--, I2.Name " +
+                    " ORDER BY UnionResult.FK_TestID  , SUM(UnionResult.Value) DESC ";
+
+
+
 
     private final String DATABASE_MESSAGE_INIT = "Database initail ...";
     private final String DATABASE_CONNECTION_CONNECTING = "Connecting to database...";
