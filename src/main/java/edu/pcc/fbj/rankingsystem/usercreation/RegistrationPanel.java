@@ -116,7 +116,7 @@ public class RegistrationPanel
         add(this.passwordTextField, gbc_passwordTextField);
         this.passwordTextField.setColumns(10);
 
-        this.passwordErrorLabel = new JLabel("Password Empty, it should something like: Cis23$.");
+        this.passwordErrorLabel = new JLabel("Password format should look like: Cis23$.");
         this.passwordErrorLabel.setFont(new Font("Tahoma", 2, 11));
         this.passwordErrorLabel.setForeground(Color.red);
         GridBagConstraints gbc_passwordErrorLabel = new GridBagConstraints();
