@@ -7,9 +7,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Toggle;
-import javafx.scene.control.ToggleButton;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 /**
@@ -22,6 +20,9 @@ import javafx.stage.Stage;
  */
 public class UserTestController implements Initializable
 {
+    //This the counter used for progress bar
+    private double i = 0;
+
     /**
      * The items to be presented to the user by which to determine user
      * preferences.
@@ -65,6 +66,12 @@ public class UserTestController implements Initializable
      */
     @FXML
     private ToggleButton tie;
+
+    @FXML
+    private Label label;
+
+    @FXML
+    private ProgressBar progress;
 
     /**
      * Constructs the controller for the preference test.
@@ -157,6 +164,16 @@ public class UserTestController implements Initializable
                     (int) option2.getProperties().get("itemID"), 0);
             }
 
+            if (i < items.getItemPairsCount())
+            {
+                i++;
+                label.setText("Question " + (int)i + " of " + items.getItemPairsCount());
+                System.out.println(items.getItemPairsCount());
+                progress.setProgress(i/(items.getItemPairsCount()));
+
+                //label.setText("Question " + (int)i + " of " + items.getItemPairsCount());
+                System.out.println(i);
+            }
             // Unselect the selected button in preparation for the
             // buttons to be updated with new items.
             selectedToggle.setSelected(false);
