@@ -241,8 +241,9 @@ public class RegistrationFrame
 
     private void noMatchPasswordField(RegistrationPanel registrationPanel)
     {
-        JOptionPane.showMessageDialog(null, "Both Password fields must match, " +
-                "please reenter password fields.", "Empty NoMatchPassword", 1);
+        registrationPanel.setReenterPasswordErrorLabelVisibility(true);
+        //JOptionPane.showMessageDialog(null, "Both Password fields must match, " +
+        //        "please reenter password fields.", "Empty NoMatchPassword", 1);
         JTextField temp =  RegistrationFrame.this.registrationPanel.getReenterPasswordControl();
         temp.requestFocus();
         this.registrationPanel.setReenterPasswordTextField("");
