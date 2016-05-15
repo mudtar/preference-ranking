@@ -61,6 +61,7 @@ public class RegistrationFrame
         {
             public void actionPerformed(ActionEvent ae)
             {
+                RegistrationFrame.this.resetErrorLabelVisibility(RegistrationFrame.this.registrationPanel);
                 boolean valid = RegistrationFrame.this.
                 noEmptyRegistrationTextFields(RegistrationFrame.this.registrationPanel);
 
@@ -198,6 +199,7 @@ public class RegistrationFrame
 
     private void invalidPasswordFormatMessage(RegistrationPanel registrationPanel)
     {
+
         JOptionPane.showMessageDialog(null, "The Password format must be at least one uppercase, " +
                 "at least one lowercase, at least one digit, at least " +
                 "6 character with one special character and no whitespace" +
@@ -209,16 +211,18 @@ public class RegistrationFrame
 
     private void emptyPasswordMessage(RegistrationPanel registrationPanel)
     {
-        JOptionPane.showMessageDialog(null, "The Password can not be empty, " +
-                "please fill in the password field.", "Empty Password", 3);
+        registrationPanel.setPasswordErrorLabelVisibility(true);
+        //JOptionPane.showMessageDialog(null, "The Password can not be empty, " +
+        //        "please fill in the password field.", "Empty Password", 3);
         JTextField temp =  RegistrationFrame.this.registrationPanel.getPasswordControl();
         temp.requestFocus();
     }
 
     private void  emptyReenterPasswordMessage(RegistrationPanel registrationPanel)
     {
-        JOptionPane.showMessageDialog(null, "The Reenter Password can not be empty, " +
-                "please fill in the password field.", "Empty Password", 3);
+        registrationPanel.setReenterPasswordErrorLabelVisibility(true);
+        //JOptionPane.showMessageDialog(null, "The Reenter Password can not be empty, " +
+        //        "please fill in the password field.", "Empty Password", 3);
         JTextField temp =  RegistrationFrame.this.registrationPanel.getReenterPasswordControl();
         temp.requestFocus();
     }
@@ -279,5 +283,12 @@ public class RegistrationFrame
         return this.controller.checkUserEmailAvailability1(registrationPanel.getEmail().trim(),
                 registrationPanel.getPassword().trim());
     }
-
+    private void resetErrorLabelVisibility(RegistrationPanel registrationPanel)
+    {
+       // registrationPanel.setFirstNameErrorLabelVisibility(false);
+       // registrationPanel.setLastNameErrorLabelVisibility(false);
+       // registrationPanel.setEmailErrorLabelVisibility(false);
+        registrationPanel.setPasswordErrorLabelVisibility(false);
+        registrationPanel.setReenterPasswordErrorLabelVisibility(false);
+    }
 }
