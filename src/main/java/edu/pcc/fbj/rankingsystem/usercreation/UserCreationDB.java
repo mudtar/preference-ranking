@@ -117,7 +117,7 @@ public enum UserCreationDB
 
     public ArrayList<String> getUser(String email)
     {
-        ArrayList<String> user = new ArrayList();
+        ArrayList<String> user = new ArrayList<>();
         try {
             connection();
             System.out.println("UserCreationDB::getUser()");
