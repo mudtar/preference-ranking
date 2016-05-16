@@ -24,9 +24,6 @@ import javafx.stage.Stage;
  */
 public class UserTestController implements Initializable
 {
-    //This the counter used for progress bar
-    private double i = 1;
-
     /**
      * The items to be presented to the user by which to determine user
      * preferences.
@@ -43,6 +40,12 @@ public class UserTestController implements Initializable
      * initialized.
      */
     private Stage primaryStage;
+
+    /**
+     * The counter representing which pair in the sequence is currently
+     * displayed.
+     */
+    private int currentPairCount = 1;
 
     /**
      * The group of toggle buttons that represent the user's options for
@@ -72,10 +75,10 @@ public class UserTestController implements Initializable
     private ToggleButton tie;
 
     @FXML
-    private Label label;
+    private Label progressLabel;
 
     @FXML
-    private ProgressBar progress;
+    private ProgressBar progressBar;
 
     /**
      * Constructs the controller for the preference test.
@@ -168,18 +171,6 @@ public class UserTestController implements Initializable
                     (int) option2.getProperties().get("itemID"), 0);
             }
 
-            // Update the progress bar.
-            if (i < items.getItemPairsCount())
-            {
-                i++;
-                label.setText("Question " + (int)i + " of " + items.getItemPairsCount());
-                System.out.println(items.getItemPairsCount());
-                progress.setProgress(i/(items.getItemPairsCount()));
-
-                //label.setText("Question " + (int)i + " of " + items.getItemPairsCount());
-                System.out.println(i);
-            }
-
             // Unselect the selected button in preparation for the
             // buttons to be updated with new items.
             selectedToggle.setSelected(false);
@@ -193,6 +184,16 @@ public class UserTestController implements Initializable
                 // There are no more test item pairs to handle.
                 preferences.storePreferences();
                 primaryStage.close();
+            }
+
+            // Update the progress bar.
+            if (currentPairCount < items.getItemPairsCount())
+            {
+                currentPairCount++;
+                progressLabel.setText("Question " + currentPairCount + " of " +
+                                      items.getItemPairsCount());
+                progressBar.setProgress((double) currentPairCount /
+                                        items.getItemPairsCount());
             }
         }
     }
