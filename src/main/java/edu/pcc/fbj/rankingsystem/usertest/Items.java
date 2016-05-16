@@ -93,13 +93,16 @@ class Items
      *
      * @return the total count of item pairs
      */
-    public int getItemPairsCount()
+    int getItemPairsCount()
     {
-        if (itemPairs !=null)
+        if (itemPairs == null)
+        {
+            return 0;
+        }
+        else
         {
             return itemPairs.size();
         }
-        return -1;
     }
 
     /**
