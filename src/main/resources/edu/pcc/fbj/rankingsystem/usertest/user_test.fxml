@@ -23,7 +23,6 @@
     <Label
       fx:id="progressLabel"
       alignment="CENTER"
-      text="0 questions answered"
     />
   </GridPane>
 
