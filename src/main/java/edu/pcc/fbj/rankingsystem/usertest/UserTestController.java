@@ -113,6 +113,7 @@ public class UserTestController implements Initializable
     public void initialize(URL location, ResourceBundle resources)
     {
         updateOptionButtons();
+        updateProgress();
     }
 
     /**
@@ -185,14 +186,10 @@ public class UserTestController implements Initializable
 
             try
             {
-                updateOptionButtons();
-
-                // Update the progress bar.
                 currentPairCount++;
-                progressLabel.setText("Question " + currentPairCount + " of " +
-                                      items.getItemPairsCount());
-                progressBar.setProgress((double) currentPairCount /
-                                        items.getItemPairsCount());
+
+                updateOptionButtons();
+                updateProgress();
             }
             catch (IndexOutOfBoundsException e)
             {
@@ -223,5 +220,16 @@ public class UserTestController implements Initializable
         // Create the text labels for the buttons from the items' names.
         option1.setText(itemPair.get(0).getValue());
         option2.setText(itemPair.get(1).getValue());
+    }
+
+    /**
+     * Update the progress bar and label to indicate the user's current
+     * progress.
+     */
+    private void updateProgress() {
+        progressLabel.setText("Question " + currentPairCount + " of " +
+                              items.getItemPairsCount());
+        progressBar.setProgress((double) currentPairCount /
+                                items.getItemPairsCount());
     }
 }
