@@ -205,7 +205,7 @@ public class UserTestController implements Initializable
      * @throws IndexOutOfBoundsException when there are no more test
      *                                   item pairs to handle
      */
-    void updateOptionButtons() throws IndexOutOfBoundsException
+    private void updateOptionButtons() throws IndexOutOfBoundsException
     {
         // When there are no more test item pairs available, this throws
         // an IndexOutOfBoundsException.
