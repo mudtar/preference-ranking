@@ -25,7 +25,7 @@ import javafx.stage.Stage;
 public class UserTestController implements Initializable
 {
     //This the counter used for progress bar
-    private double i = 0;
+    private double i = 1;
 
     /**
      * The items to be presented to the user by which to determine user
