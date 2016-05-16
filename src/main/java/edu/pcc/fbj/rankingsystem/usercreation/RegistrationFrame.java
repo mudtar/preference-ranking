@@ -160,11 +160,12 @@ public class RegistrationFrame
     private void emailAlreadyTakenUsernameMessage(RegistrationPanel registrationPanel)
     {
         JOptionPane.showMessageDialog(null, "'" + registrationPanel.getEmail().trim()
-                + "' is already taken. The email must contain at least 1 character and can not match " +
-                "another email in the database.", "Email  '" + registrationPanel.getEmail().trim()
+                + "' is already taken. Please enter new email address. " , "Email  '"
+                + registrationPanel.getEmail().trim()
                 + "' Is Already Taken", 2);
         JTextField temp =  RegistrationFrame.this.registrationPanel.getEmailControl();
         temp.requestFocus();
+        this.registrationPanel.setEmailTextField("");
     }
 
     private void validUsernameMessage(RegistrationPanel registrationPanel)

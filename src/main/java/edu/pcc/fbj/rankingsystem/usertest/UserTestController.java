@@ -163,7 +163,7 @@ public class UserTestController implements Initializable
                     (int) option1.getProperties().get("itemID"),
                     (int) option2.getProperties().get("itemID"), 0);
             }
-
+            /*
             if (i < items.getItemPairsCount())
             {
                 i++;
@@ -173,7 +173,7 @@ public class UserTestController implements Initializable
 
                 //label.setText("Question " + (int)i + " of " + items.getItemPairsCount());
                 System.out.println(i);
-            }
+            }*/
             // Unselect the selected button in preparation for the
             // buttons to be updated with new items.
             selectedToggle.setSelected(false);
