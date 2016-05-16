@@ -74,9 +74,17 @@ public class UserTestController implements Initializable
     @FXML
     private ToggleButton tie;
 
+    /**
+     * The label indicating to the user which pair number they are
+     * seeing and how many total pairs will be presented.
+     */
     @FXML
     private Label progressLabel;
 
+    /**
+     * The progress bar used to visually indicate the progress the
+     * user's progress toward completion of the preference test.
+     */
     @FXML
     private ProgressBar progressBar;
 
