@@ -186,22 +186,19 @@ public class UserTestController implements Initializable
             try
             {
                 updateOptionButtons();
+
+                // Update the progress bar.
+                currentPairCount++;
+                progressLabel.setText("Question " + currentPairCount + " of " +
+                                      items.getItemPairsCount());
+                progressBar.setProgress((double) currentPairCount /
+                                        items.getItemPairsCount());
             }
             catch (IndexOutOfBoundsException e)
             {
                 // There are no more test item pairs to handle.
                 preferences.storePreferences();
                 primaryStage.close();
-            }
-
-            // Update the progress bar.
-            if (currentPairCount < items.getItemPairsCount())
-            {
-                currentPairCount++;
-                progressLabel.setText("Question " + currentPairCount + " of " +
-                                      items.getItemPairsCount());
-                progressBar.setProgress((double) currentPairCount /
-                                        items.getItemPairsCount());
             }
         }
     }
