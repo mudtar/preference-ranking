@@ -35,25 +35,6 @@ public class ReportDB implements ReportDAO
                                      = "SELECT DISTINCT FBJ_USER.Email FROM FBJ_USER " +
                                        " JOIN FBJ_TEST ON FBJ_USER.PK_UserID = FBJ_TEST.FK_UserID";
 
-    /*
-    private static final String GET_USER_TEST_RESULT_SQL
-            = " SELECT FBJ_USER.Email " +
-            " ,FBJ_RESULT.FK_TestID " +
-            " ,FBJ_ITEM.Name " +
-            " ,ISNULL(SUM(CASE WHEN FBJ_RESULT.Value = 1 THEN 1 END), 0) AS Wins " +
-            " ,ISNULL(SUM(CASE WHEN FBJ_RESULT.Value = -1 THEN 1 END), 0) AS Losses " +
-            " ,ISNULL(SUM(CASE WHEN FBJ_RESULT.Value = 0 THEN 1 END), 0) AS Ties " +
-            " ,SUM(FBJ_RESULT.Value) AS Points " +
-            " FROM FBJ_USER " +
-            " JOIN FBJ_TEST ON FBJ_USER.PK_UserID = FBJ_TEST.FK_UserID " +
-            " JOIN FBJ_RESULT ON FBJ_TEST.PK_TestID = FBJ_RESULT.FK_TestID " +
-            " JOIN FBJ_ITEM ON FBJ_ITEM.PK_ItemID = FBJ_RESULT.FK_Item1ID " +
-            " WHERE FBJ_USER.Email = ? " +
-            " AND FBJ_RESULT.FK_TestID IN (SELECT MAX(PK_TestID) FROM FBJ_TEST GROUP BY FBJ_TEST.FK_UserID) " +
-            " GROUP BY FBJ_USER.Email, FBJ_RESULT.FK_TestID, FBJ_ITEM.Name " +
-            " ORDER BY FBJ_RESULT.FK_TestID, SUM(FBJ_RESULT.Value) DESC";
-    */
-
     private static final String GET_USER_TEST_RESULT_SQL =
                     " SELECT FBJ_USER.Email " +
                     " ,UnionResult.FK_TestID " +
