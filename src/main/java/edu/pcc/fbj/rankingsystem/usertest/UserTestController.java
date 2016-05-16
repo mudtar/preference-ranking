@@ -140,29 +140,7 @@ public class UserTestController implements Initializable
         // selection before pressing the submit button.
         if (selectedToggle != null)
         {
-            // I would have preferred to simply grab the fx:id of
-            // selectedToggle in order to identify which toggle was
-            // selected, but there doesn't seem to be a convenient way
-            // to do so. Instead, I have to call each toggle by name and
-            // ask whether it's selected.
-            if (option1.isSelected())
-            {
-                preferences.registerPreference(
-                    (int) option1.getProperties().get("itemID"),
-                    (int) option2.getProperties().get("itemID"), -1);
-            }
-            else if (option2.isSelected())
-            {
-                preferences.registerPreference(
-                    (int) option1.getProperties().get("itemID"),
-                    (int) option2.getProperties().get("itemID"), 1);
-            }
-            else if (tie.isSelected())
-            {
-                preferences.registerPreference(
-                    (int) option1.getProperties().get("itemID"),
-                    (int) option2.getProperties().get("itemID"), 0);
-            }
+            registerPreference();
 
             if (i < items.getItemPairsCount())
             {
@@ -209,5 +187,37 @@ public class UserTestController implements Initializable
         // Create the text labels for the buttons from the items' names.
         option1.setText(itemPair.get(0).getValue());
         option2.setText(itemPair.get(1).getValue());
+    }
+
+    public void handleBack()
+    {
+
+    }
+
+    private void registerPreference()
+    {
+        // I would have preferred to simply grab the fx:id of
+        // selectedToggle in order to identify which toggle was
+        // selected, but there doesn't seem to be a convenient way
+        // to do so. Instead, I have to call each toggle by name and
+        // ask whether it's selected.
+        if (option1.isSelected())
+        {
+            preferences.registerPreference(
+                    (int) option1.getProperties().get("itemID"),
+                    (int) option2.getProperties().get("itemID"), -1);
+        }
+        else if (option2.isSelected())
+        {
+            preferences.registerPreference(
+                    (int) option1.getProperties().get("itemID"),
+                    (int) option2.getProperties().get("itemID"), 1);
+        }
+        else if (tie.isSelected())
+        {
+            preferences.registerPreference(
+                    (int) option1.getProperties().get("itemID"),
+                    (int) option2.getProperties().get("itemID"), 0);
+        }
     }
 }
