@@ -229,7 +229,14 @@ public class UserTestController implements Initializable
     private void updateProgress() {
         progressLabel.setText("Question " + currentPairCount + " of " +
                               items.getItemPairsCount());
-        progressBar.setProgress((double) currentPairCount /
+        // currentPairCount is the count representing the current pair
+        // being displayed. Because the user hasn't selected a
+        // preference yet, the current pair shouldn't count yet when
+        // calculating current progress. For example, when the user is
+        // looking at Question 1, they have 0% progress because they
+        // haven't made any selections yet. As such, subtract 1 from
+        // currentPairCount when calculating actual progress.
+        progressBar.setProgress((double) (currentPairCount - 1) /
                                 items.getItemPairsCount());
     }
 }
