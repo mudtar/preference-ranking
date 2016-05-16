@@ -45,7 +45,7 @@ public class UserTestController implements Initializable
      * The counter representing which pair in the sequence is currently
      * displayed.
      */
-    private int currentPairCount = 1;
+    private int currentPairCount;
 
     /**
      * The group of toggle buttons that represent the user's options for
@@ -186,8 +186,6 @@ public class UserTestController implements Initializable
 
             try
             {
-                currentPairCount++;
-
                 updateOptionButtons();
                 updateProgress();
             }
@@ -227,6 +225,7 @@ public class UserTestController implements Initializable
      * progress.
      */
     private void updateProgress() {
+        currentPairCount++;
         progressLabel.setText("Question " + currentPairCount + " of " +
                               items.getItemPairsCount());
         // currentPairCount is the count representing the current pair
