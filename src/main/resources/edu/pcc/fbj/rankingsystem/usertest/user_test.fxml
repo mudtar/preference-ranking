@@ -22,7 +22,6 @@
     <padding><Insets bottom="10"/></padding>
     <Label
       fx:id="progressLabel"
-      alignment="CENTER"
     />
   </GridPane>
 
