@@ -29,3 +29,11 @@
   -fx-opacity: 1.0;
   -fx-background-color: #fffe90;
 }
+
+#progressLabelPane {
+  -fx-alignment: center;
+}
+
+#progressBarPane {
+  -fx-alignment: center;
+}

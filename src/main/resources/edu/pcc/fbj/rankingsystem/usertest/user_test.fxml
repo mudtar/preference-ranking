@@ -18,36 +18,34 @@
     />
   </fx:define>
 
-  <GridPane vgap="5" alignment="CENTER">
+  <GridPane id="progressLabelPane">
     <padding><Insets bottom="10"/></padding>
     <Label
       fx:id="progressLabel"
     />
   </GridPane>
 
-  <GridPane vgap="10" alignment="CENTER">
+  <GridPane id="progressBarPane">
     <padding><Insets bottom="25"/></padding>
     <ProgressBar fx:id="progressBar"  />
-
   </GridPane>
-  <children>
-    <ToggleButton
-      fx:id="option1"
-      toggleGroup="$options"
-    />
-    <ToggleButton
-      fx:id="option2"
-      toggleGroup="$options"
-    />
-    <ToggleButton
-      fx:id="tie"
-      text="I Can't Decide"
-      toggleGroup="$options"
-    />
-    <Button
-      fx:id="submit"
-      text="Submit"
-      onAction="#handleSubmit"
-    />
-  </children>
+
+  <ToggleButton
+    fx:id="option1"
+    toggleGroup="$options"
+  />
+  <ToggleButton
+    fx:id="option2"
+    toggleGroup="$options"
+  />
+  <ToggleButton
+    fx:id="tie"
+    text="I Can't Decide"
+    toggleGroup="$options"
+  />
+  <Button
+    fx:id="submit"
+    text="Submit"
+    onAction="#handleSubmit"
+  />
 </VBox>
