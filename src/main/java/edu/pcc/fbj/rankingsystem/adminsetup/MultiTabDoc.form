@@ -3,7 +3,7 @@
   <grid id="27dc6" binding="rootPanel" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="10" left="20" bottom="10" right="20"/>
     <constraints>
-      <xy x="20" y="20" width="710" height="778"/>
+      <xy x="20" y="20" width="830" height="778"/>
     </constraints>
     <properties>
       <maximumSize width="600" height="500"/>
@@ -26,7 +26,7 @@
             <properties/>
             <border type="none"/>
             <children>
-              <component id="8ffae" class="javax.swing.JList" binding="itemList">
+              <component id="8ffae" class="javax.swing.JList" binding="itemListItemControl">
                 <constraints>
                   <grid row="1" column="0" row-span="2" col-span="1" vsize-policy="6" hsize-policy="2" anchor="0" fill="3" indent="0" use-parent-layout="false">
                     <minimum-size width="175" height="-1"/>
@@ -43,7 +43,7 @@
                   <text value="Existing Items"/>
                 </properties>
               </component>
-              <component id="6cd38" class="javax.swing.JTextField" binding="textField1" default-binding="true">
+              <component id="6cd38" class="javax.swing.JTextField" binding="itemTextFieldItemControl">
                 <constraints>
                   <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                     <preferred-size width="150" height="-1"/>
@@ -59,15 +59,7 @@
                   <text value="Add Items Here:"/>
                 </properties>
               </component>
-              <component id="e1837" class="javax.swing.JCheckBox" binding="assignImageCheckBox" default-binding="true">
-                <constraints>
-                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <text value="Assign Image"/>
-                </properties>
-              </component>
-              <component id="497eb" class="javax.swing.JButton" binding="cancelButton" default-binding="true">
+              <component id="497eb" class="javax.swing.JButton" binding="cancelButtonItemControl">
                 <constraints>
                   <grid row="5" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
@@ -75,7 +67,7 @@
                   <text value="Cancel"/>
                 </properties>
               </component>
-              <component id="c34da" class="javax.swing.JLabel">
+              <component id="c34da" class="javax.swing.JLabel" binding="imageLabelItemControl">
                 <constraints>
                   <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
                     <preferred-size width="200" height="200"/>
@@ -83,16 +75,16 @@
                 </constraints>
                 <properties>
                   <icon value="edu/pcc/fbj/rankingsystem/adminsetup/noImage200x200.png"/>
-                  <text value="Label"/>
+                  <text value=""/>
                 </properties>
               </component>
-              <component id="1aacd" class="javax.swing.JFileChooser">
+              <component id="1aacd" class="javax.swing.JFileChooser" binding="fileChooserItemControl">
                 <constraints>
                   <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties/>
               </component>
-              <component id="18eb3" class="javax.swing.JLabel">
+              <component id="18eb3" class="javax.swing.JLabel" binding="errorLabelItemControl">
                 <constraints>
                   <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
@@ -100,7 +92,7 @@
                   <text value="Display Errors"/>
                 </properties>
               </component>
-              <component id="7e37d" class="javax.swing.JButton" binding="removeItemsButton" default-binding="true">
+              <component id="7e37d" class="javax.swing.JButton" binding="removeItemButtonItemControl">
                 <constraints>
                   <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
@@ -110,7 +102,7 @@
               </component>
             </children>
           </grid>
-          <grid id="af888" layout-manager="GridLayoutManager" row-count="10" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+          <grid id="af888" layout-manager="GridLayoutManager" row-count="9" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="10" left="20" bottom="10" right="20"/>
             <constraints>
               <tabbedpane title="Test Control Center"/>
@@ -118,43 +110,43 @@
             <properties/>
             <border type="none"/>
             <children>
-              <component id="c5a20" class="javax.swing.JLabel">
+              <component id="c5a20" class="javax.swing.JLabel" binding="errorLabelTestControl">
                 <constraints>
-                  <grid row="9" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <grid row="8" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <text value="Label"/>
+                  <text value="Display Errors Here"/>
                 </properties>
               </component>
-              <component id="aa45d" class="javax.swing.JList" binding="testTabItemList">
+              <component id="aa45d" class="javax.swing.JList" binding="itemListTestControl">
                 <constraints>
-                  <grid row="5" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="2" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                  <grid row="3" column="1" row-span="6" col-span="1" vsize-policy="6" hsize-policy="2" anchor="0" fill="3" indent="0" use-parent-layout="false">
                     <minimum-size width="175" height="-1"/>
                     <preferred-size width="175" height="-1"/>
                   </grid>
                 </constraints>
                 <properties/>
               </component>
-              <component id="bfb98" class="javax.swing.JList" binding="testItemList">
+              <component id="bfb98" class="javax.swing.JList" binding="assignedItemListTestControl">
                 <constraints>
-                  <grid row="5" column="3" row-span="1" col-span="1" vsize-policy="6" hsize-policy="2" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                  <grid row="3" column="3" row-span="6" col-span="1" vsize-policy="6" hsize-policy="2" anchor="0" fill="3" indent="0" use-parent-layout="false">
                     <minimum-size width="175" height="-1"/>
                     <preferred-size width="175" height="-1"/>
                   </grid>
                 </constraints>
                 <properties/>
               </component>
-              <component id="feb52" class="javax.swing.JButton" binding="assignItemButton" default-binding="true">
+              <component id="feb52" class="javax.swing.JButton" binding="assignItemButtonTestControl">
                 <constraints>
-                  <grid row="5" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <text value="Assign Item"/>
+                  <text value="Assign Item &gt;&gt;"/>
                 </properties>
               </component>
               <component id="6b079" class="javax.swing.JLabel">
                 <constraints>
-                  <grid row="4" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <grid row="2" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <text value="Assigned Items"/>
@@ -162,33 +154,16 @@
               </component>
               <component id="456d5" class="javax.swing.JLabel">
                 <constraints>
-                  <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <horizontalAlignment value="0"/>
                   <text value="Item List:"/>
                 </properties>
               </component>
-              <component id="165cd" class="javax.swing.JComboBox" binding="testComboBox">
+              <component id="41876" class="javax.swing.JTextField" binding="testTextFieldTestControl">
                 <constraints>
-                  <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                    <minimum-size width="150" height="-1"/>
-                    <preferred-size width="100" height="-1"/>
-                  </grid>
-                </constraints>
-                <properties/>
-              </component>
-              <component id="d90ce" class="javax.swing.JLabel">
-                <constraints>
-                  <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <text value="Choose Test"/>
-                </properties>
-              </component>
-              <component id="41876" class="javax.swing.JTextField" binding="textField2" default-binding="true">
-                <constraints>
-                  <grid row="8" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                  <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                     <preferred-size width="150" height="-1"/>
                   </grid>
                 </constraints>
@@ -196,15 +171,15 @@
               </component>
               <component id="9d0bb" class="javax.swing.JLabel">
                 <constraints>
-                  <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <text value="Add Test Here:"/>
                 </properties>
               </component>
-              <component id="7f10d" class="javax.swing.JButton" binding="removeTestButton" default-binding="true">
+              <component id="7f10d" class="javax.swing.JButton" binding="removeTestButtonTestControl">
                 <constraints>
-                  <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                  <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false">
                     <preferred-size width="150" height="-1"/>
                   </grid>
                 </constraints>
@@ -212,24 +187,16 @@
                   <text value="Remove Test"/>
                 </properties>
               </component>
-              <component id="7ef9" class="javax.swing.JList" binding="list1" default-binding="true">
+              <component id="7ef9" class="javax.swing.JList" binding="testListTestControl">
                 <constraints>
-                  <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="2" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                  <grid row="1" column="0" row-span="4" col-span="1" vsize-policy="6" hsize-policy="2" anchor="0" fill="3" indent="0" use-parent-layout="false">
                     <minimum-size width="175" height="-1"/>
                     <preferred-size width="175" height="-1"/>
                   </grid>
                 </constraints>
                 <properties/>
               </component>
-              <component id="b119b" class="javax.swing.JLabel">
-                <constraints>
-                  <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <text value="Existing Tests"/>
-                </properties>
-              </component>
-              <component id="3abde" class="javax.swing.JLabel">
+              <component id="3abde" class="javax.swing.JLabel" binding="imageLabelTestControl">
                 <constraints>
                   <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="1" use-parent-layout="false">
                     <minimum-size width="200" height="200"/>
@@ -247,6 +214,22 @@
                 </constraints>
                 <properties>
                   <text value="Assigned Image:"/>
+                </properties>
+              </component>
+              <component id="9b2f" class="javax.swing.JButton" binding="removeItemButtonTestControl">
+                <constraints>
+                  <grid row="4" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="&lt;&lt; Remove Item"/>
+                </properties>
+              </component>
+              <component id="b119b" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <text value="Existing Tests"/>
                 </properties>
               </component>
             </children>
