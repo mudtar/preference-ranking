@@ -53,7 +53,6 @@ public class ItemDAO {
     {
         ArrayList<Item> itemList = new ArrayList<>();
 
-        //add items
         try
         {
             PreparedStatement stmt = connection.prepareStatement(GET_ITEMS_SQL);
