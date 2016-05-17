@@ -1,5 +1,8 @@
 /**
- * Created by Electech on 5/3/2016.
+ * Class to serve as main entry for testing GUI and module functionality for sprint 2 GUI
+ *
+ * @author Eric Kristiansen
+ * @version 5/17/16
  */
 package edu.pcc.fbj.rankingsystem.adminsetup;
 
@@ -8,10 +11,10 @@ import java.awt.*;
 
 public class Main {
 
-
    private static JFrame frame;
     private static MultiTabDoc  tabDoc = new MultiTabDoc();
-
+    private static AdminSetupModel adminSetupModel = new AdminSetupModel();
+    private static AdminSetupController adminSetupController;
 
     public static void main(String[] args) {
         try
@@ -25,18 +28,18 @@ public class Main {
         }
     }
 
-
     private static void createAndShowGUI()
     {
         try
         {
             // create and set up window
             frame = new JFrame("Admin Setup");
+            adminSetupController = new AdminSetupController(frame);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.getContentPane().add(tabDoc.getRootPanel());
             frame.setPreferredSize(new Dimension(900,800));
 
-            //view.setItemList(model.getItems());
+            tabDoc.setItemList(adminSetupModel.getItems());
 
             // Display the window
             frame.pack();

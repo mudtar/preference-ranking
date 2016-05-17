@@ -1,19 +1,21 @@
 package edu.pcc.fbj.rankingsystem.adminsetup;
 
 import edu.pcc.fbj.rankingsystem.dbfactory.DAOFactory;
-import edu.pcc.fbj.rankingsystem.dbfactory.ItemDao;
+import edu.pcc.fbj.rankingsystem.dbfactory.ItemDAO;
+import edu.pcc.fbj.rankingsystem.dbfactory.TestDAO;
 
 import java.util.List;
 
 /**
- * This class handles all of the database operations necessary for our package
+ * This class coordinates all of the database operations necessary for our package
  *
  * @author Eric Kristiansen
- * @version 5/16/16
+ * @version 5/17/16
  */
 public class AdminSetupModel
 {
-    ItemDao itemDAO = DAOFactory.getItemDAO();
+    ItemDAO itemDAO = DAOFactory.getItemDAO();
+    //TestDAO testDAO = DAOFactory.getTestDAO();
 
     /**
      * get Items from items database object
@@ -31,5 +33,24 @@ public class AdminSetupModel
         itemDAO.setItems(passItems);
     }
 
+
+    /*
+    /**
+     * get Tests from tests database object
+     * /
+    public List<Test> getTests()
+    {
+        return testDAO.getTests();
+    }
+
+    /**
+     * set tests in tests database object
+     * /
+    public void setTests(List<Test> passTests)
+    {
+        testDAO.setTests(passTests);
+    }
+
+    */
 
 }

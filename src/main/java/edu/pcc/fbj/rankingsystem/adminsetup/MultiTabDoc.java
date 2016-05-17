@@ -169,8 +169,8 @@ public class MultiTabDoc {
             listModel.addElement(itemTextFieldItemControl.getText());
             itemTextFieldItemControl.setText("");
 
-            // set data in itemList
-            itemListTestControl.setModel(listModel);
+            // set data in itemListt
+            itemListItemControl.setModel(listModel);
 
             checkListLength();
         }

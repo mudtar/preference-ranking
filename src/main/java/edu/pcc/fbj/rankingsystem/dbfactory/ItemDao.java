@@ -13,9 +13,9 @@ import java.util.List;
  * FueledByJava database
  *
  * @author Eric Kristiansen
- * @version 5/16/2016
+ * @version 5/17/2016
  */
-public class ItemDao {
+public class ItemDAO {
 
     //Queries
     private static final String GET_ITEMS_SQL = "SELECT Name FROM FBJ_ITEM";
@@ -30,7 +30,7 @@ public class ItemDao {
      * Create an items object
      * Read from the FBJ database and populate the items list
      */
-    public ItemDao()
+    public ItemDAO()
     {
         try
         {
