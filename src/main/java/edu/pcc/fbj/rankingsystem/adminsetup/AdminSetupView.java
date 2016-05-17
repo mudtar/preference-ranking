@@ -101,7 +101,7 @@ public class AdminSetupView
         else
         {
             itemTextField.requestFocus();
-            errorLabel.setText("Error: Item name too long");
+            errorLabel.setText("<html>Item name must be less<br> than 18 characters long</html>");
             return false;
         }
     }

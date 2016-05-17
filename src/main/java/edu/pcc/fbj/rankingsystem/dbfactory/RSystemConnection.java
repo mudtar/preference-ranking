@@ -1,5 +1,7 @@
 package edu.pcc.fbj.rankingsystem.dbfactory;
 
+import edu.pcc.fbj.rankingsystem.adminsetup.dao.ItemDAO;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -10,6 +12,7 @@ import java.sql.SQLException;
  *
  * @author  David Li
  * @author  Ian Burton
+ * @author  Eric Kristiansen
  * @version 2016.04.29
  */
 public class RSystemConnection
@@ -53,5 +56,15 @@ public class RSystemConnection
         }
 
         return connection;
+    }
+
+    /**
+     * get item database access object
+     * @return itemDAO
+     */
+    public static ItemDAO getItemDAO()
+    {
+        ItemDAO itemDAO = new ItemDAO();
+        return itemDAO;
     }
 }
