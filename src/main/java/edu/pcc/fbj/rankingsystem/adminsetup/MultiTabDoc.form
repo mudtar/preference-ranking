@@ -45,7 +45,8 @@
                   </grid>
                 </constraints>
                 <properties>
-                  <text value="Remove Items"/>
+                  <enabled value="false"/>
+                  <text value="Remove Item"/>
                 </properties>
               </component>
               <component id="fec4f" class="javax.swing.JLabel">
@@ -271,6 +272,7 @@
                   </grid>
                 </constraints>
                 <properties>
+                  <enabled value="false"/>
                   <text value="Assign Item &gt;&gt;"/>
                 </properties>
               </component>
@@ -293,6 +295,7 @@
                   </grid>
                 </constraints>
                 <properties>
+                  <enabled value="false"/>
                   <text value="Remove Test"/>
                 </properties>
               </component>
