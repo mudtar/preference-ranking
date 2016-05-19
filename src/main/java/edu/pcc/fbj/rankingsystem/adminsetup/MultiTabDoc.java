@@ -36,10 +36,26 @@ public class MultiTabDoc {
     private JLabel imageLabelTestControl;
     private JFileChooser fileChooserItemControl;
     private JLabel errorLabelItemControl;
+    private JButton finishButtonItemControl;
+    private JButton cancelAdminButton;
+    private JButton cancelButtonTestControl;
+    private JButton SaveButtonTestControl;
 
-    private DefaultListModel listModel = new DefaultListModel();
+    private DefaultListModel itemListModel = new DefaultListModel();
+    private DefaultListModel testListModel = new DefaultListModel();
 
+    //Image tools
+    Toolkit toolkit = Toolkit.getDefaultToolkit();
+    Image defaultImage = toolkit.getImage("./noImage200x200.png");
+    Icon defaultIcon = new ImageIcon(defaultImage);
+
+    /**
+     * Constructor for View Class
+     * Set up Handlers and initial components
+     */
     public MultiTabDoc() {
+
+        setDefaultIcon();
 
         /**
          * Simple Handlers Section for Item Control
@@ -83,9 +99,13 @@ public class MultiTabDoc {
          */
         testListTestControl.addListSelectionListener(new ListSelectionListener() {
             @Override
-            public void valueChanged(ListSelectionEvent e) {
-            }
+            public void valueChanged(ListSelectionEvent e) { checkListSelection(); }
         });
+        removeTestButtonTestControl.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {removeTest();}
+        });
+
         itemListTestControl.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
@@ -98,12 +118,7 @@ public class MultiTabDoc {
 
             }
         });
-        removeTestButtonTestControl.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
 
-            }
-        });
         testTextFieldTestControl.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -144,14 +159,21 @@ public class MultiTabDoc {
     {
         //get image from selected path
         System.out.println(fileChooserItemControl.getSelectedFile());
-        Toolkit toolkit = Toolkit.getDefaultToolkit();
-        Image image = toolkit.getImage(fileChooserItemControl.getSelectedFile().toString());
+        Image itemImage = toolkit.getImage(fileChooserItemControl.getSelectedFile().toString());
 
         //resize image
-        Icon icon = new ImageIcon(image.getScaledInstance(200, 200, Image.SCALE_DEFAULT));
+        Icon itemIcon = new ImageIcon(itemImage.getScaledInstance(200, 200, Image.SCALE_DEFAULT));
 
         //display Image in Image Label
-        imageLabelItemControl.setIcon(icon);
+        imageLabelItemControl.setIcon(itemIcon);
+    }
+
+    /**
+     * set the
+     */
+    public void setDefaultIcon()
+    {
+        imageLabelItemControl.setIcon(defaultIcon);
     }
 
     /**
@@ -163,11 +185,11 @@ public class MultiTabDoc {
         if (validateItemField())
         {
             // add items to a default list
-            listModel.addElement(itemTextFieldItemControl.getText());
+            itemListModel.addElement(itemTextFieldItemControl.getText());
             itemTextFieldItemControl.setText("");
 
             // set data in itemListt
-            itemListItemControl.setModel(listModel);
+            itemListItemControl.setModel(itemListModel);
 
             checkListLength();
         }
@@ -201,9 +223,9 @@ public class MultiTabDoc {
     {
         ArrayList<Item> passItems = new ArrayList<>();
 
-        for(int i = 0; i < listModel.size(); i++)
+        for(int i = 0; i < itemListModel.size(); i++)
         {
-            passItems.add(new Item(listModel.getElementAt(i).toString()));
+            passItems.add(new Item(itemListModel.getElementAt(i).toString()));
         }
 
         resetErrorLabel();
@@ -218,12 +240,14 @@ public class MultiTabDoc {
     public void cancelAdmin()
     {
         itemTextFieldItemControl.setText("");
-        listModel.removeAllElements();
+        itemListModel.removeAllElements();
         resetErrorLabel();
         // set data in itemList
         setItemList(AdminSetupController.getItems());
         setInitialFocus();
+        setDefaultIcon();
     }
+
     /**
      * set the initial item list
      * @param passList is list of item objects passed from the controller
@@ -232,14 +256,15 @@ public class MultiTabDoc {
     public void setItemList(List<Item> passList)
     {
         // clear item list
-        listModel.clear();
+        itemListModel.clear();
 
         //add items to list Model
         for (Item item: passList)
         {
-            listModel.addElement(item.toString());
+            itemListModel.addElement(item.toString());
         }
-        itemListItemControl.setModel(listModel);
+        itemListItemControl.setModel(itemListModel);
+        itemListTestControl.setModel(itemListModel);
     }
 
     /**
@@ -266,9 +291,32 @@ public class MultiTabDoc {
     {
         try
         {
-            listModel.remove(itemListItemControl.getSelectedIndex());
+            itemListModel.remove(itemListItemControl.getSelectedIndex());
             // set data in itemList
-            itemListItemControl.setModel(listModel);
+            itemListItemControl.setModel(itemListModel);
+            itemListItemControl.setSelectedIndex(-1);
+
+            // enable and disable components
+            checkListLength();
+            checkListSelection();
+        }
+        catch(ArrayIndexOutOfBoundsException ex) {
+            System.out.println(ex.toString());
+        }
+    }
+
+    /**
+     * This method is called when the user selects an item in the list,
+     * and presses the remove item button. Its purpose is to remove the
+     * selected list field from the default list model.
+     */
+    public void removeTest()
+    {
+        try
+        {
+            testListModel.remove(itemListItemControl.getSelectedIndex());
+            // set data in itemList
+            itemListItemControl.setModel(testListModel);
             itemListItemControl.setSelectedIndex(-1);
 
             // enable and disable components
@@ -286,7 +334,7 @@ public class MultiTabDoc {
      */
     public void checkListLength()
     {
-        if(listModel.getSize() > 2)
+        if(itemListModel.getSize() > 2)
         {
             finishedButton.setEnabled(true);
         }

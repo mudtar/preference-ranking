@@ -6,9 +6,7 @@ import javax.swing.*;
  * @author Eric Kristiansen
  *
  * version 5/17/16
- *
- * This class was designed with future development in mind. It only holds a string variable
- * currently, but will eventually hold more
+ * This class will represent data from the Item table in FBJ
  */
 public class Item
 {
