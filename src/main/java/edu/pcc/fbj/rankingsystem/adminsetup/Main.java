@@ -37,7 +37,10 @@ public class Main {
             adminSetupController = new AdminSetupController(frame);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.getContentPane().add(tabDoc.getRootPanel());
-            frame.setPreferredSize(new Dimension(950,640));
+            frame.setPreferredSize(new Dimension(910,640));
+
+            Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+            frame.setLocation(dim.width/2 - 910/2, dim.height/2 - 640/2);
 
             tabDoc.setItemList(adminSetupModel.getItems());
 
