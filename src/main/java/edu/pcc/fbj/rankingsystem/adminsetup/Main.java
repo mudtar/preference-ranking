@@ -16,6 +16,9 @@ public class Main {
     private static AdminSetupModel adminSetupModel = new AdminSetupModel();
     private static AdminSetupController adminSetupController;
 
+    private final static int WIDTH = 910;
+    private final static int HEIGHT = 640;
+
     public static void main(String[] args) {
         try
         {
@@ -37,10 +40,10 @@ public class Main {
             adminSetupController = new AdminSetupController(frame);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.getContentPane().add(tabDoc.getRootPanel());
-            frame.setPreferredSize(new Dimension(910,640));
+            frame.setPreferredSize(new Dimension(WIDTH,HEIGHT));
 
             Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-            frame.setLocation(dim.width/2 - 910/2, dim.height/2 - 640/2);
+            frame.setLocation(dim.width/2 - WIDTH/2, dim.height/2 - HEIGHT/2);
 
             tabDoc.setItemList(adminSetupModel.getItems());
 

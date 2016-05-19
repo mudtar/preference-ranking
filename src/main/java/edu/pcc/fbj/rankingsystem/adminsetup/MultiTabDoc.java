@@ -55,63 +55,37 @@ public class MultiTabDoc {
      */
     public MultiTabDoc() {
 
-        setDefaultIcon();
-
         /**
          * Simple Handlers Section for Item Control
          */
-        itemListItemControl.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) { checkListSelection(); }
-        });
-        removeItemButtonItemControl.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) { removeItem(); }
-        });
-        itemTextFieldItemControl.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) { appendTextFieldText(); }
-        });
-        finishedButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) { finishAdminSetup(); }
-        });
-        cancelButtonItemControl.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) { cancelAdmin(); }
-        });
-        fileChooserItemControl.addPropertyChangeListener(new PropertyChangeListener()
-        {
-            @Override
-            public void propertyChange(PropertyChangeEvent propertyChangeEvent)
-            {
-                if (fileChooserItemControl.SELECTED_FILE_CHANGED_PROPERTY
-                        .equals(propertyChangeEvent.getPropertyName()) &&
-                        fileChooserItemControl.getSelectedFile() != null)
-                {
-                    getImageFile();
-                }
-            }
-        });
+        itemListItemControl.addListSelectionListener(e ->
+                checkListSelection(itemListItemControl, removeItemButtonItemControl));
+
+        removeItemButtonItemControl.addActionListener(e -> removeItem());
+
+        itemTextFieldItemControl.addActionListener(e -> appendItemTextFieldText());
+
+        finishedButton.addActionListener(e -> finishAdminSetup());
+
+        cancelButtonItemControl.addActionListener(e -> cancelAdmin());
+
+        fileChooserItemControl.addPropertyChangeListener(propertyChangeEvent -> {
+                    if (fileChooserItemControl.SELECTED_FILE_CHANGED_PROPERTY
+                            .equals(propertyChangeEvent.getPropertyName()) &&
+                            fileChooserItemControl.getSelectedFile() != null)
+                    { getImageFile(); } });
 
         /**
          * Simple handlers for Test Control
          */
-        testListTestControl.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) { checkListSelection(); }
-        });
-        removeTestButtonTestControl.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {removeTest();}
-        });
+        testListTestControl.addListSelectionListener(e ->
+                checkListSelection(testListTestControl, removeTestButtonTestControl));
 
-        itemListTestControl.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
+        removeTestButtonTestControl.addActionListener(e -> removeTest());
 
-            }
-        });
+        itemListTestControl.addListSelectionListener(e ->
+                checkListSelection(itemListTestControl, assignItemButtonTestControl));
+
         assignedItemListTestControl.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
@@ -119,12 +93,8 @@ public class MultiTabDoc {
             }
         });
 
-        testTextFieldTestControl.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        testTextFieldTestControl.addActionListener(e ->  appendTestTextFieldText());
 
-            }
-        });
         assignItemButtonTestControl.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -180,9 +150,9 @@ public class MultiTabDoc {
      * This method takes the value of the textfield, and
      * appends the list of items.
      */
-    public void appendTextFieldText()
+    public void appendItemTextFieldText()
     {
-        if (validateItemField())
+        if (validateFieldLength(itemTextFieldItemControl, errorLabelItemControl))
         {
             // add items to a default list
             itemListModel.addElement(itemTextFieldItemControl.getText());
@@ -196,21 +166,40 @@ public class MultiTabDoc {
     }
 
     /**
+     * This method takes the value of the textfield, and
+     * appends the list of items.
+     */
+    public void appendTestTextFieldText()
+    {
+        if (validateFieldLength(testTextFieldTestControl, errorLabelTestControl))
+        {
+            // add items to a default list
+            testListModel.addElement(testTextFieldTestControl.getText());
+            testTextFieldTestControl.setText("");
+
+            // set data in testList
+            testListTestControl.setModel(testListModel);
+
+            //checkListLength();
+        }
+    }
+
+    /**
      *
-     * @return true if item length is less than 18
+     * @return true if length is less than 18
      * the database field is varchar(20)
      */
-    public Boolean validateItemField()
+    public Boolean validateFieldLength(JTextField passTextField, JLabel passLabel)
     {
-        if (itemTextFieldItemControl.getText().length() < 18)
+        if (passTextField.getText().length() < 18)
         {
             resetErrorLabel();
             return true;
         }
         else
         {
-            itemTextFieldItemControl.requestFocus();
-            errorLabelItemControl.setText("<html>Item name must be less<br> than 18 characters long</html>");
+            passTextField.requestFocus();
+            passLabel.setText("<html>Item name must be less<br> than 18 characters long</html>");
             return false;
         }
     }
@@ -298,7 +287,7 @@ public class MultiTabDoc {
 
             // enable and disable components
             checkListLength();
-            checkListSelection();
+            checkListSelection(itemListItemControl, removeItemButtonItemControl);
         }
         catch(ArrayIndexOutOfBoundsException ex) {
             System.out.println(ex.toString());
@@ -314,14 +303,13 @@ public class MultiTabDoc {
     {
         try
         {
-            testListModel.remove(itemListItemControl.getSelectedIndex());
-            // set data in itemList
-            itemListItemControl.setModel(testListModel);
-            itemListItemControl.setSelectedIndex(-1);
+            testListModel.remove(testListTestControl.getSelectedIndex());
+            // set data in testList
+            testListTestControl.setModel(testListModel);
+            testListTestControl.setSelectedIndex(-1);
 
             // enable and disable components
-            checkListLength();
-            checkListSelection();
+            checkListSelection(testListTestControl, removeTestButtonTestControl);
         }
         catch(ArrayIndexOutOfBoundsException ex) {
             System.out.println(ex.toString());
@@ -345,18 +333,18 @@ public class MultiTabDoc {
     }
 
     /**
-     * Enable or disable Remove Item Button
+     * Enable or disable Remove Button
      * based on selected Index
      */
-    private void checkListSelection()
+    private void checkListSelection(JList passList, JButton passButton)
     {
-        if (itemListItemControl.getSelectedIndex() != -1)
+        if (passList.getSelectedIndex() != -1)
         {
-            removeItemButtonItemControl.setEnabled(true);
+            passButton.setEnabled(true);
         }
         else
         {
-            removeItemButtonItemControl.setEnabled(false);
+            passButton.setEnabled(false);
         }
     }
 
