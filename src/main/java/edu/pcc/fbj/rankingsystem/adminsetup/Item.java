@@ -11,16 +11,26 @@ import javax.swing.*;
 public class Item
 {
     private String name;
-    //private Icon icon;
+    private Icon icon = null;
 
     /**
      * constructor for the Item object
      * @param passName
      */
-    public Item(String passName /*, Icon passIcon */)
+    public Item(String passName)
     {
         name = passName;
-        //icon = passIcon;
+    }
+
+    /**
+     * constructor for the Item object
+     * @param passName
+     * @param passIcon
+     */
+    public Item(String passName, Icon passIcon)
+    {
+        name = passName;
+        icon = passIcon;
     }
 
     /**
@@ -38,14 +48,12 @@ public class Item
      */
     public String getName() { return name; }
 
-    /*
     /**
      * Method to return icon independent of other variables of item object
      * @return icon
-     * /
+     */
     public Icon getIcon()
     {
         return icon;
     }
-    */
 }

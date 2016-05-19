@@ -1,14 +1,8 @@
 package edu.pcc.fbj.rankingsystem.adminsetup;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,6 +37,8 @@ public class MultiTabDoc {
 
     private DefaultListModel itemListModel = new DefaultListModel();
     private DefaultListModel testListModel = new DefaultListModel();
+    private List<Item> items;
+    private Boolean isGood;
 
     //Image tools
     Toolkit toolkit = Toolkit.getDefaultToolkit();
@@ -59,7 +55,10 @@ public class MultiTabDoc {
          * Simple Handlers Section for Item Control
          */
         itemListItemControl.addListSelectionListener(e ->
-                checkListSelection(itemListItemControl, removeItemButtonItemControl));
+            {
+                checkListSelection(itemListItemControl, removeItemButtonItemControl);
+                getSelectedItemImage(itemListItemControl, imageLabelItemControl);
+            });
 
         removeItemButtonItemControl.addActionListener(e -> removeItem());
 
@@ -69,53 +68,44 @@ public class MultiTabDoc {
 
         cancelButtonItemControl.addActionListener(e -> cancelAdmin());
 
-        fileChooserItemControl.addPropertyChangeListener(propertyChangeEvent -> {
-                    if (fileChooserItemControl.SELECTED_FILE_CHANGED_PROPERTY
-                            .equals(propertyChangeEvent.getPropertyName()) &&
-                            fileChooserItemControl.getSelectedFile() != null)
-                    { getImageFile(); } });
+        fileChooserItemControl.addPropertyChangeListener(propertyChangeEvent ->
+            {
+                if (fileChooserItemControl.SELECTED_FILE_CHANGED_PROPERTY
+                        .equals(propertyChangeEvent.getPropertyName()) &&
+                        fileChooserItemControl.getSelectedFile() != null)
+                { getImageFromFileChooser(); }
+            });
 
         /**
          * Simple handlers for Test Control
          */
         testListTestControl.addListSelectionListener(e ->
-                checkListSelection(testListTestControl, removeTestButtonTestControl));
-
+            {
+                checkListSelection(testListTestControl, removeTestButtonTestControl);
+                loadItemsForSelectedTest();
+            });
         removeTestButtonTestControl.addActionListener(e -> removeTest());
 
         itemListTestControl.addListSelectionListener(e ->
-                checkListSelection(itemListTestControl, assignItemButtonTestControl));
+            {
+                checkListSelection(itemListTestControl, assignItemButtonTestControl);
+                getSelectedItemImage(itemListTestControl, imageLabelTestControl);
+            });
 
-        assignedItemListTestControl.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-
-            }
-        });
+        assignedItemListTestControl.addListSelectionListener(e ->
+               checkListSelection(assignedItemListTestControl, removeItemButtonTestControl));
 
         testTextFieldTestControl.addActionListener(e ->  appendTestTextFieldText());
 
-        assignItemButtonTestControl.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        assignItemButtonTestControl.addActionListener(e -> assignItemToTest());
 
-            }
-        });
-        removeItemButtonTestControl.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        removeItemButtonTestControl.addActionListener(e -> removeItemFromTestList());
 
-            }
-        });
-
-        // fileChooser options
-        fileChooserItemControl.setDragEnabled(true);
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("Image Files", "jpg", "png", "gif", "jpeg");
-        fileChooserItemControl.setFileFilter(filter);
+        // set file Chooser options
+        setupFileChooser();
     }
 
     /**
-     *
      * This function sets a border on the root panel, and returns it to be used by the controller.
      * @return JPanel returned to the controller for instantiating
      */
@@ -124,8 +114,44 @@ public class MultiTabDoc {
         rootPanel.setBorder(new javax.swing.border.EmptyBorder(20, 50, 20, 50));
         return rootPanel;
     }
+    /**
+     * Basic setup stuff for fileChooser
+     */
+    private void setupFileChooser()
+    {
+        fileChooserItemControl.setDragEnabled(true);
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Image Files", "jpg", "png", "gif", "jpeg");
+        fileChooserItemControl.setFileFilter(filter);
+    }
 
-    private void getImageFile()
+    /**
+     * add selected item to the testItemList
+     */
+    private void assignItemToTest()
+    {
+        //
+    }
+
+    /**
+     *remove Item from test list
+     */
+    private void removeItemFromTestList()
+    {
+        //
+    }
+
+    /**
+     * load the items assigned for a given test
+     */
+    private void loadItemsForSelectedTest()
+    {
+
+    }
+
+    /**
+     * Get the image from the fileChooser, and display at appropriate size
+     */
+    private void getImageFromFileChooser()
     {
         //get image from selected path
         System.out.println(fileChooserItemControl.getSelectedFile());
@@ -139,21 +165,32 @@ public class MultiTabDoc {
     }
 
     /**
-     * set the
+     *
      */
-    public void setDefaultIcon()
+    private void getSelectedItemImage(JList passList, JLabel passLabel)
     {
-        imageLabelItemControl.setIcon(defaultIcon);
+        //find selected item in items, and display icon
+    }
+
+    /**
+     * set the image label to default icon
+     * @param passLabel
+     */
+    private void setDefaultIcon(JLabel passLabel)
+    {
+        passLabel.setIcon(defaultIcon);
     }
 
     /**
      * This method takes the value of the textfield, and
      * appends the list of items.
      */
-    public void appendItemTextFieldText()
+    private void appendItemTextFieldText()
     {
         if (validateFieldLength(itemTextFieldItemControl, errorLabelItemControl))
         {
+            //add item to items
+
             // add items to a default list
             itemListModel.addElement(itemTextFieldItemControl.getText());
             itemTextFieldItemControl.setText("");
@@ -169,7 +206,7 @@ public class MultiTabDoc {
      * This method takes the value of the textfield, and
      * appends the list of items.
      */
-    public void appendTestTextFieldText()
+    private void appendTestTextFieldText()
     {
         if (validateFieldLength(testTextFieldTestControl, errorLabelTestControl))
         {
@@ -185,15 +222,17 @@ public class MultiTabDoc {
     }
 
     /**
-     *
      * @return true if length is less than 18
      * the database field is varchar(20)
+     * Sets error label if appropriate
+     *
+     * @param passTextField and passLabel
      */
-    public Boolean validateFieldLength(JTextField passTextField, JLabel passLabel)
+    private Boolean validateFieldLength(JTextField passTextField, JLabel passLabel)
     {
         if (passTextField.getText().length() < 18)
         {
-            resetErrorLabel();
+            resetErrorLabel(passLabel);
             return true;
         }
         else
@@ -208,7 +247,7 @@ public class MultiTabDoc {
      * pass the itemList back to the controller for use by the model, and
      * display a finished message
      */
-    public void finishAdminSetup()
+    private void finishAdminSetup()
     {
         ArrayList<Item> passItems = new ArrayList<>();
 
@@ -217,7 +256,7 @@ public class MultiTabDoc {
             passItems.add(new Item(itemListModel.getElementAt(i).toString()));
         }
 
-        resetErrorLabel();
+        resetErrorLabel(errorLabelItemControl);
         itemTextFieldItemControl.setText("");
         AdminSetupController.setItems(passItems);
         AdminSetupController.closeFrame();
@@ -226,15 +265,15 @@ public class MultiTabDoc {
     /**
      * Cancel, do not write list to database, close frame
      */
-    public void cancelAdmin()
+    private void cancelAdmin()
     {
         itemTextFieldItemControl.setText("");
         itemListModel.removeAllElements();
-        resetErrorLabel();
+        resetErrorLabel(errorLabelItemControl);
         // set data in itemList
         setItemList(AdminSetupController.getItems());
         setInitialFocus();
-        setDefaultIcon();
+        setDefaultIcon(errorLabelItemControl);
     }
 
     /**
@@ -244,11 +283,11 @@ public class MultiTabDoc {
      */
     public void setItemList(List<Item> passList)
     {
-        // clear item list
-        itemListModel.clear();
+        items = passList;
 
-        //add items to list Model
-        for (Item item: passList)
+        // set List Model
+        itemListModel.clear();
+        for (Item item: items)
         {
             itemListModel.addElement(item.toString());
         }
@@ -257,11 +296,18 @@ public class MultiTabDoc {
     }
 
     /**
-     *
+     * reset error label blank
+     * @param passLabel
      */
-    private void resetErrorLabel()
+    private void resetErrorLabel(JLabel passLabel) { passLabel.setText(""); }
+
+    /**
+     * reset error labels to blank
+     */
+    private void resetErrorLabels()
     {
         errorLabelItemControl.setText("");
+        errorLabelTestControl.setText("");
     }
 
     /**
@@ -322,14 +368,8 @@ public class MultiTabDoc {
      */
     public void checkListLength()
     {
-        if(itemListModel.getSize() > 2)
-        {
-            finishedButton.setEnabled(true);
-        }
-        else
-        {
-            finishedButton.setEnabled(false);
-        }
+        isGood = (itemListModel.getSize() > 2) ? true : false;
+        finishedButton.setEnabled(isGood);
     }
 
     /**
@@ -338,14 +378,8 @@ public class MultiTabDoc {
      */
     private void checkListSelection(JList passList, JButton passButton)
     {
-        if (passList.getSelectedIndex() != -1)
-        {
-            passButton.setEnabled(true);
-        }
-        else
-        {
-            passButton.setEnabled(false);
-        }
+        isGood = (passList.getSelectedIndex() != -1) ? true : false;
+        passButton.setEnabled(isGood);
     }
 
 }
