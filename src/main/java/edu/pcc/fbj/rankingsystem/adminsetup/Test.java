@@ -1,7 +1,7 @@
 package edu.pcc.fbj.rankingsystem.adminsetup;
 
 /**
- * Created by Electech on 5/17/2016.
+ * @author Eric Kristiansen on 5/17/2016.
  */
 public class Test
 {
