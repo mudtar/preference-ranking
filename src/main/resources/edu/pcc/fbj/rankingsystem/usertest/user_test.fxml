@@ -7,6 +7,7 @@
 <?import javafx.scene.control.ProgressBar?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
 <VBox
   xmlns:fx="http://javafx.com/fxml"
   fx:controller="edu.pcc.fbj.rankingsystem.usertest.UserTestController"
@@ -20,13 +21,12 @@
 
   <GridPane vgap="5" alignment="CENTER">
     <padding><Insets bottom="10"/></padding>
-    <Label fx:id="label" alignment="CENTER" text="0 questions answered"/>
+    <Label fx:id="progressLabel" alignment="CENTER" text="0 questions answered"/>
   </GridPane>
 
   <GridPane vgap="10" alignment="CENTER">
     <padding><Insets bottom="25"/></padding>
-    <ProgressBar fx:id="progress"  />
-
+    <ProgressBar fx:id="progressBar"  />
   </GridPane>
   <children>
     <ToggleButton
@@ -47,10 +47,14 @@
       text="Submit"
       onAction="#handleSubmit"
     />
+    <GridPane vgap="10" alignment="CENTER">
+    <padding><Insets top="10"/></padding>
     <Button
-            fx:id="back"
-            text="Back"
-            onAction="#handleBack"
+      fx:id="back"
+      text="Back"
+      onAction="#handleBack"
     />
+    </GridPane>
   </children>
 </VBox>
+

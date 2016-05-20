@@ -27,9 +27,11 @@ class Items
     private List<List<Map.Entry<Integer, String>>> itemPairs;
 
     /**
-     * The list index of the next element of itemPairs to return.
+     * The list index of the next element of itemPairs to return. Initialized
+     * to -1 so that the first time an item pair is retrieved and this index
+     * is incremented, it begins at 0.
      */
-    private int nextItemPairIndex;
+    private int itemPairIndex = -1;
 
     /**
      * Constructs the Items object by getting the items from the
@@ -73,17 +75,28 @@ class Items
      * @throws IndexOutOfBoundsException when there are no more test
      *                                   item pairs to return
      */
-    List<Map.Entry<Integer, String>> getItemPair()
+    List<Map.Entry<Integer, String>> getNextItemPair()
         throws IndexOutOfBoundsException
     {
+        // Increment the index of the next pair of items so that this
+        // method grabs the next one next time it's called.
+        itemPairIndex++;
+
         // Get the first pair of items that hasn't yet been returned,
         // i.e. the next pair of items.
         List<Map.Entry<Integer, String>> itemPair =
-            itemPairs.get(nextItemPairIndex);
+            itemPairs.get(itemPairIndex);
 
-        // Increment the index of the next pair of items so that this
-        // method grabs the next one next time it's called.
-        nextItemPairIndex++;
+        return itemPair;
+    }
+
+    List<Map.Entry<Integer, String>> getPreviousItemPair()
+            throws IndexOutOfBoundsException
+    {
+        itemPairIndex--;
+
+        List<Map.Entry<Integer, String>> itemPair =
+                itemPairs.get(itemPairIndex);
 
         return itemPair;
     }

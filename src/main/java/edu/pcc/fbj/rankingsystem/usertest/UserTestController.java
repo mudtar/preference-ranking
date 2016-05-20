@@ -7,8 +7,12 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
+import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.stage.Stage;
+import javafx.scene.control.Toggle;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
 
 /**
  * The controller for the preference test, which brings together the GUI
@@ -21,7 +25,7 @@ import javafx.stage.Stage;
 public class UserTestController implements Initializable
 {
     //This the counter used for progress bar
-    private double i = 0;
+    private double currentPairCount = 0;
 
     /**
      * The items to be presented to the user by which to determine user
@@ -67,11 +71,19 @@ public class UserTestController implements Initializable
     @FXML
     private ToggleButton tie;
 
+    /**
+     * The label indicating to the user which pair number they are
+     * seeing and how many total pairs will be presented.
+     */
     @FXML
-    private Label label;
+    private Label progressLabel;
 
+    /**
+     * The progress bar used to visually indicate the progress the
+     * user's progress toward completion of the preference test.
+     */
     @FXML
-    private ProgressBar progress;
+    private ProgressBar progressBar;
 
     /**
      * Constructs the controller for the preference test.
@@ -142,14 +154,7 @@ public class UserTestController implements Initializable
         {
             registerPreference();
 
-            if (i < items.getItemPairsCount())
-            {
-                i++;
-                label.setText("Question " + (int)i + " of " + items.getItemPairsCount());
-                System.out.println(items.getItemPairsCount());
-                progress.setProgress(i/(items.getItemPairsCount()));
-                System.out.println(i);
-            }
+            updateProgressBar();
             // Unselect the selected button in preparation for the
             // buttons to be updated with new items.
             selectedToggle.setSelected(false);
@@ -178,7 +183,7 @@ public class UserTestController implements Initializable
     {
         // When there are no more test item pairs available, this throws
         // an IndexOutOfBoundsException.
-        List<Map.Entry<Integer, String>> itemPair = items.getItemPair();
+        List<Map.Entry<Integer, String>> itemPair = items.getNextItemPair();
 
         // Associate the items' IDs with their toggle buttons.
         option1.getProperties().put("itemID", itemPair.get(0).getKey());
@@ -191,7 +196,7 @@ public class UserTestController implements Initializable
 
     public void handleBack()
     {
-
+        // Items: right now, getItemPair(), but we want: getNextItemPair() + getPreviousItemPair()
     }
 
     private void registerPreference()
@@ -218,6 +223,21 @@ public class UserTestController implements Initializable
             preferences.registerPreference(
                     (int) option1.getProperties().get("itemID"),
                     (int) option2.getProperties().get("itemID"), 0);
+        }
+    }
+
+    // Update the progress bar
+    public void updateProgressBar()
+    {
+
+        if (currentPairCount < items.getItemPairsCount())
+        {
+            currentPairCount++;
+            progressLabel.setText("Question " + (int)currentPairCount + " of " + items.getItemPairsCount());
+            System.out.println(items.getItemPairsCount());
+            progressBar.setProgress(currentPairCount/(items.getItemPairsCount()));
+            System.out.println(currentPairCount);
+
         }
     }
 }
