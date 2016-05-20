@@ -7,12 +7,8 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
-import javafx.scene.control.Toggle;
-import javafx.scene.control.ToggleButton;
-import javafx.scene.control.ToggleGroup;
 
 /**
  * The controller for the preference test, which brings together the GUI
@@ -24,9 +20,6 @@ import javafx.scene.control.ToggleGroup;
  */
 public class UserTestController implements Initializable
 {
-    //This the counter used for progress bar
-    private double currentPairCount = 0;
-
     /**
      * The items to be presented to the user by which to determine user
      * preferences.
@@ -62,6 +55,9 @@ public class UserTestController implements Initializable
      */
     @FXML
     private ToggleButton option2;
+
+    @FXML
+    private Button back;
 
     /**
      * The button representing the "I Can't Decide" test option, which
@@ -109,7 +105,8 @@ public class UserTestController implements Initializable
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
-        updateOptionButtons();
+        updateOptionsNext();
+        updateProgressBar();
     }
 
     /**
@@ -154,14 +151,13 @@ public class UserTestController implements Initializable
         {
             registerPreference();
 
-            updateProgressBar();
             // Unselect the selected button in preparation for the
             // buttons to be updated with new items.
             selectedToggle.setSelected(false);
 
             try
             {
-                updateOptionButtons();
+                updateOptionsNext();
             }
             catch (IndexOutOfBoundsException e)
             {
@@ -169,6 +165,8 @@ public class UserTestController implements Initializable
                 preferences.storePreferences();
                 primaryStage.close();
             }
+
+            updateProgressBar();
         }
     }
 
@@ -176,14 +174,23 @@ public class UserTestController implements Initializable
      * Update the GUI's option buttons with the next pair of items to be
      * presented to the user.
      *
+     * @param  itemPair                  the pair of items with which to
+     *                                   update the option buttons
      * @throws IndexOutOfBoundsException when there are no more test
      *                                   item pairs to handle
      */
-    private void updateOptionButtons() throws IndexOutOfBoundsException
+    private void updateButtons(List<Map.Entry<Integer, String>> itemPair)
     {
-        // When there are no more test item pairs available, this throws
-        // an IndexOutOfBoundsException.
-        List<Map.Entry<Integer, String>> itemPair = items.getNextItemPair();
+        // Enable or disable the back button based upon whether there are
+        // items available to go back to.
+        if (items.getItemPairIndex() <= 0)
+        {
+            back.setDisable(true);
+        }
+        else
+        {
+            back.setDisable(false);
+        }
 
         // Associate the items' IDs with their toggle buttons.
         option1.getProperties().put("itemID", itemPair.get(0).getKey());
@@ -194,9 +201,48 @@ public class UserTestController implements Initializable
         option2.setText(itemPair.get(1).getValue());
     }
 
-    public void handleBack()
+    private void updateOptionsNext() throws IndexOutOfBoundsException
     {
-        // Items: right now, getItemPair(), but we want: getNextItemPair() + getPreviousItemPair()
+        // When there are no more test item pairs available, this throws
+        // an IndexOutOfBoundsException.
+        List<Map.Entry<Integer, String>> itemPair = items.getNextItemPair();
+
+        updateButtons(itemPair);
+    }
+
+    private void updateOptionsPrevious() throws IndexOutOfBoundsException
+    {
+        // When there are no more test item pairs available, this throws
+        // an IndexOutOfBoundsException.
+        List<Map.Entry<Integer, String>> itemPair = items.getPreviousItemPair();
+
+        updateButtons(itemPair);
+    }
+
+    public void handleBack() throws SQLException {
+        Toggle selectedToggle = options.getSelectedToggle();
+
+        // Only register the user's preference if they actually made a
+        // selection before pressing the submit button.
+        if (selectedToggle != null)
+        {
+            // This will just add a new preference rather than updating an existing one.
+            // Fix this.
+            // Use items.getItemPairIndex() as the list index for storing the preference,
+            // that way we'll be able to go back and forward and still know exactly where
+            // to find each stored preference.
+            registerPreference();
+
+            // Unselect the selected button in preparation for the
+            // buttons to be updated with new items.
+            selectedToggle.setSelected(false);
+        }
+
+        // NOTE: Reselect the proper toggle on the new screen after going back based on what the
+        // stored preference for this screen is.
+
+        updateOptionsPrevious();
+        updateProgressBar();
     }
 
     private void registerPreference()
@@ -229,7 +275,8 @@ public class UserTestController implements Initializable
     // Update the progress bar
     public void updateProgressBar()
     {
-
+        //items.getItemPairIndex();
+        /*
         if (currentPairCount < items.getItemPairsCount())
         {
             currentPairCount++;
@@ -239,5 +286,14 @@ public class UserTestController implements Initializable
             System.out.println(currentPairCount);
 
         }
+        */
+        int currentPairCount = items.getItemPairIndex() + 1;
+
+        progressLabel.setText("Question " + currentPairCount + " of " + items.getItemPairsCount());
+        System.out.println(items.getItemPairsCount());
+        // This question hasn't been answered yet, so we shouldn't count this current pair yet
+        // as progress.
+        progressBar.setProgress((double) (currentPairCount - 1) / items.getItemPairsCount());;
+        System.out.println(currentPairCount);
     }
 }

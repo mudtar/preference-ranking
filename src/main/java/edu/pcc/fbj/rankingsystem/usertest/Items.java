@@ -115,6 +115,11 @@ class Items
         return -1;
     }
 
+    int getItemPairIndex()
+    {
+        return itemPairIndex;
+    }
+
     /**
      * Creates and stores a list of all unique pairs of test items. The
      * items are paired in random order, and the order of the pairs is
