@@ -1,5 +1,6 @@
 /**
  * Class to serve as main entry for testing GUI and module functionality for sprint 2 GUI
+ * This is only a temporary parallel solution before I fully implement sprint 2 GUI
  *
  * @author Eric Kristiansen
  * @version 5/17/16

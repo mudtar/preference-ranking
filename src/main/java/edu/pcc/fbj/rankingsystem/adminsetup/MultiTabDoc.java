@@ -1,9 +1,19 @@
 package edu.pcc.fbj.rankingsystem.adminsetup;
 
+import javax.annotation.Resource;
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FilenameFilter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -30,20 +40,18 @@ public class MultiTabDoc {
     private JLabel imageLabelTestControl;
     private JFileChooser fileChooserItemControl;
     private JLabel errorLabelItemControl;
-    private JButton finishButtonItemControl;
     private JButton cancelAdminButton;
-    private JButton cancelButtonTestControl;
-    private JButton SaveButtonTestControl;
 
     private DefaultListModel itemListModel = new DefaultListModel();
     private DefaultListModel testListModel = new DefaultListModel();
+    private DefaultListModel assignedListModel = new DefaultListModel();
     private List<Item> items;
     private Boolean isGood;
 
     //Image tools
-    Toolkit toolkit = Toolkit.getDefaultToolkit();
-    Image defaultImage = toolkit.getImage("./noImage200x200.png");
-    Icon defaultIcon = new ImageIcon(defaultImage);
+    Image defaultImage; //= ImageIO.read(new File("noImage200x200.png")).getScaledInstance(200, 200, Image.SCALE_DEFAULT);//toolkit.getImage(fileChooserItemControl.getSelectedFile().toString());
+    ImageIcon defaultImageIcon; // = new ImageIcon(defaultImage);
+
 
     /**
      * Constructor for View Class
@@ -63,10 +71,6 @@ public class MultiTabDoc {
         removeItemButtonItemControl.addActionListener(e -> removeItem());
 
         itemTextFieldItemControl.addActionListener(e -> appendItemTextFieldText());
-
-        finishedButton.addActionListener(e -> finishAdminSetup());
-
-        cancelButtonItemControl.addActionListener(e -> cancelAdmin());
 
         fileChooserItemControl.addPropertyChangeListener(propertyChangeEvent ->
             {
@@ -101,8 +105,27 @@ public class MultiTabDoc {
 
         removeItemButtonTestControl.addActionListener(e -> removeItemFromTestList());
 
-        // set file Chooser options
-        setupFileChooser();
+        /**
+         * Simple Handlers for Frame
+         */
+        finishedButton.addActionListener(e -> finishAdminSetup());
+
+        cancelAdminButton.addActionListener(e -> cancelAdmin() );
+
+        try
+        {
+            // set file Chooser options
+            setupFileChooser();
+            defaultImage = ImageIO.read(new File(getClass().getResource("default.png").getPath()));
+            defaultImageIcon = new ImageIcon(defaultImage);
+        }
+        catch(Exception ex)
+        {
+            System.out.println(ex.toString());
+            ex.printStackTrace();
+        }
+
+
     }
 
     /**
@@ -129,7 +152,17 @@ public class MultiTabDoc {
      */
     private void assignItemToTest()
     {
-        //
+        // check if element is already in assigned list
+        //if not assign it
+        System.out.println(assignedListModel.indexOf(itemListTestControl.getSelectedValue()));
+        if (assignedListModel.indexOf(itemListTestControl.getSelectedValue()) == -1)
+        {
+            System.out.println("good to go");
+            assignedListModel.addElement(itemListTestControl.getSelectedValue());
+
+            assignedItemListTestControl.setModel(assignedListModel);
+        }
+
     }
 
     /**
@@ -137,7 +170,8 @@ public class MultiTabDoc {
      */
     private void removeItemFromTestList()
     {
-        //
+        assignedListModel.removeElementAt(assignedItemListTestControl.getSelectedIndex());
+        assignedItemListTestControl.setModel(assignedListModel);
     }
 
     /**
@@ -153,15 +187,59 @@ public class MultiTabDoc {
      */
     private void getImageFromFileChooser()
     {
-        //get image from selected path
-        System.out.println(fileChooserItemControl.getSelectedFile());
-        Image itemImage = toolkit.getImage(fileChooserItemControl.getSelectedFile().toString());
+        try
+        {
+            System.out.println("filepath: " + fileChooserItemControl.getSelectedFile());
+            Image FileImage = ImageIO.read(new File(fileChooserItemControl.getSelectedFile().toString())).getScaledInstance(200, 200, Image.SCALE_DEFAULT);//toolkit.getImage(fileChooserItemControl.getSelectedFile().toString());
 
-        //resize image
-        Icon itemIcon = new ImageIcon(itemImage.getScaledInstance(200, 200, Image.SCALE_DEFAULT));
+            ImageIcon FileIcon = new ImageIcon(FileImage);
 
-        //display Image in Image Label
-        imageLabelItemControl.setIcon(itemIcon);
+            //display Image in Image Label
+            imageLabelItemControl.setIcon(FileIcon);
+
+            if (itemListItemControl.getSelectedIndex() != -1)
+            {
+                for (Item i : items)
+                {
+                    if (i.toString().equals(itemListItemControl.getSelectedValue()))
+                    {
+                        i.setImage(FileIcon);
+                    }
+                }
+            }
+        }
+            catch(Exception ex){}
+
+    }
+
+    /**
+     * Assign the selected Image to the selected Item
+     */
+    private void assignSelectedImageToItem()
+    {
+        //Icon icon;
+
+/*
+        System.out.println("In assignSelected....");
+
+        items.forEach((i)->
+        {
+            if (i.toString().equals(itemListItemControl.getSelectedValue()))
+            {
+                System.out.println("found item");
+
+                if (i.getImage() != null)
+                {
+                    i.setImage(new ImageIcon(imageLabelItemControl.getImage());
+                    //return;
+                }
+                else
+                {
+                    i.setIcon(defaultIcon);
+                }
+            }
+        });
+        */
     }
 
     /**
@@ -169,7 +247,46 @@ public class MultiTabDoc {
      */
     private void getSelectedItemImage(JList passList, JLabel passLabel)
     {
-        //find selected item in items, and display icon
+        try
+        {
+            System.out.println("---------------------------------------------------");
+            System.out.println("getSelectedItemImage being called");
+            //find selected item in items, and display icon
+            items.forEach((i) ->
+            {
+                if (i.toString().equals(passList.getSelectedValue()))
+                {
+                    //set default image
+                    if (i.getImage() == null)
+                    {
+                        System.out.println("isNull");
+                        passLabel.setIcon(defaultImageIcon);
+                    } else
+                    {
+                        System.out.println("is not null");
+                        passLabel.setIcon(i.getImage());
+                    }
+                    //System.out.println(i.);
+                    //errorLabelItemControl.setIcon(i.getIcon());
+                    //ImageIcon icon = new ImageIcon(defaultImage);
+                    //passLabel.setIcon(icon);
+                /*
+                if (i.getIcon() != null)
+                {
+                    passLabel.setIcon(i.getIcon());
+                }
+                else
+                {
+                    passLabel.setIcon(defaultIcon);
+                }
+                */
+                }
+            });
+        }
+        catch(Exception ex)
+        {
+            System.out.println(ex.toString());
+        }
     }
 
     /**
@@ -178,7 +295,7 @@ public class MultiTabDoc {
      */
     private void setDefaultIcon(JLabel passLabel)
     {
-        passLabel.setIcon(defaultIcon);
+        //passLabel.setIcon(defaultIcon);
     }
 
     /**
@@ -190,6 +307,7 @@ public class MultiTabDoc {
         if (validateFieldLength(itemTextFieldItemControl, errorLabelItemControl))
         {
             //add item to items
+            items.add(new Item(itemTextFieldItemControl.getText()));
 
             // add items to a default list
             itemListModel.addElement(itemTextFieldItemControl.getText());
@@ -217,7 +335,7 @@ public class MultiTabDoc {
             // set data in testList
             testListTestControl.setModel(testListModel);
 
-            //checkListLength();
+            //checkListLength();  validate this entry?
         }
     }
 
