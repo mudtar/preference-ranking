@@ -56,4 +56,13 @@ public class Item
     {
         return icon;
     }
+
+    /**
+     * Method to set icon for item
+     * @param passIcon
+     */
+    public void setIcon(Icon passIcon)
+    {
+        icon = passIcon;
+    }
 }
