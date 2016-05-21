@@ -20,7 +20,7 @@ public interface ReportDAO {
     String DATABASE_CONNECTION_SUCCESS = "Connect successfully!";
     String DATABASE_DATA_READING = "Retrieving data ...";
     String DATABASE_DATA_COMPLETE = "Reading data complete!";
-    String DATABASE_DATA_SELECTION = "Select Email to display a test report:";
+    String DATABASE_DATA_SELECTION = "Email List:";
 
     String GET_USER_EMAIL_LIST_SQL
             = "SELECT DISTINCT FBJ_USER.Email FROM FBJ_USER " +

@@ -72,6 +72,7 @@ public class ReportPanel extends JPanel implements ActionListener
         c.gridx = 0;
         c.gridy = 0;
         c.gridwidth = 3;
+        c.ipadx = 200;
         add(label, c);
 
         if(listItem != null)
@@ -83,8 +84,7 @@ public class ReportPanel extends JPanel implements ActionListener
             userList = new JComboBox();
         }
 
-        userList.setPreferredSize(new Dimension(250, 25));
-        userList.setMaximumSize(new Dimension(250, 25));
+        userList.setPreferredSize(new Dimension(300, 25));
         if(listItem != null)
         {
             userList.setSelectedIndex(0);
@@ -99,6 +99,7 @@ public class ReportPanel extends JPanel implements ActionListener
         c.gridx = 0;
         c.gridwidth = 3;
         c.gridy = 1;
+        c.ipadx = 200;
         add(userList, c);
     }
 
@@ -111,6 +112,7 @@ public class ReportPanel extends JPanel implements ActionListener
         c.gridx = 0;
         c.gridy = 2;
         c.gridwidth = 3;
+        c.ipadx = 200;
         add(testLabel, c);
 
         if(testListItem != null)
@@ -122,7 +124,7 @@ public class ReportPanel extends JPanel implements ActionListener
             testList = new JComboBox();
         }
 
-        testList.setPreferredSize(new Dimension(250, 25));
+        testList.setPreferredSize(new Dimension(300, 25));
         if(testListItem != null)
         {
             testList.setSelectedIndex(0);
@@ -145,6 +147,7 @@ public class ReportPanel extends JPanel implements ActionListener
         basicReportButton = new JCheckBox("Basic Report");
         basicReportButton.setMnemonic(KeyEvent.VK_C);
         basicReportButton.setSelected(true);
+        basicReportButton.setEnabled(false);
         c.fill = GridBagConstraints.HORIZONTAL;
         c.anchor = GridBagConstraints.CENTER;
         c.insets = new Insets(0,10,1,10);
@@ -152,6 +155,7 @@ public class ReportPanel extends JPanel implements ActionListener
         c.gridx = 0;
         c.gridwidth = 1;
         c.gridy = 4;
+        c.ipadx = 200;
         basicReportButton.addActionListener(this);
         basicReportButton.setActionCommand("BasicReport");
         add(basicReportButton, c);
@@ -163,9 +167,9 @@ public class ReportPanel extends JPanel implements ActionListener
         c.anchor = GridBagConstraints.CENTER;
         c.insets = new Insets(0,10,1,10);
         c.weightx = 0.5;
-        c.gridx = 1;
+        c.gridx = 0;
         c.gridwidth = 1;
-        c.gridy = 4;
+        c.gridy = 5;
         matrixReportButton.addActionListener(this);
         matrixReportButton.setActionCommand("MatrixReport");
         add(matrixReportButton, c);
@@ -177,9 +181,9 @@ public class ReportPanel extends JPanel implements ActionListener
         c.anchor = GridBagConstraints.CENTER;
         c.insets = new Insets(0,10,1,10);
         c.weightx = 0.5;
-        c.gridx = 2;
+        c.gridx = 0;
         c.gridwidth = 1;
-        c.gridy = 4;
+        c.gridy = 6;
         statisticsButton.addActionListener(this);
         statisticsButton.setActionCommand("StatisticsReport");
         add(statisticsButton, c);
@@ -192,16 +196,18 @@ public class ReportPanel extends JPanel implements ActionListener
             basicTable = new JTable();
         }
         JScrollPane scrollPane = new JScrollPane(basicTable);
-        scrollPane.setPreferredSize(new Dimension(500,300));
+        scrollPane.setPreferredSize(new Dimension(400,300));
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.ipady = 1000;
+        c.ipadx = 500;
         c.weighty = 1.0;
         c.anchor = GridBagConstraints.PAGE_START;
         c.insets = new Insets(0,10,10,10);
-        c.gridx = 0;
+        c.gridx = 3;
         c.gridwidth = 3;
-        c.gridy = 5;
+        c.gridheight = 10;
+        c.gridy = 1;
         add(scrollPane, c);
     }
 
@@ -212,7 +218,7 @@ public class ReportPanel extends JPanel implements ActionListener
             matrixTable = new JTable();
         }
         matrixPane = new JScrollPane(matrixTable);
-        matrixPane.setPreferredSize(new Dimension(500,300));
+        matrixPane.setPreferredSize(new Dimension(400,300));
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.ipady = 1000;
@@ -222,12 +228,14 @@ public class ReportPanel extends JPanel implements ActionListener
         c.insets = new Insets(0,10,10,10);
         c.gridx = 3;
         c.gridwidth = 3;
-        c.gridy = 5;
+        c.gridy = 12;
+        c.gridheight = 10;
         add(matrixPane, c);
         JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
         if(frame != null) {
-            frame.setSize(new Dimension(1000, 300));
+            frame.setSize(new Dimension(800, 600));
             frame.revalidate();
+            frame.setLocationRelativeTo(null);
         }
     }
 
@@ -239,7 +247,7 @@ public class ReportPanel extends JPanel implements ActionListener
     {
 
         setLayout(new GridBagLayout());
-        setPreferredSize(new Dimension(500, 300));
+        setPreferredSize(new Dimension(800, 300));
         GridBagConstraints c = new GridBagConstraints();
 
         initWidgetEmailList(c);
@@ -289,21 +297,8 @@ public class ReportPanel extends JPanel implements ActionListener
         model.setRowCount(data.length);
         for(int i = 0; i<data.length; i++)
         {
-            for(int j=0; j<data[0].length; j++)
-            {
-                try {
-                    //System.out.println("===============b!");
-                    model.setValueAt(data[i][j], i, j);
-                    //System.out.println("===============e!");
-                }
-                catch (NoSuchElementException e)
-                {
-                    System.out.println("Warning: No Such Element!");
-                }
-                catch (ArrayIndexOutOfBoundsException e)
-                {
-                    System.out.println("Warning: Something wrong with your array");
-                }
+            for(int j=0; j<data[0].length; j++) {
+                model.setValueAt(data[i][j], i, j);
             }
         }
     }
@@ -336,7 +331,6 @@ public class ReportPanel extends JPanel implements ActionListener
         for(int i = 1;i < basicTable.getModel().getColumnCount(); i++) {
             basicTable.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
-
     }
 
     /**
@@ -402,8 +396,6 @@ public class ReportPanel extends JPanel implements ActionListener
             model.setValueAt("x", i ,i+1);
         }
 
-        System.out.println("data length : "+data.length);
-
         for(int i=0; i<data.length; i++)
         {
             int row = 0, column = 0;
@@ -422,9 +414,9 @@ public class ReportPanel extends JPanel implements ActionListener
                     column = k;
                 }
             }
-            //System.out.println("row:"+row+"-"+"colunm:"+column+"-"+"value:"+data[i][2]);
-            model.setValueAt(data[i][2], row-1, column);
-            model.setValueAt((-1)*(int)data[i][2], column-1, row);
+
+            model.setValueAt((-1)* (int) data[i][2], row-1, column);
+            model.setValueAt(data[i][2], column-1, row);
         }
 
     }
@@ -463,8 +455,9 @@ public class ReportPanel extends JPanel implements ActionListener
                 setSignal(Signal.DATABASE_SIGNAL_RETRIEVE_DATA);
                 JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
                 if(frame != null) {
-                    frame.setSize(new Dimension(500, 300));
+                    frame.setSize(new Dimension(800, 300));
                     frame.revalidate();
+                    statisticsButton.setActionCommand("StatisticsReport");
                 }
             }
         }

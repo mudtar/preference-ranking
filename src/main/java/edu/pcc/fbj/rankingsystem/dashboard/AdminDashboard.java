@@ -59,7 +59,7 @@ public class AdminDashboard extends JPanel implements ActionListener
     {
 
         JFrame frame = new JFrame();
-        frame.setPreferredSize(new Dimension(480,320));
+        frame.setPreferredSize(new Dimension(800,400));
 
         if(e.getActionCommand().equals(REPORT))
         {
