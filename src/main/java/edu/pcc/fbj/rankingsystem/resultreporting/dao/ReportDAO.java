@@ -1,7 +1,10 @@
 package edu.pcc.fbj.rankingsystem.resultreporting.dao;
 
+import edu.pcc.fbj.rankingsystem.resultreporting.ReportTestResult;
+
 import java.sql.Connection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Vector;
 
 /**
@@ -11,9 +14,36 @@ import java.util.Vector;
  * @version 2016.04.14
  */
 public interface ReportDAO {
+    String DATABASE_MESSAGE_INIT = "Database initail ...";
+    String DATABASE_CONNECTION_CONNECTING = "Connecting ...";
+    String DATABASE_CONNECTION_FAILED = "Failed to connect!";
+    String DATABASE_CONNECTION_SUCCESS = "Connect successfully!";
+    String DATABASE_DATA_READING = "Retrieving data ...";
+    String DATABASE_DATA_COMPLETE = "Reading data complete!";
+    String DATABASE_DATA_SELECTION = "Select Email to display a test report:";
+
+    String GET_USER_EMAIL_LIST_SQL
+            = "SELECT DISTINCT FBJ_USER.Email FROM FBJ_USER " +
+            " JOIN FBJ_TEST ON FBJ_USER.PK_UserID = FBJ_TEST.FK_UserID";
+
+    String GET_USER_TEST_RESULT_SQL =
+            " SELECT Item1 AS Name, Wins, Losses, Ties, Points FROM FBJ_BASIC_REPORT" +
+                    " WHERE Email = ? " +
+                    " ORDER BY Points DESC";
+
+    String GET_USER_MATRIX_REPORT_SQL =
+            "SELECT Item1, Item2, Value FROM FBJ_MATRIX_REPORT" +
+                    " WHERE Email = ? ";
+
+    String GET_USER_MATRIX_ITEMS_SQL =
+            "SELECT Item1 FROM FBJ_MATRIX_ITEMS WHERE Email = ? ";
+
     Vector<String> getUserEmailList();
-    HashMap<String, Object[][]> getHashTable();
+    String getUserEmail(int index);
+    Object[][] getUserTestResult(String email);
+    List<String> getUserTestTableColumns(String email);
     Connection DBConnection();
     String getMessage();
+    void setMessage(String msg);
     boolean getStatus();
 }

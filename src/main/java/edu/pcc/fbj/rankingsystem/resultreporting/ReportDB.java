@@ -28,51 +28,11 @@ import edu.pcc.fbj.rankingsystem.resultreporting.dao.*;
  * 1. Refactor code;
  * 2. Use a separate thread to process database transaction.
  */
-public class ReportDB implements ReportDAO
+public abstract class ReportDB implements ReportDAO
 {
-
-    private static final String GET_USER_EMAIL_LIST_SQL
-                                     = "SELECT DISTINCT FBJ_USER.Email FROM FBJ_USER " +
-                                       " JOIN FBJ_TEST ON FBJ_USER.PK_UserID = FBJ_TEST.FK_UserID";
-
-    private static final String GET_USER_TEST_RESULT_SQL =
-                    " SELECT FBJ_USER.Email " +
-                    " ,UnionResult.FK_TestID " +
-                    " ,I1.Name " +
-                    //,I2.Name AS Item2
-                    //,FBJ_RESULT.Value
-                    " ,ISNULL(SUM(CASE WHEN UnionResult.Value = -1 THEN 1 END), 0) AS Wins " +
-                    " ,ISNULL(SUM(CASE WHEN UnionResult.Value = 1 THEN 1 END), 0) AS Losses " +
-                    " ,ISNULL(SUM(CASE WHEN UnionResult.Value = 0 THEN 1 END), 0) AS Ties " +
-                    " ,SUM(UnionResult.Value)*(-1) AS Points " +
-                    " FROM FBJ_USER " +
-                    " JOIN FBJ_TEST ON FBJ_USER.PK_UserID = FBJ_TEST.FK_UserID" +
-                    //JOIN FBJ_RESULT ON FBJ_TEST.PK_TestID = FBJ_RESULT.FK_TestID
-                    " JOIN (SELECT FK_TestID, FK_Item1ID AS ITEM1, FK_Item2ID AS ITEM2, Value FROM FBJ_RESULT " +
-                    " UNION ALL " +
-                    " SELECT FK_TestID, FK_Item2ID AS ITEM1, FK_Item1ID AS ITEM1, -1*Value  FROM FBJ_RESULT ) AS UnionResult " +
-                    " ON FBJ_TEST.PK_TestID = UnionResult.FK_TestID " +
-                    " JOIN FBJ_ITEM I1 ON I1.PK_ItemID = UnionResult.ITEM1 " +
-                    //JOIN FBJ_ITEM I2 ON I2.PK_ItemID = UnionResult.ITEM2
-                    " WHERE FBJ_USER.Email = ?  AND UnionResult.FK_TestID   IN (SELECT MAX(PK_TestID) FROM FBJ_TEST GROUP BY FBJ_TEST.FK_UserID) " +
-                    " GROUP BY  FBJ_USER.Email, UnionResult.FK_TestID, I1.Name " + //--, I2.Name " +
-                    " ORDER BY UnionResult.FK_TestID  , SUM(UnionResult.Value)*(-1) DESC ";
-
-
-
-
-    private final String DATABASE_MESSAGE_INIT = "Database initail ...";
-    private final String DATABASE_CONNECTION_CONNECTING = "Connecting to database...";
-    private final String DATABASE_CONNECTION_FAILED = "Failed to connect to database!";
-    private final String DATABASE_CONNECTION_SUCCESS = "Connect to database successfully!";
-    private final String DATABASE_DATA_READING = "Reading data from database.....";
-    private final String DATABASE_DATA_COMPLETE = "Reading data complete!";
-    private final String DATABASE_DATA_SELECTION = "Please select email address to display test result:";
-
-
-    private Vector<String> userEmailList;
+    protected Vector<String> userEmailList;
     private String message;
-    private Connection connection;
+    protected Connection connection;
 
     public ReportDB()
     {
@@ -99,39 +59,6 @@ public class ReportDB implements ReportDAO
         }
 
         return connection;
-    }
-
-    /**
-     * Retrieve user test result according to user's email
-     * @param   email String
-     * @return List<ReportTestResult>
-     */
-     public List<ReportTestResult> getUserTestResult(String email)
-     {
-        List<ReportTestResult> results = new ArrayList<>();
-
-         setMessage(DATABASE_DATA_READING);
-        try (
-                PreparedStatement stmt = connection.prepareStatement(GET_USER_TEST_RESULT_SQL)
-        )
-        {
-            stmt.setString(1, email);
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                results.add(new ReportTestResult(rs.getString("Name"),
-                        rs.getInt("Wins"),
-                        rs.getInt("Losses"),
-                        rs.getInt("Ties"),
-                        rs.getInt("Points")));
-            }
-            setMessage(DATABASE_DATA_COMPLETE);
-            stmt.close();
-            return results;
-        }
-        catch (SQLException se)
-        {
-            return null;
-        }
     }
 
     /**
@@ -162,39 +89,17 @@ public class ReportDB implements ReportDAO
         }
     }
 
-    /**
-     * Format report data to be fill in JTable
-     * @return HashMap <String, Object[][]>
-     */
     @Override
-    public HashMap<String, Object[][]> getHashTable()
+    public String getUserEmail(int index)
     {
-        HashMap<String, Object[][]> usersToResults = new HashMap<>();
-        List<ReportTestResult> userTestResults;
         if(userEmailList != null)
         {
-            for (String email : userEmailList)
-            {
-                System.out.println(email);
-                userTestResults = getUserTestResult(email);
-                if(userTestResults != null)
-                {
-                    Object[][] userResults = new Object[userTestResults.size()][ReportTestResult.COLUMN_NUMBER];
-                    for (int i = 0; i < userTestResults.size(); i++)
-                    {
-                        userResults[i][0] = userTestResults.get(i).getItem1Name();
-                        userResults[i][1] = userTestResults.get(i).getWins();
-                        userResults[i][2] = userTestResults.get(i).getLosses();
-                        userResults[i][3] = userTestResults.get(i).getTies();
-                        userResults[i][4] = userTestResults.get(i).getScores();
-                    }
-                    usersToResults.put(email, userResults);
-                }
-            }
+            return userEmailList.get(index);
         }
-        setMessage(DATABASE_DATA_SELECTION);
-        return usersToResults;
+        return null;
     }
+
+
 
     /**
      * Return message such as database status, warning, or exception;
@@ -218,9 +123,11 @@ public class ReportDB implements ReportDAO
      * Set message
      * @param msg String
      */
-    private void setMessage(String msg)
+    @Override
+    public void setMessage(String msg)
     {
         message = msg;
         System.out.println(message);
     }
+
 }

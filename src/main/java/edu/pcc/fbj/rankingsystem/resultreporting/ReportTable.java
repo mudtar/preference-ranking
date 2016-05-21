@@ -3,6 +3,8 @@ package edu.pcc.fbj.rankingsystem.resultreporting;
 import edu.pcc.fbj.rankingsystem.resultreporting.dao.ReportDAO;
 import edu.pcc.fbj.rankingsystem.resultreporting.dao.ReportDAOFactory;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -25,6 +27,7 @@ public class ReportTable
 {
 
     private ReportPanel reportPane;
+    private List<ReportDAO> dao;
 
     /**
      * Constructor - construct GUI and retrieve report data
@@ -32,7 +35,10 @@ public class ReportTable
     public ReportTable()
     {
 
-        ReportDAO dao = ReportDAOFactory.getReportDAO();
+        dao = new ArrayList<>();
+        dao.add(ReportDAOFactory.getBasicReportDAO());
+        dao.add(ReportDAOFactory.getMatrixReportDAO());
+
         reportPane = new ReportPanel();
         reportPane.setOpaque(true);
 

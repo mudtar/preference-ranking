@@ -5,8 +5,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.HashMap;
-import java.util.Vector;
+import java.util.*;
+import java.util.List;
 
 /**
  * Main GUI of reporting module
@@ -27,50 +27,51 @@ import java.util.Vector;
 public class ReportPanel extends JPanel implements ActionListener
 {
 
-    private JTable table;
+    private JTable basicTable;
+    private JTable matrixTable;
     private JComboBox userList;
     private JLabel label;
-    private HashMap<String, Object[][]> listToTableData;
     private Vector<String> listItem;
-    private final String[] columnNames = {"Item", "Wins", "Losses", "Ties", "Score"};
+    private JComboBox testList;
+    private Vector<String> testListItem;
+    private int emailIndex;
+    private Signal signal;
+    private JCheckBox basicReportButton;
+    private JCheckBox matrixReportButton;
+    private JCheckBox statisticsButton;
+    private JScrollPane matrixPane;
 
 
     /**
      * Initialize message panel
-     */
+     *//*
     private void initPanel()
     {
         setLayout(new GridBagLayout());
         setPreferredSize(new Dimension(500, 300));
-        add(new JLabel("Report is not available. Please check netowrk connection."));
-    }
+        add(new JLabel("Report is unavailable. Please check netowrk connection."));
+    }*/
 
     /**
      * Default constructor
      */
     public ReportPanel()
     {
-        initPanel(columnNames);
+        emailIndex = 0;
+        signal = Signal.DATABASE_SIGNAL_RETRIEVE_DATA;
+        initPanel();
     }
 
 
-    /**
-     * Initialize Report Panel.
-     * @param columnNames   - define column names of report table.
-     */
-    private void initPanel(String[] columnNames)
+    private void initWidgetEmailList(GridBagConstraints c)
     {
-
-        setLayout(new GridBagLayout());
-        setPreferredSize(new Dimension(500, 300));
-        GridBagConstraints c = new GridBagConstraints();
-
-        label = new JLabel("Please select a user to view the result:");
+        label = new JLabel("Email List:");
         c.weightx = 0.5;
         c.fill = GridBagConstraints.HORIZONTAL;
-        c.insets = new Insets(10,10,10,10);
+        c.insets = new Insets(0,10,0,10);
         c.gridx = 0;
         c.gridy = 0;
+        c.gridwidth = 3;
         add(label, c);
 
         if(listItem != null)
@@ -82,79 +83,173 @@ public class ReportPanel extends JPanel implements ActionListener
             userList = new JComboBox();
         }
 
-        userList.setPreferredSize(new Dimension(500, 25));
+        userList.setPreferredSize(new Dimension(250, 25));
+        userList.setMaximumSize(new Dimension(250, 25));
         if(listItem != null)
         {
             userList.setSelectedIndex(0);
         }
         userList.addActionListener(this);
+        userList.setActionCommand("EmailList");
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.anchor = GridBagConstraints.CENTER;
-        c.insets = new Insets(0,10,10,10);
+        c.insets = new Insets(0,10,0,10);
         c.weightx = 0.5;
         c.gridx = 0;
+        c.gridwidth = 3;
         c.gridy = 1;
         add(userList, c);
+    }
 
-        if(listToTableData != null)
+    private void initWidgetTestList(GridBagConstraints c)
+    {
+        JLabel testLabel = new JLabel("Test List:");
+        c.weightx = 0.5;
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.insets = new Insets(0,10,0,10);
+        c.gridx = 0;
+        c.gridy = 2;
+        c.gridwidth = 3;
+        add(testLabel, c);
+
+        if(testListItem != null)
         {
-            table = new JTable(new DefaultTableModel(listToTableData.get(listItem.get(0)), columnNames));
+            testList = new JComboBox(listItem);
         }
         else
         {
-            table = new JTable();
-            DefaultTableModel model = (DefaultTableModel) table.getModel();
-            for(String name : columnNames)
-            {
-                model.addColumn(name);
-            }
+            testList = new JComboBox();
         }
 
-        //Center table title and cell values
-        ((DefaultTableCellRenderer)table.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
-        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-        centerRenderer.setHorizontalAlignment( SwingConstants.CENTER );
-        for(int i = 1;i < table.getModel().getColumnCount(); i++)
+        testList.setPreferredSize(new Dimension(250, 25));
+        if(testListItem != null)
         {
-            table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+            testList.setSelectedIndex(0);
         }
+        testList.addActionListener(this);
+        testList.setActionCommand("TestList");
 
-        JScrollPane scrollPane = new JScrollPane(table);
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.anchor = GridBagConstraints.CENTER;
+        c.insets = new Insets(0,10,0,10);
+        c.weightx = 0.5;
+        c.gridx = 0;
+        c.gridwidth = 3;
+        c.gridy = 3;
+        add(testList, c);
+    }
+
+    private void initWidgetReportOption(GridBagConstraints c)
+    {
+        basicReportButton = new JCheckBox("Basic Report");
+        basicReportButton.setMnemonic(KeyEvent.VK_C);
+        basicReportButton.setSelected(true);
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.anchor = GridBagConstraints.CENTER;
+        c.insets = new Insets(0,10,1,10);
+        c.weightx = 0.5;
+        c.gridx = 0;
+        c.gridwidth = 1;
+        c.gridy = 4;
+        basicReportButton.addActionListener(this);
+        basicReportButton.setActionCommand("BasicReport");
+        add(basicReportButton, c);
+
+        matrixReportButton = new JCheckBox("Matrix Report");
+        matrixReportButton.setMnemonic(KeyEvent.VK_G);
+        matrixReportButton.setSelected(false);
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.anchor = GridBagConstraints.CENTER;
+        c.insets = new Insets(0,10,1,10);
+        c.weightx = 0.5;
+        c.gridx = 1;
+        c.gridwidth = 1;
+        c.gridy = 4;
+        matrixReportButton.addActionListener(this);
+        matrixReportButton.setActionCommand("MatrixReport");
+        add(matrixReportButton, c);
+
+        statisticsButton = new JCheckBox("Statistics");
+        statisticsButton.setMnemonic(KeyEvent.VK_H);
+        statisticsButton.setSelected(false);
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.anchor = GridBagConstraints.CENTER;
+        c.insets = new Insets(0,10,1,10);
+        c.weightx = 0.5;
+        c.gridx = 2;
+        c.gridwidth = 1;
+        c.gridy = 4;
+        statisticsButton.addActionListener(this);
+        statisticsButton.setActionCommand("StatisticsReport");
+        add(statisticsButton, c);
+    }
+
+    private void initWidgetBasicReport(GridBagConstraints c)
+    {
+
+        if(basicTable == null) {
+            basicTable = new JTable();
+        }
+        JScrollPane scrollPane = new JScrollPane(basicTable);
         scrollPane.setPreferredSize(new Dimension(500,300));
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.ipady = 1000;
         c.weighty = 1.0;
         c.anchor = GridBagConstraints.PAGE_START;
-        c.insets = new Insets(10,10,10,10);
+        c.insets = new Insets(0,10,10,10);
         c.gridx = 0;
-        c.gridwidth = 1;
-        c.gridy = 2;
+        c.gridwidth = 3;
+        c.gridy = 5;
         add(scrollPane, c);
-
     }
+
+    private void initWidgetMatrixReport(GridBagConstraints c)
+    {
+
+        if(matrixTable == null) {
+            matrixTable = new JTable();
+        }
+        matrixPane = new JScrollPane(matrixTable);
+        matrixPane.setPreferredSize(new Dimension(500,300));
+
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.ipady = 1000;
+        c.ipadx = 500;
+        c.weighty = 1.0;
+        c.anchor = GridBagConstraints.PAGE_START;
+        c.insets = new Insets(0,10,10,10);
+        c.gridx = 3;
+        c.gridwidth = 3;
+        c.gridy = 5;
+        add(matrixPane, c);
+        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        if(frame != null) {
+            frame.setSize(new Dimension(1000, 300));
+            frame.revalidate();
+        }
+    }
+
 
     /**
-     * Constructor used for defining a ReportPanel object.
-     * @param userEmailList - data for ComboBoxList
-     * @param userToResults - data for test result.
+     * Initialize Report Panel
      */
-    public ReportPanel(Vector<String> userEmailList, HashMap<String, Object[][]> userToResults)
+    private void initPanel()
     {
-        if(userEmailList != null && userToResults != null)
-        {
-            this.listItem = userEmailList;
-            this.listToTableData = userToResults;
-            initPanel(columnNames);
-        }
-        else
-        {
-            initPanel();
-        }
+
+        setLayout(new GridBagLayout());
+        setPreferredSize(new Dimension(500, 300));
+        GridBagConstraints c = new GridBagConstraints();
+
+        initWidgetEmailList(c);
+        initWidgetTestList(c);
+        initWidgetReportOption(c);
+        initWidgetBasicReport(c);
     }
 
-    public void setLabelText(String text) {
+    public void setLabelText(String text)
+    {
         label.setText(text);
     }
 
@@ -174,34 +269,16 @@ public class ReportPanel extends JPanel implements ActionListener
         userList.setSelectedIndex(0);
     }
 
-    public void setListToTableData(HashMap<String, Object[][]> listToTableData)
-    {
-        this.listToTableData = listToTableData;
-        updateData((String)userList.getItemAt(0));
-    }
-
     /**
-     * Action listener userd for respond to event of Changing iteln in ComboBoxList.
-     * @param e  - action event
+     * Fill basic report table
+     * @param data
      */
-    public void actionPerformed(ActionEvent e)
+    public void setBasicReportData(Object[][] data)
     {
-        JComboBox user = (JComboBox)e.getSource();
-        updateData((String)user.getSelectedItem());
-    }
-
-    /**
-     *Used for updating data in the table.
-     * @param userEmail - user email related to data in table.
-     */
-    private void updateData(String userEmail)
-    {
-
-        if(listToTableData == null)
+        if(data == null)
             return;
 
-        DefaultTableModel model = (DefaultTableModel) table.getModel();
-        Object [][] data = listToTableData.get(userEmail);
+        DefaultTableModel model = (DefaultTableModel) basicTable.getModel();
         int rowCount = model.getRowCount();
 
         for(int i = rowCount-1; i>=0; i--)
@@ -214,9 +291,223 @@ public class ReportPanel extends JPanel implements ActionListener
         {
             for(int j=0; j<data[0].length; j++)
             {
-                model.setValueAt(data[i][j], i ,j);
+                try {
+                    //System.out.println("===============b!");
+                    model.setValueAt(data[i][j], i, j);
+                    //System.out.println("===============e!");
+                }
+                catch (NoSuchElementException e)
+                {
+                    System.out.println("Warning: No Such Element!");
+                }
+                catch (ArrayIndexOutOfBoundsException e)
+                {
+                    System.out.println("Warning: Something wrong with your array");
+                }
             }
         }
+    }
+
+    /**
+     * set basic report table columns
+     * @param data
+     */
+    public void setBasicTableColumns(List<String> data)
+    {
+        DefaultTableModel model = (DefaultTableModel) basicTable.getModel();
+        int rowCount = model.getRowCount();
+
+        for(int i = rowCount-1; i>=0; i--)
+        {
+            model.removeRow(i);
+        }
+
+        model.setColumnCount(0);
+
+        for(String name : data)
+        {
+            model.addColumn(name);
+        }
+
+        //Center table title and cell values
+        ((DefaultTableCellRenderer)basicTable.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment( SwingConstants.CENTER );
+        for(int i = 1;i < basicTable.getModel().getColumnCount(); i++) {
+            basicTable.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        }
+
+    }
+
+    /**
+     * Set matrix table columns
+     * @param data
+     */
+    public void setMatrixTableColumns(List<String> data) throws NoSuchElementException, ArrayIndexOutOfBoundsException
+    {
+        DefaultTableModel model = (DefaultTableModel) matrixTable.getModel();
+        int rowCount = model.getRowCount();
+
+        for(int i = rowCount-1; i>=0; i--)
+        {
+            model.removeRow(i);
+        }
+
+        model.setColumnCount(0);
+
+        model.addColumn("");
+        for(String name : data)
+        {
+            model.addColumn(name);
+        }
+
+        //Center table title and cell values
+        ((DefaultTableCellRenderer)matrixTable.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment( SwingConstants.CENTER );
+        for(int i = 1;i < matrixTable.getModel().getColumnCount(); i++)
+        {
+            matrixTable.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        }
+
+
+    }
+
+    /**
+     * Fill matrix report table
+     * @param data
+     */
+    public void setMatrixReportData(Object[][] data)
+    {
+
+        if(data == null)
+        {
+            return;
+        }
+
+        DefaultTableModel model = (DefaultTableModel) matrixTable.getModel();
+        int rowCount = model.getRowCount();
+        int columnCount = model.getColumnCount();
+
+        for(int i = rowCount-1; i>=0; i--)
+        {
+            model.removeRow(i);
+        }
+
+        model.setRowCount(columnCount-1);
+        rowCount = model.getRowCount();
+        for(int i = 0; i<rowCount; i++)
+        {
+            model.setValueAt(model.getColumnName(i+1), i ,0);
+            model.setValueAt("x", i ,i+1);
+        }
+
+        System.out.println("data length : "+data.length);
+
+        for(int i=0; i<data.length; i++)
+        {
+            int row = 0, column = 0;
+            for(int j=1; j<columnCount; j++)
+            {
+                if(data[i][0].equals(model.getColumnName(j)))
+                {
+                    row = j;
+                }
+            }
+                
+            for(int k=1; k<columnCount; k++)
+            {
+                if(data[i][1].equals(model.getColumnName(k)))
+                {
+                    column = k;
+                }
+            }
+            //System.out.println("row:"+row+"-"+"colunm:"+column+"-"+"value:"+data[i][2]);
+            model.setValueAt(data[i][2], row-1, column);
+            model.setValueAt((-1)*(int)data[i][2], column-1, row);
+        }
+
+    }
+
+    /**
+     * Action listener userd for respond to event of Changing iteln in ComboBoxList.
+     * @param e  - action event
+     */
+    public void actionPerformed(ActionEvent e)
+    {
+        String command = e.getActionCommand();
+        if (command.equals("EmailList")) {
+            JComboBox user = (JComboBox) e.getSource();
+            setEmailIndex(user.getSelectedIndex());
+            setSignal(Signal.DATABASE_SIGNAL_RETRIEVE_DATA);
+        }
+        else if (command.equals("TestList"))
+        {
+            System.out.println(command);
+        }
+        else if (command.equals("BasicReport"))
+        {
+            System.out.println(command);
+        }
+        else if (command.equals("MatrixReport"))
+        {
+            if(matrixReportButton.isSelected()) {
+                System.out.println(command);
+                GridBagConstraints c = new GridBagConstraints();
+                initWidgetMatrixReport(c);
+                setSignal(Signal.DATABASE_SIGNAL_RETRIEVE_MATRIX_DATA);
+            }
+            else
+            {
+                remove(matrixPane);
+                setSignal(Signal.DATABASE_SIGNAL_RETRIEVE_DATA);
+                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
+                if(frame != null) {
+                    frame.setSize(new Dimension(500, 300));
+                    frame.revalidate();
+                }
+            }
+        }
+        else if (command.equals("StatisticsReport"))
+        {
+            System.out.println(command);
+        }
+
+    }
+
+
+    /**
+     * Get email index
+     * @return
+     */
+    public int getEmailIndex()
+    {
+        return emailIndex;
+    }
+
+    /**
+     * Set email index
+     */
+    public void setEmailIndex(int index)
+    {
+        emailIndex = index;
+    }
+
+    /**
+     * Get signal
+     * @return
+     */
+    public Signal getSignal()
+    {
+        return signal;
+    }
+
+    /**
+     * Set signal
+     */
+    public void setSignal(Signal signal)
+    {
+        this.signal = signal;
     }
 
     /**
