@@ -46,22 +46,24 @@ public class ReportDBProcess implements Runnable
             if(reportPane.getSignal() == signal.DATABASE_SIGNAL_RETRIEVE_DATA )
             {
                 if(dao.get(0).DBConnection() != null && userEmailList != null) {
+
                     reportPane.setBasicTableColumns(dao.get(0).getUserTestTableColumns(""));
                     reportPane.setBasicReportData(dao.get(0).getUserTestResult(userEmailList.get(reportPane.getEmailIndex())));
                     dao.get(0).setMessage(dao.get(0).DATABASE_DATA_SELECTION);
+
+                    if(reportPane.isMatrixReportEnabled()) {
+                        if(dao.get(1).DBConnection() != null && userEmailList != null) {
+                            reportPane.setMatrixTableColumns(dao.get(1).getUserTestTableColumns(userEmailList.get(reportPane.getEmailIndex())));
+                            reportPane.setMatrixReportData(dao.get(1).getUserTestResult(userEmailList.get(reportPane.getEmailIndex())));
+                            dao.get(1).setMessage(dao.get(1).DATABASE_DATA_SELECTION);
+                        }
+                    }
+
                     reportPane.setSignal(signal.DATABASE_SIGNAL_THREAD_WAIT);
                 }
 
             }
-            else if(reportPane.getSignal() == signal.DATABASE_SIGNAL_RETRIEVE_MATRIX_DATA)
-            {
-                if(dao.get(1).DBConnection() != null && userEmailList != null) {
-                    reportPane.setMatrixTableColumns(dao.get(1).getUserTestTableColumns(userEmailList.get(reportPane.getEmailIndex())));
-                    reportPane.setMatrixReportData(dao.get(1).getUserTestResult(userEmailList.get(reportPane.getEmailIndex())));
-                    dao.get(1).setMessage(dao.get(1).DATABASE_DATA_SELECTION);
-                    reportPane.setSignal(signal.DATABASE_SIGNAL_THREAD_WAIT);
-                }
-            }
+
             else if(reportPane.getSignal() == signal.DATABASE_SIGNAL_THREAD_TERMINATE)
             {
                 System.out.println("End a DB processing thread");

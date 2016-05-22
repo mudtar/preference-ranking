@@ -40,6 +40,8 @@ public class ReportPanel extends JPanel implements ActionListener
     private JCheckBox matrixReportButton;
     private JCheckBox statisticsButton;
     private JScrollPane matrixPane;
+    private boolean matrixReportFalg;
+    private boolean statisticsReportFlag;
 
 
     /**
@@ -59,6 +61,8 @@ public class ReportPanel extends JPanel implements ActionListener
     {
         emailIndex = 0;
         signal = Signal.DATABASE_SIGNAL_RETRIEVE_DATA;
+        matrixReportFalg = false;
+        statisticsReportFlag = false;
         initPanel();
     }
 
@@ -422,7 +426,7 @@ public class ReportPanel extends JPanel implements ActionListener
     }
 
     /**
-     * Action listener userd for respond to event of Changing iteln in ComboBoxList.
+     * Action listener userd for respond to event of Changing item in ComboBoxList.
      * @param e  - action event
      */
     public void actionPerformed(ActionEvent e)
@@ -447,11 +451,13 @@ public class ReportPanel extends JPanel implements ActionListener
                 System.out.println(command);
                 GridBagConstraints c = new GridBagConstraints();
                 initWidgetMatrixReport(c);
-                setSignal(Signal.DATABASE_SIGNAL_RETRIEVE_MATRIX_DATA);
+                enableMatrixReport();
+                setSignal(Signal.DATABASE_SIGNAL_RETRIEVE_DATA);
             }
             else
             {
                 remove(matrixPane);
+                disableMatrixReport();
                 setSignal(Signal.DATABASE_SIGNAL_RETRIEVE_DATA);
                 JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
                 if(frame != null) {
@@ -501,6 +507,21 @@ public class ReportPanel extends JPanel implements ActionListener
     public void setSignal(Signal signal)
     {
         this.signal = signal;
+    }
+
+    private void enableMatrixReport()
+    {
+        matrixReportFalg = true;
+    }
+
+    private void disableMatrixReport()
+    {
+        matrixReportFalg = false;
+    }
+
+    public boolean isMatrixReportEnabled()
+    {
+        return matrixReportFalg;
     }
 
     /**
