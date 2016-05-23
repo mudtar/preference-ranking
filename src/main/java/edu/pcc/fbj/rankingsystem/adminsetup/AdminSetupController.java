@@ -38,11 +38,11 @@ public class AdminSetupController
 
     /**
      * This Method is called to return the uniqueItemsUsed from the resultDAO
-     * /
+     */
     public static java.util.List<Integer> getUniqueItemsUsed()
     {
         return model.getUniqueItemsUsed();
-    } */
+    }
 
     /**
      * This Method is called to return the items from the database
@@ -61,13 +61,19 @@ public class AdminSetupController
     }
 
     /**
-     * This Method is called to set the items from the database
-     * @param
+     * This Method is called to set the TestNames in the database
+     * @param passTestNames
      */
-    public static void setItems(java.util.List<Item> passItems)
+    public static void setTestNames(java.util.List<TestName> passTestNames)
     {
-        model.setItems(passItems);
+        model.setTestNames(passTestNames);
     }
+
+    /**
+     * This Method is called to set the items from the database
+     * @param passItems
+     */
+    public static void setItems(java.util.List<Item> passItems) { model.setItems(passItems); }
 
     /**
      * This Method is called to close frame

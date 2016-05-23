@@ -1,5 +1,7 @@
 package edu.pcc.fbj.rankingsystem.dbfactory;
 
+import edu.pcc.fbj.rankingsystem.adminsetup.Item;
+import edu.pcc.fbj.rankingsystem.adminsetup.Test;
 import edu.pcc.fbj.rankingsystem.adminsetup.TestName;
 
 import java.sql.Connection;
@@ -20,8 +22,8 @@ public class TestNameDAO
 {
     //Queries
     private static final String GET_TESTS_SQL = "SELECT PK_TestNameID, Name FROM FBJ_TEST_NAME";
-    private static final String DELETE_TEST = "DELETE FROM FBJ_TEST_NAME WHERE Name = ?";
-    private static final String INSERT_TEST = "INSERT INTO FBJ_TEST_NAME(Name) VALUES(?)";
+    private static final String DELETE_TEST_NAME_SQL = "DELETE FROM FBJ_TEST_NAME WHERE Name = ?";
+    private static final String INSERT_TEST_NAME_SQL = "INSERT INTO FBJ_TEST_NAME(Name) VALUES(?)";
 
     //Object to hold items
     private Connection connection = null;
@@ -82,15 +84,133 @@ public class TestNameDAO
         return testNames;
     }
 
-    /**
-     *
+
+     /**
+     * sets a list of Tests to the database
+     * @param passTestNames list of items chosen by the user
      */
-    public void setTestNames(List<TestName> passTestName)
+    public void setTestNames(List<TestName> passTestNames)
     {
-        passTestName.forEach(t->
+        try
         {
-            System.out.println(t.toString());
-        });
+            boolean insertTest;
+            boolean deleteTest;
+            ArrayList<TestName> deleteList = new ArrayList<>();
+            ArrayList<TestName> insertList = new ArrayList<>();
+
+
+
+
+
+
+
+            //if TestName is in testNames, but not in  passTestNames, delete
+            for (TestName t: testNames)  //exists in items
+            {
+                deleteTest = notFoundItem(t.toString(), passTestNames);
+                if (deleteTest)
+                {
+                    deleteList.add(t);
+                }
+            }
+            //after deletion, if item is in passItems, but not in Items, insert
+            for (TestName t: passTestNames) //exists in passItems
+            {
+                insertTest = notFoundItem(t.toString(), testNames);
+                if (insertTest)
+                {
+                    insertList.add(t);
+                }
+            }
+
+            for (TestName t : insertList)
+            {
+                System.out.println("need to insert: " + t.toString());
+            }
+            /*
+            deleteRecords(deleteList);
+            insertRecords(insertList);
+
+            */
+
+        }
+        catch (Exception ex)
+        {
+            System.out.println(ex.toString());
+            ex.printStackTrace();
+        }
+    }
+
+    /**
+     *  Search a List of Item objects for a match to the string passed in
+     * @param str
+     * @param testList
+     * @return true if not found
+     */
+    private Boolean notFoundItem(String str, List<TestName> testList)
+    {
+        for (TestName t: testList)
+        {
+            if (str.equals(t.toString()))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Delete appropriate records
+     * @param deleteList
+     */
+    private void deleteRecords(List<TestName> deleteList)
+    {
+        try
+        {
+            PreparedStatement st = connection.prepareStatement(DELETE_TEST_NAME_SQL);
+            for (TestName t : deleteList)
+            {
+                st.setString(1, t.toString());
+                st.executeUpdate();
+                System.out.println("deleting: " + t.toString());
+            }
+        }
+        catch (SQLException e)
+        {
+            System.err.println("ERROR: " + e.getMessage());
+            e.printStackTrace();
+        }
+        catch(Exception ex)
+        {
+            System.out.println(ex.toString());
+            ex.printStackTrace();
+        }
+    }
+
+    private void insertRecords(List<TestName> insertList)
+    {
+        try
+        {
+            PreparedStatement st = connection.prepareStatement(INSERT_TEST_NAME_SQL);
+
+            for(TestName t : insertList)
+            {
+                st.setString(1, t.toString());
+                st.executeUpdate();
+                System.out.println("inserting: " + t.toString());
+            }
+
+        }
+        catch (SQLException e)
+        {
+            System.err.println("ERROR: " + e.getMessage());
+            e.printStackTrace();
+        }
+        catch(Exception ex)
+        {
+            System.out.println(ex.toString());
+            ex.printStackTrace();
+        }
     }
 
 }

@@ -353,15 +353,25 @@ public class MultiTabDoc {
     private void finishAdminSetup()
     {
         ArrayList<Item> passItems = new ArrayList<>();
+        ArrayList<TestName> passTestNames = new ArrayList<>();
 
         for(int i = 0; i < itemListModel.size(); i++)
         {
             passItems.add(new Item(itemListModel.getElementAt(i).toString()));
         }
 
+        for(int i = 0; i < testListModel.size(); i++)
+        {
+            passTestNames.add(new TestName(testListModel.getElementAt(i).toString()));
+        }
+
         resetErrorLabel(errorLabelItemControl);
+        resetErrorLabel(errorLabelTestControl);
         itemTextFieldItemControl.setText("");
+        testTextFieldTestControl.setText("");
         AdminSetupController.setItems(passItems);
+        AdminSetupController.setTestNames(passTestNames);
+
         AdminSetupController.closeFrame();
     }
 
