@@ -7,7 +7,7 @@ import javax.swing.*;
  * and the Model ideally
  *
  * @author Eric Kristiansen
- * @version 5/17/16
+ * @version 5/23/16
  */
 public class AdminSetupController
 {
@@ -35,6 +35,14 @@ public class AdminSetupController
         view.setItemList(model.getItems());
         return view.getRootPanel();
     }
+
+    /**
+     * This Method is called to return the uniqueItemsUsed from the resultDAO
+     * /
+    public static java.util.List<Integer> getUniqueItemsUsed()
+    {
+        return model.getUniqueItemsUsed();
+    } */
 
     /**
      * This Method is called to return the items from the database
