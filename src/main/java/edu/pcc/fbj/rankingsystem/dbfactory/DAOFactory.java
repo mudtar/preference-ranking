@@ -21,7 +21,7 @@ public class DAOFactory {
      * get test database access object
      * @return testDAO
      */
-    public static TestNameDAO getTestDAO()
+    public static TestNameDAO getTestNameDAO()
     {
         TestNameDAO testNameDAO = new TestNameDAO();
         return testNameDAO;
@@ -45,5 +45,15 @@ public class DAOFactory {
     {
         TestNameItemDAO testNameItemDAO = new TestNameItemDAO();
         return testNameItemDAO;
+    }
+
+    /**
+     * get Test database access object
+     * @return TestDAO
+     */
+    public static TestDAO getTestDAO()
+    {
+        TestDAO testDAO = new TestDAO();
+        return testDAO;
     }
 }

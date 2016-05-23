@@ -1,7 +1,8 @@
 package edu.pcc.fbj.rankingsystem.adminsetup;
 
 /**
- * @author Eric Kristiansen on 5/17/2016.
+ * @author Eric Kristiansen
+ * @version 5/23/2016.
  */
 public class TestName
 {

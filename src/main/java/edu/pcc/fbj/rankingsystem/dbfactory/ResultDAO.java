@@ -20,8 +20,11 @@ import java.util.List;
 public class ResultDAO {
 
     //Queries
-    private static final String GET_RESULTS_SQL = "SELECT PK_ResultID, FK_TestID, FK_Item1ID, FK_Item2ID, Value FROM FBJ_RESULT;";
-    private static final String GET_UNIQUE_ITEM_IDS = "SELECT FK_Item1ID AS UniqueItemID FROM FBJ_Result UNION SELECT FK_Item2ID FROM FBJ_RESULT";
+    private static final String GET_RESULTS_SQL = "SELECT PK_ResultID, FK_TestID, FK_Item1ID, FK_Item2ID, " +
+            "Value FROM FBJ_RESULT;";
+    private static final String GET_UNIQUE_ITEM_IDS = "SELECT FK_Item1ID AS UniqueItemID " +
+            "FROM FBJ_Result UNION SELECT FK_Item2ID FROM FBJ_RESULT";
+
 
     //Object to hold items
     private Connection connection = null;

@@ -16,7 +16,7 @@ import java.util.List;
 public class AdminSetupModel
 {
     private ItemDAO itemDAO = DAOFactory.getItemDAO();
-    TestNameDAO testNameDAO = DAOFactory.getTestDAO();
+    TestNameDAO testNameDAO = DAOFactory.getTestNameDAO();
     private ResultDAO resultDAO = DAOFactory.getResultDAO();
 
     /**
