@@ -5,6 +5,7 @@ import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.io.File;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +34,7 @@ public class MultiTabDoc {
     private JFileChooser fileChooserItemControl;
     private JLabel errorLabelItemControl;
     private JButton cancelAdminButton;
+    private JButton removeImageButtonItemControl;
 
     private DefaultListModel itemListModel = new DefaultListModel();
     private DefaultListModel testListModel = new DefaultListModel();
@@ -63,6 +65,8 @@ public class MultiTabDoc {
         removeItemButtonItemControl.addActionListener(e -> removeItem());
 
         itemTextFieldItemControl.addActionListener(e -> appendItemTextFieldText());
+
+        removeImageButtonItemControl.addActionListener(e -> removeImage() );
 
         fileChooserItemControl.addPropertyChangeListener(propertyChangeEvent ->
             {
@@ -108,8 +112,7 @@ public class MultiTabDoc {
         {
             // set file Chooser options
             setupFileChooser();
-            System.out.println(getClass().getCanonicalName());
-            defaultImage = ImageIO.read(new File(getClass().getResource("default.png").getPath()));
+            defaultImage = ImageIO.read(new File(URLDecoder.decode(getClass().getResource("default.png").getPath())));
             defaultImageIcon = new ImageIcon(defaultImage);
         }
         catch(Exception ex)
@@ -118,6 +121,13 @@ public class MultiTabDoc {
             ex.printStackTrace();
         }
 
+    }
+
+    /**
+     *
+     */
+    private void removeImage()
+    {
 
     }
 
@@ -182,10 +192,9 @@ public class MultiTabDoc {
         try
         {
             System.out.println("filepath: " + fileChooserItemControl.getSelectedFile());
-            Image FileImage = ImageIO.read(new File(fileChooserItemControl.getSelectedFile().toString())).getScaledInstance(200, 200, Image.SCALE_DEFAULT);//toolkit.getImage(fileChooserItemControl.getSelectedFile().toString());
+            Image FileImage = ImageIO.read(new File(fileChooserItemControl.getSelectedFile().toString())).getScaledInstance(200, 200, Image.SCALE_DEFAULT);
 
             setLabelImage(passLabel, FileImage);
-
 
             if (itemListItemControl.getSelectedIndex() != -1)
             {
@@ -216,35 +225,6 @@ public class MultiTabDoc {
         passLabel.setIcon(FileIcon);
     }
 
-    /**
-     * Assign the selected Image to the selected Item
-     */
-    private void assignSelectedImageToItem()
-    {
-        //Icon icon;
-
-/*
-        System.out.println("In assignSelected....");
-
-        items.forEach((i)->
-        {
-            if (i.toString().equals(itemListItemControl.getSelectedValue()))
-            {
-                System.out.println("found item");
-
-                if (i.getImage() != null)
-                {
-                    i.setImage(new ImageIcon(imageLabelItemControl.getImage());
-                    //return;
-                }
-                else
-                {
-                    i.setIcon(defaultIcon);
-                }
-            }
-        });
-        */
-    }
 
     /**
      *
@@ -265,25 +245,14 @@ public class MultiTabDoc {
                     {
                         System.out.println("isNull");
                         passLabel.setIcon(defaultImageIcon);
-                    } else
+                        removeImageButtonItemControl.setEnabled(false);
+                    }
+                    else
                     {
                         System.out.println("is not null");
                         passLabel.setIcon(new ImageIcon(i.getImage()));
+                        removeImageButtonItemControl.setEnabled(true);
                     }
-                    //System.out.println(i.);
-                    //errorLabelItemControl.setIcon(i.getIcon());
-                    //ImageIcon icon = new ImageIcon(defaultImage);
-                    //passLabel.setIcon(icon);
-                /*
-                if (i.getIcon() != null)
-                {
-                    passLabel.setIcon(i.getIcon());
-                }
-                else
-                {
-                    passLabel.setIcon(defaultIcon);
-                }
-                */
                 }
             });
         }
