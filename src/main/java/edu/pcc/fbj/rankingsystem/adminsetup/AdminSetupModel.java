@@ -16,7 +16,7 @@ import java.util.List;
 public class AdminSetupModel
 {
     private ItemDAO itemDAO = DAOFactory.getItemDAO();
-    TestNameDAO testNameDAO = DAOFactory.getTestNameDAO();
+    private TestNameDAO testNameDAO = DAOFactory.getTestNameDAO();
     private ResultDAO resultDAO = DAOFactory.getResultDAO();
 
     /**
@@ -28,12 +28,18 @@ public class AdminSetupModel
     }
 
     /**
+     * set TestNames in TestNames database object
+     */
+    public void setTestNames(List<TestName> passTestNames) { testNameDAO.setTestNames(passTestNames); }
+
+    /**
      * set items in items database object
      */
     public void setItems(List<Item> passItems)
     {
         itemDAO.setItems(passItems);
     }
+
 
     /**
      * get TestNames from tests database object

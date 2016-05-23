@@ -6,13 +6,19 @@ package edu.pcc.fbj.rankingsystem.adminsetup;
  */
 public class TestName
 {
-    int testNameID;
-    String name;
+    private int testNameID;
+    private String name;
 
     public TestName(int passTestNameID, String passName)
     {
         testNameID = passTestNameID;
         name = passName;
+    }
+
+    public TestName(String passName)
+    {
+        name = passName;
+        testNameID = 0;
     }
 
     /**
