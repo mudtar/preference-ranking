@@ -1,8 +1,6 @@
 package edu.pcc.fbj.rankingsystem.adminsetup;
 
-import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 
 /**
  * @author Eric Kristiansen
@@ -13,7 +11,7 @@ import java.awt.image.BufferedImage;
 public class Item
 {
     private String name;
-    private ImageIcon image;
+    private Image image;
 
     /**
      * constructor for the Item object
@@ -29,7 +27,7 @@ public class Item
      * @param passName
      * @param passImage
      */
-    public Item(String passName, ImageIcon passImage)
+    public Item(String passName, Image passImage)
     {
         name = passName;
         image = passImage;
@@ -54,7 +52,7 @@ public class Item
      * Method to return icon independent of other variables of item object
      * @return icon
      */
-    public ImageIcon getImage()
+    public Image getImage()
     {
         return image;
     }
@@ -63,7 +61,7 @@ public class Item
      * Method to set icon for item
      * @param passImage
      */
-    public void setImage(ImageIcon passImage)
+    public void setImage(Image passImage)
     {
         image = passImage;
     }

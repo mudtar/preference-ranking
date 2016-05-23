@@ -69,7 +69,7 @@ public class MultiTabDoc {
                 if (fileChooserItemControl.SELECTED_FILE_CHANGED_PROPERTY
                         .equals(propertyChangeEvent.getPropertyName()) &&
                         fileChooserItemControl.getSelectedFile() != null)
-                { getImageFromFileChooser(); }
+                { getImageFromFileChooser(imageLabelItemControl); }
             });
 
         /**
@@ -108,6 +108,7 @@ public class MultiTabDoc {
         {
             // set file Chooser options
             setupFileChooser();
+            System.out.println(getClass().getCanonicalName());
             defaultImage = ImageIO.read(new File(getClass().getResource("default.png").getPath()));
             defaultImageIcon = new ImageIcon(defaultImage);
         }
@@ -154,7 +155,6 @@ public class MultiTabDoc {
 
             assignedItemListTestControl.setModel(assignedListModel);
         }
-
     }
 
     /**
@@ -177,17 +177,15 @@ public class MultiTabDoc {
     /**
      * Get the image from the fileChooser, and display at appropriate size
      */
-    private void getImageFromFileChooser()
+    private void getImageFromFileChooser(JLabel passLabel)
     {
         try
         {
             System.out.println("filepath: " + fileChooserItemControl.getSelectedFile());
             Image FileImage = ImageIO.read(new File(fileChooserItemControl.getSelectedFile().toString())).getScaledInstance(200, 200, Image.SCALE_DEFAULT);//toolkit.getImage(fileChooserItemControl.getSelectedFile().toString());
 
-            ImageIcon FileIcon = new ImageIcon(FileImage);
+            setLabelImage(passLabel, FileImage);
 
-            //display Image in Image Label
-            imageLabelItemControl.setIcon(FileIcon);
 
             if (itemListItemControl.getSelectedIndex() != -1)
             {
@@ -195,13 +193,27 @@ public class MultiTabDoc {
                 {
                     if (i.toString().equals(itemListItemControl.getSelectedValue()))
                     {
-                        i.setImage(FileIcon);
+                        i.setImage(FileImage);
                     }
                 }
             }
         }
-            catch(Exception ex){}
+        catch(Exception ex)
+        {
+            System.out.println(ex.toString());
+        }
+    }
 
+
+    /**
+     *
+     */
+    private void setLabelImage(JLabel passLabel, Image passImage)
+    {
+        ImageIcon FileIcon = new ImageIcon(passImage);
+
+        //display Image in Image Label
+        passLabel.setIcon(FileIcon);
     }
 
     /**
@@ -256,7 +268,7 @@ public class MultiTabDoc {
                     } else
                     {
                         System.out.println("is not null");
-                        passLabel.setIcon(i.getImage());
+                        passLabel.setIcon(new ImageIcon(i.getImage()));
                     }
                     //System.out.println(i.);
                     //errorLabelItemControl.setIcon(i.getIcon());
