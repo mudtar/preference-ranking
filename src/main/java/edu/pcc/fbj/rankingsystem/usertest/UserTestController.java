@@ -1,5 +1,6 @@
 package edu.pcc.fbj.rankingsystem.usertest;
 
+
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.List;
@@ -145,6 +146,7 @@ public class UserTestController implements Initializable
     {
         Toggle selectedToggle = options.getSelectedToggle();
 
+
         // Only register the user's preference if they actually made a
         // selection before pressing the submit button.
         if (selectedToggle != null)
@@ -221,7 +223,7 @@ public class UserTestController implements Initializable
 
     public void handleBack() throws SQLException {
         Toggle selectedToggle = options.getSelectedToggle();
-
+        List<Map.Entry<List<Integer>, Integer>> tempPref = preferences.getPreferences();
         // Only register the user's preference if they actually made a
         // selection before pressing the submit button.
         if (selectedToggle != null)
@@ -237,6 +239,25 @@ public class UserTestController implements Initializable
             // buttons to be updated with new items.
             selectedToggle.setSelected(false);
         }
+
+        //tempPref.forEach(x-> System.out.println("key: " + x.getKey() + " :value " +  x.getValue()));
+
+        if (preferences.getPreferenceResult() == -1)
+        {
+            option1.setSelected(true);
+        }
+        else if (preferences.getPreferenceResult() == 1)
+        {
+            option2.setSelected(true);
+        }
+        else
+        {
+            tie.setSelected(true);
+        }
+
+        System.out.println("testing");
+
+        tempPref.forEach(x-> System.out.println("key: " + x.getKey() + " :value " +  x.getValue()));
 
         // NOTE: Reselect the proper toggle on the new screen after going back based on what the
         // stored preference for this screen is.

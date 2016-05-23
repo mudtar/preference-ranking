@@ -36,6 +36,8 @@ class Preferences
     private List<Map.Entry<List<Integer>, Integer>> preferences =
         new ArrayList<>();
 
+    private int outcome;
+    private int preferenceResult;
     /**
      * The email address associated with the user who is currently
      * logged in.
@@ -75,10 +77,12 @@ class Preferences
      */
     void registerPreference(int option1, int option2, int result)
     {
+        preferenceResult = result;
         List<Integer> comparedItems = Arrays.asList(option1, option2);
 
         preferences.add(new AbstractMap.SimpleEntry<List<Integer>, Integer>(
             comparedItems, result));
+        result = result;
     }
 
     /**
@@ -175,7 +179,7 @@ class Preferences
         {
             int option1 = preference.getKey().get(0);
             int option2 = preference.getKey().get(1);
-            int outcome = preference.getValue();
+            outcome = preference.getValue();
 
             stmt = con.createStatement();
             stmt.executeUpdate(
@@ -188,5 +192,20 @@ class Preferences
                 ";");
             stmt.close();
         }
+    }
+
+    List<Map.Entry<List<Integer>, Integer>> getPreferences()
+    {
+        return preferences;
+    }
+
+    int getOutcome()
+    {
+        return outcome;
+    }
+
+    int getPreferenceResult()
+    {
+        return preferenceResult;
     }
 }
