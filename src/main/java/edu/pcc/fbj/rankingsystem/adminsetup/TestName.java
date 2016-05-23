@@ -3,14 +3,14 @@ package edu.pcc.fbj.rankingsystem.adminsetup;
 /**
  * @author Eric Kristiansen on 5/17/2016.
  */
-public class Test
+public class TestName
 {
-    int testID;
+    int testNameID;
     String name;
 
-    public Test(int passTestID, String passName)
+    public TestName(int passTestNameID, String passName)
     {
-        testID = passTestID;
+        testNameID = passTestNameID;
         name = passName;
     }
 
@@ -38,6 +38,6 @@ public class Test
      */
     public int getTestID()
     {
-        return testID;
+        return testNameID;
     }
 }

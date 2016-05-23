@@ -11,7 +11,7 @@ import java.util.List;
 
 /**
  * @author Eric Kristiansen
- * @version 5/17/16
+ * @version 5/23/16
  */
 public class MultiTabDoc {
     private JTabbedPane tabbedPane1;
@@ -43,9 +43,8 @@ public class MultiTabDoc {
     private Boolean isGood;
 
     //Image tools
-    Image defaultImage; //= ImageIO.read(new File("noImage200x200.png")).getScaledInstance(200, 200, Image.SCALE_DEFAULT);//toolkit.getImage(fileChooserItemControl.getSelectedFile().toString());
-    ImageIcon defaultImageIcon; // = new ImageIcon(defaultImage);
-
+    Image defaultImage;
+    ImageIcon defaultImageIcon;
 
     /**
      * Constructor for View Class
@@ -84,6 +83,7 @@ public class MultiTabDoc {
                 checkListSelection(testListTestControl, removeTestButtonTestControl);
                 loadItemsForSelectedTest();
             });
+
         removeTestButtonTestControl.addActionListener(e -> removeTest());
 
         itemListTestControl.addListSelectionListener(e ->
@@ -112,8 +112,12 @@ public class MultiTabDoc {
         {
             // set file Chooser options
             setupFileChooser();
-            defaultImage = ImageIO.read(new File(URLDecoder.decode(getClass().getResource("default.png").getPath())));
+            defaultImage = ImageIO.read(new File(URLDecoder.decode(getClass().getResource("default.png").getPath(),
+                    "UTF-8").replaceAll("%20", "")));
             defaultImageIcon = new ImageIcon(defaultImage);
+
+            //List<Integer> uniqueItemsUsed = AdminSetupController.getUniqueItemsUsed();
+            //uniqueItemsUsed.forEach(i -> System.out.println(i));
         }
         catch(Exception ex)
         {
@@ -124,11 +128,18 @@ public class MultiTabDoc {
     }
 
     /**
-     *
+     * Set image of selected ImageObject to null
      */
     private void removeImage()
     {
-
+        items.forEach(i ->
+        {
+            if (i.toString().equals(itemListItemControl.getSelectedValue().toString()))
+            {
+                i.setImage(null);
+                getSelectedItemImage(itemListItemControl, imageLabelItemControl);
+            }
+        });
     }
 
     /**
@@ -140,6 +151,7 @@ public class MultiTabDoc {
         rootPanel.setBorder(new javax.swing.border.EmptyBorder(20, 50, 20, 50));
         return rootPanel;
     }
+
     /**
      * Basic setup stuff for fileChooser
      */
@@ -205,16 +217,6 @@ public class MultiTabDoc {
                         x.setImage(FileImage);
                     }
                 });
-
-                /*
-                for (Item i : items)
-                {
-                    if (i.toString().equals(itemListItemControl.getSelectedValue()))
-                    {
-                        i.setImage(FileImage);
-                    }
-                }
-                */
             }
         }
         catch(Exception ex)
