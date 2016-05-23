@@ -198,6 +198,15 @@ public class MultiTabDoc {
 
             if (itemListItemControl.getSelectedIndex() != -1)
             {
+                items.forEach(x ->
+                {
+                    if (x.toString().equals(itemListItemControl.getSelectedValue()))
+                    {
+                        x.setImage(FileImage);
+                    }
+                });
+
+                /*
                 for (Item i : items)
                 {
                     if (i.toString().equals(itemListItemControl.getSelectedValue()))
@@ -205,6 +214,7 @@ public class MultiTabDoc {
                         i.setImage(FileImage);
                     }
                 }
+                */
             }
         }
         catch(Exception ex)
