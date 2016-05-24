@@ -1,12 +1,21 @@
 package edu.pcc.fbj.rankingsystem.dbfactory;
 
 import edu.pcc.fbj.rankingsystem.adminsetup.Item;
+
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
+import java.io.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static java.lang.System.in;
+import static java.lang.System.out;
 
 /**
  * Provides method to retrieve, delete and insert items in the
@@ -18,13 +27,19 @@ import java.util.List;
 public class ItemDAO {
 
     //Queries
-    private static final String GET_ITEMS_SQL = "SELECT Name FROM FBJ_ITEM";
-    private static final String DELETE_ITEM = "DELETE FROM FBJ_ITEM WHERE Name = ?";
-    private static final String INSERT_ITEM = "INSERT INTO FBJ_ITEM(Name) VALUES(?)";
+    private static final String GET_ITEMS_SQL = "SELECT Name, ImageBinary FROM FBJ_ITEM";
+    private static final String DELETE_ITEM_SQL = "DELETE FROM FBJ_ITEM WHERE Name = ?";
+    private static final String INSERT_ITEM_NAME_AND_IMAGE_SQL =
+            "INSERT INTO FBJ_ITEM(Name, ImageBinary) VALUES(?, ?)";
+    private static final String INSERT_ITEM_NAME_SQL = "INSERT INTO FBJ_ITEM(Name) VALUES(?)";
+    private static final String UPDATE_IMAGE_SQL =
+            "UPDATE FBJ_ITEM SET ImageBinary = ? WHERE Name = ?"; //"INSERT INTO FBJ_ITEM(ImageBinary) VALUES(?)";
 
-    //Object to hold items
+    //Other
     private Connection connection = null;
     private List<Item> items;
+    private ByteArrayOutputStream outputStream;
+    private InputStream inputStream;
 
     /**
      * Create an items object
@@ -39,7 +54,7 @@ public class ItemDAO {
         }
         catch (SQLException ex)
         {
-            System.out.println(ex.toString());
+            out.println(ex.toString());
             ex.printStackTrace();
         }
     }
@@ -60,13 +75,25 @@ public class ItemDAO {
 
             while (rs.next())
             {
-                itemList.add(new Item(rs.getString("Name")));
+                if (rs.getBinaryStream("ImageBinary") == null)
+                {
+                    itemList.add(new Item(rs.getString("Name")));
+                }
+                else
+                {
+                    itemList.add(new Item(rs.getString("Name"), ImageIO.read(rs.getBinaryStream("ImageBinary"))));
+                }
             }
         }
         catch (SQLException e)
         {
             System.err.println("ERROR: " + e.getMessage());
             e.printStackTrace();
+        }
+        catch(Exception ex)
+        {
+            out.println(ex.toString());
+            ex.printStackTrace();
         }
 
         return itemList;
@@ -82,7 +109,7 @@ public class ItemDAO {
     }
 
     /**
-     * sets a list of Items to the database
+     * parse data into applicable lists for applicable methods
      * @param passItems list of items chosen by the user
      */
     public void setItems(List<Item> passItems)
@@ -93,6 +120,7 @@ public class ItemDAO {
             boolean deleteItem;
             ArrayList<Item> deleteList = new ArrayList<>();
             ArrayList<Item> insertList = new ArrayList<>();
+            ArrayList<Item> updateList = new ArrayList<>();
 
             //if item is in items, but not pass Items, delete
             for (Item i: items)  //exists in items
@@ -103,23 +131,28 @@ public class ItemDAO {
                     deleteList.add(i);
                 }
             }
-            //after deletion, if item is in passItems, but not in Items, insert
+            //after deletion, if item is in passItems, but not in Items, insert new item
             for (Item j: passItems) //exists in passItems
             {
                 insertItem = notFoundItem(j.toString(), items);
                 if (insertItem)
                 {
-                    insertList.add(j);
+                    insertList.add(new Item(j.toString(), j.getImage())); // new item to insert
+                }
+                else
+                {
+                    updateList.add(new Item(j.toString(), j.getImage())); // possible image update
                 }
             }
 
             deleteRecords(deleteList);
             insertRecords(insertList);
+            updateRecords(updateList);
 
         }
         catch (Exception ex)
         {
-            System.out.println(ex.toString());
+            out.println(ex.toString());
             ex.printStackTrace();
         }
     }
@@ -150,12 +183,12 @@ public class ItemDAO {
     {
         try
         {
-            PreparedStatement st = connection.prepareStatement(DELETE_ITEM);
+            PreparedStatement st = connection.prepareStatement(DELETE_ITEM_SQL);
             for (Item i : deleteList)
             {
                 st.setString(1, i.toString());
                 st.executeUpdate();
-                System.out.println("deleting: " + i.toString());
+                out.println("deleting: " + i.toString());
             }
         }
         catch (SQLException e)
@@ -165,7 +198,7 @@ public class ItemDAO {
         }
         catch(Exception ex)
         {
-            System.out.println(ex.toString());
+            out.println(ex.toString());
             ex.printStackTrace();
         }
     }
@@ -178,15 +211,21 @@ public class ItemDAO {
     {
         try
         {
-            PreparedStatement st = connection.prepareStatement(INSERT_ITEM);
+            PreparedStatement st = connection.prepareStatement(INSERT_ITEM_NAME_AND_IMAGE_SQL);
 
             for(Item i : insertList)
             {
+                //set name
                 st.setString(1, i.toString());
-                st.executeUpdate();
-                System.out.println("inserting: " + i.toString());
-            }
+                //set image
+                outputStream = new ByteArrayOutputStream();
+                ImageIO.write((RenderedImage) i.getImage(),"png", outputStream);
+                inputStream = new ByteArrayInputStream(outputStream.toByteArray());
+                st.setBinaryStream(1, inputStream, inputStream.available());
 
+                st.executeUpdate();
+                out.println("inserting: " + i.toString());
+            }
         }
         catch (SQLException e)
         {
@@ -195,8 +234,86 @@ public class ItemDAO {
         }
         catch(Exception ex)
         {
-            System.out.println(ex.toString());
+            out.println(ex.toString());
             ex.printStackTrace();
+        }
+    }
+
+    /**
+     * Insert appropriate recordsd
+     * @param updateList
+     */
+    protected void updateRecords(List<Item> updateList)
+    {
+        try
+        {
+            PreparedStatement st = connection.prepareStatement(UPDATE_IMAGE_SQL);
+
+            for(Item i : updateList)
+            {
+                out.println("This item to check if need update: " + i.toString());
+                //if image has been updated, write to database
+                out.println("image is not null?: " +  (i.getImage() != null));
+                if ( i.getImage() != null && isNullImage(i.toString()))
+                {
+                    //set image
+                    outputStream = new ByteArrayOutputStream();
+                    Image image = i.getImage();
+
+                    BufferedImage bufferedImage = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_INT_RGB);
+
+                    bufferedImage.getGraphics().drawImage(image, 0, 0, null);
+
+
+                    ImageIO.write(bufferedImage, "png", outputStream);
+                    inputStream = new ByteArrayInputStream(outputStream.toByteArray());
+                    st.setBinaryStream(1, inputStream, inputStream.available());
+                    st.setString(2, i.toString());
+                    st.executeUpdate();
+                    System.out.println("updating Image: " + i.toString());
+                }
+            }
+        }
+        catch (SQLException e)
+        {
+            System.err.println("ERROR: " + e.getMessage());
+            e.printStackTrace();
+        }
+        catch(Exception ex)
+        {
+            out.println(ex.toString());
+            ex.printStackTrace();
+        }
+    }
+
+    /**
+     * return true if the item corresponding with passImageName in the image table
+     * has a null image value
+     * @param passImageName
+     * @return
+     */
+    private Boolean isNullImage(String passImageName)
+    {
+        try
+        {
+            out.println("in is NullImage");
+            for (Item i : items)
+            {
+                out.println("****");
+                out.println("i get image is null: " + (i.getImage() == null));
+                out.println(i.toString().equals(passImageName));
+                if (i.toString().equals(passImageName) && i.getImage() == null)
+                {
+                    out.println("****************************return true for " + i.toString());
+                    return true;
+                }
+            }
+            return false;
+        }
+        catch(Exception ex)
+        {
+            out.println(ex.toString());
+            return false;
         }
     }
 

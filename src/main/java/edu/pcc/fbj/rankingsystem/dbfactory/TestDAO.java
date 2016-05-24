@@ -18,8 +18,8 @@ public class TestDAO
     //Queries
     private static final String GET_TESTS_SQL = "SELECT PK_TestID, FK_UserID, FK_TestNameID, Updt " +
             "FROM FBJ_TEST;";
-    //private static final String GET_UNIQUE_ITEM_IDS = "SELECT FK_Item1ID AS UniqueItemID " +
-      //      "FROM FBJ_Result UNION SELECT FK_Item2ID FROM FBJ_RESULT";
+    private static final String GET_UNIQUE_ITEM_IDS = "SELECT FK_Item1ID AS UniqueItemID " +
+            "FROM FBJ_Result UNION SELECT FK_Item2ID FROM FBJ_RESULT";
 
 
     //Object to hold items

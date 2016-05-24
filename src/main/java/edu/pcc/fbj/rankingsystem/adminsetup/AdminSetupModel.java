@@ -30,10 +30,7 @@ public class AdminSetupModel
     /**
      * set items in items database object
      */
-    public void setItems(List<Item> passItems)
-    {
-        itemDAO.setItems(passItems);
-    }
+    public void setItems(List<Item> passItems) { itemDAO.setItems(passItems); }
 
     /**
      * set TestNames in TestNames database object
