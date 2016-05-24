@@ -3,7 +3,7 @@ package edu.pcc.fbj.rankingsystem.dbfactory;
 /**
  * get database objects per table
  * @author Eric Kristiansen
- * @version 5/17/16
+ * @version 5/23/16
  */
 public class DAOFactory {
 

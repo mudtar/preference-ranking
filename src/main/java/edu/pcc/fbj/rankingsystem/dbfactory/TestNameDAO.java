@@ -1,7 +1,5 @@
 package edu.pcc.fbj.rankingsystem.dbfactory;
 
-import edu.pcc.fbj.rankingsystem.adminsetup.Item;
-import edu.pcc.fbj.rankingsystem.adminsetup.Test;
 import edu.pcc.fbj.rankingsystem.adminsetup.TestName;
 
 import java.sql.Connection;
@@ -21,7 +19,7 @@ import java.util.List;
 public class TestNameDAO
 {
     //Queries
-    private static final String GET_TESTS_SQL = "SELECT PK_TestNameID, Name FROM FBJ_TEST_NAME";
+    private static final String GET_TEST_NAMES_SQL = "SELECT PK_TestNameID, Name FROM FBJ_TEST_NAME";
     private static final String DELETE_TEST_NAME_SQL = "DELETE FROM FBJ_TEST_NAME WHERE Name = ?";
     private static final String INSERT_TEST_NAME_SQL = "INSERT INTO FBJ_TEST_NAME(Name) VALUES(?)";
 
@@ -54,16 +52,16 @@ public class TestNameDAO
      */
     private List<TestName> readTestNames()
     {
-        ArrayList<TestName> testList = new ArrayList<>();
+        List<TestName> testList = new ArrayList<>();
 
         try
         {
-            PreparedStatement stmt = connection.prepareStatement(GET_TESTS_SQL);
+            PreparedStatement stmt = connection.prepareStatement(GET_TEST_NAMES_SQL);
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next())
             {
-                testNames.add(new TestName(rs.getInt("PK_TestNameID"), rs.getString("Name")));
+                testList.add(new TestName(rs.getInt("PK_TestNameID"), rs.getString("Name")));
             }
         }
         catch (SQLException e)
@@ -84,7 +82,6 @@ public class TestNameDAO
         return testNames;
     }
 
-
      /**
      * sets a list of Tests to the database
      * @param passTestNames list of items chosen by the user
@@ -97,12 +94,6 @@ public class TestNameDAO
             boolean deleteTest;
             ArrayList<TestName> deleteList = new ArrayList<>();
             ArrayList<TestName> insertList = new ArrayList<>();
-
-
-
-
-
-
 
             //if TestName is in testNames, but not in  passTestNames, delete
             for (TestName t: testNames)  //exists in items
@@ -123,15 +114,8 @@ public class TestNameDAO
                 }
             }
 
-            for (TestName t : insertList)
-            {
-                System.out.println("need to insert: " + t.toString());
-            }
-            /*
             deleteRecords(deleteList);
             insertRecords(insertList);
-
-            */
 
         }
         catch (Exception ex)
