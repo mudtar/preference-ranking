@@ -81,7 +81,6 @@ public class ItemDAO {
         return items;
     }
 
-
     /**
      * sets a list of Items to the database
      * @param passItems list of items chosen by the user

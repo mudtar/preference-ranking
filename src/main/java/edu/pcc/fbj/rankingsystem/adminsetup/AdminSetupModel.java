@@ -28,11 +28,6 @@ public class AdminSetupModel
     }
 
     /**
-     * set TestNames in TestNames database object
-     */
-    public void setTestNames(List<TestName> passTestNames) { testNameDAO.setTestNames(passTestNames); }
-
-    /**
      * set items in items database object
      */
     public void setItems(List<Item> passItems)
@@ -40,21 +35,17 @@ public class AdminSetupModel
         itemDAO.setItems(passItems);
     }
 
+    /**
+     * set TestNames in TestNames database object
+     */
+    public void setTestNames(List<TestName> passTestNames) { testNameDAO.setTestNames(passTestNames); }
 
     /**
      * get TestNames from tests database object
      */
-    public List<TestName> getTests()
+    public List<TestName> getTestNames()
     {
         return testNameDAO.getTestNames();
-    }
-
-    /**
-     * set testNames in tests database object
-     **/
-    public void setTests(List<TestName> passTests)
-    {
-        testNameDAO.setTestNames(passTests);
     }
 
     /**

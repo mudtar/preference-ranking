@@ -45,6 +45,14 @@ public class AdminSetupController
     }
 
     /**
+     * This Method is called to return the TestNames from the database
+     */
+    public static java.util.List<TestName> getTestNames()
+    {
+        return model.getTestNames();
+    }
+
+    /**
      * This Method is called to return the items from the database
      */
     public static java.util.List<Item> getItems()

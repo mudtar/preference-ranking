@@ -40,6 +40,7 @@ public class MultiTabDoc {
     private DefaultListModel testListModel = new DefaultListModel();
     private DefaultListModel assignedListModel = new DefaultListModel();
     private List<Item> items;
+    private List<TestName> testNames;
     private Boolean isGood;
 
     //Image tools
@@ -108,13 +109,18 @@ public class MultiTabDoc {
 
         cancelAdminButton.addActionListener(e -> cancelAdmin() );
 
+        tabbedPane1.addChangeListener(c-> setFocusInTab());
+
         try
         {
             // set file Chooser options
             setupFileChooser();
+
             defaultImage = ImageIO.read(new File(URLDecoder.decode(getClass().getResource("default.png").getPath(),
                     "UTF-8").replaceAll("%20", "")));
             defaultImageIcon = new ImageIcon(defaultImage);
+
+            setInitialFocus();
 
             //List<Integer> uniqueItemsUsed = AdminSetupController.getUniqueItemsUsed();
             //uniqueItemsUsed.forEach(i -> System.out.println(i));
@@ -124,7 +130,21 @@ public class MultiTabDoc {
             System.out.println(ex.toString());
             ex.printStackTrace();
         }
+    }
 
+    /**
+     *
+     */
+    private void setFocusInTab()
+    {
+        if (tabbedPane1.getSelectedIndex() == 0)
+        {
+            itemTextFieldItemControl.requestFocus();
+        }
+        else
+        {
+            testTextFieldTestControl.requestFocus();
+        }
     }
 
     /**
@@ -169,12 +189,9 @@ public class MultiTabDoc {
     {
         // check if element is already in assigned list
         //if not assign it
-        System.out.println(assignedListModel.indexOf(itemListTestControl.getSelectedValue()));
         if (assignedListModel.indexOf(itemListTestControl.getSelectedValue()) == -1)
         {
-            System.out.println("good to go");
             assignedListModel.addElement(itemListTestControl.getSelectedValue());
-
             assignedItemListTestControl.setModel(assignedListModel);
         }
     }
@@ -232,11 +249,8 @@ public class MultiTabDoc {
     private void setLabelImage(JLabel passLabel, Image passImage)
     {
         ImageIcon FileIcon = new ImageIcon(passImage);
-
-        //display Image in Image Label
         passLabel.setIcon(FileIcon);
     }
-
 
     /**
      *
@@ -245,8 +259,6 @@ public class MultiTabDoc {
     {
         try
         {
-            System.out.println("---------------------------------------------------");
-            System.out.println("getSelectedItemImage being called");
             //find selected item in items, and display icon
             items.forEach((i) ->
             {
@@ -280,7 +292,7 @@ public class MultiTabDoc {
      */
     private void setDefaultIcon(JLabel passLabel)
     {
-        //passLabel.setIcon(defaultIcon);
+        passLabel.setIcon(defaultImageIcon);
     }
 
     /**
@@ -381,12 +393,17 @@ public class MultiTabDoc {
     private void cancelAdmin()
     {
         itemTextFieldItemControl.setText("");
+        testTextFieldTestControl.setText("");
         itemListModel.removeAllElements();
+        testListModel.removeAllElements();
         resetErrorLabel(errorLabelItemControl);
-        // set data in itemList
+        resetErrorLabel(errorLabelTestControl);
+        // set data in Lists
         setItemList(AdminSetupController.getItems());
+        setTestNameList(AdminSetupController.getTestNames());
         setInitialFocus();
         setDefaultIcon(errorLabelItemControl);
+        setDefaultIcon(errorLabelTestControl);
     }
 
     /**
@@ -406,6 +423,24 @@ public class MultiTabDoc {
         }
         itemListItemControl.setModel(itemListModel);
         itemListTestControl.setModel(itemListModel);
+    }
+
+    /**
+     * set the initial item list
+     * @param passList is list of item objects passed from the controller
+     *                 for use here in the view controls
+     */
+    public void setTestNameList(List<TestName> passList)
+    {
+        testNames = passList;
+
+        // set List Model
+        testListModel.clear();
+        for (TestName testName: testNames)
+        {
+            testListModel.addElement(testName.toString());
+        }
+        testListTestControl.setModel(testListModel);
     }
 
     /**

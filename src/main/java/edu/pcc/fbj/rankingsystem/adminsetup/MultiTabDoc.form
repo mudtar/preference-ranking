@@ -99,6 +99,8 @@
                 <properties>
                   <acceptAllFileFilterUsed value="false"/>
                   <controlButtonsAreShown value="false"/>
+                  <focusable value="false"/>
+                  <requestFocusEnabled value="false"/>
                 </properties>
               </component>
               <component id="aa13" class="javax.swing.JLabel">
