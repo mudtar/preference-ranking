@@ -22,7 +22,7 @@ import static java.lang.System.out;
  * FueledByJava database
  *
  * @author Eric Kristiansen
- * @version 5/18/2016
+ * @version 5/23/2016
  */
 public class ItemDAO {
 
@@ -33,7 +33,7 @@ public class ItemDAO {
             "INSERT INTO FBJ_ITEM(Name, ImageBinary) VALUES(?, ?)";
     private static final String INSERT_ITEM_NAME_SQL = "INSERT INTO FBJ_ITEM(Name) VALUES(?)";
     private static final String UPDATE_IMAGE_SQL =
-            "UPDATE FBJ_ITEM SET ImageBinary = ? WHERE Name = ?"; //"INSERT INTO FBJ_ITEM(ImageBinary) VALUES(?)";
+            "UPDATE FBJ_ITEM SET ImageBinary = ? WHERE Name = ?";
 
     //Other
     private Connection connection = null;
@@ -260,10 +260,10 @@ public class ItemDAO {
                     outputStream = new ByteArrayOutputStream();
                     Image image = i.getImage();
 
-                    BufferedImage bufferedImage = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_INT_RGB);
+                    BufferedImage bufferedImage = new BufferedImage(image.getWidth(null),
+                            image.getHeight(null), BufferedImage.TYPE_INT_RGB);
 
                     bufferedImage.getGraphics().drawImage(image, 0, 0, null);
-
 
                     ImageIO.write(bufferedImage, "png", outputStream);
                     inputStream = new ByteArrayInputStream(outputStream.toByteArray());
