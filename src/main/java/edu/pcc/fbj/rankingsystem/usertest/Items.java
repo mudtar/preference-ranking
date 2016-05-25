@@ -33,7 +33,7 @@ class Items
      * All of the items made into comparison pairs to be presented to
      * the user.
      */
-    private List<List<Item>> itemPairs;
+    private List<ItemPair> itemPairs;
 
     /**
      * The list index of the next element of itemPairs to return.
@@ -107,11 +107,11 @@ class Items
      * @throws IndexOutOfBoundsException when there are no more test
      *                                   item pairs to return
      */
-    List<Item> getItemPair() throws IndexOutOfBoundsException
+    ItemPair getItemPair() throws IndexOutOfBoundsException
     {
         // Get the first pair of items that hasn't yet been returned,
         // i.e. the next pair of items.
-        List<Item> itemPair = itemPairs.get(nextItemPairIndex);
+        ItemPair itemPair = itemPairs.get(nextItemPairIndex);
 
         // Increment the index of the next pair of items so that this
         // method grabs the next one next time it's called.
@@ -169,7 +169,7 @@ class Items
                     // of pairs. Randomize the order of the pair.
                     List<Item> pair = Arrays.asList(item1, item2);
                     Collections.shuffle(pair);
-                    itemPairs.add(pair);
+                    itemPairs.add(new ItemPair(pair.get(0), pair.get(1)));
                 }
 
                 // Increment to represent the next item to be paired.
