@@ -195,14 +195,14 @@ public class UserTestController implements Initializable
     {
         // When there are no more test item pairs available, this throws
         // an IndexOutOfBoundsException.
-        List<Item> itemPair = items.getItemPair();
+        ItemPair itemPair = items.getItemPair();
 
         // Associate the items' IDs with their toggle buttons.
-        option1.getProperties().put("itemID", itemPair.get(0).getID());
-        option2.getProperties().put("itemID", itemPair.get(1).getID());
+        option1.getProperties().put("itemID", itemPair.getOption1().getID());
+        option2.getProperties().put("itemID", itemPair.getOption2().getID());
 
         // Create the text labels for the buttons from the items' names.
-        option1.setText(itemPair.get(0).getName());
-        option2.setText(itemPair.get(1).getName());
+        option1.setText(itemPair.getOption1().getName());
+        option2.setText(itemPair.getOption2().getName());
     }
 }

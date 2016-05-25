@@ -20,4 +20,20 @@ class ItemPair
      *      1 is a loss for option1 and a win for option2
      */
     private int preference;
+
+    ItemPair(Item option1, Item option2)
+    {
+        this.option1 = option1;
+        this.option2 = option2;
+    }
+
+    Item getOption1()
+    {
+        return option1;
+    }
+
+    Item getOption2()
+    {
+        return option2;
+    }
 }
