@@ -18,6 +18,12 @@ import java.util.concurrent.CompletionException;
  * Handles the items to be presented to the user for preference testing
  * and the preferences submitted by the user.
  *
+ * This is the result of the combination of the classes Items and
+ * Preferences. It's become apparent that these two data structures
+ * should be combined to more efficiently and cohesively underpin newly
+ * required features, including the back button and new comparison
+ * ordering requirements.
+ *
  * @author  Ian Burton
  * @version 2016.05.24.1
  */
@@ -27,7 +33,7 @@ class Items
      * All of the items made into comparison pairs to be presented to
      * the user.
      */
-    private List<List<Map.Entry<Integer, String>>> itemPairs;
+    private List<List<Item>> itemPairs;
 
     /**
      * The list index of the next element of itemPairs to return.
@@ -74,7 +80,7 @@ class Items
         // All of the items that are to be made into pairs and presented
         // to the user.This is a list of map entries where the key is
         // the item's ID and the value is the item's name.
-        List<Map.Entry<Integer, String>> items = new ArrayList<>();
+        List<Item> items = new ArrayList<>();
 
         // Get from the database all existing items.
         Statement stmt = con.createStatement();
@@ -86,8 +92,7 @@ class Items
         // For each of the items in the database, add a new map entry.
         while (rs.next())
         {
-            items.add(new AbstractMap.SimpleEntry<Integer, String>(
-                rs.getInt("PK_ItemID"), rs.getString("Name")));
+            items.add(new Item(rs.getInt("PK_ItemID"), rs.getString("Name")));
         }
 
         stmt.close();
@@ -102,13 +107,11 @@ class Items
      * @throws IndexOutOfBoundsException when there are no more test
      *                                   item pairs to return
      */
-    List<Map.Entry<Integer, String>> getItemPair()
-        throws IndexOutOfBoundsException
+    List<Item> getItemPair() throws IndexOutOfBoundsException
     {
         // Get the first pair of items that hasn't yet been returned,
         // i.e. the next pair of items.
-        List<Map.Entry<Integer, String>> itemPair =
-            itemPairs.get(nextItemPairIndex);
+        List<Item> itemPair = itemPairs.get(nextItemPairIndex);
 
         // Increment the index of the next pair of items so that this
         // method grabs the next one next time it's called.
@@ -140,7 +143,7 @@ class Items
      *              This is a list of map entries where the key is the
      *              item's ID and the value is the item's name.
      */
-    private void createItemPairs(List<Map.Entry<Integer, String>> items)
+    private void createItemPairs(List<Item> items)
     {
         itemPairs = new ArrayList<>();
 
@@ -149,13 +152,13 @@ class Items
         // start at 0, so start our count at -1.
         int item1Index = -1;
 
-        for (Map.Entry<Integer, String> item1 : items)
+        for (Item item1 : items)
         {
             // The List index of the current item to be paired with
             // item1.
             int item2Index = 0;
 
-            for (Map.Entry<Integer, String> item2 : items)
+            for (Item item2 : items)
             {
                 // Make sure that the item being paired is not one
                 // that's already been fully paired. Also make sure that
@@ -164,8 +167,7 @@ class Items
                 {
                     // Add a list of two unique test items to the list
                     // of pairs. Randomize the order of the pair.
-                    List<Map.Entry<Integer, String>> pair =
-                        Arrays.asList(item1, item2);
+                    List<Item> pair = Arrays.asList(item1, item2);
                     Collections.shuffle(pair);
                     itemPairs.add(pair);
                 }
