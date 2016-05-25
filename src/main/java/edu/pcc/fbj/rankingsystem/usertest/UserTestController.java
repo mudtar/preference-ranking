@@ -25,14 +25,10 @@ public class UserTestController implements Initializable
 
     /**
      * The items to be presented to the user by which to determine user
-     * preferences.
+     * preferences and the user's preferences, which are the results of
+     * the test.
      */
     private Items items;
-
-    /**
-     * The user's preferences, which are the results of the test.
-     */
-    private Preferences preferences;
 
     /**
      * The stage created by JavaFX when the preference test GUI was
@@ -81,7 +77,6 @@ public class UserTestController implements Initializable
     public UserTestController() throws SQLException
     {
         items = new Items();
-        preferences = new Preferences();
     }
 
     /**
@@ -122,7 +117,7 @@ public class UserTestController implements Initializable
      */
     public void setUserEmail(String userEmail)
     {
-        preferences.setUserEmail(userEmail);
+        items.setUserEmail(userEmail);
     }
 
     /**
@@ -147,19 +142,19 @@ public class UserTestController implements Initializable
             // ask whether it's selected.
             if (option1.isSelected())
             {
-                preferences.registerPreference(
+                items.registerPreference(
                     (int) option1.getProperties().get("itemID"),
                     (int) option2.getProperties().get("itemID"), -1);
             }
             else if (option2.isSelected())
             {
-                preferences.registerPreference(
+                items.registerPreference(
                     (int) option1.getProperties().get("itemID"),
                     (int) option2.getProperties().get("itemID"), 1);
             }
             else if (tie.isSelected())
             {
-                preferences.registerPreference(
+                items.registerPreference(
                     (int) option1.getProperties().get("itemID"),
                     (int) option2.getProperties().get("itemID"), 0);
             }
@@ -183,7 +178,7 @@ public class UserTestController implements Initializable
             catch (IndexOutOfBoundsException e)
             {
                 // There are no more test item pairs to handle.
-                preferences.storePreferences();
+                items.storePreferences();
                 primaryStage.close();
             }
         }
