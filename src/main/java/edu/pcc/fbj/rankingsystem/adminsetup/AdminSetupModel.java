@@ -38,6 +38,12 @@ public class AdminSetupModel
     public void setTestNames(List<TestName> passTestNames) { testNameDAO.setTestNames(passTestNames); }
 
     /**
+     * get TestItems for selected test
+     * @return List of Items associated with selected test
+     */
+    public List<Item> getTestItems() { return itemDAO.getTestItems(); }
+
+    /**
      * get TestNames from tests database object
      */
     public List<TestName> getTestNames()

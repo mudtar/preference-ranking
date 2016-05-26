@@ -299,7 +299,6 @@ public class ItemDAO {
         }
     }
 
-
     /**
      * take image object, and return a bufferedImage object
      * @passImage
@@ -390,6 +389,14 @@ public class ItemDAO {
         }
 
         return result;
+    }
+
+    public List<Item> getTestItems()
+    {
+        //get TestNameID
+
+        //get Items Associated with TestNameID
+        return null;
     }
 
 
