@@ -7,7 +7,7 @@ import javax.swing.*;
  * and the Model ideally
  *
  * @author Eric Kristiansen
- * @version 5/23/16
+ * @version 5/26/16
  */
 public class AdminSetupController
 {
@@ -50,6 +50,14 @@ public class AdminSetupController
     public static java.util.List<TestName> getTestNames()
     {
         return model.getTestNames();
+    }
+
+    /**
+     * This Method is called to return the items from the database
+     */
+    public static java.util.List<Item> getTestItems()
+    {
+        return model.getTestItems();
     }
 
     /**

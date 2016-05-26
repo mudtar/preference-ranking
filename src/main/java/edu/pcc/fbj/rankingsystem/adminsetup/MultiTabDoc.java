@@ -19,7 +19,6 @@ public class MultiTabDoc {
     private JList itemListItemControl;
     private JTextField itemTextFieldItemControl;
     private JButton removeItemButtonItemControl;
-    private JButton cancelButtonItemControl;
     private JButton finishedButton;
     private JList testListTestControl;
     private JTextField testTextFieldTestControl;
@@ -40,6 +39,7 @@ public class MultiTabDoc {
     private DefaultListModel testListModel = new DefaultListModel();
     private DefaultListModel assignedListModel = new DefaultListModel();
     private List<Item> items;
+    private List<Item> testItems;
     private List<TestName> testNames;
     private Boolean isGood;
 
@@ -192,6 +192,7 @@ public class MultiTabDoc {
         if (assignedListModel.indexOf(itemListTestControl.getSelectedValue()) == -1)
         {
             assignedListModel.addElement(itemListTestControl.getSelectedValue());
+            testItems.add(new Item(itemListTestControl.getSelectedValue().toString()));
             assignedItemListTestControl.setModel(assignedListModel);
         }
     }
@@ -201,7 +202,9 @@ public class MultiTabDoc {
      */
     private void removeItemFromTestList()
     {
+        testItems.forEach(i -> {if(i.toString().equals(testListTestControl.getSelectedValue())) testItems.remove(i);});
         assignedListModel.removeElementAt(assignedItemListTestControl.getSelectedIndex());
+
         assignedItemListTestControl.setModel(assignedListModel);
     }
 
@@ -210,8 +213,15 @@ public class MultiTabDoc {
      */
     private void loadItemsForSelectedTest()
     {
-
+        if (testListTestControl.getSelectedIndex() != -1)
+        {
+            AdminSetupController.getTestItems();
+            //load list model for selected test.....
+            //////////////////////////////////////////////////////////////////////////
+        }
     }
+
+
 
     /**
      * Get the image from the fileChooser, and display at appropriate size
@@ -469,7 +479,10 @@ public class MultiTabDoc {
     {
         try
         {
+            //remove item from list model and items
+            items.forEach(i -> {if(i.toString().equals(itemListItemControl.getSelectedValue())) items.remove(i);});
             itemListModel.remove(itemListItemControl.getSelectedIndex());
+
             // set data in itemList
             itemListItemControl.setModel(itemListModel);
             itemListItemControl.setSelectedIndex(-1);
@@ -492,7 +505,9 @@ public class MultiTabDoc {
     {
         try
         {
+            testNames.forEach(i -> {if(i.toString().equals(testListTestControl.getSelectedValue())) testNames.remove(i);});
             testListModel.remove(testListTestControl.getSelectedIndex());
+
             // set data in testList
             testListTestControl.setModel(testListModel);
             testListTestControl.setSelectedIndex(-1);
