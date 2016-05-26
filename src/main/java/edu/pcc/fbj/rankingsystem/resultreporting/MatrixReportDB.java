@@ -27,7 +27,7 @@ public class MatrixReportDB extends ReportDB implements ReportDAO
      * @return List<ReportTestResult>
      */
     @Override
-    public Object[][] getUserTestResult(String email)
+    public Object[][] getUserTestResult(String email, String testID)
     {
         List<ReportTestResult> results = new ArrayList<>();
 
@@ -37,6 +37,7 @@ public class MatrixReportDB extends ReportDB implements ReportDAO
         )
         {
             stmt.setString(1, email);
+            stmt.setInt(2, Integer.parseInt(testID));
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 results.add(new ReportTestResult(
@@ -67,7 +68,7 @@ public class MatrixReportDB extends ReportDB implements ReportDAO
      * @return column
      */
     @Override
-    public List<String> getUserTestTableColumns(String email)
+    public List<String> getUserTestTableColumns(String email, String testID)
     {
         List<String> results = new ArrayList<>();
 
@@ -77,6 +78,7 @@ public class MatrixReportDB extends ReportDB implements ReportDAO
         )
         {
             stmt.setString(1, email);
+            stmt.setInt(2, Integer.parseInt(testID));
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 results.add(rs.getString("Item1"));

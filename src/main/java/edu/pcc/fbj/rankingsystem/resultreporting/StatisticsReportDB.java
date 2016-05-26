@@ -10,12 +10,12 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * @author: David Li
- * @version: 2016.05.19
+ * @author David Li
+ * @version 2016.05.19
  */
-public class BasicReportDB extends ReportDB implements ReportDAO
+public class StatisticsReportDB  extends ReportDB implements ReportDAO
 {
-    public BasicReportDB()
+    public StatisticsReportDB()
     {
 
     }
@@ -26,7 +26,7 @@ public class BasicReportDB extends ReportDB implements ReportDAO
      * @return List<ReportTestResult>
      */
     @Override
-    public Object[][] getUserTestResult(String email, String testID)
+    public Object[][] getUserTestResult(String email,  String testID)
     {
         List<ReportTestResult> results = new ArrayList<>();
 
@@ -36,7 +36,6 @@ public class BasicReportDB extends ReportDB implements ReportDAO
         )
         {
             stmt.setString(1, email);
-            stmt.setInt(2, Integer.parseInt(testID));
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 results.add(new ReportTestResult(rs.getString("Name"),
@@ -72,14 +71,10 @@ public class BasicReportDB extends ReportDB implements ReportDAO
     @Override
     public List<String> getUserTestTableColumns(String email, String testID)
     {
-        List<String> basicTableColumn =  new ArrayList<>();
-        basicTableColumn.add("Item");
-        basicTableColumn.add("Wins");
-        basicTableColumn.add("Losses");
-        basicTableColumn.add("Ties");
-        basicTableColumn.add("Score");
+        List<String> statisticsTableColumn =  new ArrayList<>();
 
-        return basicTableColumn;
+
+        return statisticsTableColumn;
     }
 
 }

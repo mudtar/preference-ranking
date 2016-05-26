@@ -31,6 +31,8 @@ import edu.pcc.fbj.rankingsystem.resultreporting.dao.*;
 public abstract class ReportDB implements ReportDAO
 {
     protected Vector<String> userEmailList;
+    protected Vector<String> userTestIDList;
+    protected Vector<String> userTestNameList;
     private String message;
     protected Connection connection;
 
@@ -82,6 +84,65 @@ public abstract class ReportDB implements ReportDAO
             stmt.close();
             setMessage(DATABASE_DATA_COMPLETE);
             return userEmailList;
+        }
+        catch (SQLException se)
+        {
+            return null;
+        }
+    }
+
+    /**
+     * Retrieve user test id list
+     * @return Vector<String>
+     */
+    @Override
+    public Vector<String> getUserTestID(String email, String testName)
+    {
+        userTestIDList = new Vector<>();
+        setMessage(DATABASE_DATA_READING);
+        try (
+                PreparedStatement stmt = connection.prepareStatement(GET_USER_TEST_ID_LIST_SQL);
+        )
+        {
+            stmt.setString(1, email);
+            stmt.setString(2, testName);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next())
+            {
+                userTestIDList.add(rs.getString("TestID"));
+            }
+            stmt.close();
+            setMessage(DATABASE_DATA_COMPLETE);
+            return userTestIDList;
+        }
+        catch (SQLException se)
+        {
+            return null;
+        }
+    }
+
+    /**
+     * Retrieve user test name list
+     * @return Vector<String>
+     */
+    @Override
+    public Vector<String> getUserTestNameList(String email)
+    {
+        userTestNameList = new Vector<>();
+        setMessage(DATABASE_DATA_READING);
+        try (
+                PreparedStatement stmt = connection.prepareStatement(GET_USER_TEST_NAME_LIST_SQL);
+        )
+        {
+            stmt.setString(1, email);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next())
+            {
+                userTestNameList.add(rs.getString("Name"));
+            }
+            stmt.close();
+            setMessage(DATABASE_DATA_COMPLETE);
+            return userTestNameList;
         }
         catch (SQLException se)
         {

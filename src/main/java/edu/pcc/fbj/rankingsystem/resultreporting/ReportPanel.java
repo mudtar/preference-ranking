@@ -29,30 +29,23 @@ public class ReportPanel extends JPanel implements ActionListener
 
     private JTable basicTable;
     private JTable matrixTable;
+    private JTable statisticsTable;
     private JComboBox userList;
     private JLabel label;
-    private Vector<String> listItem;
-    private JComboBox testList;
-    private Vector<String> testListItem;
+    private JComboBox testNameList;
+    private JComboBox userTestIDList;
     private int emailIndex;
+    private int testNameIndex;
+    private int testIDIndex;
     private Signal signal;
     private JCheckBox basicReportButton;
     private JCheckBox matrixReportButton;
     private JCheckBox statisticsButton;
     private JScrollPane matrixPane;
+    private JScrollPane statisticsPane;
     private boolean matrixReportFalg;
     private boolean statisticsReportFlag;
-
-
-    /**
-     * Initialize message panel
-     *//*
-    private void initPanel()
-    {
-        setLayout(new GridBagLayout());
-        setPreferredSize(new Dimension(500, 300));
-        add(new JLabel("Report is unavailable. Please check netowrk connection."));
-    }*/
+    private GridBagConstraints layout;
 
     /**
      * Default constructor
@@ -60,6 +53,8 @@ public class ReportPanel extends JPanel implements ActionListener
     public ReportPanel()
     {
         emailIndex = 0;
+        testNameIndex = 0;
+        testIDIndex = 0;
         signal = Signal.DATABASE_SIGNAL_RETRIEVE_DATA;
         matrixReportFalg = false;
         statisticsReportFlag = false;
@@ -79,25 +74,16 @@ public class ReportPanel extends JPanel implements ActionListener
         c.ipadx = 200;
         add(label, c);
 
-        if(listItem != null)
-        {
-            userList = new JComboBox(listItem);
-        }
-        else
-        {
+
             userList = new JComboBox();
-        }
+
 
         userList.setPreferredSize(new Dimension(300, 25));
-        if(listItem != null)
-        {
-            userList.setSelectedIndex(0);
-        }
+
         userList.addActionListener(this);
         userList.setActionCommand("EmailList");
 
         c.fill = GridBagConstraints.HORIZONTAL;
-        c.anchor = GridBagConstraints.CENTER;
         c.insets = new Insets(0,10,0,10);
         c.weightx = 0.5;
         c.gridx = 0;
@@ -107,9 +93,9 @@ public class ReportPanel extends JPanel implements ActionListener
         add(userList, c);
     }
 
-    private void initWidgetTestList(GridBagConstraints c)
+    private void initWidgetTestItemList(GridBagConstraints c)
     {
-        JLabel testLabel = new JLabel("Test List:");
+        JLabel testLabel = new JLabel("Test Item List:");
         c.weightx = 0.5;
         c.fill = GridBagConstraints.HORIZONTAL;
         c.insets = new Insets(0,10,0,10);
@@ -119,31 +105,52 @@ public class ReportPanel extends JPanel implements ActionListener
         c.ipadx = 200;
         add(testLabel, c);
 
-        if(testListItem != null)
-        {
-            testList = new JComboBox(listItem);
-        }
-        else
-        {
-            testList = new JComboBox();
-        }
 
-        testList.setPreferredSize(new Dimension(300, 25));
-        if(testListItem != null)
-        {
-            testList.setSelectedIndex(0);
-        }
-        testList.addActionListener(this);
-        testList.setActionCommand("TestList");
+            testNameList = new JComboBox();
+
+
+        testNameList.setPreferredSize(new Dimension(300, 25));
+
+        testNameList.addActionListener(this);
+        testNameList.setActionCommand("TestNameList");
 
         c.fill = GridBagConstraints.HORIZONTAL;
-        c.anchor = GridBagConstraints.CENTER;
         c.insets = new Insets(0,10,0,10);
         c.weightx = 0.5;
         c.gridx = 0;
         c.gridwidth = 3;
         c.gridy = 3;
-        add(testList, c);
+        add(testNameList, c);
+    }
+
+    private void initWidgetUserTestList(GridBagConstraints c)
+    {
+        JLabel testLabel = new JLabel("User Test Id List:");
+        c.weightx = 0.5;
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.insets = new Insets(0,10,0,10);
+        c.gridx = 0;
+        c.gridy = 4;
+        c.gridwidth = 3;
+        c.ipadx = 200;
+        add(testLabel, c);
+
+
+            userTestIDList = new JComboBox();
+
+
+        userTestIDList.setPreferredSize(new Dimension(300, 25));
+
+        userTestIDList.addActionListener(this);
+        userTestIDList.setActionCommand("TestIDList");
+
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.insets = new Insets(0,10,0,10);
+        c.weightx = 0.5;
+        c.gridx = 0;
+        c.gridwidth = 3;
+        c.gridy = 5;
+        add(userTestIDList, c);
     }
 
     private void initWidgetReportOption(GridBagConstraints c)
@@ -153,12 +160,11 @@ public class ReportPanel extends JPanel implements ActionListener
         basicReportButton.setSelected(true);
         basicReportButton.setEnabled(false);
         c.fill = GridBagConstraints.HORIZONTAL;
-        c.anchor = GridBagConstraints.CENTER;
         c.insets = new Insets(0,10,1,10);
         c.weightx = 0.5;
         c.gridx = 0;
         c.gridwidth = 1;
-        c.gridy = 4;
+        c.gridy = 6;
         c.ipadx = 200;
         basicReportButton.addActionListener(this);
         basicReportButton.setActionCommand("BasicReport");
@@ -168,12 +174,11 @@ public class ReportPanel extends JPanel implements ActionListener
         matrixReportButton.setMnemonic(KeyEvent.VK_G);
         matrixReportButton.setSelected(false);
         c.fill = GridBagConstraints.HORIZONTAL;
-        c.anchor = GridBagConstraints.CENTER;
         c.insets = new Insets(0,10,1,10);
         c.weightx = 0.5;
         c.gridx = 0;
         c.gridwidth = 1;
-        c.gridy = 5;
+        c.gridy = 7;
         matrixReportButton.addActionListener(this);
         matrixReportButton.setActionCommand("MatrixReport");
         add(matrixReportButton, c);
@@ -182,12 +187,11 @@ public class ReportPanel extends JPanel implements ActionListener
         statisticsButton.setMnemonic(KeyEvent.VK_H);
         statisticsButton.setSelected(false);
         c.fill = GridBagConstraints.HORIZONTAL;
-        c.anchor = GridBagConstraints.CENTER;
         c.insets = new Insets(0,10,1,10);
         c.weightx = 0.5;
         c.gridx = 0;
         c.gridwidth = 1;
-        c.gridy = 6;
+        c.gridy = 8;
         statisticsButton.addActionListener(this);
         statisticsButton.setActionCommand("StatisticsReport");
         add(statisticsButton, c);
@@ -206,7 +210,6 @@ public class ReportPanel extends JPanel implements ActionListener
         c.ipady = 1000;
         c.ipadx = 500;
         c.weighty = 1.0;
-        c.anchor = GridBagConstraints.PAGE_START;
         c.insets = new Insets(0,10,10,10);
         c.gridx = 3;
         c.gridwidth = 3;
@@ -228,13 +231,40 @@ public class ReportPanel extends JPanel implements ActionListener
         c.ipady = 1000;
         c.ipadx = 500;
         c.weighty = 1.0;
-        c.anchor = GridBagConstraints.PAGE_START;
         c.insets = new Insets(0,10,10,10);
         c.gridx = 3;
         c.gridwidth = 3;
         c.gridy = 12;
         c.gridheight = 10;
         add(matrixPane, c);
+        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        if(frame != null) {
+            frame.setSize(new Dimension(800, 600));
+            frame.revalidate();
+            frame.setLocationRelativeTo(null);
+        }
+    }
+
+    private void initWidgetStatisticsReport(GridBagConstraints c)
+    {
+
+        if(statisticsTable == null) {
+            statisticsTable = new JTable();
+        }
+        statisticsPane = new JScrollPane(statisticsTable);
+        statisticsPane.setPreferredSize(new Dimension(400,300));
+
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.ipady = 1000;
+        c.ipadx = 500;
+        c.weighty = 1.0;
+
+        c.insets = new Insets(0,10,10,10);
+        c.gridx = 0;
+        c.gridwidth = 3;
+        c.gridy = 12;
+        c.gridheight = 10;
+        add(statisticsPane, c);
         JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
         if(frame != null) {
             frame.setSize(new Dimension(800, 600));
@@ -252,12 +282,13 @@ public class ReportPanel extends JPanel implements ActionListener
 
         setLayout(new GridBagLayout());
         setPreferredSize(new Dimension(800, 300));
-        GridBagConstraints c = new GridBagConstraints();
+        layout = new GridBagConstraints();
 
-        initWidgetEmailList(c);
-        initWidgetTestList(c);
-        initWidgetReportOption(c);
-        initWidgetBasicReport(c);
+        initWidgetEmailList(layout);
+        initWidgetTestItemList(layout);
+        initWidgetUserTestList(layout);
+        initWidgetReportOption(layout);
+        initWidgetBasicReport(layout);
     }
 
     public void setLabelText(String text)
@@ -269,7 +300,7 @@ public class ReportPanel extends JPanel implements ActionListener
      * Set items for ComboBoxList
      * @param listItem Vector<String>
      */
-    public void setListItem(Vector<String> listItem)
+    public void setEmailListItem(Vector<String> listItem)
     {
         if(listItem == null)
             return;
@@ -279,6 +310,45 @@ public class ReportPanel extends JPanel implements ActionListener
             this.userList.addItem(item);
         }
         userList.setSelectedIndex(0);
+    }
+
+    /**
+     * Set items for user test id list ComboBoxList
+     * @param listItem Vector<String>
+     */
+    public void setUserTestIDListItem(Vector<String> listItem)
+    {
+        if(listItem == null)
+            return;
+
+
+
+        this.userTestIDList.removeAllItems();
+        for(String item: listItem)
+        {
+            this.userTestIDList.addItem(item);
+        }
+        userTestIDList.setSelectedIndex(0);
+
+    }
+
+    /**
+     * Set items for user test name list
+     * @param listItem Vector<String>
+     */
+    public void setUserTestNameListItem(Vector<String> listItem)
+    {
+        if(listItem == null)
+            return;
+
+
+
+        this.testNameList.removeAllItems();
+        for(String item: listItem)
+        {
+            this.testNameList.addItem(item);
+        }
+        testNameList.setSelectedIndex(0);
     }
 
     /**
@@ -426,6 +496,58 @@ public class ReportPanel extends JPanel implements ActionListener
     }
 
     /**
+     * Fill statistics report table
+     * @param data
+     */
+    public void setStatisticsReportData(Object[][] data)
+    {
+        if(data == null)
+            return;
+
+        DefaultTableModel model = (DefaultTableModel) statisticsTable.getModel();
+        int rowCount = model.getRowCount();
+
+        for(int i = rowCount-1; i>=0; i--)
+        {
+            model.removeRow(i);
+        }
+
+    }
+
+    /**
+     * set statistics report table columns
+     * @param data
+     */
+    public void setStatisticsTableColumns(List<String> data)
+    {
+        if(data == null)
+            return;
+
+        DefaultTableModel model = (DefaultTableModel) statisticsTable.getModel();
+        int rowCount = model.getRowCount();
+
+        for(int i = rowCount-1; i>=0; i--)
+        {
+            model.removeRow(i);
+        }
+
+        model.setColumnCount(0);
+
+        for(String name : data)
+        {
+            model.addColumn(name);
+        }
+
+        //Center table title and cell values
+        ((DefaultTableCellRenderer)statisticsTable.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment( SwingConstants.CENTER );
+        for(int i = 1;i < statisticsTable.getModel().getColumnCount(); i++) {
+            statisticsTable.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        }
+    }
+
+    /**
      * Action listener userd for respond to event of Changing item in ComboBoxList.
      * @param e  - action event
      */
@@ -435,11 +557,19 @@ public class ReportPanel extends JPanel implements ActionListener
         if (command.equals("EmailList")) {
             JComboBox user = (JComboBox) e.getSource();
             setEmailIndex(user.getSelectedIndex());
-            setSignal(Signal.DATABASE_SIGNAL_RETRIEVE_DATA);
+            setSignal(Signal.DATABASE_SIGNAL_UPDATE_EAMIL_LIST);
         }
-        else if (command.equals("TestList"))
+        else if (command.equals("TestNameList"))
         {
-            System.out.println(command);
+            JComboBox testName = (JComboBox) e.getSource();
+            setTestNameIndex(testName.getSelectedIndex());
+            setSignal(Signal.DATABASE_SIGNAL_UPDATE_TESTNAME_LIST);
+        }
+        else if (command.equals("TestIDList"))
+        {
+            JComboBox testID = (JComboBox) e.getSource();
+            setTestIDIndex(testID.getSelectedIndex());
+            setSignal(Signal.DATABASE_SIGNAL_RETRIEVE_DATA);
         }
         else if (command.equals("BasicReport"))
         {
@@ -448,7 +578,6 @@ public class ReportPanel extends JPanel implements ActionListener
         else if (command.equals("MatrixReport"))
         {
             if(matrixReportButton.isSelected()) {
-                System.out.println(command);
                 GridBagConstraints c = new GridBagConstraints();
                 initWidgetMatrixReport(c);
                 enableMatrixReport();
@@ -461,15 +590,41 @@ public class ReportPanel extends JPanel implements ActionListener
                 setSignal(Signal.DATABASE_SIGNAL_RETRIEVE_DATA);
                 JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
                 if(frame != null) {
-                    frame.setSize(new Dimension(800, 300));
+                    if(!isStatisticsReportEnabled()) {
+                        frame.setSize(new Dimension(800, 300));
+                    }
                     frame.revalidate();
-                    statisticsButton.setActionCommand("StatisticsReport");
+                    frame.getContentPane().validate();
+                    frame.getContentPane().repaint();
+                    frame.setLocationRelativeTo(null);
                 }
             }
         }
         else if (command.equals("StatisticsReport"))
         {
-            System.out.println(command);
+            if(statisticsButton.isSelected()) {
+                System.out.println(command);
+                GridBagConstraints c = new GridBagConstraints();
+                initWidgetStatisticsReport(c);
+                enableStatisticsReport();
+                setSignal(Signal.DATABASE_SIGNAL_RETRIEVE_DATA);
+            }
+            else
+            {
+                remove(statisticsPane);
+                disableStatisticsReport();
+                setSignal(Signal.DATABASE_SIGNAL_RETRIEVE_DATA);
+                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
+                if(frame != null) {
+                    if(!isMatrixReportEnabled()) {
+                        frame.setSize(new Dimension(800, 300));
+                    }
+                    frame.revalidate();
+                    frame.getContentPane().validate();
+                    frame.getContentPane().repaint();
+                    frame.setLocationRelativeTo(null);
+                }
+            }
         }
 
     }
@@ -485,11 +640,47 @@ public class ReportPanel extends JPanel implements ActionListener
     }
 
     /**
+     * Get Test Name List Index
+     * @return
+     */
+    public int getTestNameIndex()
+    {
+        return testNameIndex;
+    }
+
+    /**
+     * Get Test ID List Index
+     * @return
+     */
+    public int getTestIDIndex()
+    {
+        return testIDIndex;
+    }
+
+    /**
      * Set email index
      */
-    public void setEmailIndex(int index)
+    private void setEmailIndex(int index)
     {
         emailIndex = index;
+    }
+
+    /**
+     * Set Test Name List Index
+     * @param index
+     */
+    private void setTestNameIndex(int index)
+    {
+        testNameIndex = index;
+    }
+
+    /**
+     * Set Test Name List Index
+     * @param index
+     */
+    private void setTestIDIndex(int index)
+    {
+        testIDIndex = index;
     }
 
     /**
@@ -522,6 +713,21 @@ public class ReportPanel extends JPanel implements ActionListener
     public boolean isMatrixReportEnabled()
     {
         return matrixReportFalg;
+    }
+
+    private void enableStatisticsReport()
+    {
+        statisticsReportFlag = true;
+    }
+
+    private void disableStatisticsReport()
+    {
+        statisticsReportFlag = false;
+    }
+
+    public boolean isStatisticsReportEnabled()
+    {
+        return statisticsReportFlag;
     }
 
     /**

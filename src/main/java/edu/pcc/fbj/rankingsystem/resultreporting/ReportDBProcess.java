@@ -35,27 +35,62 @@ public class ReportDBProcess implements Runnable
     public void run()
     {
         System.out.println("Start a DB processing thread");
+
         Vector<String> userEmailList = null;
+        Vector<String> userTestNameList = null;
+        Vector<String> userTestIDList = null;
+
         if(dao.get(0).DBConnection() != null)
         {
             userEmailList = dao.get(0).getUserEmailList();
-            reportPane.setListItem(userEmailList);
+            reportPane.setEmailListItem(userEmailList);
+            userTestNameList = dao.get(0).getUserTestNameList(userEmailList.get(reportPane.getEmailIndex()));
+            reportPane.setUserTestNameListItem(userTestNameList);
+            userTestIDList = dao.get(0).getUserTestID(userEmailList.get(reportPane.getEmailIndex()), userTestNameList.get(reportPane.getTestNameIndex()));
+            reportPane.setUserTestIDListItem(userTestIDList);
+            reportPane.setSignal(Signal.DATABASE_SIGNAL_RETRIEVE_DATA);
         }
+
         while(true)
         {
+            if(reportPane.getSignal() == signal.DATABASE_SIGNAL_UPDATE_EAMIL_LIST)
+            {
+                userTestNameList = dao.get(0).getUserTestNameList(userEmailList.get(reportPane.getEmailIndex()));
+                reportPane.setUserTestNameListItem(userTestNameList);
+                userTestIDList = dao.get(0).getUserTestID(userEmailList.get(reportPane.getEmailIndex()), userTestNameList.get(reportPane.getTestNameIndex()));
+                reportPane.setUserTestIDListItem(userTestIDList);
+                reportPane.setSignal(Signal.DATABASE_SIGNAL_RETRIEVE_DATA);
+            }
+
+            if(reportPane.getSignal() == signal.DATABASE_SIGNAL_UPDATE_TESTNAME_LIST)
+            {
+                userTestIDList = dao.get(0).getUserTestID(userEmailList.get(reportPane.getEmailIndex()), userTestNameList.get(reportPane.getTestNameIndex()));
+                reportPane.setUserTestIDListItem(userTestIDList);
+                reportPane.setSignal(Signal.DATABASE_SIGNAL_RETRIEVE_DATA);
+            }
+
             if(reportPane.getSignal() == signal.DATABASE_SIGNAL_RETRIEVE_DATA )
             {
+
                 if(dao.get(0).DBConnection() != null && userEmailList != null) {
 
-                    reportPane.setBasicTableColumns(dao.get(0).getUserTestTableColumns(""));
-                    reportPane.setBasicReportData(dao.get(0).getUserTestResult(userEmailList.get(reportPane.getEmailIndex())));
+                    reportPane.setBasicTableColumns(dao.get(0).getUserTestTableColumns("", ""));
+                    reportPane.setBasicReportData(dao.get(0).getUserTestResult(userEmailList.get(reportPane.getEmailIndex()), userTestIDList.get(reportPane.getTestIDIndex())));
                     dao.get(0).setMessage(dao.get(0).DATABASE_DATA_SELECTION);
 
                     if(reportPane.isMatrixReportEnabled()) {
                         if(dao.get(1).DBConnection() != null && userEmailList != null) {
-                            reportPane.setMatrixTableColumns(dao.get(1).getUserTestTableColumns(userEmailList.get(reportPane.getEmailIndex())));
-                            reportPane.setMatrixReportData(dao.get(1).getUserTestResult(userEmailList.get(reportPane.getEmailIndex())));
+                            reportPane.setMatrixTableColumns(dao.get(1).getUserTestTableColumns(userEmailList.get(reportPane.getEmailIndex()), userTestIDList.get(reportPane.getTestIDIndex())));
+                            reportPane.setMatrixReportData(dao.get(1).getUserTestResult(userEmailList.get(reportPane.getEmailIndex()), userTestIDList.get(reportPane.getTestIDIndex())));
                             dao.get(1).setMessage(dao.get(1).DATABASE_DATA_SELECTION);
+                        }
+                    }
+
+                    if(reportPane.isStatisticsReportEnabled()) {
+                        if(dao.get(2).DBConnection() != null && userEmailList != null) {
+                            reportPane.setStatisticsTableColumns(dao.get(2).getUserTestTableColumns(userEmailList.get(reportPane.getEmailIndex()), userTestIDList.get(reportPane.getTestIDIndex())));
+                            reportPane.setStatisticsReportData(dao.get(2).getUserTestResult(userEmailList.get(reportPane.getEmailIndex()), userTestIDList.get(reportPane.getTestIDIndex())));
+                            dao.get(2).setMessage(dao.get(2).DATABASE_DATA_SELECTION);
                         }
                     }
 

@@ -38,6 +38,7 @@ public class ReportTable
         dao = new ArrayList<>();
         dao.add(ReportDAOFactory.getBasicReportDAO());
         dao.add(ReportDAOFactory.getMatrixReportDAO());
+        dao.add(ReportDAOFactory.getStatisticsReportDAO());
 
         reportPane = new ReportPanel();
         reportPane.setOpaque(true);

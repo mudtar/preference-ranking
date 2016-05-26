@@ -26,22 +26,32 @@ public interface ReportDAO {
             = "SELECT DISTINCT FBJ_USER.Email FROM FBJ_USER " +
             " JOIN FBJ_TEST ON FBJ_USER.PK_UserID = FBJ_TEST.FK_UserID";
 
-    String GET_USER_TEST_RESULT_SQL =
+    String GET_USER_TEST_NAME_LIST_SQL
+            = "SELECT Name FROM FBJ_TEST_NAME_LIST" +
+            " WHERE Email = ?";
+
+    String GET_USER_TEST_ID_LIST_SQL
+            = "SELECT TestID FROM FBJ_USER_TEST_ID_LIST " +
+            " WHERE UserEmail = ? AND TestName = ? ORDER BY TestID DESC";
+
+    String GET_USER_BASIC_REPORT_SQL =
             " SELECT Item1 AS Name, Wins, Losses, Ties, Points FROM FBJ_BASIC_REPORT" +
-                    " WHERE Email = ? " +
+                    " WHERE Email = ? AND FK_TestID = ?" +
                     " ORDER BY Points DESC";
 
     String GET_USER_MATRIX_REPORT_SQL =
             "SELECT Item1, Item2, Value FROM FBJ_MATRIX_REPORT" +
-                    " WHERE Email = ? ";
+                    " WHERE Email = ? AND FK_TestID = ?";
 
     String GET_USER_MATRIX_ITEMS_SQL =
-            "SELECT Item1 FROM FBJ_MATRIX_ITEMS WHERE Email = ? ";
+            "SELECT Item1 FROM FBJ_MATRIX_ITEMS WHERE Email = ? AND FK_TestID = ?";
 
     Vector<String> getUserEmailList();
     String getUserEmail(int index);
-    Object[][] getUserTestResult(String email);
-    List<String> getUserTestTableColumns(String email);
+    Vector<String> getUserTestID(String email, String testName);
+    Vector<String> getUserTestNameList(String email);
+    Object[][] getUserTestResult(String email, String testID);
+    List<String> getUserTestTableColumns(String email, String testID);
     Connection DBConnection();
     String getMessage();
     void setMessage(String msg);
