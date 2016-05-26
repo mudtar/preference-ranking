@@ -7,10 +7,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
 import java.io.*;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +19,7 @@ import static java.lang.System.out;
  * FueledByJava database
  *
  * @author Eric Kristiansen
- * @version 5/23/2016
+ * @version 5/26/2016
  */
 public class ItemDAO {
 
@@ -218,10 +215,19 @@ public class ItemDAO {
                 //set name
                 st.setString(1, i.toString());
                 //set image
-                outputStream = new ByteArrayOutputStream();
-                ImageIO.write((RenderedImage) i.getImage(),"png", outputStream);
-                inputStream = new ByteArrayInputStream(outputStream.toByteArray());
-                st.setBinaryStream(1, inputStream, inputStream.available());
+                if (i.getImage() != null)
+                {
+                    outputStream = new ByteArrayOutputStream();
+                    BufferedImage bufferedImage = getBufferedImageFromImage(i.getImage());
+                    ImageIO.write(bufferedImage, "png", outputStream);
+                    inputStream = new ByteArrayInputStream(outputStream.toByteArray());
+
+                    st.setBinaryStream(2, inputStream, inputStream.available());
+                }
+                else
+                {
+                    st.setNull(2, Types.BINARY);
+                }
 
                 st.executeUpdate();
                 out.println("inserting: " + i.toString());
@@ -249,28 +255,35 @@ public class ItemDAO {
         {
             PreparedStatement st = connection.prepareStatement(UPDATE_IMAGE_SQL);
 
-            for(Item i : updateList)
+            for(Item passItem : updateList)
             {
-                out.println("This item to check if need update: " + i.toString());
+                out.println("This item to check if need update: " + passItem.toString());
                 //if image has been updated, write to database
-                out.println("image is not null?: " +  (i.getImage() != null));
-                if ( i.getImage() != null && isNullImage(i.toString()))
+                out.println("image is not null?: " +  (passItem.getImage() != null));
+                if ( hasDifferentImage(passItem))
                 {
-                    //set image
-                    outputStream = new ByteArrayOutputStream();
-                    Image image = i.getImage();
 
-                    BufferedImage bufferedImage = new BufferedImage(image.getWidth(null),
-                            image.getHeight(null), BufferedImage.TYPE_INT_RGB);
+                    if (passItem.getImage() == null)
+                    {
+                        //set image
+                        st.setNull(1, Types.BINARY);
+                        st.setString(2, passItem.toString());
+                        st.executeUpdate();
+                        System.out.println("updating Image: " + passItem.toString());
+                    }
+                    else
+                    {
+                        outputStream = new ByteArrayOutputStream();
+                        BufferedImage bufferedImage = getBufferedImageFromImage(passItem.getImage());
+                        ImageIO.write(bufferedImage, "png", outputStream);
+                        inputStream = new ByteArrayInputStream(outputStream.toByteArray());
+                        st.setBinaryStream(1, inputStream, inputStream.available());
 
-                    bufferedImage.getGraphics().drawImage(image, 0, 0, null);
+                        st.setString(2, passItem.toString());
 
-                    ImageIO.write(bufferedImage, "png", outputStream);
-                    inputStream = new ByteArrayInputStream(outputStream.toByteArray());
-                    st.setBinaryStream(1, inputStream, inputStream.available());
-                    st.setString(2, i.toString());
-                    st.executeUpdate();
-                    System.out.println("updating Image: " + i.toString());
+                        st.executeUpdate();
+                        System.out.println("updating Image: " + passItem.toString());
+                    }
                 }
             }
         }
@@ -286,35 +299,97 @@ public class ItemDAO {
         }
     }
 
+
+    /**
+     * take image object, and return a bufferedImage object
+     * @passImage
+     */
+    private BufferedImage getBufferedImageFromImage(Image passImage)
+    {
+        BufferedImage bufferedImage = new BufferedImage(passImage.getWidth(null),
+                passImage.getHeight(null), BufferedImage.TYPE_INT_RGB);
+
+        bufferedImage.getGraphics().drawImage(passImage, 0, 0, null);
+        return bufferedImage;
+    }
+
     /**
      * return true if the item corresponding with passImageName in the image table
      * has a null image value
-     * @param passImageName
+     * @param passImage
      * @return
      */
-    private Boolean isNullImage(String passImageName)
+    private Boolean hasDifferentImage(Item passImage)
     {
+        Boolean hasDifferentImage = false;
         try
         {
-            out.println("in is NullImage");
             for (Item i : items)
             {
-                out.println("****");
-                out.println("i get image is null: " + (i.getImage() == null));
-                out.println(i.toString().equals(passImageName));
-                if (i.toString().equals(passImageName) && i.getImage() == null)
+                if (i.toString().equals(passImage.toString()))
                 {
-                    out.println("****************************return true for " + i.toString());
-                    return true;
+                    System.out.println("item: " + i.toString() + " : " + "passItem: " + passImage.toString());
+                    if (i.getImage() == null && passImage.getImage() != null)
+                    {
+                        hasDifferentImage =  true;
+                    }
+                    else if (i.getImage() != null && passImage.getImage() == null)
+                    {
+                        hasDifferentImage =  true;
+                    }
+                    else if (i.getImage() == null && passImage.getImage() == null)
+                    {
+                        hasDifferentImage =  false;
+                    }
+                    else
+                    {
+                        hasDifferentImage =  compareImages(getBufferedImageFromImage(i.getImage()),
+                                getBufferedImageFromImage(passImage.getImage()));
+                    }
                 }
             }
-            return false;
         }
         catch(Exception ex)
         {
             out.println(ex.toString());
+        }
+        return hasDifferentImage;
+    }
+
+    /**
+     * Compares two images pixel by pixel.
+     *
+     * @param imgA the first image.
+     * @param imgB the second image.
+     * @return whether the images are both the same or not.
+     */
+    public static boolean compareImages(BufferedImage imgA, BufferedImage imgB)
+    {
+        Boolean result = false;
+
+        if (imgA.getWidth() != imgB.getWidth() || imgA.getHeight() != imgB.getHeight())
+        {
             return false;
         }
+         else
+        {
+            int width = imgA.getWidth();
+            int height = imgA.getHeight();
+
+            // Loop over every pixel.
+            for (int y = 0; y < height; y++)
+            {
+                for (int x = 0; x < width; x++) {
+                    // Compare the pixels for equality.
+                    if (imgA.getRGB(x, y) != imgB.getRGB(x, y))
+                    {
+                        result =  false;
+                    }
+                }
+            }
+        }
+
+        return result;
     }
 
 
