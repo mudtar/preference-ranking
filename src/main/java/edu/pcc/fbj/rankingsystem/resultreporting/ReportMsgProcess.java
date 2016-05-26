@@ -2,6 +2,8 @@ package edu.pcc.fbj.rankingsystem.resultreporting;
 
 import edu.pcc.fbj.rankingsystem.resultreporting.dao.ReportDAO;
 
+import java.util.List;
+
 /**
  * Start a Message thread to display message while reading data from database.
  *
@@ -10,7 +12,7 @@ import edu.pcc.fbj.rankingsystem.resultreporting.dao.ReportDAO;
  */
 public class ReportMsgProcess implements Runnable
 {
-    private ReportDAO dao;
+    private List<ReportDAO> dao;
     private ReportPanel reportPane;
 
     /**
@@ -18,7 +20,7 @@ public class ReportMsgProcess implements Runnable
      * @param dao ReportDAO
      * @param reportPane ReportPanel
      */
-    public ReportMsgProcess(ReportDAO dao, ReportPanel reportPane)
+    public ReportMsgProcess(List<ReportDAO>  dao, ReportPanel reportPane)
     {
         this.dao = dao;
         this.reportPane = reportPane;
@@ -30,11 +32,19 @@ public class ReportMsgProcess implements Runnable
     public void run()
     {
         System.out.println("Start a message processing thread");
-        while(!dao.getStatus())
+        while(reportPane.getSignal() != Signal.DATABASE_SIGNAL_THREAD_TERMINATE)
         {
-            reportPane.setLabelText(dao.getMessage());
+            reportPane.setLabelText(dao.get(0).getMessage());
+            try
+            {
+                Thread.sleep(100);
+            }
+            catch (InterruptedException e)
+            {
+                e.printStackTrace();
+            }
         }
-        reportPane.setLabelText(dao.getMessage());
+        reportPane.setLabelText(dao.get(0).getMessage());
         System.out.println("End a message processing thread");
 
     }
