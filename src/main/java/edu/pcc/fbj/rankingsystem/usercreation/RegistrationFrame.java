@@ -61,6 +61,7 @@ public class RegistrationFrame
         {
             public void actionPerformed(ActionEvent ae)
             {
+                RegistrationFrame.this.resetErrorLabelVisibility(RegistrationFrame.this.registrationPanel);
                 boolean valid = RegistrationFrame.this.
                 noEmptyRegistrationTextFields(RegistrationFrame.this.registrationPanel);
 
@@ -159,11 +160,12 @@ public class RegistrationFrame
     private void emailAlreadyTakenUsernameMessage(RegistrationPanel registrationPanel)
     {
         JOptionPane.showMessageDialog(null, "'" + registrationPanel.getEmail().trim()
-                + "' is already taken. The email must contain at least 1 character and can not match " +
-                "another email in the database.", "Email  '" + registrationPanel.getEmail().trim()
+                + "' is already taken. Please enter new email address. " , "Email  '"
+                + registrationPanel.getEmail().trim()
                 + "' Is Already Taken", 2);
         JTextField temp =  RegistrationFrame.this.registrationPanel.getEmailControl();
         temp.requestFocus();
+        this.registrationPanel.setEmailTextField("");
     }
 
     private void validUsernameMessage(RegistrationPanel registrationPanel)
@@ -213,17 +215,19 @@ public class RegistrationFrame
 
     private void emptyPasswordMessage(RegistrationPanel registrationPanel)
     {
-        JOptionPane.showMessageDialog(registrationPanel, "Password can not be empty, " +
-                "please enter password field.", "Password Field Empty", JOptionPane.ERROR_MESSAGE);
+        registrationPanel.setPasswordErrorLabelVisibility(true);
+        //JOptionPane.showMessageDialog(registrationPanel, "Password can not be empty, " +
+        //        "please enter password field.", "Password Field Empty", JOptionPane.ERROR_MESSAGE);
         JTextField temp =  RegistrationFrame.this.registrationPanel.getPasswordControl();
         temp.requestFocus();
     }
 
     private void  emptyReenterPasswordMessage(RegistrationPanel registrationPanel)
     {
-        JOptionPane.showMessageDialog(registrationPanel, "Reenter Password can not be empty, " +
-                "please fill in the reenter password field.",
-                "Reenter Password Field Empty", JOptionPane.ERROR_MESSAGE);
+        registrationPanel.setReenterPasswordErrorLabelVisibility(true);
+        //JOptionPane.showMessageDialog(registrationPanel, "Reenter Password can not be empty, " +
+        //        "please fill in the reenter password field.",
+        //       "Reenter Password Field Empty", JOptionPane.ERROR_MESSAGE);
         JTextField temp =  RegistrationFrame.this.registrationPanel.getReenterPasswordControl();
         temp.requestFocus();
     }
@@ -238,8 +242,9 @@ public class RegistrationFrame
 
     private void noMatchPasswordField(RegistrationPanel registrationPanel)
     {
-        JOptionPane.showMessageDialog(null, "Both Password fields must match, " +
-                "please reenter password fields.", "Empty NoMatchPassword", 1);
+        registrationPanel.setReenterPasswordErrorLabelVisibility(true);
+        //JOptionPane.showMessageDialog(null, "Both Password fields must match, " +
+        //        "please reenter password fields.", "Empty NoMatchPassword", 1);
         JTextField temp =  RegistrationFrame.this.registrationPanel.getReenterPasswordControl();
         temp.requestFocus();
         this.registrationPanel.setReenterPasswordTextField("");
@@ -283,6 +288,12 @@ public class RegistrationFrame
         System.out.println("RegistrationController::checkUsernameAvailability");
         return this.controller.checkUserEmailAvailability1(registrationPanel.getEmail().trim(),
                 registrationPanel.getPassword().trim());
+    }
+
+    private void resetErrorLabelVisibility(RegistrationPanel registrationPanel)
+    {
+        registrationPanel.setPasswordErrorLabelVisibility(false);
+        registrationPanel.setReenterPasswordErrorLabelVisibility(false);
     }
 
 }

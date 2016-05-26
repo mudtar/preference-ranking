@@ -27,6 +27,7 @@ public class RegistrationPanel
     private JLabel passwordErrorLabel;
 
     private JLabel reenterPasswordLabel;
+    private JLabel reenterPasswordErrorLabel;
     private JButton cancelButton;
     private JPasswordField passwordTextField;
     private JPasswordField reenterPasswordTextField;
@@ -41,7 +42,7 @@ public class RegistrationPanel
 
     public void setupPanel()
     {
-        setPreferredSize(new Dimension(350, 180));
+        setPreferredSize(new Dimension(600, 400));
         GridBagLayout gridBagLayout = new GridBagLayout();
         setLayout(gridBagLayout);
         this.usernameLabel = new JLabel("Name:");
@@ -115,6 +116,17 @@ public class RegistrationPanel
         add(this.passwordTextField, gbc_passwordTextField);
         this.passwordTextField.setColumns(10);
 
+        this.passwordErrorLabel = new JLabel("Password format should look like: Cis23$.");
+        this.passwordErrorLabel.setFont(new Font("Tahoma", 2, 11));
+        this.passwordErrorLabel.setForeground(Color.red);
+        GridBagConstraints gbc_passwordErrorLabel = new GridBagConstraints();
+        gbc_passwordErrorLabel.anchor = 17;
+        gbc_passwordErrorLabel.gridwidth = 3;
+        gbc_passwordErrorLabel.insets = new Insets(0, 0, 5, 0);
+        gbc_passwordErrorLabel.gridx = 1;
+        gbc_passwordErrorLabel.gridy = 4;
+        add(this.passwordErrorLabel, gbc_passwordErrorLabel);
+
         this.reenterPasswordTextField = new JPasswordField();
         GridBagConstraints gbc_reenterPasswordTextField = new GridBagConstraints();
         gbc_reenterPasswordTextField.gridwidth = 2;
@@ -125,6 +137,17 @@ public class RegistrationPanel
         add(this.reenterPasswordTextField, gbc_reenterPasswordTextField);
         this.reenterPasswordTextField.setColumns(10);
 
+        this.reenterPasswordErrorLabel = new JLabel("Both password should match.");
+        this.reenterPasswordErrorLabel.setFont(new Font("Tahoma", 2, 11));
+        this.reenterPasswordErrorLabel.setForeground(Color.red);
+        GridBagConstraints gbc_reenterPasswordErrorLabel = new GridBagConstraints();
+        gbc_reenterPasswordErrorLabel.anchor = 17;
+        gbc_reenterPasswordErrorLabel.gridwidth = 3;
+        gbc_reenterPasswordErrorLabel.insets = new Insets(0, 0, 5, 0);
+        gbc_reenterPasswordErrorLabel.gridx = 1;
+        gbc_reenterPasswordErrorLabel.gridy = 4;
+        add(this.reenterPasswordErrorLabel, gbc_reenterPasswordErrorLabel);
+
         add(this.submitButton, gbc_submitButton);
 
         this.cancelButton = new JButton("Cancel");
@@ -133,6 +156,9 @@ public class RegistrationPanel
         gbc_cancelButton.gridx = 2;
         gbc_cancelButton.gridy = 5;
         add(this.cancelButton, gbc_cancelButton);
+
+        this.passwordErrorLabel.setVisible(false);
+        this.reenterPasswordErrorLabel.setVisible(false);
     }
 
     public void addSubmitButtonActionListener(ActionListener al)
@@ -200,4 +226,13 @@ public class RegistrationPanel
         this.reenterPasswordTextField.setText(value);
     }
 
+    public void setPasswordErrorLabelVisibility(boolean visibleState)
+    {
+        this.passwordErrorLabel.setVisible(visibleState);
+    }
+
+    public void setReenterPasswordErrorLabelVisibility(boolean visibleState)
+    {
+        this.reenterPasswordErrorLabel.setVisible(visibleState);
+    }
 }
