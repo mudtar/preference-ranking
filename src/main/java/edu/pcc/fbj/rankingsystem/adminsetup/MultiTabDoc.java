@@ -39,7 +39,7 @@ public class MultiTabDoc {
     private DefaultListModel testListModel = new DefaultListModel();
     private DefaultListModel assignedListModel = new DefaultListModel();
     private List<Item> items;
-    private List<Item> testItems;
+    private List<TestNameItem> testItems = new ArrayList<>();
     private List<TestName> testNames;
     private Boolean isGood;
 
@@ -82,6 +82,7 @@ public class MultiTabDoc {
         testListTestControl.addListSelectionListener(e ->
             {
                 checkListSelection(testListTestControl, removeTestButtonTestControl);
+                if (testListTestControl.getSelectedIndex() != -1) itemListTestControl.setEnabled(true);
                 loadItemsForSelectedTest();
             });
 
@@ -192,7 +193,8 @@ public class MultiTabDoc {
         if (assignedListModel.indexOf(itemListTestControl.getSelectedValue()) == -1)
         {
             assignedListModel.addElement(itemListTestControl.getSelectedValue());
-            testItems.add(new Item(itemListTestControl.getSelectedValue().toString()));
+            testItems.add(new TestNameItem(testListTestControl.getSelectedValue().toString(),
+                    itemListTestControl.getSelectedValue().toString()));
             assignedItemListTestControl.setModel(assignedListModel);
         }
     }
@@ -202,7 +204,7 @@ public class MultiTabDoc {
      */
     private void removeItemFromTestList()
     {
-        testItems.forEach(i -> {if(i.toString().equals(testListTestControl.getSelectedValue())) testItems.remove(i);});
+        testItems.forEach(i -> {if(i.getTestName().equals(assignedItemListTestControl.getSelectedValue())) testItems.remove(i);});
         assignedListModel.removeElementAt(assignedItemListTestControl.getSelectedIndex());
 
         assignedItemListTestControl.setModel(assignedListModel);
@@ -213,15 +215,51 @@ public class MultiTabDoc {
      */
     private void loadItemsForSelectedTest()
     {
+        int testID = 0;
+        assignedListModel.clear();
+
         if (testListTestControl.getSelectedIndex() != -1)
         {
-            AdminSetupController.getTestItems();
+            List<TestNameItem> testNameItems = AdminSetupController.getTestNameItems();
+            List<TestName> tests = AdminSetupController.getTestNames();
+            List<Integer> itemIds = new ArrayList<>();
+
+            for(TestName t: tests)
+            {
+                if (t.getName().equals(testListTestControl.getSelectedValue()))
+                {
+                    System.out.println("setting testID " + t.getTestNameID());
+                    testID = t.getTestNameID();
+                }
+            }
+
+            for (TestNameItem tni: testNameItems)
+            {
+                System.out.println("itemID " + tni.getItemID());
+                if (tni.getItemID() == testID)
+                {
+                    System.out.println("adding " + tni.getItemID() + " ");
+                    itemIds.add(tni.getItemID());
+                }
+            }
+            for (Integer i: itemIds)
+            {
+                for (Item j : items)
+                {
+                    if (i == j.getItemID())
+                    {
+                        System.out.println("adding " + j.getName());
+                        assignedListModel.addElement(j.getName());
+                    }
+                }
+            }
+
+
+            assignedItemListTestControl.setModel(assignedListModel);
             //load list model for selected test.....
             //////////////////////////////////////////////////////////////////////////
         }
     }
-
-
 
     /**
      * Get the image from the fileChooser, and display at appropriate size
@@ -337,6 +375,7 @@ public class MultiTabDoc {
         {
             // add items to a default list
             testListModel.addElement(testTextFieldTestControl.getText());
+            testNames.add(new TestName(testTextFieldTestControl.getText()));
             testTextFieldTestControl.setText("");
 
             // set data in testList
@@ -375,20 +414,22 @@ public class MultiTabDoc {
     private void finishAdminSetup()
     {
         //ArrayList<Item> passItems = new ArrayList<>();
-        ArrayList<TestName> passTestNames = new ArrayList<>();
+        //ArrayList<TestName> passTestNames = new ArrayList<>();
 
-        for(int i = 0; i < testListModel.size(); i++)
+      /*  for(int i = 0; i < testListModel.size(); i++)
         {
             passTestNames.add(new TestName(testListModel.getElementAt(i).toString()));
         }
+        */
+        //String testName = testListTestControl.getSelect
 
         resetErrorLabel(errorLabelItemControl);
         resetErrorLabel(errorLabelTestControl);
         itemTextFieldItemControl.setText("");
         testTextFieldTestControl.setText("");
         AdminSetupController.setItems(items);
-        AdminSetupController.setTestNames(passTestNames);
-
+        AdminSetupController.setTestNames(testNames);
+        AdminSetupController.setTestItems(testItems);
         AdminSetupController.closeFrame();
     }
 
@@ -447,6 +488,7 @@ public class MultiTabDoc {
         }
         testListTestControl.setModel(testListModel);
     }
+
 
     /**
      * reset error label blank

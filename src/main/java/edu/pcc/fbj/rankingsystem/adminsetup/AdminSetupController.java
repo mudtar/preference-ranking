@@ -55,9 +55,9 @@ public class AdminSetupController
     /**
      * This Method is called to return the items from the database
      */
-    public static java.util.List<Item> getTestItems()
+    public static java.util.List<TestNameItem> getTestNameItems()
     {
-        return model.getTestItems();
+        return model.getTestNameItems();
     }
 
     /**
@@ -83,6 +83,15 @@ public class AdminSetupController
     public static void setTestNames(java.util.List<TestName> passTestNames)
     {
         model.setTestNames(passTestNames);
+    }
+
+    /**
+     * This Method is called to set the TestNames in the database
+     * @param passTestItems
+     */
+    public static void setTestItems(java.util.List<TestNameItem> passTestItems)
+    {
+        model.setTestItems(passTestItems);
     }
 
     /**

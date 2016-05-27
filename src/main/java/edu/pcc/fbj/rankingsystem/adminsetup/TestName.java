@@ -43,7 +43,7 @@ public class TestName
      * Method to return name independent of other variables of test object
      * @return returns name
      */
-    public int getTestID()
+    public int getTestNameID()
     {
         return testNameID;
     }

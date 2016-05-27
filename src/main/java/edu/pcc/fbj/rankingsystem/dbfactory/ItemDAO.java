@@ -5,13 +5,13 @@ import edu.pcc.fbj.rankingsystem.adminsetup.Item;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.awt.image.RenderedImage;
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.lang.System.in;
 import static java.lang.System.out;
 
 /**
@@ -24,7 +24,7 @@ import static java.lang.System.out;
 public class ItemDAO {
 
     //Queries
-    private static final String GET_ITEMS_SQL = "SELECT Name, ImageBinary FROM FBJ_ITEM";
+    private static final String GET_ITEMS_SQL = "SELECT PK_ItemID, Name, ImageBinary FROM FBJ_ITEM";
     private static final String DELETE_ITEM_SQL = "DELETE FROM FBJ_ITEM WHERE Name = ?";
     private static final String INSERT_ITEM_NAME_AND_IMAGE_SQL =
             "INSERT INTO FBJ_ITEM(Name, ImageBinary) VALUES(?, ?)";
@@ -74,11 +74,11 @@ public class ItemDAO {
             {
                 if (rs.getBinaryStream("ImageBinary") == null)
                 {
-                    itemList.add(new Item(rs.getString("Name")));
+                    itemList.add(new Item(rs.getInt("PK_ItemID"), rs.getString("Name")));
                 }
                 else
                 {
-                    itemList.add(new Item(rs.getString("Name"), ImageIO.read(rs.getBinaryStream("ImageBinary"))));
+                    itemList.add(new Item(rs.getInt("PK_ItemID"), rs.getString("Name"), ImageIO.read(rs.getBinaryStream("ImageBinary"))));
                 }
             }
         }
@@ -391,6 +391,10 @@ public class ItemDAO {
         return result;
     }
 
+    /**
+     *
+     * @return
+     */
     public List<Item> getTestItems()
     {
         //get TestNameID
@@ -398,6 +402,16 @@ public class ItemDAO {
         //get Items Associated with TestNameID
         return null;
     }
+
+    /**
+     *
+     */
+    public void setTestItems()
+    {
+
+    }
+
+
 
 
 }
