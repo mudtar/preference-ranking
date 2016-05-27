@@ -90,6 +90,7 @@ public class TestNameItemDAO {
     {
         try
         {
+            //update testNameItems from db
             testNameItems = readTestNameItems();
 
             boolean insertItem;
@@ -97,10 +98,10 @@ public class TestNameItemDAO {
             ArrayList<TestNameItem> deleteList = new ArrayList<>();
             ArrayList<TestNameItem> insertList = new ArrayList<>();
 
-            //if item is in items, but not pass Items, delete
+            //if TestNameItem is in TestNameItems, but not in  passTestNameItems, delete
             for (TestNameItem testItem: testNameItems)  //exists in items
             {
-                deleteItem = notFoundTestNameItem(testItem.getTestNameID(), testItem.getItemID(),passTestNameItems);
+                deleteItem = notFoundTestNameItem(testItem.getTestNameID(), testItem.getItemID(), passTestNameItems);
                 if (deleteItem)
                 {
                     deleteList.add(testItem);
@@ -139,9 +140,11 @@ public class TestNameItemDAO {
         {
             if (testNameItem.getTestNameID() == passTestNameID && testNameItem.getItemID() == passItemID)
             {
+                System.out.println("will not delete " + testNameItem.getItemID());
                 return false;
             }
         }
+        System.out.println("not found, will delete " + passTestNameID);
         return true;
     }
 

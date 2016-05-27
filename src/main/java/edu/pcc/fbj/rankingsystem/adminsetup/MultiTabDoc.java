@@ -39,7 +39,7 @@ public class MultiTabDoc {
     private DefaultListModel testListModel = new DefaultListModel();
     private DefaultListModel assignedListModel = new DefaultListModel();
     private List<Item> items;
-    private List<TestNameItem> testItems = new ArrayList<>();
+    private List<TestNameItem> currentTestNameItems = new ArrayList<>();
     private List<TestName> testNames;
     private Boolean isGood;
 
@@ -123,6 +123,8 @@ public class MultiTabDoc {
 
             setInitialFocus();
 
+            currentTestNameItems = AdminSetupController.getTestNameItems();
+
             //List<Integer> uniqueItemsUsed = AdminSetupController.getUniqueItemsUsed();
             //uniqueItemsUsed.forEach(i -> System.out.println(i));
         }
@@ -193,7 +195,7 @@ public class MultiTabDoc {
         if (assignedListModel.indexOf(itemListTestControl.getSelectedValue()) == -1)
         {
             assignedListModel.addElement(itemListTestControl.getSelectedValue());
-            testItems.add(new TestNameItem(testListTestControl.getSelectedValue().toString(),
+            currentTestNameItems.add(new TestNameItem(testListTestControl.getSelectedValue().toString(),
                     itemListTestControl.getSelectedValue().toString()));
             assignedItemListTestControl.setModel(assignedListModel);
         }
@@ -204,7 +206,46 @@ public class MultiTabDoc {
      */
     private void removeItemFromTestList()
     {
-        testItems.forEach(i -> {if(i.getTestName().equals(assignedItemListTestControl.getSelectedValue())) testItems.remove(i);});
+        TestNameItem temp;
+
+        System.out.println("before removal*********************");
+        for (TestNameItem tn: currentTestNameItems)
+        {
+            System.out.println("testName: " + tn.getTestNameID() + " : Itemid: " + tn.getItemID());
+        }
+
+        /*
+        for (Item i: testNames )
+        {
+            System.out.println("looking at testname: " + t.getTestNameID() + " : " + t.getName());
+            System.out.println("looking for: " + assignedItemListTestControl.getSelectedValue());
+            if (t.getName().equals(assignedItemListTestControl.getSelectedValue()))
+            {
+                System.out.println("have a match:... " + t.getName() + " : " + t.getTestNameID());
+            }
+        }
+        */
+        //remove testNameitem from current list of test name items
+        for (TestNameItem tni: currentTestNameItems)
+        {
+            if(tni.getTestName().equals(testListTestControl.getSelectedValue())) //&& tni.getItemName().equals(assignedItemListTestControl.getSelectedValue()))
+            {
+                if (tni.getItemName().equals(assignedItemListTestControl.getSelectedValue()))
+                {
+                    currentTestNameItems.remove(currentTestNameItems.indexOf(tni));
+                    break;
+                }
+            }
+
+        }
+
+        System.out.println("after removal*********************");
+        for (TestNameItem tn: currentTestNameItems)
+        {
+            System.out.println("testNameID: " + tn.getTestNameID() + " : Itemid: " + tn.getItemID());
+        }
+
+
         assignedListModel.removeElementAt(assignedItemListTestControl.getSelectedIndex());
 
         assignedItemListTestControl.setModel(assignedListModel);
@@ -236,7 +277,7 @@ public class MultiTabDoc {
             for (TestNameItem tni: testNameItems)
             {
                 System.out.println("itemID " + tni.getItemID());
-                if (tni.getItemID() == testID)
+                if (tni.getTestNameID() == testID)
                 {
                     System.out.println("adding " + tni.getItemID() + " ");
                     itemIds.add(tni.getItemID());
@@ -429,7 +470,7 @@ public class MultiTabDoc {
         testTextFieldTestControl.setText("");
         AdminSetupController.setItems(items);
         AdminSetupController.setTestNames(testNames);
-        AdminSetupController.setTestItems(testItems);
+        AdminSetupController.setTestItems(currentTestNameItems);
         AdminSetupController.closeFrame();
     }
 

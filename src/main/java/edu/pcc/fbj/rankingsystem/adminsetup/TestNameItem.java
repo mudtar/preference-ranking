@@ -45,4 +45,13 @@ public class TestNameItem
     {
         itemID = passItemID;
     }
+
+    public void setTestName(String passTestName)
+    {
+        testName = passTestName;
+    }
+    public void setItemName(String passItemName)
+    {
+        itemName = passItemName;
+    }
 }

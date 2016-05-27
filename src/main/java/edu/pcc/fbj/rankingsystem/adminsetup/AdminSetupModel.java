@@ -17,8 +17,8 @@ public class AdminSetupModel
     private TestNameDAO testNameDAO = DAOFactory.getTestNameDAO();
     private ResultDAO resultDAO = DAOFactory.getResultDAO();
     private TestNameItemDAO testNameItemDAO = DAOFactory.getTestNameItemDAO();
-    private List<TestName> testNames = new ArrayList<>();
-    private List<Item> itemNames = new ArrayList<>();
+    private List<TestName> testNames = testNameDAO.getTestNames();
+    private List<Item> itemNames = itemDAO.getItems();
 
     /**
      * get Items from items database object
@@ -43,18 +43,22 @@ public class AdminSetupModel
      */
     public void setTestItems(List<TestNameItem> passTestNameItems)
     {
-        //get testData
+        //update data
         testNames = testNameDAO.getTestNames();
         itemNames = itemDAO.getItems();
 
         for (TestNameItem t: passTestNameItems)
         {
-
+            t.setTestID(findTestNameID(t.getTestName()));
+            /*
             for(TestName tn: testNames)
             {
                 System.out.println(tn.getName() + " : " + tn.getTestNameID());
                 if (tn.getName().equals(t.getTestName())){ t.setTestID(tn.getTestNameID());}
             }
+            */
+            t.setItemID(findItemID(t.getItemName()));
+            /*
             for (Item i: itemNames)
             {
                 System.out.println(i.getName() + " : " + i.getItemID());
@@ -64,6 +68,7 @@ public class AdminSetupModel
                     t.setItemID(i.getItemID());
                 }
             }
+            */
 
             System.out.println("**************************************");
             System.out.println("Test Name: " + t.getTestName());
@@ -76,12 +81,97 @@ public class AdminSetupModel
 
     }
 
+    /**
+     * take an Item namme as a param, and return an item id
+     * @param passItemName
+     */
+    private int findItemID(String passItemName)
+    {
+        for (Item i: itemNames)
+        {
+            System.out.println(i.getName() + " : " + i.getItemID());
+            if (i.getName().equals(passItemName))
+            {
+                System.out.println("&&&&&&&&&&&&&&&&&WE HAVE A WINNER&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+                return i.getItemID();
+            }
+        }
+
+        return -1;
+    }
+
+
+    /**
+     * take an item ID as a param, and return an item name
+     * @param passItemID
+     */
+    private String findItemName(int passItemID)
+    {
+        for (Item i: itemNames)
+        {
+            System.out.println(i.getName() + " : " + i.getItemID());
+            if (i.getItemID() == passItemID)
+            {
+                System.out.println("&&&&&&&&&&&&&&&&&WE HAVE A WINNER&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+                return i.getName();
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * take a TestNameID, and return a corresponding TestName
+     * @param passTestNameID
+     */
+    private String findTestName(int passTestNameID)
+    {
+        for(TestName tn: testNames)
+        {
+            if (tn.getTestNameID() == passTestNameID){ return tn.getName();}
+            System.out.println("setting test Name: " + tn.getName());
+        }
+        return null;
+    }
+
+    /**
+     * take a testname as a param, and return the corresponding testID
+     * @param passTestName
+     */
+    private int findTestNameID(String passTestName)
+    {
+        for(TestName tn: testNames)
+        {
+            System.out.println(tn.getName() + " : " + tn.getTestNameID());
+            if (tn.getName().equals(passTestName)){ return tn.getTestNameID();}
+        }
+        return -1;
+    }
+
 
     /**
      * get TestNameItems for selected test
      * @return List of Items associated with selected test
      */
-    public List<TestNameItem> getTestNameItems() { return testNameItemDAO.getTestNameItems(); }
+    public List<TestNameItem> getTestNameItems()
+    {
+        testNames = testNameDAO.getTestNames();
+        itemNames = itemDAO.getItems();
+
+        List<TestNameItem> testNameItems = testNameItemDAO.getTestNameItems();
+
+        System.out.println("In Model before setting names");
+        for(TestNameItem tni: testNameItems)
+        {
+            System.out.println("in for loop");
+            System.out.println("item id: " + tni.getItemID());
+            System.out.println(findItemName(tni.getItemID()));
+            //System.out.println(findTestName(tni.getTestNameID()));
+            tni.setTestName(findTestName(tni.getTestNameID()));
+            tni.setItemName(findItemName(tni.getItemID()));
+        }
+        return testNameItems;
+    }
 
     /**
      * get TestNames from tests database object
