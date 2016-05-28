@@ -56,8 +56,8 @@ public class ReportPanel extends JPanel implements ActionListener
         testNameIndex = 0;
         testIDIndex = 0;
         signal = Signal.DATABASE_SIGNAL_RETRIEVE_DATA;
-        matrixReportFalg = false;
-        statisticsReportFlag = false;
+        matrixReportFalg = true;
+        statisticsReportFlag = true;
         initPanel();
     }
 
@@ -172,7 +172,7 @@ public class ReportPanel extends JPanel implements ActionListener
 
         matrixReportButton = new JCheckBox("Matrix Report");
         matrixReportButton.setMnemonic(KeyEvent.VK_G);
-        matrixReportButton.setSelected(false);
+        matrixReportButton.setSelected(true);
         c.fill = GridBagConstraints.HORIZONTAL;
         c.insets = new Insets(0,10,1,10);
         c.weightx = 0.5;
@@ -185,7 +185,7 @@ public class ReportPanel extends JPanel implements ActionListener
 
         statisticsButton = new JCheckBox("Statistics");
         statisticsButton.setMnemonic(KeyEvent.VK_H);
-        statisticsButton.setSelected(false);
+        statisticsButton.setSelected(true);
         c.fill = GridBagConstraints.HORIZONTAL;
         c.insets = new Insets(0,10,1,10);
         c.weightx = 0.5;
@@ -289,6 +289,8 @@ public class ReportPanel extends JPanel implements ActionListener
         initWidgetUserTestList(layout);
         initWidgetReportOption(layout);
         initWidgetBasicReport(layout);
+        initWidgetMatrixReport(layout);
+        initWidgetStatisticsReport(layout);
     }
 
     public void setLabelText(String text)
@@ -510,6 +512,14 @@ public class ReportPanel extends JPanel implements ActionListener
         for(int i = rowCount-1; i>=0; i--)
         {
             model.removeRow(i);
+        }
+
+        model.setRowCount(data.length);
+        for(int i = 0; i<data.length; i++)
+        {
+            for(int j=0; j<data[0].length; j++) {
+                model.setValueAt(data[i][j], i, j);
+            }
         }
 
     }

@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Vector;
 
 /**
  * @author David Li
@@ -15,6 +16,9 @@ import java.util.List;
  */
 public class StatisticsReportDB  extends ReportDB implements ReportDAO
 {
+    /**
+     * Constructor
+     */
     public StatisticsReportDB()
     {
 
@@ -28,40 +32,61 @@ public class StatisticsReportDB  extends ReportDB implements ReportDAO
     @Override
     public Object[][] getUserTestResult(String email,  String testID)
     {
-        List<ReportTestResult> results = new ArrayList<>();
+        int numOfTester = 0;
+        int numOfFirstChoice = 0;
+        int percent = 0;
+        int i = 0;
 
         setMessage(DATABASE_DATA_READING);
-        try (
-                PreparedStatement stmt = connection.prepareStatement(GET_USER_BASIC_REPORT_SQL)
-        )
-        {
-            stmt.setString(1, email);
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                results.add(new ReportTestResult(rs.getString("Name"),
-                        rs.getInt("Wins"),
-                        rs.getInt("Losses"),
-                        rs.getInt("Ties"),
-                        rs.getInt("Points")));
-            }
+        Vector<String> statisticsItemList = getStatisticsItemList(email);
+        Vector<String> statisticsEmailList = getStatisticsEmailList(email);
+        numOfTester = statisticsEmailList.size();
+        Object[][] statisticsResults = new Object[statisticsItemList.size()][2];
 
-            Object[][] userResults = new Object[results.size()][ReportTestResult.COLUMN_NUMBER];
-            for (int i = 0; i < results.size(); i++)
-            {
-                userResults[i][0] = results.get(i).getItem1Name();
-                userResults[i][1] = results.get(i).getWins();
-                userResults[i][2] = results.get(i).getLosses();
-                userResults[i][3] = results.get(i).getTies();
-                userResults[i][4] = results.get(i).getScores();
-            }
-            setMessage(DATABASE_DATA_COMPLETE);
-            stmt.close();
-            return userResults;
-        }
-        catch (SQLException se)
+        for(String item : statisticsItemList)
         {
-            return null;
+            numOfFirstChoice = 0;
+            for(String tester : statisticsEmailList)
+            {
+
+                try (
+                        PreparedStatement stmt = connection.prepareStatement(GET_USER_STATISTICS_GET_RESULT_LIST_SQL);
+                )
+                {
+                    stmt.setString(1, email);
+                    stmt.setString(2, tester);
+                    ResultSet rs = stmt.executeQuery();
+                    while (rs.next())
+                    {
+                        if(rs.getString("Item1").equals(item) && rs.getInt("Value") == -1)
+                        {
+                            numOfFirstChoice+=1;
+                            break;
+                        }
+                        else if(rs.getString("Item2").equals(item) && rs.getInt("Value") == 1)
+                        {
+                            numOfFirstChoice+=1;
+                            break;
+                        }
+                    }
+                    stmt.close();
+
+
+                }
+                catch (SQLException se)
+                {
+                    return null;
+                }
+            }
+            percent = numOfFirstChoice * 100 /numOfTester;
+
+            statisticsResults[i][0] = item;
+            statisticsResults[i][1] = percent;
+            //System.out.println("Item:"+item+" -> "+percent);
+            i++;
         }
+        setMessage(DATABASE_DATA_COMPLETE);
+        return statisticsResults;
     }
 
     /**
@@ -73,8 +98,66 @@ public class StatisticsReportDB  extends ReportDB implements ReportDAO
     {
         List<String> statisticsTableColumn =  new ArrayList<>();
 
+        statisticsTableColumn.add("Item");
+        statisticsTableColumn.add("Percent");
 
         return statisticsTableColumn;
+    }
+
+    /**
+     * Retrieve user test names who are in a specific group of test items
+     * @return Vector<String>
+     */
+    private Vector<String> getStatisticsEmailList(String testName)
+    {
+        Vector<String> statisticsEmailList = new Vector<>();
+        setMessage(DATABASE_DATA_READING);
+        try (
+                PreparedStatement stmt = connection.prepareStatement(GET_USER_STATISTICS_GET_EMAIL_LIST_SQL);
+        )
+        {
+            stmt.setString(1, testName);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next())
+            {
+                statisticsEmailList.add(rs.getString("Email"));
+            }
+            stmt.close();
+            setMessage(DATABASE_DATA_COMPLETE);
+            return statisticsEmailList;
+        }
+        catch (SQLException se)
+        {
+            return null;
+        }
+    }
+
+    /**
+     * Retrieve items which are in a specific group of test items
+     * @return Vector<String>
+     */
+    private Vector<String> getStatisticsItemList(String testName)
+    {
+        Vector<String> statisticsItemList = new Vector<>();
+        setMessage(DATABASE_DATA_READING);
+        try (
+                PreparedStatement stmt = connection.prepareStatement(GET_USER_STATISTICS_GET_ITEM_LIST_SQL);
+        )
+        {
+            stmt.setString(1, testName);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next())
+            {
+                statisticsItemList.add(rs.getString("Name"));
+            }
+            stmt.close();
+            setMessage(DATABASE_DATA_COMPLETE);
+            return statisticsItemList;
+        }
+        catch (SQLException se)
+        {
+            return null;
+        }
     }
 
 }
