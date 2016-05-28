@@ -9,9 +9,12 @@ import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Set;
 import java.util.concurrent.CompletionException;
 
 /**
@@ -30,6 +33,13 @@ import java.util.concurrent.CompletionException;
 class Items
 {
     /**
+     * The items that are to be made into pairs and presented to the
+     * user. This is a list of map entries where the key is the
+     * item's ID and the value is the item.
+     */
+    Map<Integer, Item> items = new HashMap<>();
+
+    /**
      * All of the items made into comparison pairs to be presented to
      * the user.
      */
@@ -39,6 +49,16 @@ class Items
      * The list index of the next element of preferencePairs to return.
      */
     private int nextPreferencePairIndex;
+
+    /**
+     * A map to keep track of which items have been paired with which
+     * other items. The key is the ID of the item, and the value is a
+     * set of the IDs of the items that are paired with the item. This
+     * is kept symmetrical, e.g. if the entry with key 1 has a value
+     * whose Set contains 2, the entry with key 2 has a value whose Set
+     * contains 1.
+     */
+    Map<Integer, Set<Integer>> itemsPaired = new HashMap<>();
 
     /**
      * The data structure used to store the user's preference test
@@ -77,11 +97,6 @@ class Items
         // The database connection used throughout the application.
         Connection con = RSystemConnection.getConnection();
 
-        // All of the items that are to be made into pairs and presented
-        // to the user.This is a list of map entries where the key is
-        // the item's ID and the value is the item's name.
-        List<Item> items = new ArrayList<>();
-
         // Get from the database all existing items.
         Statement stmt = con.createStatement();
         ResultSet rs = stmt.executeQuery(
@@ -92,12 +107,20 @@ class Items
         // For each of the items in the database, add a new map entry.
         while (rs.next())
         {
-            items.add(new Item(rs.getInt("PK_ItemID"), rs.getString("Name")));
+            // Add each item to the collection of items.
+            items.put(rs.getInt("PK_ItemID"), new Item(rs.getInt("PK_ItemID"),
+                                                       rs.getString("Name")));
+
+            // Map<Integer, Set<Integer>> itemsPaired = new HashMap<>();
+            // Initialize the itemsPaired collection so that there is an
+            // entry for each item. So far, there are no pairs, so the
+            // sets are initialized empty.
+            itemsPaired.put(rs.getInt("PK_ItemID"), new HashSet<Integer>());
         }
 
         stmt.close();
 
-        createPreferencePairs(items);
+        createPreferencePairs();
     }
 
     /**
@@ -139,12 +162,8 @@ class Items
      * Creates and stores a list of all unique pairs of test items. The
      * items are paired in random order, and the order of the pairs is
      * randomized as well.
-     *
-     * @param items all of the items that are to be made into pairs.
-     *              This is a list of map entries where the key is the
-     *              item's ID and the value is the item's name.
      */
-    private void createPreferencePairs(List<Item> items)
+    private void createPreferencePairs()
     {
         preferencePairs = new ArrayList<>();
 
@@ -153,13 +172,13 @@ class Items
         // start at 0, so start our count at -1.
         int item1Index = -1;
 
-        for (Item item1 : items)
+        for (Item item1 : items.values())
         {
             // The List index of the current item to be paired with
             // item1.
             int item2Index = 0;
 
-            for (Item item2 : items)
+            for (Item item2 : items.values())
             {
                 // Make sure that the item being paired is not one
                 // that's already been fully paired. Also make sure that
@@ -170,8 +189,17 @@ class Items
                     // of pairs. Randomize the order of the pair.
                     List<Item> pair = Arrays.asList(item1, item2);
                     Collections.shuffle(pair);
-                    preferencePairs.add(new PreferencePair(pair.get(0),
-                                                           pair.get(1)));
+                    PreferencePair preferencePair =
+                        new PreferencePair(pair.get(0), pair.get(1));
+                    preferencePairs.add(preferencePair);
+
+                    // Add each of the two paired items to itemsPaired.
+                    // Add option2 to option1's Set.
+                    itemsPaired.get(preferencePair.getOption1().getID())
+                               .add(preferencePair.getOption2().getID());
+                    // Add option1 to option2's Set.
+                    itemsPaired.get(preferencePair.getOption2().getID())
+                               .add(preferencePair.getOption1().getID());
                 }
 
                 // Increment to represent the next item to be paired.

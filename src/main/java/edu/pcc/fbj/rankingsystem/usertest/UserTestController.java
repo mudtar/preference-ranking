@@ -2,8 +2,6 @@ package edu.pcc.fbj.rankingsystem.usertest;
 
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.List;
-import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;

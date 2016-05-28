@@ -18,12 +18,6 @@ class Item
      */
     private String name;
 
-    /**
-     * The number of times that this item has been paired so far with
-     * other items.
-     */
-    private int paired;
-
     Item(int ID, String name)
     {
         this.ID = ID;

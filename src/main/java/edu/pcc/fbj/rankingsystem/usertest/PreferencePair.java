@@ -36,4 +36,10 @@ class PreferencePair
     {
         return option2;
     }
+
+    @Override
+    public String toString()
+    {
+        return "[" + option1.getName() + ", " + option2.getName() + "]";
+    }
 }
