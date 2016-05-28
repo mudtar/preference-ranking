@@ -21,6 +21,7 @@ public class RegistrationPanel
     private JLabel eMailErrorLabel;
     private JTextField eMailTextField;
     private JLabel usernameLabel;
+    private JLabel nameErrorLabel;
 
     private JTextField usernameTextField;
     private JLabel passwordLabel;
@@ -32,6 +33,33 @@ public class RegistrationPanel
     private JPasswordField passwordTextField;
     private JPasswordField reenterPasswordTextField;
 
+
+
+    String nameErrorDisplay = "<html>Username support between 6-15<br> " +
+            "alphanumeric characters,<br>" +
+        "it can contain: ., -, and _ symbols.</html>";
+
+    String eMailErrorDisplay = "<html>Email Address should looks like:<br>" +
+            "xxxx@domain.com.</html>";
+
+   /** Check if the password meets the following requirements:
+    *  - Be between 6 and 10 characters long
+    *  - Contain at least one digit.
+    *  - Contain at least one lower case character.
+    *  - Contain at least one upper case character.
+    *  - Contain at least on special character from [ @ # $ % ! . ].
+    */
+
+   String passwordErrorDisplay = "<html>Password should be 6-10 characters long,<br>" +
+           "with at least one uppercase, at least one lower case,<br>" +
+           "at least one digit, no whitespace and <br>" +
+           "one special character from [@ # $ % ! .].</html>";
+   //String passwordErrorDisplay ="<html>Password should be 6-10 characters long,<br>" +
+    //       "with at least one uppercase,<br> " +
+     //      "one lower case,<br>" +
+          // "one special character from [@ # $ % ! .]<br> " +
+      //     "one digit and no whitespace.</html>";
+
     public RegistrationPanel()
     {
         setupPanel();
@@ -42,10 +70,10 @@ public class RegistrationPanel
 
     public void setupPanel()
     {
-        setPreferredSize(new Dimension(600, 400));
+        setPreferredSize(new Dimension(700, 400));
         GridBagLayout gridBagLayout = new GridBagLayout();
         setLayout(gridBagLayout);
-        this.usernameLabel = new JLabel("Name:");
+        this.usernameLabel = new JLabel("Username:");
 
         GridBagConstraints gbc_usernameLabel = new GridBagConstraints();
         gbc_usernameLabel.anchor = 13;
@@ -64,7 +92,18 @@ public class RegistrationPanel
         this.usernameTextField.setColumns(10);
         add(this.usernameTextField, gbc_usernameTextField);
 
-        this.eMailLabel = new JLabel("Email:");
+        this.nameErrorLabel = new JLabel(nameErrorDisplay);
+        this.nameErrorLabel.setFont(new Font("Tahoma", 2, 11));
+        this.nameErrorLabel.setForeground(Color.red);
+        GridBagConstraints gbc_nameErrorLabel = new GridBagConstraints();
+        gbc_nameErrorLabel.anchor = 17;
+        gbc_nameErrorLabel.gridwidth = 3;
+        gbc_nameErrorLabel.insets = new Insets(0, 0, 5, 0);
+        gbc_nameErrorLabel.gridx = 1;
+        gbc_nameErrorLabel.gridy = 4;
+        add(this.nameErrorLabel, gbc_nameErrorLabel);
+
+        this.eMailLabel = new JLabel("Email Adress:");
         GridBagConstraints gbc_eMailLabel = new GridBagConstraints();
         gbc_eMailLabel.anchor = 13;
         gbc_eMailLabel.insets = new Insets(0, 0, 5, 5);
@@ -80,8 +119,20 @@ public class RegistrationPanel
         gbc_eMailTextField.gridx = 1;
         gbc_eMailTextField.gridy = 1;
         this.eMailTextField.setColumns(10);
+        add(this.eMailTextField, gbc_eMailTextField);
 
-        setPreferredSize(new Dimension(400, 180));
+        this.eMailErrorLabel = new JLabel(eMailErrorDisplay);
+        this.eMailErrorLabel.setFont(new Font("Tahoma", 2, 11));
+        this.eMailErrorLabel.setForeground(Color.red);
+        GridBagConstraints gbc_eMailErrorLabel = new GridBagConstraints();
+        gbc_eMailErrorLabel.anchor = 17;
+        gbc_eMailErrorLabel.gridwidth = 3;
+        gbc_eMailErrorLabel.insets = new Insets(0, 0, 5, 0);
+        gbc_eMailErrorLabel.gridx = 1;
+        gbc_eMailErrorLabel.gridy = 4;
+        add(this.eMailErrorLabel, gbc_eMailErrorLabel);
+
+        setPreferredSize(new Dimension(380, 220));
         this.passwordLabel = new JLabel("Password:");
         GridBagConstraints gbc_passwordLabel = new GridBagConstraints();
         gbc_passwordLabel.anchor = 13;
@@ -90,7 +141,7 @@ public class RegistrationPanel
         gbc_passwordLabel.gridy = 2;
         add(this.passwordLabel, gbc_passwordLabel);
 
-        setPreferredSize(new Dimension(400, 180));
+        setPreferredSize(new Dimension(380, 200));
         this.reenterPasswordLabel = new JLabel("Reenter Password:");
         GridBagConstraints gbc_reenterPasswordLabel = new GridBagConstraints();
         gbc_reenterPasswordLabel.anchor = 13;
@@ -105,7 +156,7 @@ public class RegistrationPanel
         gbc_submitButton.gridx = 1;
         gbc_submitButton.gridy = 5;
 
-        add(this.eMailTextField, gbc_eMailTextField);
+       // add(this.eMailTextField, gbc_eMailTextField);
         this.passwordTextField = new JPasswordField();
         GridBagConstraints gbc_passwordTextField = new GridBagConstraints();
         gbc_passwordTextField.gridwidth = 2;
@@ -116,7 +167,7 @@ public class RegistrationPanel
         add(this.passwordTextField, gbc_passwordTextField);
         this.passwordTextField.setColumns(10);
 
-        this.passwordErrorLabel = new JLabel("Password format should look like: Cis23$.");
+        this.passwordErrorLabel = new JLabel(passwordErrorDisplay);
         this.passwordErrorLabel.setFont(new Font("Tahoma", 2, 11));
         this.passwordErrorLabel.setForeground(Color.red);
         GridBagConstraints gbc_passwordErrorLabel = new GridBagConstraints();
@@ -159,6 +210,8 @@ public class RegistrationPanel
 
         this.passwordErrorLabel.setVisible(false);
         this.reenterPasswordErrorLabel.setVisible(false);
+        this.nameErrorLabel.setVisible(false);
+        this.eMailErrorLabel.setVisible(false);
     }
 
     public void addSubmitButtonActionListener(ActionListener al)
@@ -234,5 +287,15 @@ public class RegistrationPanel
     public void setReenterPasswordErrorLabelVisibility(boolean visibleState)
     {
         this.reenterPasswordErrorLabel.setVisible(visibleState);
+    }
+
+    public void setUsernameErrorLabelVisibility(boolean visibleState)
+    {
+        this.nameErrorLabel.setVisible(visibleState);
+    }
+
+    public void setEmailErrorLabelVisibility(boolean visibleState)
+    {
+        this.eMailErrorLabel.setVisible(visibleState);
     }
 }

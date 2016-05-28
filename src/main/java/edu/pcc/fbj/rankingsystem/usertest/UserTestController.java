@@ -242,18 +242,18 @@ public class UserTestController implements Initializable
 
         //tempPref.forEach(x-> System.out.println("key: " + x.getKey() + " :value " +  x.getValue()));
 
-        if (preferences.getPreferenceResult() == -1)
-        {
-            option1.setSelected(true);
-        }
-        else if (preferences.getPreferenceResult() == 1)
-        {
-            option2.setSelected(true);
-        }
-        else
-        {
-            tie.setSelected(true);
-        }
+       // if (preferences.getPreferenceResult() == -1)
+       // {
+      //      option1.setSelected(true);
+      //  }
+      //  else if (preferences.getPreferenceResult() == 1)
+      //  {
+      //      option2.setSelected(true);
+       // }
+      //  else
+       // {
+      //      tie.setSelected(true);
+      //  }
 
         System.out.println("testing");
 
