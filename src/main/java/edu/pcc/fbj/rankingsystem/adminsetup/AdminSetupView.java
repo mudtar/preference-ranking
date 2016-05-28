@@ -41,9 +41,7 @@ public class AdminSetupView
         });
         finishedButton.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                finishedMessage();
-            }
+            public void actionPerformed(ActionEvent e) { finishAdminSetup(); }
         });
         cancelButton.addActionListener(new ActionListener() {
             @Override
@@ -57,7 +55,6 @@ public class AdminSetupView
                 appendTextFieldText();
             }
         });
-
         itemList.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
@@ -83,7 +80,6 @@ public class AdminSetupView
 
             checkListLength();
         }
-
     }
 
     /**
@@ -101,7 +97,7 @@ public class AdminSetupView
         else
         {
             itemTextField.requestFocus();
-            errorLabel.setText("Error: Item name too long");
+            errorLabel.setText("<html>Item name must be less<br> than 18 characters long</html>");
             return false;
         }
     }
@@ -193,7 +189,7 @@ public class AdminSetupView
      * pass the itemList back to the controller for use by the model, and
      * display a finished message
      */
-    public void finishedMessage()
+    public void finishAdminSetup()
     {
         ArrayList<Item> passItems = new ArrayList<>();
 

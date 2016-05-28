@@ -10,6 +10,8 @@ public class ReportTestResult
 {
 
     private String item1Name;
+    private String item2Name;
+    private int value;
     private int wins;
     private int losses;
     private int ties;
@@ -33,15 +35,47 @@ public class ReportTestResult
         this.scores = scores;
     }
 
+    /**
+     * Constructor
+     * @param item1 - points of wins
+     * @param item2 - points of losses
+     * @param value - points of ties
+     */
+    public ReportTestResult(String item1, String item2, int value)
+    {
+
+        this.item1Name = item1;
+        this.item2Name = item2;
+        this.value = value;
+    }
+
 
     /**
      * Retrieve item1 name
      * @return String item1Name
      */
-    public String getItem1Name () {
+    public String getItem1Name ()
+    {
         return item1Name;
     }
 
+    /**
+     * Retrieve item2 name
+     * @return String item2Name
+     */
+    public String getItem2Name ()
+    {
+        return item2Name;
+    }
+
+    /**
+     * Retrieve paire value
+     * @return int value
+     */
+    public int getPairValue ()
+    {
+        return value;
+    }
 
     /**
      * Retrieve points of wins

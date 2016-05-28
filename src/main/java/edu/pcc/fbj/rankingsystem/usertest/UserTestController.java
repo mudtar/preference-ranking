@@ -3,8 +3,6 @@ package edu.pcc.fbj.rankingsystem.usertest;
 
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.List;
-import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -23,14 +21,10 @@ public class UserTestController implements Initializable
 {
     /**
      * The items to be presented to the user by which to determine user
-     * preferences.
+     * preferences and the user's preferences, which are the results of
+     * the test.
      */
-    private Items items;
-
-    /**
-     * The user's preferences, which are the results of the test.
-     */
-    private Preferences preferences;
+    private PreferencePairs preferencePairs;
 
     /**
      * The stage created by JavaFX when the preference test GUI was
@@ -89,8 +83,7 @@ public class UserTestController implements Initializable
      */
     public UserTestController() throws SQLException
     {
-        items = new Items();
-        preferences = new Preferences();
+        preferencePairs = new PreferencePairs();
     }
 
     /**
@@ -132,7 +125,7 @@ public class UserTestController implements Initializable
      */
     public void setUserEmail(String userEmail)
     {
-        preferences.setUserEmail(userEmail);
+        preferencePairs.setUserEmail(userEmail);
     }
 
     /**
@@ -164,7 +157,7 @@ public class UserTestController implements Initializable
             catch (IndexOutOfBoundsException e)
             {
                 // There are no more test item pairs to handle.
-                preferences.storePreferences();
+                preferencePairs.storePreferences();
                 primaryStage.close();
             }
 
@@ -176,16 +169,16 @@ public class UserTestController implements Initializable
      * Update the GUI's option buttons with the next pair of items to be
      * presented to the user.
      *
-     * @param  itemPair                  the pair of items with which to
+     * @param  preferencePair            the pair of items with which to
      *                                   update the option buttons
      * @throws IndexOutOfBoundsException when there are no more test
      *                                   item pairs to handle
      */
-    private void updateButtons(List<Map.Entry<Integer, String>> itemPair)
+    private void updateButtons(PreferencePair preferencePair)
     {
         // Enable or disable the back button based upon whether there are
         // items available to go back to.
-        if (items.getItemPairIndex() <= 0)
+        if (preferencePairs.getPreferencePairIndex() <= 0)
         {
             back.setDisable(true);
         }
@@ -195,42 +188,46 @@ public class UserTestController implements Initializable
         }
 
         // Associate the items' IDs with their toggle buttons.
-        option1.getProperties().put("itemID", itemPair.get(0).getKey());
-        option2.getProperties().put("itemID", itemPair.get(1).getKey());
+        option1.getProperties().put("itemID",
+                                    preferencePair.getOption1().getID());
+        option2.getProperties().put("itemID",
+                                    preferencePair.getOption2().getID());
 
         // Create the text labels for the buttons from the items' names.
-        option1.setText(itemPair.get(0).getValue());
-        option2.setText(itemPair.get(1).getValue());
+        option1.setText(preferencePair.getOption1().getName());
+        option2.setText(preferencePair.getOption2().getName());
     }
 
     private void updateOptionsNext() throws IndexOutOfBoundsException
     {
         // When there are no more test item pairs available, this throws
         // an IndexOutOfBoundsException.
-        List<Map.Entry<Integer, String>> itemPair = items.getNextItemPair();
+        PreferencePair preferencePair = preferencePairs.getNextPreferencePair();
 
-        updateButtons(itemPair);
+        updateButtons(preferencePair);
     }
 
     private void updateOptionsPrevious() throws IndexOutOfBoundsException
     {
         // When there are no more test item pairs available, this throws
         // an IndexOutOfBoundsException.
-        List<Map.Entry<Integer, String>> itemPair = items.getPreviousItemPair();
+        PreferencePair preferencePair =
+            preferencePairs.getPreviousPreferencePair();
 
-        updateButtons(itemPair);
+        updateButtons(preferencePair);
     }
 
     public void handleBack() throws SQLException {
         Toggle selectedToggle = options.getSelectedToggle();
-        List<Map.Entry<List<Integer>, Integer>> tempPref = preferences.getPreferences();
+        //List<Map.Entry<List<Integer>, Integer>> tempPref = preferences.getPreferences();
         // Only register the user's preference if they actually made a
         // selection before pressing the submit button.
         if (selectedToggle != null)
         {
             // This will just add a new preference rather than updating an existing one.
             // Fix this.
-            // Use items.getItemPairIndex() as the list index for storing the preference,
+            // Use preferencePairs.getItemPairIndex() as the list index
+            // for storing the preference,
             // that way we'll be able to go back and forward and still know exactly where
             // to find each stored preference.
             registerPreference();
@@ -255,9 +252,9 @@ public class UserTestController implements Initializable
       //      tie.setSelected(true);
       //  }
 
-        System.out.println("testing");
+        //System.out.println("testing");
 
-        tempPref.forEach(x-> System.out.println("key: " + x.getKey() + " :value " +  x.getValue()));
+        //tempPref.forEach(x-> System.out.println("key: " + x.getKey() + " :value " +  x.getValue()));
 
         // NOTE: Reselect the proper toggle on the new screen after going back based on what the
         // stored preference for this screen is.
@@ -275,19 +272,19 @@ public class UserTestController implements Initializable
         // ask whether it's selected.
         if (option1.isSelected())
         {
-            preferences.registerPreference(
+            preferencePairs.registerPreference(
                     (int) option1.getProperties().get("itemID"),
                     (int) option2.getProperties().get("itemID"), -1);
         }
         else if (option2.isSelected())
         {
-            preferences.registerPreference(
+            preferencePairs.registerPreference(
                     (int) option1.getProperties().get("itemID"),
                     (int) option2.getProperties().get("itemID"), 1);
         }
         else if (tie.isSelected())
         {
-            preferences.registerPreference(
+            preferencePairs.registerPreference(
                     (int) option1.getProperties().get("itemID"),
                     (int) option2.getProperties().get("itemID"), 0);
         }
@@ -308,13 +305,15 @@ public class UserTestController implements Initializable
 
         }
         */
-        int currentPairCount = items.getItemPairIndex() + 1;
+        int currentPairCount = preferencePairs.getPreferencePairIndex() + 1;
 
-        progressLabel.setText("Question " + currentPairCount + " of " + items.getItemPairsCount());
-        System.out.println(items.getItemPairsCount());
+        progressLabel.setText("Question " + currentPairCount + " of " +
+                              preferencePairs.getPreferencePairsCount());
+        System.out.println(preferencePairs.getPreferencePairsCount());
         // This question hasn't been answered yet, so we shouldn't count this current pair yet
         // as progress.
-        progressBar.setProgress((double) (currentPairCount - 1) / items.getItemPairsCount());;
+        progressBar.setProgress((double) (currentPairCount - 1) /
+            preferencePairs.getPreferencePairsCount());;
         System.out.println(currentPairCount);
     }
 }
