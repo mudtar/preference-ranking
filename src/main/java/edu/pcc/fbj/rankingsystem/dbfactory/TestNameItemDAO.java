@@ -126,6 +126,12 @@ public class TestNameItemDAO {
             //deleteRecords(deleteList);
             //insertRecords(insertList);
 
+            System.out.println("marked for delection");
+            for (TestNameItem tni: deleteList)
+            {
+                System.out.println("delete test " + tni.getTestNameID()+ " item: " + tni.getItemID());
+            }
+
         }
         catch (Exception ex)
         {
@@ -142,21 +148,25 @@ public class TestNameItemDAO {
      */
     protected Boolean notFoundTestNameItem(int passTestNameID, int passItemID, List<ListTestNameItems> passTestNameItems)
     {
-        for (ListTestNameItems testNameItem: passTestNameItems)
+        Boolean delete = false;
+
+        for (ListTestNameItems ltni: passTestNameItems)
         {
-            for (ListTestNameItems ltni: passTestNameItems)
+            //find correct list
+            if (ltni.getTestNameID() == passTestNameID)
             {
-                for (Item item: ltni.getItems())
+                delete = true;
+                for (Item item : ltni.getItems())
                 {
-                    if (testNameItem.getTestNameID() == passTestNameID && item.getItemID() == passItemID)
+                    if (item.getItemID() == passItemID)
                     {
-                        return false;
+                        delete = false; //item was found
                     }
                 }
             }
         }
-        System.out.println("not found, will delete " + passTestNameID);
-        return true;
+
+        return delete;
     }
 
     /**

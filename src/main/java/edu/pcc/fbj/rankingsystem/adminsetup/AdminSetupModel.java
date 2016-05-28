@@ -2,7 +2,6 @@ package edu.pcc.fbj.rankingsystem.adminsetup;
 
 import edu.pcc.fbj.rankingsystem.dbfactory.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -70,7 +69,6 @@ public class AdminSetupModel
             System.out.println(i.getName() + " : " + i.getItemID());
             if (i.getName().equals(passItemName))
             {
-                System.out.println("&&&&&&&&&&&&&&&&&WE HAVE A WINNER&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
                 return i.getItemID();
             }
         }
@@ -78,25 +76,6 @@ public class AdminSetupModel
         return -1;
     }
 
-
-    /**
-     * take an item ID as a param, and return an item name
-     * @param passItemID
-     */
-    private String findItemName(int passItemID)
-    {
-        for (Item i: itemNames)
-        {
-            System.out.println(i.getName() + " : " + i.getItemID());
-            if (i.getItemID() == passItemID)
-            {
-                System.out.println("&&&&&&&&&&&&&&&&&WE HAVE A WINNER&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
-                return i.getName();
-            }
-        }
-
-        return null;
-    }
 
     /**
      * take a TestNameID, and return a corresponding TestName
