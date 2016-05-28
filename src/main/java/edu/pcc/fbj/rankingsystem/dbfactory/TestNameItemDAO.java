@@ -1,5 +1,7 @@
 package edu.pcc.fbj.rankingsystem.dbfactory;
 
+import edu.pcc.fbj.rankingsystem.adminsetup.Item;
+import edu.pcc.fbj.rankingsystem.adminsetup.ListTestNameItems;
 import edu.pcc.fbj.rankingsystem.adminsetup.TestNameItem;
 
 import java.sql.Connection;
@@ -20,6 +22,7 @@ public class TestNameItemDAO {
 
     //Queries
     private static final String GET_TEST_NAME_ITEMS_SQL = "SELECT PK_TestNameItemID, FK_TestNameID, FK_ItemID From FBJ_TEST_NAME_ITEM;";
+    private static final String GET_TEST_NAME_ITEM_IDS_SQL = "SELECT FK_ItemID FROM FBJ_TEST_NAME_ITEM WHERE FK_TestNameID = ?";
     private static final String DELETE_TEST_NAME_ITEM = "DELETE FROM FBJ_TEST_NAME_ITEM WHERE FK_TestNameID = ? AND FK_ItemID = ?;";
     private static final String INSERT_TEST_NAME_ITEM = "INSERT INTO FBJ_TEST_NAME_ITEM(FK_TestNameID, FK_ItemID) VALUES(?, ?);";
 
@@ -86,7 +89,7 @@ public class TestNameItemDAO {
      * sets a list of TestNameItems to the database
      * @param passTestNameItems list of TestNameItem chosen by the user
      */
-    public void setTestNameItems(List<TestNameItem> passTestNameItems)
+    public void setTestNameItems(List<ListTestNameItems> passTestNameItems)
     {
         try
         {
@@ -98,27 +101,30 @@ public class TestNameItemDAO {
             ArrayList<TestNameItem> deleteList = new ArrayList<>();
             ArrayList<TestNameItem> insertList = new ArrayList<>();
 
-            //if TestNameItem is in TestNameItems, but not in  passTestNameItems, delete
-            for (TestNameItem testItem: testNameItems)  //exists in items
-            {
-                deleteItem = notFoundTestNameItem(testItem.getTestNameID(), testItem.getItemID(), passTestNameItems);
-                if (deleteItem)
-                {
-                    deleteList.add(testItem);
-                }
-            }
-            //after deletion, if item is in passItems, but not in Items, insert
-            for (TestNameItem testItem: passTestNameItems) //exists in passItems
-            {
-                insertItem = notFoundTestNameItem(testItem.getTestNameID(), testItem.getItemID(), testNameItems);
-                if (insertItem)
-                {
-                    insertList.add(testItem);
-                }
-            }
 
-            deleteRecords(deleteList);
-            insertRecords(insertList);
+                //if TestNameItem is in TestNameItems, but not in  passTestNameItems, delete
+                for (TestNameItem testItem : testNameItems)  //exists in items
+                {
+                    deleteItem = notFoundTestNameItem(testItem.getTestNameID(), testItem.getItemID(), passTestNameItems);
+                    if (deleteItem) {
+                        deleteList.add(testItem);
+                    }
+                }
+                //after deletion, if item is in passItems, but not in Items, insert
+                for (ListTestNameItems ltni : passTestNameItems) //exists in passItems
+                {
+                    for(Item item: ltni.getItems())
+                    {
+                        ////insertItem = notFoundTestNameItem(ltni.getTestNameID(), item.getItemID(), testNameItems);
+                     //   if (insertItem) {
+                            //insertList.add(item);
+                      //  }
+                    }
+                }
+
+
+            //deleteRecords(deleteList);
+            //insertRecords(insertList);
 
         }
         catch (Exception ex)
@@ -134,14 +140,19 @@ public class TestNameItemDAO {
      * @param
      * @return true if not found
      */
-    protected Boolean notFoundTestNameItem(int passTestNameID, int passItemID, List<TestNameItem> passTestNameItems)
+    protected Boolean notFoundTestNameItem(int passTestNameID, int passItemID, List<ListTestNameItems> passTestNameItems)
     {
-        for (TestNameItem testNameItem: passTestNameItems)
+        for (ListTestNameItems testNameItem: passTestNameItems)
         {
-            if (testNameItem.getTestNameID() == passTestNameID && testNameItem.getItemID() == passItemID)
+            for (ListTestNameItems ltni: passTestNameItems)
             {
-                System.out.println("will not delete " + testNameItem.getItemID());
-                return false;
+                for (Item item: ltni.getItems())
+                {
+                    if (testNameItem.getTestNameID() == passTestNameID && item.getItemID() == passItemID)
+                    {
+                        return false;
+                    }
+                }
             }
         }
         System.out.println("not found, will delete " + passTestNameID);
@@ -162,8 +173,8 @@ public class TestNameItemDAO {
                 st.setInt(1, testNameItem.getTestNameID());
                 st.setInt(2, testNameItem.getItemID());
                 st.executeUpdate();
-                System.out.println("deleting item: " + testNameItem.getItemName() + " , Test: " +
-                        testNameItem.getTestName());
+               // System.out.println("deleting item: " + testNameItem.getItemName() + " , Test: " +
+                 //       testNameItem.getTestName());
             }
         }
         catch (SQLException e)
@@ -193,8 +204,8 @@ public class TestNameItemDAO {
                 st.setInt(1, testNameItem.getTestNameID());
                 st.setInt(2, testNameItem.getItemID());
                 st.executeUpdate();
-                System.out.println("inserting item: " + testNameItem.getTestName() + ", test: " +
-                        testNameItem.getTestName());
+                //System.out.println("inserting item: " + testNameItem.getTestName() + ", test: " +
+                  //      testNameItem.getTestName());
             }
         }
         catch (SQLException e)
@@ -209,5 +220,30 @@ public class TestNameItemDAO {
         }
     }
 
+    /**
+     */
+    public List<Integer> getTestNameItemsIDs(int passID)
+    {
+        ArrayList<Integer> itemIDs = new ArrayList<>();
+
+        try
+        {
+            PreparedStatement st = connection.prepareStatement(GET_TEST_NAME_ITEM_IDS_SQL);
+            st.setInt(1, passID);
+            ResultSet rs = st.executeQuery();
+
+            while (rs.next())
+            {
+                itemIDs.add(rs.getInt("FK_ItemID"));
+            }
+        }
+        catch (SQLException e)
+        {
+            System.err.println("ERROR: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return itemIDs;
+    }
 
 }

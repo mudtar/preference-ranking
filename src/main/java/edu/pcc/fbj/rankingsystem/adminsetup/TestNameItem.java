@@ -11,8 +11,8 @@ public class TestNameItem
     private int testNameItemID;
     private int testNameID;
     private int itemID;
-    private String testName;
-    private String itemName;
+    //private String testName;
+    //private String itemName;
 
     public TestNameItem(int passTestNameItemID, int passTestName, int passItemID)
     {
@@ -20,6 +20,7 @@ public class TestNameItem
         testNameID = passTestName;
         itemID = passItemID;
     }
+    /*
     public TestNameItem(String passTestName, String passItemName)
     {
         testName = passTestName;
@@ -30,7 +31,7 @@ public class TestNameItem
     public String getItemName()
     { return itemName;}
 
-
+*/
     public int getTestNameID()
     { return testNameID;}
 
@@ -46,6 +47,7 @@ public class TestNameItem
         itemID = passItemID;
     }
 
+    /*
     public void setTestName(String passTestName)
     {
         testName = passTestName;
@@ -54,4 +56,6 @@ public class TestNameItem
     {
         itemName = passItemName;
     }
+
+    */
 }

@@ -39,7 +39,10 @@ public class MultiTabDoc {
     private DefaultListModel testListModel = new DefaultListModel();
     private DefaultListModel assignedListModel = new DefaultListModel();
     private List<Item> items;
-    private List<TestNameItem> currentTestNameItems = new ArrayList<>();
+
+    private List<ListTestNameItems> comprehensiveTestItemList = new ArrayList();
+
+    //private List<TestNameItem> currentTestNameItems = new ArrayList<>();
     private List<TestName> testNames;
     private Boolean isGood;
 
@@ -123,7 +126,7 @@ public class MultiTabDoc {
 
             setInitialFocus();
 
-            currentTestNameItems = AdminSetupController.getTestNameItems();
+            //currentTestNameItems = AdminSetupController.getTestNameItems();
 
             //List<Integer> uniqueItemsUsed = AdminSetupController.getUniqueItemsUsed();
             //uniqueItemsUsed.forEach(i -> System.out.println(i));
@@ -194,10 +197,25 @@ public class MultiTabDoc {
         //if not assign it
         if (assignedListModel.indexOf(itemListTestControl.getSelectedValue()) == -1)
         {
-            assignedListModel.addElement(itemListTestControl.getSelectedValue());
-            currentTestNameItems.add(new TestNameItem(testListTestControl.getSelectedValue().toString(),
-                    itemListTestControl.getSelectedValue().toString()));
-            assignedItemListTestControl.setModel(assignedListModel);
+            for (ListTestNameItems ltni: comprehensiveTestItemList)
+            {
+                if (ltni.getTestName().equals(testListTestControl.getSelectedValue()))
+                {
+                    for (String i: ltni.getTestnameItems())
+                    {
+                        if (itemListTestControl.getSelectedValue().equals(i))
+                        {
+                            return;
+                        }
+                    }
+
+                    //add item to list
+                    assignedListModel.addElement(itemListTestControl.getSelectedValue());
+                    ltni.setTestNameItem(itemListTestControl.getSelectedValue().toString());
+                    assignedItemListTestControl.setModel(assignedListModel);
+                }
+
+            }
         }
     }
 
@@ -206,49 +224,16 @@ public class MultiTabDoc {
      */
     private void removeItemFromTestList()
     {
-        TestNameItem temp;
-
-        System.out.println("before removal*********************");
-        for (TestNameItem tn: currentTestNameItems)
+        for (ListTestNameItems ltni: comprehensiveTestItemList)
         {
-            System.out.println("testName: " + tn.getTestNameID() + " : Itemid: " + tn.getItemID());
-        }
-
-        /*
-        for (Item i: testNames )
-        {
-            System.out.println("looking at testname: " + t.getTestNameID() + " : " + t.getName());
-            System.out.println("looking for: " + assignedItemListTestControl.getSelectedValue());
-            if (t.getName().equals(assignedItemListTestControl.getSelectedValue()))
+            if (ltni.getTestName().equals(testListTestControl.getSelectedValue()))
             {
-                System.out.println("have a match:... " + t.getName() + " : " + t.getTestNameID());
+                ltni.deleteTestNameItem(assignedItemListTestControl.getSelectedValue().toString());
+                assignedListModel.remove(assignedItemListTestControl.getSelectedIndex());
+                assignedItemListTestControl.setModel(assignedListModel);
+                return;
             }
         }
-        */
-        //remove testNameitem from current list of test name items
-        for (TestNameItem tni: currentTestNameItems)
-        {
-            if(tni.getTestName().equals(testListTestControl.getSelectedValue())) //&& tni.getItemName().equals(assignedItemListTestControl.getSelectedValue()))
-            {
-                if (tni.getItemName().equals(assignedItemListTestControl.getSelectedValue()))
-                {
-                    currentTestNameItems.remove(currentTestNameItems.indexOf(tni));
-                    break;
-                }
-            }
-
-        }
-
-        System.out.println("after removal*********************");
-        for (TestNameItem tn: currentTestNameItems)
-        {
-            System.out.println("testNameID: " + tn.getTestNameID() + " : Itemid: " + tn.getItemID());
-        }
-
-
-        assignedListModel.removeElementAt(assignedItemListTestControl.getSelectedIndex());
-
-        assignedItemListTestControl.setModel(assignedListModel);
     }
 
     /**
@@ -256,50 +241,39 @@ public class MultiTabDoc {
      */
     private void loadItemsForSelectedTest()
     {
-        int testID = 0;
+        Boolean addNewList = true;
         assignedListModel.clear();
 
-        if (testListTestControl.getSelectedIndex() != -1)
+        //do we have that item data already?
+        //iterate through ListTestNameItems to see if we spot existing list
+        for (ListTestNameItems ltni: comprehensiveTestItemList)
         {
-            List<TestNameItem> testNameItems = AdminSetupController.getTestNameItems();
-            List<TestName> tests = AdminSetupController.getTestNames();
-            List<Integer> itemIds = new ArrayList<>();
-
-            for(TestName t: tests)
+            if (ltni.getTestName().equals(testListTestControl.getSelectedValue()))
             {
-                if (t.getName().equals(testListTestControl.getSelectedValue()))
+             //found test populate items
+                addNewList = false;
+                for(String i: ltni.getTestnameItems())
                 {
-                    System.out.println("setting testID " + t.getTestNameID());
-                    testID = t.getTestNameID();
+                    assignedListModel.addElement(i);
                 }
             }
-
-            for (TestNameItem tni: testNameItems)
-            {
-                System.out.println("itemID " + tni.getItemID());
-                if (tni.getTestNameID() == testID)
-                {
-                    System.out.println("adding " + tni.getItemID() + " ");
-                    itemIds.add(tni.getItemID());
-                }
-            }
-            for (Integer i: itemIds)
-            {
-                for (Item j : items)
-                {
-                    if (i == j.getItemID())
-                    {
-                        System.out.println("adding " + j.getName());
-                        assignedListModel.addElement(j.getName());
-                    }
-                }
-            }
-
-
-            assignedItemListTestControl.setModel(assignedListModel);
-            //load list model for selected test.....
-            //////////////////////////////////////////////////////////////////////////
         }
+
+        if (addNewList)
+        {
+            //fetch items for test, and populate list
+            ListTestNameItems listTestNameItems =
+                    AdminSetupController.getTestNameItems(testListTestControl.getSelectedValue().toString());
+
+            comprehensiveTestItemList.add(listTestNameItems);
+
+            for (String i : listTestNameItems.getTestnameItems()) {
+                assignedListModel.addElement(i);
+            }
+        }
+
+        assignedItemListTestControl.setModel(assignedListModel);
+
     }
 
     /**
@@ -470,7 +444,7 @@ public class MultiTabDoc {
         testTextFieldTestControl.setText("");
         AdminSetupController.setItems(items);
         AdminSetupController.setTestNames(testNames);
-        AdminSetupController.setTestItems(currentTestNameItems);
+        AdminSetupController.setTestItems(comprehensiveTestItemList);
         AdminSetupController.closeFrame();
     }
 

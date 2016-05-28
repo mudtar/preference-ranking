@@ -41,43 +41,21 @@ public class AdminSetupModel
     /**
      *
      */
-    public void setTestItems(List<TestNameItem> passTestNameItems)
+    public void setTestItems(List<ListTestNameItems> passTestNameItems)
     {
         //update data
         testNames = testNameDAO.getTestNames();
         itemNames = itemDAO.getItems();
 
-        for (TestNameItem t: passTestNameItems)
+        for (ListTestNameItems ltni: passTestNameItems)
         {
-            t.setTestID(findTestNameID(t.getTestName()));
-            /*
-            for(TestName tn: testNames)
+            for (String i: ltni.getTestnameItems())
             {
-                System.out.println(tn.getName() + " : " + tn.getTestNameID());
-                if (tn.getName().equals(t.getTestName())){ t.setTestID(tn.getTestNameID());}
+                ltni.setItem(new Item(findItemID(i), i));
+                testNameItemDAO.setTestNameItems(passTestNameItems);
             }
-            */
-            t.setItemID(findItemID(t.getItemName()));
-            /*
-            for (Item i: itemNames)
-            {
-                System.out.println(i.getName() + " : " + i.getItemID());
-                if (i.getName().equals(t.getItemName()))
-                {
-                    System.out.println("&&&&&&&&&&&&&&&&&WE HAVE A WINNER&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
-                    t.setItemID(i.getItemID());
-                }
-            }
-            */
-
-            System.out.println("**************************************");
-            System.out.println("Test Name: " + t.getTestName());
-            System.out.println(" TestID: " + t.getTestNameID());
-            System.out.println("Test Item: " + t.getItemName());
-            System.out.println(" ItemID: " + t.getItemID());
-
-            testNameItemDAO.setTestNameItems(passTestNameItems);
         }
+
 
     }
 
@@ -153,24 +131,24 @@ public class AdminSetupModel
      * get TestNameItems for selected test
      * @return List of Items associated with selected test
      */
-    public List<TestNameItem> getTestNameItems()
+    public ListTestNameItems getTestNameItemsList(String passTestName)
     {
-        testNames = testNameDAO.getTestNames();
-        itemNames = itemDAO.getItems();
+        //get test id for TestName, and create new list
+        ListTestNameItems listTestNameItems = new ListTestNameItems(passTestName,
+                testNameDAO.getTestNameID(passTestName));
 
-        List<TestNameItem> testNameItems = testNameItemDAO.getTestNameItems();
-
-        System.out.println("In Model before setting names");
-        for(TestNameItem tni: testNameItems)
+        //get list of item ids for test
+        for (Integer i: testNameItemDAO.getTestNameItemsIDs(listTestNameItems.getTestNameID()))
         {
-            System.out.println("in for loop");
-            System.out.println("item id: " + tni.getItemID());
-            System.out.println(findItemName(tni.getItemID()));
-            //System.out.println(findTestName(tni.getTestNameID()));
-            tni.setTestName(findTestName(tni.getTestNameID()));
-            tni.setItemName(findItemName(tni.getItemID()));
+            for (Item item: itemNames)
+            {
+                if (item.getItemID() == i)
+                {
+                    listTestNameItems.setTestNameItem(item.toString());
+                }
+            }
         }
-        return testNameItems;
+        return listTestNameItems;
     }
 
     /**
