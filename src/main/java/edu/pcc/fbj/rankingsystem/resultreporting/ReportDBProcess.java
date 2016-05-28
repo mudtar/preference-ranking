@@ -72,14 +72,16 @@ public class ReportDBProcess implements Runnable
             if(reportPane.getSignal() == signal.DATABASE_SIGNAL_RETRIEVE_DATA )
             {
 
-                if(dao.get(0).DBConnection() != null && userEmailList != null) {
+                if(dao.get(0).DBConnection() != null && userEmailList != null)
+                {
 
                     reportPane.setBasicTableColumns(dao.get(0).getUserTestTableColumns("", ""));
                     reportPane.setBasicReportData(dao.get(0).getUserTestResult(userEmailList.get(reportPane.getEmailIndex()), userTestIDList.get(reportPane.getTestIDIndex())));
                     dao.get(0).setMessage(dao.get(0).DATABASE_DATA_SELECTION);
 
                     if(reportPane.isMatrixReportEnabled()) {
-                        if(dao.get(1).DBConnection() != null && userEmailList != null) {
+                        if(dao.get(1).DBConnection() != null && userEmailList != null)
+                        {
                             reportPane.setMatrixTableColumns(dao.get(1).getUserTestTableColumns(userEmailList.get(reportPane.getEmailIndex()), userTestIDList.get(reportPane.getTestIDIndex())));
                             reportPane.setMatrixReportData(dao.get(1).getUserTestResult(userEmailList.get(reportPane.getEmailIndex()), userTestIDList.get(reportPane.getTestIDIndex())));
                             dao.get(1).setMessage(dao.get(1).DATABASE_DATA_SELECTION);
@@ -87,9 +89,10 @@ public class ReportDBProcess implements Runnable
                     }
 
                     if(reportPane.isStatisticsReportEnabled()) {
-                        if(dao.get(2).DBConnection() != null && userEmailList != null) {
+                        if(dao.get(2).DBConnection() != null && userTestNameList != null)
+                        {
                             reportPane.setStatisticsTableColumns(dao.get(2).getUserTestTableColumns(userEmailList.get(reportPane.getEmailIndex()), userTestIDList.get(reportPane.getTestIDIndex())));
-                            reportPane.setStatisticsReportData(dao.get(2).getUserTestResult(userEmailList.get(reportPane.getEmailIndex()), userTestIDList.get(reportPane.getTestIDIndex())));
+                            reportPane.setStatisticsReportData(dao.get(2).getUserTestResult(userTestNameList.get(reportPane.getTestNameIndex()), userTestIDList.get(reportPane.getTestIDIndex())));
                             dao.get(2).setMessage(dao.get(2).DATABASE_DATA_SELECTION);
                         }
                     }
