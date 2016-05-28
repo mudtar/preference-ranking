@@ -30,7 +30,7 @@ import java.util.concurrent.CompletionException;
  * @author  Ian Burton
  * @version 2016.05.24.1
  */
-class Items
+class PreferencePairs
 {
     /**
      * The items that are to be made into pairs and presented to the
@@ -87,12 +87,12 @@ class Items
     private int userID;
 
     /**
-     * Constructs the Items object by getting the items from the
-     * database and putting them into pairs.
+     * Constructs the PreferencePairs object by getting the items from
+     * the database and putting them into pairs.
      *
      * @throws SQLException if a database access error occurs
      */
-    Items() throws SQLException
+    PreferencePairs() throws SQLException
     {
         // The database connection used throughout the application.
         Connection con = RSystemConnection.getConnection();
