@@ -33,12 +33,12 @@ class Items
      * All of the items made into comparison pairs to be presented to
      * the user.
      */
-    private List<ItemPair> itemPairs;
+    private List<PreferencePair> preferencePairs;
 
     /**
-     * The list index of the next element of itemPairs to return.
+     * The list index of the next element of preferencePairs to return.
      */
-    private int nextItemPairIndex;
+    private int nextPreferencePairIndex;
 
     /**
      * The data structure used to store the user's preference test
@@ -97,7 +97,7 @@ class Items
 
         stmt.close();
 
-        createItemPairs(items);
+        createPreferencePairs(items);
     }
 
     /**
@@ -107,17 +107,18 @@ class Items
      * @throws IndexOutOfBoundsException when there are no more test
      *                                   item pairs to return
      */
-    ItemPair getItemPair() throws IndexOutOfBoundsException
+    PreferencePair getPreferencePair() throws IndexOutOfBoundsException
     {
         // Get the first pair of items that hasn't yet been returned,
         // i.e. the next pair of items.
-        ItemPair itemPair = itemPairs.get(nextItemPairIndex);
+        PreferencePair preferencePair =
+            preferencePairs.get(nextPreferencePairIndex);
 
         // Increment the index of the next pair of items so that this
         // method grabs the next one next time it's called.
-        nextItemPairIndex++;
+        nextPreferencePairIndex++;
 
-        return itemPair;
+        return preferencePair;
     }
 
     /**
@@ -125,11 +126,11 @@ class Items
      *
      * @return the total count of item pairs
      */
-    public int getItemPairsCount()
+    public int getPreferencePairsCount()
     {
-        if (itemPairs !=null)
+        if (preferencePairs !=null)
         {
-            return itemPairs.size();
+            return preferencePairs.size();
         }
         return -1;
     }
@@ -143,9 +144,9 @@ class Items
      *              This is a list of map entries where the key is the
      *              item's ID and the value is the item's name.
      */
-    private void createItemPairs(List<Item> items)
+    private void createPreferencePairs(List<Item> items)
     {
-        itemPairs = new ArrayList<>();
+        preferencePairs = new ArrayList<>();
 
         // The list index of the item that has most recently been paired
         // with all other items. We haven't handled any yet, and indexes
@@ -169,7 +170,8 @@ class Items
                     // of pairs. Randomize the order of the pair.
                     List<Item> pair = Arrays.asList(item1, item2);
                     Collections.shuffle(pair);
-                    itemPairs.add(new ItemPair(pair.get(0), pair.get(1)));
+                    preferencePairs.add(new PreferencePair(pair.get(0),
+                                                           pair.get(1)));
                 }
 
                 // Increment to represent the next item to be paired.
@@ -184,7 +186,7 @@ class Items
         }
 
         // Randomize the order of the pairs.
-        Collections.shuffle(itemPairs);
+        Collections.shuffle(preferencePairs);
     }
 
     /**

@@ -159,12 +159,13 @@ public class UserTestController implements Initializable
                     (int) option2.getProperties().get("itemID"), 0);
             }
 
-            if (i < items.getItemPairsCount())
+            if (i < items.getPreferencePairsCount())
             {
                 i++;
-                label.setText("Question " + (int)i + " of " + items.getItemPairsCount());
-                System.out.println(items.getItemPairsCount());
-                progress.setProgress(i/(items.getItemPairsCount()));
+                label.setText("Question " + (int)i + " of " +
+                              items.getPreferencePairsCount());
+                System.out.println(items.getPreferencePairsCount());
+                progress.setProgress(i/(items.getPreferencePairsCount()));
                 System.out.println(i);
             }
             // Unselect the selected button in preparation for the
@@ -195,14 +196,16 @@ public class UserTestController implements Initializable
     {
         // When there are no more test item pairs available, this throws
         // an IndexOutOfBoundsException.
-        ItemPair itemPair = items.getItemPair();
+        PreferencePair preferencePair = items.getPreferencePair();
 
         // Associate the items' IDs with their toggle buttons.
-        option1.getProperties().put("itemID", itemPair.getOption1().getID());
-        option2.getProperties().put("itemID", itemPair.getOption2().getID());
+        option1.getProperties().put("itemID",
+                                    preferencePair.getOption1().getID());
+        option2.getProperties().put("itemID",
+                                    preferencePair.getOption2().getID());
 
         // Create the text labels for the buttons from the items' names.
-        option1.setText(itemPair.getOption1().getName());
-        option2.setText(itemPair.getOption2().getName());
+        option1.setText(preferencePair.getOption1().getName());
+        option2.setText(preferencePair.getOption2().getName());
     }
 }

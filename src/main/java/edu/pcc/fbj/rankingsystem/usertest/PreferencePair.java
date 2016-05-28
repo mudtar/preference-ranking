@@ -1,6 +1,6 @@
 package edu.pcc.fbj.rankingsystem.usertest;
 
-class ItemPair
+class PreferencePair
 {
     /**
      * The first of the two options to be presented to the user.
@@ -21,7 +21,7 @@ class ItemPair
      */
     private int preference;
 
-    ItemPair(Item option1, Item option2)
+    PreferencePair(Item option1, Item option2)
     {
         this.option1 = option1;
         this.option2 = option2;
