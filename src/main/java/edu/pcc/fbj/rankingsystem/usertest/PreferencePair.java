@@ -37,6 +37,16 @@ class PreferencePair
         return option2;
     }
 
+    int getPreference()
+    {
+        return preference;
+    }
+
+    void setPreference(int preference)
+    {
+        this.preference = preference;
+    }
+
     @Override
     public String toString()
     {

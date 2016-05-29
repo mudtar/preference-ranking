@@ -5,7 +5,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -46,11 +45,6 @@ class PreferencePairs
     private List<PreferencePair> preferencePairs;
 
     /**
-     * The list index of the next element of preferencePairs to return.
-     */
-    private int nextPreferencePairIndex;
-
-    /**
      * A map to keep track of which items have been paired with which
      * other items. The key is the ID of the item, and the value is a
      * set of the IDs of the items that are paired with the item. This
@@ -60,23 +54,6 @@ class PreferencePairs
      */
     Map<Integer, Set<Integer>> itemsPaired = new HashMap<>();
 
-    /**
-     * The data structure used to store the user's preference test
-     * results until they are stored to the database. It is a list of
-     * map entries where each map entry is made up of:
-     * Key:   a list of the two item IDs that were compared to one
-     *        another in the preference test
-     * Value: the encoded result of the preference test between the two
-     *        items, where:
-     *            -1 is a win for option1 and a loss for option2
-     *             0 is a tie
-     *             1 is a loss for option1 and a win for option2
-     */
-    private List<Map.Entry<List<Integer>, Integer>> preferences =
-        new ArrayList<>();
-
-    private int outcome;
-    private int preferenceResult;
     /**
      * The email address associated with the user who is currently
      * logged in.
@@ -135,7 +112,7 @@ class PreferencePairs
     PreferencePair getCurrentPreferencePair() throws IndexOutOfBoundsException
     {
         PreferencePair preferencePair =
-            preferencePairs.get(nextPreferencePairIndex);
+            preferencePairs.get(preferencePairIndex);
 
         return preferencePair;
     }
@@ -151,7 +128,7 @@ class PreferencePairs
     {
         // Increment the index of the pair of items so that this method
         // grabs the next one.
-        nextPreferencePairIndex++;
+        preferencePairIndex++;
 
         PreferencePair preferencePair = getCurrentPreferencePair();
 
@@ -276,14 +253,11 @@ class PreferencePairs
      *                     0 is a tie
      *                     1 is a loss for option1 and a win for option2
      */
+    // I can get rid of option1 and option2 here, as this is already
+    // stored in the current PreferencePair.
     void registerPreference(int option1, int option2, int result)
     {
-        preferenceResult = result;
-        List<Integer> comparedItems = Arrays.asList(option1, option2);
-
-        preferences.add(new AbstractMap.SimpleEntry<List<Integer>, Integer>(
-            comparedItems, result));
-        result = result;
+        preferencePairs.get(preferencePairIndex).setPreference(result);
     }
 
     /**
@@ -363,6 +337,7 @@ class PreferencePairs
         if (generatedKeys.next())
         {
             testID = generatedKeys.getInt(1);
+            System.out.println("testID: " + testID);
         }
         else
         {
@@ -376,37 +351,18 @@ class PreferencePairs
 
         // Iterate through the the preference test results and add them
         // to the database.
-        for (Map.Entry<List<Integer>, Integer> preference : preferences)
+        for (PreferencePair preferencePair : preferencePairs)
         {
-            int option1 = preference.getKey().get(0);
-            int option2 = preference.getKey().get(1);
-            outcome = preference.getValue();
-
             stmt = con.createStatement();
             stmt.executeUpdate(
                 "INSERT INTO FBJ_RESULT " +
                 "    (FK_TestID, FK_Item1ID, FK_Item2ID, Value) " +
                 "VALUES (" + testID + ", " +
-                             option1 + ", " +
-                             option2 + ", " +
-                             outcome + ") " +
+                             preferencePair.getOption1().getID() + ", " +
+                             preferencePair.getOption2().getID() + ", " +
+                             preferencePair.getPreference() + ") " +
                 ";");
             stmt.close();
         }
-    }
-
-    List<Map.Entry<List<Integer>, Integer>> getPreferences()
-    {
-        return preferences;
-    }
-
-    int getOutcome()
-    {
-        return outcome;
-    }
-
-    int getPreferenceResult()
-    {
-        return preferenceResult;
     }
 }
