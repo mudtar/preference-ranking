@@ -1,6 +1,7 @@
 package edu.pcc.fbj.rankingsystem.adminsetup;
 
 import javax.swing.*;
+import java.util.List;
 
 /**
  * This Class will hold the code for facilitating action between the view
@@ -55,9 +56,9 @@ public class AdminSetupController
     /**
      * This Method is called to return the items from the database
      */
-    public static java.util.List<Item> getTestItems()
+    public static ListTestNameItems getTestNameItems(String passTestName)
     {
-        return model.getTestItems();
+        return model.getTestNameItemsList(passTestName);
     }
 
     /**
@@ -83,6 +84,15 @@ public class AdminSetupController
     public static void setTestNames(java.util.List<TestName> passTestNames)
     {
         model.setTestNames(passTestNames);
+    }
+
+    /**
+     * This Method is called to set the TestNames in the database
+     * @param passTestItems
+     */
+    public static void setTestItems(List<ListTestNameItems> passTestItems)
+    {
+        model.setTestItems(passTestItems);
     }
 
     /**
