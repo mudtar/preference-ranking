@@ -91,17 +91,17 @@ public class TestNameItemDAO {
      */
     public void setTestNameItems(List<ListTestNameItems> passTestNameItems)
     {
+
+        //update testNameItems from db
+        testNameItems = readTestNameItems();
+
+        boolean insertItem;
+        boolean deleteItem;
+        ArrayList<TestNameItem> deleteList = new ArrayList<>();
+        ArrayList<TestNameItem> insertList = new ArrayList<>();
+
         try
         {
-            //update testNameItems from db
-            testNameItems = readTestNameItems();
-
-            boolean insertItem;
-            boolean deleteItem;
-            ArrayList<TestNameItem> deleteList = new ArrayList<>();
-            ArrayList<TestNameItem> insertList = new ArrayList<>();
-
-
                 //if TestNameItem is in TestNameItems, but not in  passTestNameItems, delete
                 for (TestNameItem testItem : testNameItems)  //exists in items
                 {
@@ -115,21 +115,28 @@ public class TestNameItemDAO {
                 {
                     for(Item item: ltni.getItems())
                     {
-                        ////insertItem = notFoundTestNameItem(ltni.getTestNameID(), item.getItemID(), testNameItems);
-                     //   if (insertItem) {
-                            //insertList.add(item);
-                      //  }
+                        insertItem = findItem(ltni.getTestNameID(), item.getItemID());
+                        if (insertItem)
+                        {
+                            insertList.add(new TestNameItem(ltni.getTestNameID(), item.getItemID()));
+                        }
                     }
                 }
 
 
-            //deleteRecords(deleteList);
-            //insertRecords(insertList);
+            deleteRecords(deleteList);
+            insertRecords(insertList);
 
             System.out.println("marked for delection");
             for (TestNameItem tni: deleteList)
             {
                 System.out.println("delete test " + tni.getTestNameID()+ " item: " + tni.getItemID());
+            }
+
+            System.out.println("marked for insertion");
+            for (TestNameItem tni: insertList)
+            {
+                System.out.println("insert test " + tni.getTestNameID()+ " item: " + tni.getItemID());
             }
 
         }
@@ -138,6 +145,8 @@ public class TestNameItemDAO {
             System.out.println(ex.toString());
             ex.printStackTrace();
         }
+
+
     }
 
     /**
@@ -165,8 +174,22 @@ public class TestNameItemDAO {
                 }
             }
         }
-
         return delete;
+    }
+
+    /**
+     * find testNameItem
+     */
+    private Boolean findItem(int passTestID, int passItemID)
+    {
+        for (TestNameItem tni: testNameItems)
+        {
+            if (tni.getTestNameID() == passTestID && tni.getItemID() == passItemID)
+            {
+                return false;
+            }
+        }
+        return true; //not found, go insert
     }
 
     /**
@@ -183,8 +206,6 @@ public class TestNameItemDAO {
                 st.setInt(1, testNameItem.getTestNameID());
                 st.setInt(2, testNameItem.getItemID());
                 st.executeUpdate();
-               // System.out.println("deleting item: " + testNameItem.getItemName() + " , Test: " +
-                 //       testNameItem.getTestName());
             }
         }
         catch (SQLException e)
@@ -214,8 +235,6 @@ public class TestNameItemDAO {
                 st.setInt(1, testNameItem.getTestNameID());
                 st.setInt(2, testNameItem.getItemID());
                 st.executeUpdate();
-                //System.out.println("inserting item: " + testNameItem.getTestName() + ", test: " +
-                  //      testNameItem.getTestName());
             }
         }
         catch (SQLException e)

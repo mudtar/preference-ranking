@@ -7,31 +7,23 @@ package edu.pcc.fbj.rankingsystem.adminsetup;
  */
 public class TestNameItem
 {
-    //SELECT PK_TestNameItemID, FK_TestNameID, FK_ItemID From FBJ_TEST_NAME_ITEM
     private int testNameItemID;
     private int testNameID;
     private int itemID;
-    //private String testName;
-    //private String itemName;
 
-    public TestNameItem(int passTestNameItemID, int passTestName, int passItemID)
+    public TestNameItem(int passTestNameID, int passItemID)
     {
-        testNameItemID = passTestNameItemID;
-        testNameID = passTestName;
+        testNameID = passTestNameID;
         itemID = passItemID;
     }
-    /*
-    public TestNameItem(String passTestName, String passItemName)
-    {
-        testName = passTestName;
-        itemName = passItemName;
-    }
-    public String getTestName()
-    { return testName;}
-    public String getItemName()
-    { return itemName;}
 
-*/
+    public TestNameItem(int passTestNameItemID,int passTestNameID, int passItemID)
+    {
+        testNameItemID = passTestNameItemID;
+        testNameID = passTestNameID;
+        itemID = passItemID;
+    }
+
     public int getTestNameID()
     { return testNameID;}
 
@@ -47,15 +39,5 @@ public class TestNameItem
         itemID = passItemID;
     }
 
-    /*
-    public void setTestName(String passTestName)
-    {
-        testName = passTestName;
-    }
-    public void setItemName(String passItemName)
-    {
-        itemName = passItemName;
-    }
 
-    */
 }
