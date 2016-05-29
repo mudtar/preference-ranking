@@ -33,11 +33,9 @@ public class RegistrationPanel
     private JPasswordField passwordTextField;
     private JPasswordField reenterPasswordTextField;
 
-
-
     String nameErrorDisplay = "<html>Username support between 6-15<br> " +
             "alphanumeric characters,<br>" +
-        "it can contain: ., -, and _ symbols.</html>";
+            "it can contain: ., -, and _ symbols.</html>";
 
     String eMailErrorDisplay = "<html>Email Address should looks like:<br>" +
             "xxxx@domain.com.</html>";
@@ -49,16 +47,10 @@ public class RegistrationPanel
     *  - Contain at least one upper case character.
     *  - Contain at least on special character from [ @ # $ % ! . ].
     */
-
    String passwordErrorDisplay = "<html>Password should be 6-10 characters long,<br>" +
            "with at least one uppercase, at least one lower case,<br>" +
            "at least one digit, no whitespace and <br>" +
            "one special character from [@ # $ % ! .].</html>";
-   //String passwordErrorDisplay ="<html>Password should be 6-10 characters long,<br>" +
-    //       "with at least one uppercase,<br> " +
-     //      "one lower case,<br>" +
-          // "one special character from [@ # $ % ! .]<br> " +
-      //     "one digit and no whitespace.</html>";
 
     public RegistrationPanel()
     {

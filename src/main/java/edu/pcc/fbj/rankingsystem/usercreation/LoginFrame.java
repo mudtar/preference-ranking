@@ -111,113 +111,85 @@ public class LoginFrame
          *  (?=\\S+$) no whitespace allowed in the entire string
          *  .{6, 10} at least 6 characters
          */
-
-        //String PASSWORD_REGEX = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{5,10}";
         String PASSWORD_REGEX = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%!\\\\.])(?=\\S+$).{6,10}";
 
-            System.out.println("Starting LoginFrame:: loginAttempt1()function!");
-            if ((this.controller.loginAttempt1(this.loginPanel.getUserEmailTextField().trim(),
-                                              (this.loginPanel.getPasswordTextField().trim())))
-                  && (this.loginPanel.getUserEmailTextField().trim().matches(EMAIL_REGEX))
-                  &&(this.loginPanel.getPasswordTextField().trim().matches(PASSWORD_REGEX)))
+        System.out.println("Starting LoginFrame:: loginAttempt1()function!");
+        if ((this.controller.loginAttempt1(this.loginPanel.getUserEmailTextField().trim(),
+                                          (this.loginPanel.getPasswordTextField().trim())))
+              && (this.loginPanel.getUserEmailTextField().trim().matches(EMAIL_REGEX))
+              &&(this.loginPanel.getPasswordTextField().trim().matches(PASSWORD_REGEX)))
 
+        {
+            System.out.println("LoginFrame::loginAttempt()");
+            this.controller.login();
+
+            if (this.controller.checkUserAccessRoleForAdmin())
             {
-                System.out.println("LoginFrame::loginAttempt()");
-                this.controller.login();
-
-                if (this.controller.checkUserAccessRoleForAdmin())
-                {
-                    this.controller.launchAdminTestSetup();
-                }
-                if (this.controller.checkUserAccessRoleForUser())
-                {
-                    this.controller.launchUserTestFrame();
-                }
-             }
-             else if (this.loginPanel.getUserEmailTextField().trim().equalsIgnoreCase(""))
+                this.controller.launchAdminTestSetup();
+            }
+            if (this.controller.checkUserAccessRoleForUser())
             {
-                invalidEmailFormatMessage();
-                this.loginPanel.setUserEmailTextField("");
-                JTextField temp =  LoginFrame.this.loginPanel.getLoginEmailControl();
-                temp.requestFocus();
+                this.controller.launchUserTestFrame();
             }
-            else if (!this.loginPanel.getUserEmailTextField().trim().matches(EMAIL_REGEX))
-            {
-                invalidEmailFormatMessage();
-                //this.loginPanel.setUserEmailTextField("");
-                JTextField temp =  LoginFrame.this.loginPanel.getLoginEmailControl();
-                temp.requestFocus();
-            }
-            else if (this.loginPanel.getPasswordTextField().trim().equalsIgnoreCase(""))
-            {
-                invalidPasswordFormatMessage();
-                //emptyPasswordMessage();
-                this.loginPanel.setPasswordTextField("");
-                JTextField temp =  LoginFrame.this.loginPanel.getLoginPasswordControl();
-                temp.requestFocus();
-            }
-            else if (!this.loginPanel.getPasswordTextField().trim().matches(PASSWORD_REGEX))
-            {
-                invalidPasswordFormatMessage();
-                this.loginPanel.setPasswordTextField("");
-                JTextField temp =  LoginFrame.this.loginPanel.getLoginPasswordControl();
-                temp.requestFocus();
-
-            }
-           else {
-                invalidMessage();
-                System.out.println("LoginFrame:: Invalid Email & Password-> LoginAttempt Failed)");
-                //this.loginPanel.setUserEmailTextField("");
-                this.loginPanel.setPasswordTextField("");
-                JTextField temp = LoginFrame.this.loginPanel.getLoginEmailControl();
-                temp.requestFocus();
-            }
-
-        }
-
-        public void invalidEmailFormatMessage()
+         }
+         else if (this.loginPanel.getUserEmailTextField().trim().equalsIgnoreCase(""))
         {
-               JOptionPane.showMessageDialog(null, "'" + this.loginPanel.getUserEmailTextField().trim()
-                    + "' is not a valid email or invalid format (must be in the format i.e user@domain.com.)",
-                    "Login Failed - Invalid Email Format", 2);
+            invalidEmailFormatMessage();
+            this.loginPanel.setUserEmailTextField("");
+            JTextField temp =  LoginFrame.this.loginPanel.getLoginEmailControl();
+            temp.requestFocus();
+        }
+        else if (!this.loginPanel.getUserEmailTextField().trim().matches(EMAIL_REGEX))
+        {
+            invalidEmailFormatMessage();
+            JTextField temp =  LoginFrame.this.loginPanel.getLoginEmailControl();
+            temp.requestFocus();
+        }
+        else if (this.loginPanel.getPasswordTextField().trim().equalsIgnoreCase(""))
+        {
+            invalidPasswordFormatMessage();
+            this.loginPanel.setPasswordTextField("");
+            JTextField temp =  LoginFrame.this.loginPanel.getLoginPasswordControl();
+            temp.requestFocus();
+        }
+        else if (!this.loginPanel.getPasswordTextField().trim().matches(PASSWORD_REGEX))
+        {
+            invalidPasswordFormatMessage();
+            this.loginPanel.setPasswordTextField("");
+            JTextField temp =  LoginFrame.this.loginPanel.getLoginPasswordControl();
+            temp.requestFocus();
+
+        }
+       else {
+            invalidMessage();
+            System.out.println("LoginFrame:: Invalid Email & Password-> LoginAttempt Failed)");
+            this.loginPanel.setPasswordTextField("");
+            JTextField temp = LoginFrame.this.loginPanel.getLoginEmailControl();
+            temp.requestFocus();
         }
 
-        public void invalidMessage()
-        {
-            JOptionPane.showMessageDialog(null, "'" +
-                   "' This is either not a registered email or password, please verify information!",
-                    "Login Failed", 2);
-        }
-
-        public void invalidEmailMessage()
-        {
-            JOptionPane.showMessageDialog(null, "'" + this.loginPanel.getUserEmailTextField().trim() +
-                            "' is not a registered email or password, please verify information!",
-                    "Login Failed - Invalid Email", 2);
-        }
-       public void emptyEmailMessage()
-        {
-            JOptionPane.showMessageDialog(null, "Email field must not be empty " +
-                    "and must match an email in the database.", "Login Failed - Empty Email", 2);
-        }
-
-        public void emptyPasswordMessage()
-        {
-            JOptionPane.showMessageDialog(null, "Password field must not be empty.", "Login Failed - Empty Password", 2);
-        }
-
-        public void invalidPasswordFormatMessage()
-        {
-            JOptionPane.showMessageDialog(null, "'" + this.loginPanel.getPasswordTextField().trim()
-                            + "' is either not a valid password format or registered password. " +
-                  "Please reenter the password. ", "Login Failed " +
-                    "- Invalid password Format", 2);
-        }
-
-        public void invalidPasswordMessage()
-        {
-            JOptionPane.showMessageDialog(null, "'" + this.loginPanel.getPasswordTextField().trim()
-                    + "' is not a registered password.", "Login Failed - Invalid Password", 2);
-        }
     }
+
+    public void invalidEmailFormatMessage()
+    {
+           JOptionPane.showMessageDialog(null, "'" + this.loginPanel.getUserEmailTextField().trim()
+                + "' is not a valid email or invalid format (must be in the format i.e user@domain.com.)",
+                "Login Failed - Invalid Email Format", 2);
+    }
+
+    public void invalidMessage()
+    {
+        JOptionPane.showMessageDialog(null, "'" +
+               "' This is either not a registered email or password, please verify information!",
+                "Login Failed", 2);
+    }
+
+    public void invalidPasswordFormatMessage()
+    {
+        JOptionPane.showMessageDialog(null, "'" + this.loginPanel.getPasswordTextField().trim()
+                        + "' is either not a valid password format or registered password. " +
+              "Please reenter the password. ", "Login Failed " +
+                "- Invalid password Format", 2);
+    }
+}
 

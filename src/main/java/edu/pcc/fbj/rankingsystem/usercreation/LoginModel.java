@@ -72,30 +72,6 @@ public class LoginModel
         this.user.setUserAccessRole(userAccessRole);
     }
 
-    /**
-     * Get the user's name
-     * @return user's name
-     */
-    public String getUsername()
-    {
-        return this.user.getUsername();
-    }
-
-    public String getUserEmail()
-    {
-       return this.user.getUserEmail();
-    }
-
-    public void setUserEmail(String email)
-    {
-      this.email = email;
-    }
-
-    public void setUserPassword(String password)
-    {
-      this.password = password;
-    }
-
     public String getPassword()
     {
         return this.user.getPassword();
