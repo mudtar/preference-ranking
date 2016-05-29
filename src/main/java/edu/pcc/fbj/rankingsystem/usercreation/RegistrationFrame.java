@@ -49,9 +49,9 @@ public class RegistrationFrame
      *  - Contain at least one upper case character.
      *  - Contain at least on special character from [ @ # $ % ! . ].
      */
-    //String PASSWORD_REGEX = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{6,10}";
+
     String PASSWORD_REGEX = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%!\\\\.])(?=\\S+$).{6,10}";
-    //String PASSWORD_REGEX = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{6,10}";
+
     /**
      * constructor of the class
      */
@@ -72,7 +72,6 @@ public class RegistrationFrame
         this.registrationPanel = new RegistrationPanel();
         this.registrationPanel.requestFocus();
         System.out.println("RegistrationPanel");
-        //RegistrationFrame.this.resetErrorLabelVisibility(RegistrationFrame.this.registrationPanel);
 
         this.registrationPanel.addSubmitButtonActionListener(new ActionListener()
         {
@@ -115,10 +114,6 @@ public class RegistrationFrame
                 RegistrationFrame.this.invalidPasswordFormatMessage(RegistrationFrame.this.registrationPanel);
 
             }
-           // else if (RegistrationFrame.this.registrationPanel.getReenterPassword().trim().equals(""))
-           // {
-                //RegistrationFrame.this.emptyReenterPasswordMessage(RegistrationFrame.this.registrationPanel);
-          //  }
             else if (!RegistrationFrame.this.registrationPanel.getPassword().trim()
                     .equalsIgnoreCase(RegistrationFrame.this.registrationPanel.getReenterPassword().trim()))
 
@@ -137,7 +132,6 @@ public class RegistrationFrame
                 RegistrationFrame.this.controller.saveUser(user);
                 int userID = RegistrationFrame.this.controller.getUserID(RegistrationFrame.
                         this.registrationPanel.getUsername());
-                // RegistrationFrame.this.controller.saveUserAccess(userID);
                 RegistrationFrame.this.controller.hideRegistration();
 
                 String email = RegistrationFrame.this.registrationPanel.getEmail().trim();
@@ -186,12 +180,10 @@ public class RegistrationFrame
                 + "' Is Already Taken", 2);
         JTextField temp =  RegistrationFrame.this.registrationPanel.getEmailControl();
         temp.requestFocus();
-        //this.registrationPanel.setEmailTextField("");
     }
 
     private void validUsernameMessage(RegistrationPanel registrationPanel)
     {
-        //registrationPanel.setPasswordErrorLabelVisibility(true);
 
         JOptionPane.showMessageDialog(null, "The username: '" + registrationPanel.getUsername().trim()
                 + "' is available!", "Username  '" + registrationPanel.getUsername().trim()
@@ -208,9 +200,6 @@ public class RegistrationFrame
     private void emptyEmailMessage(RegistrationPanel registrationPanel)
     {
         registrationPanel.setEmailErrorLabelVisibility(true);
-        ////JOptionPane.showMessageDialog(registrationPanel, "Email format " +
-        //        "should looks something like i.e yyyy@yahoo.com", "Invalid Email",
-        //        JOptionPane.ERROR_MESSAGE);
         JTextField temp =  RegistrationFrame.this.registrationPanel.getEmailControl();
         temp.requestFocus();
 
@@ -219,33 +208,21 @@ public class RegistrationFrame
     private void invalidEmailFormatMessage(RegistrationPanel registrationPanel)
     {
         registrationPanel.setEmailErrorLabelVisibility(true);
-        //JOptionPane.showMessageDialog(registrationPanel, "Email format " +
-        //        "should looks something like i.e yyyy@yahoo.com.", "Invalid Email Format",
-       //         JOptionPane.ERROR_MESSAGE);
         JTextField temp =  RegistrationFrame.this.registrationPanel.getEmailControl();
         temp.requestFocus();
-        //this.registrationPanel.setEmailTextField("");
     }
 
     private void invalidPasswordFormatMessage(RegistrationPanel registrationPanel)
     {
        registrationPanel.setPasswordErrorLabelVisibility(true);
-        /*
-       JOptionPane.showMessageDialog(registrationPanel,
-                "Password should be at least 6 characters,\n " +
-                "at least one uppercase, " + " at least one lowercase,\n " +
-                "at least one digit, and no whitespace.\n "
-                , "Invalid Password Format", JOptionPane.ERROR_MESSAGE);*/
-        JTextField temp =  RegistrationFrame.this.registrationPanel.getPasswordControl();
-        temp.requestFocus();
-        this.registrationPanel.setPasswordTextField("");
+       JTextField temp =  RegistrationFrame.this.registrationPanel.getPasswordControl();
+       temp.requestFocus();
+       this.registrationPanel.setPasswordTextField("");
     }
 
     private void emptyPasswordMessage(RegistrationPanel registrationPanel)
     {
         registrationPanel.setPasswordErrorLabelVisibility(true);
-        //JOptionPane.showMessageDialog(registrationPanel, "Password can not be empty, " +
-        //        "please enter password field.", "Password Field Empty", JOptionPane.ERROR_MESSAGE);
         JTextField temp =  RegistrationFrame.this.registrationPanel.getPasswordControl();
         temp.requestFocus();
     }
@@ -253,9 +230,6 @@ public class RegistrationFrame
     private void  emptyReenterPasswordMessage(RegistrationPanel registrationPanel)
     {
         registrationPanel.setReenterPasswordErrorLabelVisibility(true);
-        //JOptionPane.showMessageDialog(registrationPanel, "Reenter Password can not be empty, " +
-        //        "please fill in the reenter password field.",
-        //       "Reenter Password Field Empty", JOptionPane.ERROR_MESSAGE);
         JTextField temp =  RegistrationFrame.this.registrationPanel.getReenterPasswordControl();
         temp.requestFocus();
     }
@@ -263,8 +237,6 @@ public class RegistrationFrame
     private void emptyNameMessage(RegistrationPanel registrationPanel)
     {
         registrationPanel.setUsernameErrorLabelVisibility(true);
-        //JOptionPane.showMessageDialog(null, "Name can be 2-25 characters long, it can contain  " +
-        //        " ., -, _ symbols.", "Empty Name", 1);
         JTextField temp =  RegistrationFrame.this.registrationPanel.getNameControl();
         temp.requestFocus();
     }
@@ -272,11 +244,9 @@ public class RegistrationFrame
     private void noMatchPasswordField(RegistrationPanel registrationPanel)
     {
         registrationPanel.setReenterPasswordErrorLabelVisibility(true);
-        //JOptionPane.showMessageDialog(null, "Both Password fields must match, " +
-        //        "please reenter password fields.", "Empty NoMatchPassword", 1);
         JTextField temp =  RegistrationFrame.this.registrationPanel.getReenterPasswordControl();
         temp.requestFocus();
-       this.registrationPanel.setReenterPasswordTextField("");
+        this.registrationPanel.setReenterPasswordTextField("");
     }
 
     private boolean noEmptyRegistrationTextFields(RegistrationPanel registrationPanel)

@@ -73,12 +73,6 @@ class PreferencePairs
     private int userID;
 
     /**
-     * The preferenceResult is used to keep track of the previous store preferences
-     * It will be used to highlight the result in the back button
-     */
-    private int preferenceResult;
-
-    /**
      * Constructs the PreferencePairs object by getting the items from
      * the database and putting them into pairs.
      *
@@ -263,9 +257,7 @@ class PreferencePairs
     // stored in the current PreferencePair.
     void registerPreference(int option1, int option2, int result)
     {
-        preferenceResult = result;
         preferencePairs.get(preferencePairIndex).setPreference(result);
-
     }
 
     /**
@@ -372,10 +364,5 @@ class PreferencePairs
                 ";");
             stmt.close();
         }
-    }
-
-    int getPreferenceResult()
-    {
-        return preferenceResult;
     }
 }

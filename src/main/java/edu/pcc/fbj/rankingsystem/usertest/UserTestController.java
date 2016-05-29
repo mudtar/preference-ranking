@@ -209,7 +209,6 @@ public class UserTestController implements Initializable
                 tie.setSelected(true);
                 break;
         }
-        //preferencePair.getPreference();
 
     }
 
@@ -251,25 +250,6 @@ public class UserTestController implements Initializable
             // buttons to be updated with new items.
             selectedToggle.setSelected(false);
         }
-
-        //tempPref.forEach(x-> System.out.println("key: " + x.getKey() + " :value " +  x.getValue()));
-/*
-      if (preferencePairs.getPreferenceResult() == -1)
-       {
-          option1.setSelected(true);
-        }
-      else if (preferencePairs.getPreferenceResult() == 1)
-      {
-          option2.setSelected(true);
-     }
-     else
-      {
-          tie.setSelected(true);
-      }
-*/
-        //System.out.println("testing");
-
-        //tempPref.forEach(x-> System.out.println("key: " + x.getKey() + " :value " +  x.getValue()));
 
         // NOTE: Reselect the proper toggle on the new screen after going back based on what the
         // stored preference for this screen is.
