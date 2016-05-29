@@ -196,6 +196,21 @@ public class UserTestController implements Initializable
         // Create the text labels for the buttons from the items' names.
         option1.setText(preferencePair.getOption1().getName());
         option2.setText(preferencePair.getOption2().getName());
+
+        switch (preferencePair.getPreference())
+        {
+            case -1:
+                option1.setSelected(true);
+                break;
+            case 1:
+                option2.setSelected(true);
+                break;
+            case 0:
+                tie.setSelected(true);
+                break;
+        }
+        //preferencePair.getPreference();
+
     }
 
     private void updateOptionsNext() throws IndexOutOfBoundsException
@@ -238,20 +253,20 @@ public class UserTestController implements Initializable
         }
 
         //tempPref.forEach(x-> System.out.println("key: " + x.getKey() + " :value " +  x.getValue()));
-
-       // if (preferences.getPreferenceResult() == -1)
-       // {
-      //      option1.setSelected(true);
-      //  }
-      //  else if (preferences.getPreferenceResult() == 1)
-      //  {
-      //      option2.setSelected(true);
-       // }
-      //  else
-       // {
-      //      tie.setSelected(true);
-      //  }
-
+/*
+      if (preferencePairs.getPreferenceResult() == -1)
+       {
+          option1.setSelected(true);
+        }
+      else if (preferencePairs.getPreferenceResult() == 1)
+      {
+          option2.setSelected(true);
+     }
+     else
+      {
+          tie.setSelected(true);
+      }
+*/
         //System.out.println("testing");
 
         //tempPref.forEach(x-> System.out.println("key: " + x.getKey() + " :value " +  x.getValue()));

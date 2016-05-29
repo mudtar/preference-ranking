@@ -19,7 +19,7 @@ class PreferencePair
      *      0 is a tie
      *      1 is a loss for option1 and a win for option2
      */
-    private int preference;
+    private int preference = -2;
 
     PreferencePair(Item option1, Item option2)
     {
