@@ -537,7 +537,8 @@ public class MultiTabDoc {
         try
         {
             //remove item from list model and items
-            items.forEach(i -> {if(i.toString().equals(itemListItemControl.getSelectedValue())) items.remove(i);});
+            items.remove(itemListItemControl.getSelectedIndex());
+
             itemListModel.remove(itemListItemControl.getSelectedIndex());
 
             // set data in itemList
