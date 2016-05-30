@@ -22,7 +22,7 @@ public class ReportMain
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         AdminDashboard dashboard = new AdminDashboard();
-        frame.setPreferredSize(new Dimension(480,320));
+        frame.setPreferredSize(new Dimension(400,300));
         frame.setContentPane(dashboard);
 
         frame.setLocationByPlatform(true);

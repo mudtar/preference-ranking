@@ -79,8 +79,10 @@ public interface ReportDAO {
     String getUserEmail(int index);
     Vector<String> getUserTestID(String email, String testName);
     Vector<String> getUserTestNameList(String email);
-    Object[][] getUserTestResult(String email, String testID);
-    List<String> getUserTestTableColumns(String email, String testID);
+    //Object[][] getUserTestResult(String email, String testID);
+    //List<String> getUserTestTableColumns(String email, String testID);
+    Object[][] getUserTestResult(HashMap<String, Object> param);
+    List<String> getUserTestTableColumns(HashMap<String, Object> param);
     Connection DBConnection();
     String getMessage();
     void setMessage(String msg);

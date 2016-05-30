@@ -1,9 +1,6 @@
 package edu.pcc.fbj.rankingsystem.resultreporting.dao;
 
-import edu.pcc.fbj.rankingsystem.resultreporting.BasicReportDB;
-import edu.pcc.fbj.rankingsystem.resultreporting.MatrixReportDB;
-import edu.pcc.fbj.rankingsystem.resultreporting.ReportDB;
-import edu.pcc.fbj.rankingsystem.resultreporting.StatisticsReportDB;
+import edu.pcc.fbj.rankingsystem.resultreporting.*;
 
 /**
  * Data access object factory used to have access to DAO
@@ -18,7 +15,10 @@ public class ReportDAOFactory {
     public static ReportDAO getMatrixReportDAO() {
         return new MatrixReportDB();
     }
-    public static ReportDAO getStatisticsReportDAO() {
-        return new StatisticsReportDB();
+    public static ReportDAO getStatisticsFirsrChoiceReportDAO() {
+        return new StatisticsFirstChoiceReportDB();
+    }
+    public static ReportDAO getStatisticsXOverYReportDAO() {
+        return new StatisticsXOverYReportDB();
     }
 }

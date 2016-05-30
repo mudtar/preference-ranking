@@ -22,12 +22,13 @@ public class MatrixReportDB extends ReportDB implements ReportDAO
     }
 
     /**
-     * Retrieve user test result according to user's email
-     * @param   email String
-     * @return List<ReportTestResult>
+     * Retrieve test result
+     *
+     * @param param HashMap<String, Object>
+     * @return Object[][]
      */
     @Override
-    public Object[][] getUserTestResult(String email, String testID)
+    public Object[][] getUserTestResult(HashMap<String, Object> param)
     {
         List<ReportTestResult> results = new ArrayList<>();
 
@@ -36,8 +37,8 @@ public class MatrixReportDB extends ReportDB implements ReportDAO
                 PreparedStatement stmt = connection.prepareStatement(GET_USER_MATRIX_REPORT_SQL)
         )
         {
-            stmt.setString(1, email);
-            stmt.setInt(2, Integer.parseInt(testID));
+            stmt.setString(1, (String)param.get("email"));
+            stmt.setInt(2, Integer.parseInt((String)param.get("testID")));
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 results.add(new ReportTestResult(
@@ -64,11 +65,13 @@ public class MatrixReportDB extends ReportDB implements ReportDAO
     }
 
     /**
+     * Retrieve column title for report
      *
-     * @return column
+     * @param param HashMap<String, Object>
+     * @return  List<String>
      */
     @Override
-    public List<String> getUserTestTableColumns(String email, String testID)
+    public List<String> getUserTestTableColumns(HashMap<String, Object> param)
     {
         List<String> results = new ArrayList<>();
 
@@ -77,8 +80,8 @@ public class MatrixReportDB extends ReportDB implements ReportDAO
                 PreparedStatement stmt = connection.prepareStatement(GET_USER_MATRIX_ITEMS_SQL)
         )
         {
-            stmt.setString(1, email);
-            stmt.setInt(2, Integer.parseInt(testID));
+            stmt.setString(1, (String)param.get("email"));
+            stmt.setInt(2, Integer.parseInt((String)param.get("testID")));
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 results.add(rs.getString("Item1"));

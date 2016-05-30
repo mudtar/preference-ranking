@@ -2,6 +2,7 @@ package edu.pcc.fbj.rankingsystem.resultreporting;
 
 import edu.pcc.fbj.rankingsystem.resultreporting.dao.ReportDAO;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -12,7 +13,7 @@ import java.util.List;
  */
 public class ReportMsgProcess implements Runnable
 {
-    private List<ReportDAO> dao;
+    private HashMap<String, ReportDAO> dao;
     private ReportPanel reportPane;
 
     /**
@@ -20,7 +21,7 @@ public class ReportMsgProcess implements Runnable
      * @param dao ReportDAO
      * @param reportPane ReportPanel
      */
-    public ReportMsgProcess(List<ReportDAO>  dao, ReportPanel reportPane)
+    public ReportMsgProcess(HashMap<String, ReportDAO> dao, ReportPanel reportPane)
     {
         this.dao = dao;
         this.reportPane = reportPane;
@@ -34,7 +35,7 @@ public class ReportMsgProcess implements Runnable
         System.out.println("Start a message processing thread");
         while(reportPane.getSignal() != Signal.DATABASE_SIGNAL_THREAD_TERMINATE)
         {
-            reportPane.setLabelText(dao.get(0).getMessage());
+            reportPane.setLabelText(dao.get("Basic").getMessage());
             try
             {
                 Thread.sleep(100);
