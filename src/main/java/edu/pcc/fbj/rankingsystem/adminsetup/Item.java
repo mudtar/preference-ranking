@@ -10,6 +10,7 @@ import java.awt.*;
  */
 public class Item
 {
+    private int itemID;
     private String name;
     private Image image;
 
@@ -29,6 +30,28 @@ public class Item
      */
     public Item(String passName, Image passImage)
     {
+        name = passName;
+        image = passImage;
+    }
+
+    /**
+     * constructor for the Item object
+     * @param passName
+     */
+    public Item(int passItemID, String passName)
+    {
+        itemID = passItemID;
+        name = passName;
+    }
+
+    /**
+     * constructor for the Item object
+     * @param passName
+     * @param passImage
+     */
+    public Item(int passItemID, String passName, Image passImage)
+    {
+        itemID = passItemID;
         name = passName;
         image = passImage;
     }
@@ -65,4 +88,14 @@ public class Item
     {
         image = passImage;
     }
+
+    /**
+     * Method to return icon independent of other variables of item object
+     * @return icon
+     */
+    public int getItemID()
+    {
+        return itemID;
+    }
+
 }

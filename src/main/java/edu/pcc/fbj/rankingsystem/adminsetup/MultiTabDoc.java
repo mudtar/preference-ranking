@@ -39,7 +39,10 @@ public class MultiTabDoc {
     private DefaultListModel testListModel = new DefaultListModel();
     private DefaultListModel assignedListModel = new DefaultListModel();
     private List<Item> items;
-    private List<Item> testItems;
+
+    private List<ListTestNameItems> comprehensiveTestItemList = new ArrayList();
+
+    //private List<TestNameItem> currentTestNameItems = new ArrayList<>();
     private List<TestName> testNames;
     private Boolean isGood;
 
@@ -82,6 +85,7 @@ public class MultiTabDoc {
         testListTestControl.addListSelectionListener(e ->
             {
                 checkListSelection(testListTestControl, removeTestButtonTestControl);
+                if (testListTestControl.getSelectedIndex() != -1) itemListTestControl.setEnabled(true);
                 loadItemsForSelectedTest();
             });
 
@@ -121,6 +125,8 @@ public class MultiTabDoc {
             defaultImageIcon = new ImageIcon(defaultImage);
 
             setInitialFocus();
+
+            //currentTestNameItems = AdminSetupController.getTestNameItems();
 
             //List<Integer> uniqueItemsUsed = AdminSetupController.getUniqueItemsUsed();
             //uniqueItemsUsed.forEach(i -> System.out.println(i));
@@ -191,9 +197,25 @@ public class MultiTabDoc {
         //if not assign it
         if (assignedListModel.indexOf(itemListTestControl.getSelectedValue()) == -1)
         {
-            assignedListModel.addElement(itemListTestControl.getSelectedValue());
-            testItems.add(new Item(itemListTestControl.getSelectedValue().toString()));
-            assignedItemListTestControl.setModel(assignedListModel);
+            for (ListTestNameItems ltni: comprehensiveTestItemList)
+            {
+                if (ltni.getTestName().equals(testListTestControl.getSelectedValue()))
+                {
+                    for (String i: ltni.getTestnameItems())
+                    {
+                        if (itemListTestControl.getSelectedValue().equals(i))
+                        {
+                            return;
+                        }
+                    }
+
+                    //add item to list
+                    assignedListModel.addElement(itemListTestControl.getSelectedValue());
+                    ltni.setTestNameItem(itemListTestControl.getSelectedValue().toString());
+                    assignedItemListTestControl.setModel(assignedListModel);
+                }
+
+            }
         }
     }
 
@@ -202,10 +224,16 @@ public class MultiTabDoc {
      */
     private void removeItemFromTestList()
     {
-        testItems.forEach(i -> {if(i.toString().equals(testListTestControl.getSelectedValue())) testItems.remove(i);});
-        assignedListModel.removeElementAt(assignedItemListTestControl.getSelectedIndex());
-
-        assignedItemListTestControl.setModel(assignedListModel);
+        for (ListTestNameItems ltni: comprehensiveTestItemList)
+        {
+            if (ltni.getTestName().equals(testListTestControl.getSelectedValue()))
+            {
+                ltni.deleteTestNameItem(assignedItemListTestControl.getSelectedValue().toString());
+                assignedListModel.remove(assignedItemListTestControl.getSelectedIndex());
+                assignedItemListTestControl.setModel(assignedListModel);
+                return;
+            }
+        }
     }
 
     /**
@@ -213,15 +241,40 @@ public class MultiTabDoc {
      */
     private void loadItemsForSelectedTest()
     {
-        if (testListTestControl.getSelectedIndex() != -1)
+        Boolean addNewList = true;
+        assignedListModel.clear();
+
+        //do we have that item data already?
+        //iterate through ListTestNameItems to see if we spot existing list
+        for (ListTestNameItems ltni: comprehensiveTestItemList)
         {
-            AdminSetupController.getTestItems();
-            //load list model for selected test.....
-            //////////////////////////////////////////////////////////////////////////
+            if (ltni.getTestName().equals(testListTestControl.getSelectedValue()))
+            {
+             //found test populate items
+                addNewList = false;
+                for(String i: ltni.getTestnameItems())
+                {
+                    assignedListModel.addElement(i);
+                }
+            }
         }
+
+        if (addNewList)
+        {
+            //fetch items for test, and populate list
+            ListTestNameItems listTestNameItems =
+                    AdminSetupController.getTestNameItems(testListTestControl.getSelectedValue().toString());
+
+            comprehensiveTestItemList.add(listTestNameItems);
+
+            for (String i : listTestNameItems.getTestnameItems()) {
+                assignedListModel.addElement(i);
+            }
+        }
+
+        assignedItemListTestControl.setModel(assignedListModel);
+
     }
-
-
 
     /**
      * Get the image from the fileChooser, and display at appropriate size
@@ -337,6 +390,7 @@ public class MultiTabDoc {
         {
             // add items to a default list
             testListModel.addElement(testTextFieldTestControl.getText());
+            testNames.add(new TestName(testTextFieldTestControl.getText()));
             testTextFieldTestControl.setText("");
 
             // set data in testList
@@ -375,20 +429,22 @@ public class MultiTabDoc {
     private void finishAdminSetup()
     {
         //ArrayList<Item> passItems = new ArrayList<>();
-        ArrayList<TestName> passTestNames = new ArrayList<>();
+        //ArrayList<TestName> passTestNames = new ArrayList<>();
 
-        for(int i = 0; i < testListModel.size(); i++)
+      /*  for(int i = 0; i < testListModel.size(); i++)
         {
             passTestNames.add(new TestName(testListModel.getElementAt(i).toString()));
         }
+        */
+        //String testName = testListTestControl.getSelect
 
         resetErrorLabel(errorLabelItemControl);
         resetErrorLabel(errorLabelTestControl);
         itemTextFieldItemControl.setText("");
         testTextFieldTestControl.setText("");
         AdminSetupController.setItems(items);
-        AdminSetupController.setTestNames(passTestNames);
-
+        AdminSetupController.setTestNames(testNames);
+        AdminSetupController.setTestItems(comprehensiveTestItemList);
         AdminSetupController.closeFrame();
     }
 
@@ -448,6 +504,7 @@ public class MultiTabDoc {
         testListTestControl.setModel(testListModel);
     }
 
+
     /**
      * reset error label blank
      * @param passLabel
@@ -480,7 +537,8 @@ public class MultiTabDoc {
         try
         {
             //remove item from list model and items
-            items.forEach(i -> {if(i.toString().equals(itemListItemControl.getSelectedValue())) items.remove(i);});
+            items.remove(itemListItemControl.getSelectedIndex());
+
             itemListModel.remove(itemListItemControl.getSelectedIndex());
 
             // set data in itemList

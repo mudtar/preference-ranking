@@ -267,7 +267,9 @@
                 <children>
                   <component id="aa45d" class="javax.swing.JList" binding="itemListTestControl">
                     <constraints/>
-                    <properties/>
+                    <properties>
+                      <enabled value="false"/>
+                    </properties>
                   </component>
                 </children>
               </scrollpane>

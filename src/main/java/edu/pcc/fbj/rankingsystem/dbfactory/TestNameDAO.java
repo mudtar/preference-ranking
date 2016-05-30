@@ -19,9 +19,10 @@ import java.util.List;
 public class TestNameDAO
 {
     //Queries
-    private static final String GET_TEST_NAMES_SQL = "SELECT PK_TestNameID, Name FROM FBJ_TEST_NAME";
-    private static final String DELETE_TEST_NAME_SQL = "DELETE FROM FBJ_TEST_NAME WHERE Name = ?";
-    private static final String INSERT_TEST_NAME_SQL = "INSERT INTO FBJ_TEST_NAME(Name) VALUES(?)";
+    private static final String GET_TEST_NAMES_SQL = "SELECT PK_TestNameID, Name FROM FBJ_TEST_NAME;";
+    private static final String GET_TEST_ID_SQL = "SELECT PK_TestNameID FROM FBJ_TEST_NAME WHERE Name = ?;";
+    private static final String DELETE_TEST_NAME_SQL = "DELETE FROM FBJ_TEST_NAME WHERE Name = ?;";
+    private static final String INSERT_TEST_NAME_SQL = "INSERT INTO FBJ_TEST_NAME(Name) VALUES(?);";
 
     //Object to hold items
     private Connection connection = null;
@@ -195,6 +196,33 @@ public class TestNameDAO
             System.out.println(ex.toString());
             ex.printStackTrace();
         }
+    }
+
+
+    public int getTestNameID(String passTestName)
+    {
+        try
+        {
+            PreparedStatement st = connection.prepareStatement(GET_TEST_ID_SQL);
+
+            st.setString(1, passTestName);
+            ResultSet rs = st.executeQuery();
+            if(rs.next()){
+                return rs.getInt("PK_TestNameID");
+            }
+
+        }
+        catch (SQLException e)
+        {
+            System.err.println("ERROR: " + e.getMessage());
+            e.printStackTrace();
+        }
+        catch(Exception ex)
+        {
+            System.out.println(ex.toString());
+            ex.printStackTrace();
+        }
+        return -1;
     }
 
 }
