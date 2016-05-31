@@ -32,6 +32,12 @@ public class StatisticsXOverYReportDB extends ReportDB implements ReportDAO
     @Override
     public Object[][] getUserTestResult(HashMap<String, Object> param)
     {
+        if(param == null)
+        {
+            ReportLogger.LOGGER.severe("Parameter is null.");
+            return null;
+        }
+
         ArrayList<String> itemX = new ArrayList<>();
         ArrayList<String> itemY = new ArrayList<>();
         ArrayList<String> percents = new ArrayList<>();

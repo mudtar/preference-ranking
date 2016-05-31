@@ -11,6 +11,10 @@ public class ReportLogger
     public static final Logger LOGGER = Logger.getLogger(ReportLogger.class.getName());
 
 
+    /**
+     * Set log level
+     * @param level String
+     */
     public static void setLevel(String level)
     {
         switch (level)

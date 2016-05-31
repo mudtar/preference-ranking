@@ -14,7 +14,7 @@ import java.util.*;
 public class StatisticsFirstChoiceReportDB  extends ReportDB implements ReportDAO
 {
     /**
-     * Constructor
+     *  Firstchoice statistics Constructor
      */
     public StatisticsFirstChoiceReportDB()
     {
@@ -32,6 +32,12 @@ public class StatisticsFirstChoiceReportDB  extends ReportDB implements ReportDA
     {
         ArrayList<String> items = new ArrayList<>();
         ArrayList<String> percents = new ArrayList<>();
+
+        if(param == null)
+        {
+            ReportLogger.LOGGER.severe("Parameter is null.");
+            return null;
+        }
 
         setMessage(DATABASE_DATA_READING);
         try (
@@ -66,7 +72,7 @@ public class StatisticsFirstChoiceReportDB  extends ReportDB implements ReportDA
     }
 
     /**
-     *
+     * Retrieve column for statistics report
      * @param    param HashMap<String, Object> param
      * @return   List<String>
      */

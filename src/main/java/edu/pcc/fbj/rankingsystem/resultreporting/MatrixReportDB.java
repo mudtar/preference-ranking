@@ -14,6 +14,9 @@ import java.util.List;
  */
 public class MatrixReportDB extends ReportDB implements ReportDAO
 {
+    /**
+     * Matrix report db constructor
+     */
     public MatrixReportDB()
     {
     }
@@ -28,6 +31,12 @@ public class MatrixReportDB extends ReportDB implements ReportDAO
     public Object[][] getUserTestResult(HashMap<String, Object> param)
     {
         List<ReportTestResult> results = new ArrayList<>();
+
+        if(param == null)
+        {
+            ReportLogger.LOGGER.severe("Parameter is null.");
+            return null;
+        }
 
         setMessage(DATABASE_DATA_READING);
         try (
@@ -58,7 +67,7 @@ public class MatrixReportDB extends ReportDB implements ReportDAO
         }
         catch (SQLException se)
         {
-            ReportLogger.LOGGER.severe("Cannot get email list due to database exception.");
+            ReportLogger.LOGGER.severe("Cannot get test result due to database exception.");
             return null;
         }
     }
@@ -73,6 +82,12 @@ public class MatrixReportDB extends ReportDB implements ReportDAO
     public List<String> getUserTestTableColumns(HashMap<String, Object> param)
     {
         List<String> results = new ArrayList<>();
+
+        if(param == null)
+        {
+            ReportLogger.LOGGER.severe("Parameter is null.");
+            return null;
+        }
 
         setMessage(DATABASE_DATA_READING);
         try (
@@ -93,7 +108,7 @@ public class MatrixReportDB extends ReportDB implements ReportDAO
         }
         catch (SQLException se)
         {
-            ReportLogger.LOGGER.severe("Cannot get email list due to database exception.");
+            ReportLogger.LOGGER.severe("Cannot get columns due to database exception.");
             return null;
         }
     }

@@ -1,6 +1,8 @@
 package edu.pcc.fbj.rankingsystem.resultreporting;
 
 /**
+ * Define signal
+ *
  * @author David Li
  * @version 2016.05.19
  */
