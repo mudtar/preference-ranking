@@ -4,11 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Vector;
-import java.util.concurrent.ExecutorService;
 
 import edu.pcc.fbj.rankingsystem.dbfactory.RSystemConnection;
 import edu.pcc.fbj.rankingsystem.resultreporting.dao.*;
@@ -39,7 +35,7 @@ public abstract class ReportDB implements ReportDAO
     public ReportDB()
     {
         message = DATABASE_MESSAGE_INIT;
-        System.out.println("Create ReportDB.");
+        ReportLogger.LOGGER.info("Create ReportDB.");
     }
 
     /**
@@ -87,6 +83,7 @@ public abstract class ReportDB implements ReportDAO
         }
         catch (SQLException se)
         {
+            ReportLogger.LOGGER.severe("Cannot get email list due to database exception.");
             return null;
         }
     }
@@ -101,7 +98,7 @@ public abstract class ReportDB implements ReportDAO
         userTestIDList = new Vector<>();
         setMessage(DATABASE_DATA_READING);
         try (
-                PreparedStatement stmt = connection.prepareStatement(GET_USER_TEST_ID_LIST_SQL);
+                PreparedStatement stmt = connection.prepareStatement(GET_USER_TEST_ID_LIST_SQL)
         )
         {
             stmt.setString(1, email);
@@ -117,6 +114,7 @@ public abstract class ReportDB implements ReportDAO
         }
         catch (SQLException se)
         {
+            ReportLogger.LOGGER.severe("Cannot get email list due to database exception.");
             return null;
         }
     }
@@ -131,7 +129,7 @@ public abstract class ReportDB implements ReportDAO
         userTestNameList = new Vector<>();
         setMessage(DATABASE_DATA_READING);
         try (
-                PreparedStatement stmt = connection.prepareStatement(GET_USER_TEST_NAME_LIST_SQL);
+                PreparedStatement stmt = connection.prepareStatement(GET_USER_TEST_NAME_LIST_SQL)
         )
         {
             stmt.setString(1, email);
@@ -146,21 +144,10 @@ public abstract class ReportDB implements ReportDAO
         }
         catch (SQLException se)
         {
+            ReportLogger.LOGGER.severe("Cannot get email list due to database exception.");
             return null;
         }
     }
-
-    @Override
-    public String getUserEmail(int index)
-    {
-        if(userEmailList != null)
-        {
-            return userEmailList.get(index);
-        }
-        return null;
-    }
-
-
 
     /**
      * Return message such as database status, warning, or exception;
@@ -172,15 +159,6 @@ public abstract class ReportDB implements ReportDAO
     }
 
     /**
-     * Identify if current database processing is completed.
-     * @return boolean
-     */
-    @Override
-    public boolean getStatus(){
-        return message.equals(DATABASE_DATA_SELECTION);
-    }
-
-    /**
      * Set message
      * @param msg String
      */
@@ -188,7 +166,7 @@ public abstract class ReportDB implements ReportDAO
     public void setMessage(String msg)
     {
         message = msg;
-        System.out.println(message);
+        ReportLogger.LOGGER.info(message);
     }
 
 }

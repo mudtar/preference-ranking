@@ -1,7 +1,5 @@
 package edu.pcc.fbj.rankingsystem.resultreporting.dao;
 
-import edu.pcc.fbj.rankingsystem.resultreporting.ReportTestResult;
-
 import java.sql.Connection;
 import java.util.HashMap;
 import java.util.List;
@@ -76,13 +74,11 @@ public interface ReportDAO {
             " ORDER BY FBJ_USER.Email,FBJ_TEST_NAME.Name, PK_TestID, PK_ResultID";
 
     Vector<String> getUserEmailList();
-    String getUserEmail(int index);
     Vector<String> getUserTestID(String email, String testName);
     Vector<String> getUserTestNameList(String email);
-    Object[][] getUserTestResult(String email, String testID);
-    List<String> getUserTestTableColumns(String email, String testID);
+    Object[][] getUserTestResult(HashMap<String, Object> param);
+    List<String> getUserTestTableColumns(HashMap<String, Object> param);
     Connection DBConnection();
     String getMessage();
     void setMessage(String msg);
-    boolean getStatus();
 }

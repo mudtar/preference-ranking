@@ -115,10 +115,8 @@ public class ReportTestResult
     @Override
     public String toString()
     {
-        return "User Test Result-> " //+
-                 // " User Email: " + userEmail
+        return "User Test Result-> "
                 + " Item 1: " + item1Name
-                //+ " Item 2: " + item2Name
                 + " Wins: " + wins
                 + " Losses: " + losses
                 + " Ties: " + ties

@@ -26,20 +26,19 @@ public class StatisticsReportDB  extends ReportDB implements ReportDAO
 
     /**
      * Retrieve user test result according to user's email
-     * @param   email String
+     * @param   param HashMap<String, Object> param
      * @return List<ReportTestResult>
      */
     @Override
-    public Object[][] getUserTestResult(String email,  String testID)
+    public Object[][] getUserTestResult(HashMap<String, Object> param)
     {
         int numOfTester = 0;
         int numOfFirstChoice = 0;
         int percent = 0;
         int i = 0;
 
-        setMessage(DATABASE_DATA_READING);
-        Vector<String> statisticsItemList = getStatisticsItemList(email);
-        Vector<String> statisticsEmailList = getStatisticsEmailList(email);
+        Vector<String> statisticsItemList = getStatisticsItemList((String)param.get("email"));
+        Vector<String> statisticsEmailList = getStatisticsEmailList((String)param.get("email"));
         numOfTester = statisticsEmailList.size();
         Object[][] statisticsResults = new Object[statisticsItemList.size()][2];
 
@@ -49,11 +48,12 @@ public class StatisticsReportDB  extends ReportDB implements ReportDAO
             for(String tester : statisticsEmailList)
             {
 
+                setMessage(DATABASE_DATA_READING);
                 try (
-                        PreparedStatement stmt = connection.prepareStatement(GET_USER_STATISTICS_GET_RESULT_LIST_SQL);
+                        PreparedStatement stmt = connection.prepareStatement(GET_USER_STATISTICS_GET_RESULT_LIST_SQL)
                 )
                 {
-                    stmt.setString(1, email);
+                    stmt.setString(1, (String)param.get("email"));
                     stmt.setString(2, tester);
                     ResultSet rs = stmt.executeQuery();
                     while (rs.next())
@@ -82,7 +82,7 @@ public class StatisticsReportDB  extends ReportDB implements ReportDAO
 
             statisticsResults[i][0] = item;
             statisticsResults[i][1] = percent;
-            //System.out.println("Item:"+item+" -> "+percent);
+
             i++;
         }
         setMessage(DATABASE_DATA_COMPLETE);
@@ -90,11 +90,13 @@ public class StatisticsReportDB  extends ReportDB implements ReportDAO
     }
 
     /**
+     * Retrieve column for report
      *
-     * @return column
+     * @param param HashMap<String, Object> param
+     * @return List<String>
      */
     @Override
-    public List<String> getUserTestTableColumns(String email, String testID)
+    public List<String> getUserTestTableColumns(HashMap<String, Object> param)
     {
         List<String> statisticsTableColumn =  new ArrayList<>();
 
@@ -113,7 +115,7 @@ public class StatisticsReportDB  extends ReportDB implements ReportDAO
         Vector<String> statisticsEmailList = new Vector<>();
         setMessage(DATABASE_DATA_READING);
         try (
-                PreparedStatement stmt = connection.prepareStatement(GET_USER_STATISTICS_GET_EMAIL_LIST_SQL);
+                PreparedStatement stmt = connection.prepareStatement(GET_USER_STATISTICS_GET_EMAIL_LIST_SQL)
         )
         {
             stmt.setString(1, testName);
@@ -141,7 +143,7 @@ public class StatisticsReportDB  extends ReportDB implements ReportDAO
         Vector<String> statisticsItemList = new Vector<>();
         setMessage(DATABASE_DATA_READING);
         try (
-                PreparedStatement stmt = connection.prepareStatement(GET_USER_STATISTICS_GET_ITEM_LIST_SQL);
+                PreparedStatement stmt = connection.prepareStatement(GET_USER_STATISTICS_GET_ITEM_LIST_SQL)
         )
         {
             stmt.setString(1, testName);

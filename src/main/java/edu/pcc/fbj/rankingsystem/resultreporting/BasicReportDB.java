@@ -10,8 +10,8 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * @author: David Li
- * @version: 2016.05.19
+ * @author David Li
+ * @version 2016.05.19
  */
 public class BasicReportDB extends ReportDB implements ReportDAO
 {
@@ -22,11 +22,11 @@ public class BasicReportDB extends ReportDB implements ReportDAO
 
     /**
      * Retrieve user test result according to user's email
-     * @param   email String
+     * @param   param HashMap<String, Object>
      * @return List<ReportTestResult>
      */
     @Override
-    public Object[][] getUserTestResult(String email, String testID)
+    public Object[][] getUserTestResult(HashMap<String, Object> param)
     {
         List<ReportTestResult> results = new ArrayList<>();
 
@@ -35,8 +35,8 @@ public class BasicReportDB extends ReportDB implements ReportDAO
                 PreparedStatement stmt = connection.prepareStatement(GET_USER_BASIC_REPORT_SQL)
         )
         {
-            stmt.setString(1, email);
-            stmt.setInt(2, Integer.parseInt(testID));
+            stmt.setString(1, (String)param.get("email"));
+            stmt.setInt(2, Integer.parseInt((String)param.get("testID")));
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 results.add(new ReportTestResult(rs.getString("Name"),
@@ -61,16 +61,18 @@ public class BasicReportDB extends ReportDB implements ReportDAO
         }
         catch (SQLException se)
         {
+            ReportLogger.LOGGER.severe("Cannot get email list due to database exception.");
             return null;
         }
     }
 
     /**
-     *
-     * @return column
+     * retrieve column for report
+     * @param param HashMap<String, Object> param
+     * @return List<String>
      */
     @Override
-    public List<String> getUserTestTableColumns(String email, String testID)
+    public List<String> getUserTestTableColumns(HashMap<String, Object> param)
     {
         List<String> basicTableColumn =  new ArrayList<>();
         basicTableColumn.add("Item");
