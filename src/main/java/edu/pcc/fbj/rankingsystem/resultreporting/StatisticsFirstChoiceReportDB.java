@@ -2,12 +2,10 @@ package edu.pcc.fbj.rankingsystem.resultreporting;
 
 import edu.pcc.fbj.rankingsystem.resultreporting.dao.ReportDAO;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.CallableStatement;
 import java.util.*;
-import java.sql.Types;
 
 /**
  * @author David Li
@@ -39,10 +37,10 @@ public class StatisticsFirstChoiceReportDB  extends ReportDB implements ReportDA
         try (
                 CallableStatement stmt = connection.prepareCall("{call FBJ_STATISTICS_ONE_SP(?)}",
                         ResultSet.TYPE_SCROLL_INSENSITIVE,
-                        ResultSet.CONCUR_READ_ONLY);
+                        ResultSet.CONCUR_READ_ONLY)
         ) {
             stmt.setString(1, (String)param.get("TestName"));
-            boolean results = stmt.execute();
+            stmt.execute();
             ResultSet rs = stmt.getResultSet();
             while (rs.next())
             {

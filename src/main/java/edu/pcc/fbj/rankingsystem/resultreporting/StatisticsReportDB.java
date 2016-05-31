@@ -50,7 +50,7 @@ public class StatisticsReportDB  extends ReportDB implements ReportDAO
 
                 setMessage(DATABASE_DATA_READING);
                 try (
-                        PreparedStatement stmt = connection.prepareStatement(GET_USER_STATISTICS_GET_RESULT_LIST_SQL);
+                        PreparedStatement stmt = connection.prepareStatement(GET_USER_STATISTICS_GET_RESULT_LIST_SQL)
                 )
                 {
                     stmt.setString(1, (String)param.get("email"));
@@ -115,7 +115,7 @@ public class StatisticsReportDB  extends ReportDB implements ReportDAO
         Vector<String> statisticsEmailList = new Vector<>();
         setMessage(DATABASE_DATA_READING);
         try (
-                PreparedStatement stmt = connection.prepareStatement(GET_USER_STATISTICS_GET_EMAIL_LIST_SQL);
+                PreparedStatement stmt = connection.prepareStatement(GET_USER_STATISTICS_GET_EMAIL_LIST_SQL)
         )
         {
             stmt.setString(1, testName);
@@ -143,7 +143,7 @@ public class StatisticsReportDB  extends ReportDB implements ReportDAO
         Vector<String> statisticsItemList = new Vector<>();
         setMessage(DATABASE_DATA_READING);
         try (
-                PreparedStatement stmt = connection.prepareStatement(GET_USER_STATISTICS_GET_ITEM_LIST_SQL);
+                PreparedStatement stmt = connection.prepareStatement(GET_USER_STATISTICS_GET_ITEM_LIST_SQL)
         )
         {
             stmt.setString(1, testName);

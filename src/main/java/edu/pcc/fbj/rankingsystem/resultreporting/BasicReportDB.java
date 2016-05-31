@@ -10,8 +10,8 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * @author: David Li
- * @version: 2016.05.19
+ * @author David Li
+ * @version 2016.05.19
  */
 public class BasicReportDB extends ReportDB implements ReportDAO
 {

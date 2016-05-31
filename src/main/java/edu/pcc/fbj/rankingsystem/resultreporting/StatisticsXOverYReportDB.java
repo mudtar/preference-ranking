@@ -40,10 +40,10 @@ public class StatisticsXOverYReportDB extends ReportDB implements ReportDAO
         try (
                 CallableStatement stmt = connection.prepareCall("{call FBJ_STATISTICS_XOVERY_SP(?)}",
                         ResultSet.TYPE_SCROLL_INSENSITIVE,
-                        ResultSet.CONCUR_READ_ONLY);
+                        ResultSet.CONCUR_READ_ONLY)
         ) {
             stmt.setString(1, (String)param.get("TestName"));
-            boolean results = stmt.execute();
+            stmt.execute();
             ResultSet rs = stmt.getResultSet();
             while (rs.next())
             {

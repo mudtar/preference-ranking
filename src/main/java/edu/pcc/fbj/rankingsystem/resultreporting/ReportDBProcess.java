@@ -51,7 +51,7 @@ public class ReportDBProcess implements Runnable
 
         while(true)
         {
-            if(reportPane.getSignal() == signal.DATABASE_SIGNAL_UPDATE_EAMIL_LIST)
+            if(reportPane.getSignal() == signal.DATABASE_SIGNAL_UPDATE_EAMIL_LIST && userEmailList != null)
             {
                 userTestNameList = dao.get("Basic").getUserTestNameList(userEmailList.get(reportPane.getEmailIndex()));
                 reportPane.setUserTestNameListItem(userTestNameList);
@@ -60,7 +60,7 @@ public class ReportDBProcess implements Runnable
                 reportPane.setSignal(Signal.DATABASE_SIGNAL_RETRIEVE_DATA);
             }
 
-            if(reportPane.getSignal() == signal.DATABASE_SIGNAL_UPDATE_TESTNAME_LIST)
+            if(reportPane.getSignal() == signal.DATABASE_SIGNAL_UPDATE_TESTNAME_LIST && userEmailList != null && userTestNameList != null)
             {
                 userTestIDList = dao.get("Basic").getUserTestID(userEmailList.get(reportPane.getEmailIndex()), userTestNameList.get(reportPane.getTestNameIndex()));
                 reportPane.setUserTestIDListItem(userTestIDList);
@@ -152,7 +152,7 @@ public class ReportDBProcess implements Runnable
             }
             catch (InterruptedException e)
             {
-                System.out.println("Thread is interrupted!");;
+                System.out.println("Thread is interrupted!");
             }
         }
     }

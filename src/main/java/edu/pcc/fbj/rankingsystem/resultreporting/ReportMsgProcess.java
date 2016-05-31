@@ -45,7 +45,7 @@ public class ReportMsgProcess implements Runnable
                 e.printStackTrace();
             }
         }
-        reportPane.setLabelText(dao.get(0).getMessage());
+        reportPane.setLabelText(dao.get("Basic").getMessage());
         System.out.println("End a message processing thread");
 
     }

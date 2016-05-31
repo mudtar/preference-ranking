@@ -3,9 +3,7 @@ package edu.pcc.fbj.rankingsystem.resultreporting;
 import edu.pcc.fbj.rankingsystem.resultreporting.dao.ReportDAO;
 import edu.pcc.fbj.rankingsystem.resultreporting.dao.ReportDAOFactory;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -26,9 +24,7 @@ import java.util.concurrent.Executors;
  */
 public class ReportTable
 {
-
     private ReportPanel reportPane;
-    private HashMap<String, ReportDAO> dao;
 
     /**
      * Constructor - construct GUI and retrieve report data
@@ -36,7 +32,7 @@ public class ReportTable
     public ReportTable()
     {
 
-        dao = new HashMap<>();
+        HashMap<String, ReportDAO> dao = new HashMap<>();
         dao.put("Basic", ReportDAOFactory.getBasicReportDAO());
         dao.put("Matrix", ReportDAOFactory.getMatrixReportDAO());
         dao.put("Statistics.FirstChoice", ReportDAOFactory.getStatisticsFirsrChoiceReportDAO());

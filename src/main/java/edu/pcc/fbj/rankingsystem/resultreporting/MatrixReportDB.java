@@ -1,9 +1,6 @@
 package edu.pcc.fbj.rankingsystem.resultreporting;
 
-import edu.pcc.fbj.rankingsystem.dbfactory.RSystemConnection;
 import edu.pcc.fbj.rankingsystem.resultreporting.dao.ReportDAO;
-
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,8 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * @author: David li
- * @version: 2016.05.19
+ * @author David li
+ * @version 2016.05.19
  */
 public class MatrixReportDB extends ReportDB implements ReportDAO
 {
@@ -40,7 +37,8 @@ public class MatrixReportDB extends ReportDB implements ReportDAO
             stmt.setString(1, (String)param.get("email"));
             stmt.setInt(2, Integer.parseInt((String)param.get("testID")));
             ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
+            while (rs.next())
+            {
                 results.add(new ReportTestResult(
                         rs.getString("Item1"),
                         rs.getString("Item2"),
@@ -83,7 +81,8 @@ public class MatrixReportDB extends ReportDB implements ReportDAO
             stmt.setString(1, (String)param.get("email"));
             stmt.setInt(2, Integer.parseInt((String)param.get("testID")));
             ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
+            while (rs.next())
+            {
                 results.add(rs.getString("Item1"));
             }
 
