@@ -95,7 +95,7 @@ public class RegistrationPanel
         gbc_nameErrorLabel.gridy = 4;
         add(this.nameErrorLabel, gbc_nameErrorLabel);
 
-        this.eMailLabel = new JLabel("Email Adress:");
+        this.eMailLabel = new JLabel("Email Address:");
         GridBagConstraints gbc_eMailLabel = new GridBagConstraints();
         gbc_eMailLabel.anchor = 13;
         gbc_eMailLabel.insets = new Insets(0, 0, 5, 5);
@@ -249,16 +249,12 @@ public class RegistrationPanel
 
     public String getPassword()
     {
-        return this.passwordTextField.getText();
+       return String.valueOf(this.passwordTextField.getPassword());
     }
 
-    public String getReenterPassword() {
-        return this.reenterPasswordTextField.getText();
-    }
-
-    public void setEmailTextField(String value)
+    public String getReenterPassword()
     {
-        this.eMailTextField.setText(value);
+          return String.valueOf(this.reenterPasswordTextField.getPassword());
     }
 
     public void setPasswordTextField(String value)
