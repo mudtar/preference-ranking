@@ -131,7 +131,7 @@ public class LoginFrame
             {
                 this.controller.launchUserTestFrame();
             }
-         }
+        }
          else if (this.loginPanel.getUserEmailTextField().trim().equalsIgnoreCase(""))
         {
             invalidEmailFormatMessage();
@@ -160,7 +160,7 @@ public class LoginFrame
             temp.requestFocus();
 
         }
-       else {
+        else {
             invalidMessage();
             System.out.println("LoginFrame:: Invalid Email & Password-> LoginAttempt Failed)");
             this.loginPanel.setPasswordTextField("");

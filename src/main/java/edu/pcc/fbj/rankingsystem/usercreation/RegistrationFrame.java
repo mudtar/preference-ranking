@@ -166,12 +166,6 @@ public class RegistrationFrame
         this.controller = controller;
     }
 
-    private void cancelRegistrationMessage(RegistrationPanel registrationPanel)
-    {
-        JOptionPane.showMessageDialog(null, "User Registration has been cancelled. " +
-                "Returning to the login screen.", "New User Registration Cancelled", -1);
-    }
-
     private void emailAlreadyTakenUsernameMessage(RegistrationPanel registrationPanel)
     {
         JOptionPane.showMessageDialog(null, "'" + registrationPanel.getEmail().trim()
@@ -179,21 +173,6 @@ public class RegistrationFrame
                 + registrationPanel.getEmail().trim()
                 + "' Is Already Taken", 2);
         JTextField temp =  RegistrationFrame.this.registrationPanel.getEmailControl();
-        temp.requestFocus();
-    }
-
-    private void validUsernameMessage(RegistrationPanel registrationPanel)
-    {
-
-        JOptionPane.showMessageDialog(null, "The username: '" + registrationPanel.getUsername().trim()
-                + "' is available!", "Username  '" + registrationPanel.getUsername().trim()
-                + "' Is Available", 1);
-    }
-
-    private void matchPasswordField(RegistrationPanel registrationPane) {
-        JOptionPane.showMessageDialog(null, "Both Password match!",
-                "matchPassword", 1);
-        JTextField temp =  RegistrationFrame.this.registrationPanel.getPasswordControl();
         temp.requestFocus();
     }
 

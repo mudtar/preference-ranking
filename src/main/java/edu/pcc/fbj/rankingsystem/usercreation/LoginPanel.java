@@ -183,7 +183,7 @@ public class LoginPanel
 
     public String getPasswordTextField()
     {
-       return this.passwordTextField.getText();
+       return String.valueOf(this.passwordTextField.getPassword());
     }
 
     public void loginButtonClick()
