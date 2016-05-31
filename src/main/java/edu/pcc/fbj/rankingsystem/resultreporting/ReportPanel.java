@@ -759,6 +759,9 @@ public class ReportPanel extends JPanel implements ActionListener
         return signal;
     }
 
+    /**
+     * Logging signal
+     */
     private void SignalLog()
     {
         switch(signal)

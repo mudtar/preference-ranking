@@ -7,11 +7,11 @@ import edu.pcc.fbj.rankingsystem.resultreporting.*;
  * @author David Li
  * @version 2016.04.14
  */
-public class ReportDAOFactory {
+public class ReportDAOFactory
+{
     public static ReportDAO getBasicReportDAO() {
         return new BasicReportDB();
     }
-
     public static ReportDAO getMatrixReportDAO() {
         return new MatrixReportDB();
     }

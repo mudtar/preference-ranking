@@ -11,7 +11,8 @@ import java.util.Vector;
  * @author David Li
  * @version 2016.04.14
  */
-public interface ReportDAO {
+public interface ReportDAO
+{
     String DATABASE_MESSAGE_INIT = "Database initail ...";
     String DATABASE_CONNECTION_CONNECTING = "Connecting ...";
     String DATABASE_CONNECTION_FAILED = "Failed to connect!";

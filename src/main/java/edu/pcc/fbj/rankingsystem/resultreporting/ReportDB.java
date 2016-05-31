@@ -32,6 +32,9 @@ public abstract class ReportDB implements ReportDAO
     private String message;
     protected Connection connection;
 
+    /**
+     * ReportDB Constructor
+     */
     public ReportDB()
     {
         message = DATABASE_MESSAGE_INIT;

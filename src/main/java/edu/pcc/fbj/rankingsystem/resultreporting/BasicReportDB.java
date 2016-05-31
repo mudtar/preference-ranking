@@ -15,6 +15,9 @@ import java.util.List;
  */
 public class BasicReportDB extends ReportDB implements ReportDAO
 {
+    /**
+     * Basic report db constructor
+     */
     public BasicReportDB()
     {
 
@@ -29,6 +32,12 @@ public class BasicReportDB extends ReportDB implements ReportDAO
     public Object[][] getUserTestResult(HashMap<String, Object> param)
     {
         List<ReportTestResult> results = new ArrayList<>();
+
+        if(param == null)
+        {
+            ReportLogger.LOGGER.severe("Parameter is null.");
+            return null;
+        }
 
         setMessage(DATABASE_DATA_READING);
         try (
