@@ -33,6 +33,9 @@ public class ReportTable
     {
 
         HashMap<String, ReportDAO> dao = new HashMap<>();
+
+        ReportLogger.setLevel("INFO");
+
         dao.put("Basic", ReportDAOFactory.getBasicReportDAO());
         dao.put("Matrix", ReportDAOFactory.getMatrixReportDAO());
         dao.put("Statistics.FirstChoice", ReportDAOFactory.getStatisticsFirsrChoiceReportDAO());

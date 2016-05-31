@@ -60,7 +60,7 @@ public class StatisticsFirstChoiceReportDB  extends ReportDB implements ReportDA
         }
         catch (SQLException se)
         {
-            se.printStackTrace();
+            ReportLogger.LOGGER.severe("Cannot get email list due to database exception.");
             return null;
         }
     }

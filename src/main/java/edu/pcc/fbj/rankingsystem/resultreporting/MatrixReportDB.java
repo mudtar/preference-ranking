@@ -58,6 +58,7 @@ public class MatrixReportDB extends ReportDB implements ReportDAO
         }
         catch (SQLException se)
         {
+            ReportLogger.LOGGER.severe("Cannot get email list due to database exception.");
             return null;
         }
     }
@@ -92,6 +93,7 @@ public class MatrixReportDB extends ReportDB implements ReportDAO
         }
         catch (SQLException se)
         {
+            ReportLogger.LOGGER.severe("Cannot get email list due to database exception.");
             return null;
         }
     }

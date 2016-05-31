@@ -35,7 +35,7 @@ public abstract class ReportDB implements ReportDAO
     public ReportDB()
     {
         message = DATABASE_MESSAGE_INIT;
-        System.out.println("Create ReportDB.");
+        ReportLogger.LOGGER.info("Create ReportDB.");
     }
 
     /**
@@ -83,6 +83,7 @@ public abstract class ReportDB implements ReportDAO
         }
         catch (SQLException se)
         {
+            ReportLogger.LOGGER.severe("Cannot get email list due to database exception.");
             return null;
         }
     }
@@ -113,6 +114,7 @@ public abstract class ReportDB implements ReportDAO
         }
         catch (SQLException se)
         {
+            ReportLogger.LOGGER.severe("Cannot get email list due to database exception.");
             return null;
         }
     }
@@ -142,6 +144,7 @@ public abstract class ReportDB implements ReportDAO
         }
         catch (SQLException se)
         {
+            ReportLogger.LOGGER.severe("Cannot get email list due to database exception.");
             return null;
         }
     }
@@ -163,7 +166,7 @@ public abstract class ReportDB implements ReportDAO
     public void setMessage(String msg)
     {
         message = msg;
-        System.out.println(message);
+        ReportLogger.LOGGER.info(message);
     }
 
 }

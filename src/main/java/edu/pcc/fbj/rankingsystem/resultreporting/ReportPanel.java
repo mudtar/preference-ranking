@@ -27,7 +27,6 @@ import javax.swing.border.TitledBorder;
 
 public class ReportPanel extends JPanel implements ActionListener
 {
-
     private JTable basicTable;
     private JTable matrixTable;
     private JTable statisticsTable;
@@ -206,6 +205,7 @@ public class ReportPanel extends JPanel implements ActionListener
         {
             basicTable = new JTable();
         }
+        basicTable.setShowGrid(true);
         JScrollPane basicPane = new JScrollPane(basicTable);
         basicPane.setPreferredSize(new Dimension(400,300));
         basicPane.setBorder (BorderFactory.createTitledBorder (BorderFactory.createEtchedBorder (),
@@ -231,11 +231,8 @@ public class ReportPanel extends JPanel implements ActionListener
      */
     private void initWidgetMatrixReport(GridBagConstraints c)
     {
-
-        if(matrixTable == null)
-        {
-            matrixTable = new JTable();
-        }
+        matrixTable = new JTable();
+        matrixTable.setShowGrid(true);
         matrixPane = new JScrollPane(matrixTable);
         matrixPane.setPreferredSize(new Dimension(400,300));
         matrixPane.setBorder (BorderFactory.createTitledBorder (BorderFactory.createEtchedBorder (),
@@ -268,11 +265,8 @@ public class ReportPanel extends JPanel implements ActionListener
      */
     private void initWidgetStatisticsReport(GridBagConstraints c)
     {
-
-        if(statisticsTable == null)
-        {
-            statisticsTable = new JTable();
-        }
+        statisticsTable = new JTable();
+        statisticsTable.setShowGrid(true);
         statisticsPane = new JScrollPane(statisticsTable);
         statisticsPane.setPreferredSize(new Dimension(400,300));
         statisticsPane.setBorder (BorderFactory.createTitledBorder (BorderFactory.createEtchedBorder (),
@@ -607,6 +601,8 @@ public class ReportPanel extends JPanel implements ActionListener
     {
         String command = e.getActionCommand();
 
+        ReportLogger.LOGGER.info("Event -> " + command);
+
         if (command.equals("EmailList"))
         {
             JComboBox user = (JComboBox) e.getSource();
@@ -759,7 +755,42 @@ public class ReportPanel extends JPanel implements ActionListener
      */
     public Signal getSignal()
     {
+        SignalLog();
         return signal;
+    }
+
+    private void SignalLog()
+    {
+        switch(signal)
+        {
+            case DATABASE_SIGNAL_THREAD_WAIT:
+                ReportLogger.LOGGER.fine("Signal to waiting for thread.");
+                break;
+            case DATABASE_SIGNAL_THREAD_TERMINATE:
+                ReportLogger.LOGGER.info("Signal to terminate thread.");
+                break;
+            case DATABASE_SIGNAL_UPDATE_EAMIL_LIST:
+                ReportLogger.LOGGER.info("Signal to get email list.");
+                break;
+            case DATABASE_SIGNAL_UPDATE_TESTNAME_LIST:
+                ReportLogger.LOGGER.info("Signal to get testname list.");
+                break;
+            case DATABASE_SIGNAL_UPDATE_TESTID_LIST:
+                ReportLogger.LOGGER.info("Signal to get testid list");
+                break;
+            case DATABASE_SIGNAL_RETRIEVE_DATA:
+                ReportLogger.LOGGER.info("Signal to retrieve test data.");
+                break;
+            case DATABASE_SIGNAL_RETRIEVE_MATRIX_DATA:
+                ReportLogger.LOGGER.info("Signal to get matrix report.");
+                break;
+            case DATABASE_SIGNAL_RETRIEVE_STATISTICS_FIRSTCHOICE_DATA:
+                ReportLogger.LOGGER.info("Signal to get statistics firstchoice report.");
+                break;
+            case DATABASE_SIGNAL_RETRIEVE_STATISTICS_XOVERY_DATA:
+                ReportLogger.LOGGER.info("Signal to get statistics itemX Over itemY report.");
+                break;
+        }
     }
 
     /**
@@ -830,13 +861,13 @@ public class ReportPanel extends JPanel implements ActionListener
         int numCols = table.getColumnCount();
         javax.swing.table.TableModel model = table.getModel();
 
-        System.out.println("Value of data: ");
-        for (int i=0; i < numRows; i++)
+        ReportLogger.LOGGER.info("Value of data: ");
+        for (int i=0;i < numRows; i++)
         {
-            System.out.print("    row " + i + ":");
+            ReportLogger.LOGGER.info("    row " + i + ":");
             for (int j=0; j < numCols; j++)
             {
-                System.out.print("  " + model.getValueAt(i, j));
+                ReportLogger.LOGGER.info("  " + model.getValueAt(i, j));
             }
             System.out.println();
         }

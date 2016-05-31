@@ -31,7 +31,7 @@ public class ReportDBProcess implements Runnable
      */
     public void run()
     {
-        System.out.println("Start a DB processing thread");
+        ReportLogger.LOGGER.info("Start a DB processing thread");
 
         Vector<String> userEmailList = null;
         Vector<String> userTestNameList = null;
@@ -41,12 +41,15 @@ public class ReportDBProcess implements Runnable
         if(dao.get("Basic").DBConnection() != null)
         {
             userEmailList = dao.get("Basic").getUserEmailList();
-            reportPane.setEmailListItem(userEmailList);
-            userTestNameList = dao.get("Basic").getUserTestNameList(userEmailList.get(reportPane.getEmailIndex()));
-            reportPane.setUserTestNameListItem(userTestNameList);
-            userTestIDList = dao.get("Basic").getUserTestID(userEmailList.get(reportPane.getEmailIndex()), userTestNameList.get(reportPane.getTestNameIndex()));
-            reportPane.setUserTestIDListItem(userTestIDList);
-            reportPane.setSignal(Signal.DATABASE_SIGNAL_RETRIEVE_DATA);
+            if(userEmailList != null)
+            {
+                reportPane.setEmailListItem(userEmailList);
+                userTestNameList = dao.get("Basic").getUserTestNameList(userEmailList.get(reportPane.getEmailIndex()));
+                reportPane.setUserTestNameListItem(userTestNameList);
+                userTestIDList = dao.get("Basic").getUserTestID(userEmailList.get(reportPane.getEmailIndex()), userTestNameList.get(reportPane.getTestNameIndex()));
+                reportPane.setUserTestIDListItem(userTestIDList);
+                reportPane.setSignal(Signal.DATABASE_SIGNAL_RETRIEVE_DATA);
+            }
         }
 
         while(true)
@@ -142,7 +145,7 @@ public class ReportDBProcess implements Runnable
             }
             else if(reportPane.getSignal() == signal.DATABASE_SIGNAL_THREAD_TERMINATE)
             {
-                System.out.println("End a DB processing thread");
+                ReportLogger.LOGGER.info("End a DB processing thread");
                 break;
             }
 
@@ -152,7 +155,7 @@ public class ReportDBProcess implements Runnable
             }
             catch (InterruptedException e)
             {
-                System.out.println("Thread is interrupted!");
+                ReportLogger.LOGGER.severe("Thread is interrupted!");
             }
         }
     }

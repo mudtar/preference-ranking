@@ -61,6 +61,7 @@ public class BasicReportDB extends ReportDB implements ReportDAO
         }
         catch (SQLException se)
         {
+            ReportLogger.LOGGER.severe("Cannot get email list due to database exception.");
             return null;
         }
     }

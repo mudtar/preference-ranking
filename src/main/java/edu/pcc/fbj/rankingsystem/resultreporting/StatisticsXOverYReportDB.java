@@ -65,7 +65,7 @@ public class StatisticsXOverYReportDB extends ReportDB implements ReportDAO
         }
         catch (SQLException se)
         {
-            se.printStackTrace();
+            ReportLogger.LOGGER.severe("Cannot get email list due to database exception.");
             return null;
         }
     }

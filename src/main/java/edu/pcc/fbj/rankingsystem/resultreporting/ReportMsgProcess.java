@@ -32,7 +32,7 @@ public class ReportMsgProcess implements Runnable
      */
     public void run()
     {
-        System.out.println("Start a message processing thread");
+        ReportLogger.LOGGER.info("Start a message processing thread");
         while(reportPane.getSignal() != Signal.DATABASE_SIGNAL_THREAD_TERMINATE)
         {
             reportPane.setLabelText(dao.get("Basic").getMessage());
@@ -46,7 +46,6 @@ public class ReportMsgProcess implements Runnable
             }
         }
         reportPane.setLabelText(dao.get("Basic").getMessage());
-        System.out.println("End a message processing thread");
-
+        ReportLogger.LOGGER.info("End a message processing thread");
     }
 }
