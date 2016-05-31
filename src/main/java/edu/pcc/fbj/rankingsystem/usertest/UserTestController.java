@@ -4,6 +4,8 @@ package edu.pcc.fbj.rankingsystem.usertest;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
+
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -19,6 +21,11 @@ import javafx.stage.Stage;
  */
 public class UserTestController implements Initializable
 {
+    /**
+     * The existing tests available to this test session.
+     */
+    private Tests tests;
+
     /**
      * The items to be presented to the user by which to determine user
      * preferences and the user's preferences, which are the results of
@@ -50,6 +57,12 @@ public class UserTestController implements Initializable
      */
     @FXML
     private ToggleButton option2;
+
+    /**
+     * The test that the user is currently taking.
+     */
+    @FXML
+    private ComboBox testName;
 
     @FXML
     private Button back;
@@ -83,6 +96,7 @@ public class UserTestController implements Initializable
      */
     public UserTestController() throws SQLException
     {
+        tests = new Tests();
         preferencePairs = new PreferencePairs();
     }
 
@@ -99,6 +113,7 @@ public class UserTestController implements Initializable
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
+        updateTests();
         updateOptionsNext();
         updateProgressBar();
     }
@@ -210,6 +225,11 @@ public class UserTestController implements Initializable
                 break;
         }
 
+    }
+
+    private void updateTests()
+    {
+        testName.setItems(FXCollections.observableArrayList(tests.getTests()));
     }
 
     private void updateOptionsNext() throws IndexOutOfBoundsException
