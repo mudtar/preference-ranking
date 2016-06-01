@@ -42,6 +42,15 @@ public abstract class ReportDB implements ReportDAO
     }
 
     /**
+     * Configure DAO with data from database, config files or anywhere else.
+     */
+    @Override
+    public void Config()
+    {
+
+    }
+
+    /**
      * eslablish database connection
      */
     @Override
