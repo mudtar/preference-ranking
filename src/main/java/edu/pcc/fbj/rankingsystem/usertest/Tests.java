@@ -52,8 +52,7 @@ class Tests
     {
         PreparedStatement selectTestNames = con.prepareStatement(
             "SELECT PK_TestNameID, Name " +
-            "FROM FBJ_TEST_NAME " +
-            ";"
+            "FROM FBJ_TEST_NAME "
         );
         ResultSet rs = selectTestNames.executeQuery();
 

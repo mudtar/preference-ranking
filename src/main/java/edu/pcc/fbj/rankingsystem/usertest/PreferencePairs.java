@@ -2,6 +2,7 @@ package edu.pcc.fbj.rankingsystem.usertest;
 
 import edu.pcc.fbj.rankingsystem.dbfactory.RSystemConnection;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -83,14 +84,15 @@ class PreferencePairs
         Connection con = RSystemConnection.getConnection();
 
         // Get from the database all existing items.
-        Statement stmt = con.createStatement();
-        ResultSet rs = stmt.executeQuery(
+        PreparedStatement selectItems = con.prepareStatement(
             "SELECT DISTINCT PK_ItemID, Name " +
             "FROM FBJ_ITEM " +
             "JOIN FBJ_TEST_NAME_ITEM " +
             "ON FBJ_TEST_NAME_ITEM.FK_ItemID = FBJ_ITEM.PK_ItemID " +
-            "WHERE FK_TestNameID = " + testNameID +
-            ";");
+            "WHERE FK_TestNameID = ?"
+        );
+        selectItems.setInt(1, testNameID);
+        ResultSet rs = selectItems.executeQuery();
 
         // For each of the items in the database, add a new map entry.
         while (rs.next())
@@ -105,8 +107,6 @@ class PreferencePairs
             // sets are initialized empty.
             itemsPaired.put(rs.getInt("PK_ItemID"), new HashSet<Integer>());
         }
-
-        stmt.close();
 
         createPreferencePairs();
     }
@@ -267,19 +267,17 @@ class PreferencePairs
         // The database connection used throughout the application.
         Connection con = RSystemConnection.getConnection();
 
-        // This statement is reused for separate queries.
-        Statement stmt;
-
         // If the UserID associated with this user hasn't been pulled
         // from the database yet, do so.
         if (User.getID() == 0)
         {
-            stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery(
+            PreparedStatement selectUserID = con.prepareStatement(
                 "SELECT PK_UserID " +
                 "FROM FBJ_USER " +
-                "WHERE Email = '" + User.getEmail() + "' " +
-                ";");
+                "WHERE Email = ?"
+            );
+            selectUserID.setString(1, User.getEmail());
+            ResultSet rs = selectUserID.executeQuery();
 
             int resultCount = 0;
             while (rs.next())
@@ -308,20 +306,20 @@ class PreferencePairs
                     "email address '" + User.getEmail() + "' was found in the " +
                     "database.");
             }
-
-            stmt.close();
         }
 
         // Create a new FBJ_TEST for this user and get back the unique
         // test session ID.
-        stmt = con.createStatement();
-        stmt.executeUpdate(
+        PreparedStatement createTest = con.prepareStatement(
             "INSERT INTO FBJ_TEST (FK_UserID, FK_TestNameID) " +
-            "VALUES (" + User.getID() + ", " + testNameID + ") " +
-            ";",
-            Statement.RETURN_GENERATED_KEYS);
+            "VALUES (?, ?)",
+            Statement.RETURN_GENERATED_KEYS
+        );
+        createTest.setInt(1, User.getID());
+        createTest.setInt(2, testNameID);
+        createTest.executeUpdate();
 
-        ResultSet generatedKeys = stmt.getGeneratedKeys();
+        ResultSet generatedKeys = createTest.getGeneratedKeys();
         int testID;
         if (generatedKeys.next())
         {
@@ -335,22 +333,20 @@ class PreferencePairs
                 "session ID.", null);
         }
 
-        stmt.close();
-
         // Iterate through the the preference test results and add them
         // to the database.
         for (PreferencePair preferencePair : preferencePairs)
         {
-            stmt = con.createStatement();
-            stmt.executeUpdate(
+            PreparedStatement insertResult = con.prepareStatement(
                 "INSERT INTO FBJ_RESULT " +
                 "    (FK_TestID, FK_Item1ID, FK_Item2ID, Value) " +
-                "VALUES (" + testID + ", " +
-                             preferencePair.getOption1().getID() + ", " +
-                             preferencePair.getOption2().getID() + ", " +
-                             preferencePair.getPreference() + ") " +
-                ";");
-            stmt.close();
+                "VALUES (?, ?, ?, ?)"
+            );
+            insertResult.setInt(1, testID);
+            insertResult.setInt(2, preferencePair.getOption1().getID());
+            insertResult.setInt(3, preferencePair.getOption2().getID());
+            insertResult.setInt(4, preferencePair.getPreference());
+            insertResult.executeUpdate();
         }
     }
 }
