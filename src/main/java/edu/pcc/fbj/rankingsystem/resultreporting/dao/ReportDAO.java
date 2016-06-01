@@ -45,34 +45,6 @@ public interface ReportDAO
     String GET_USER_MATRIX_ITEMS_SQL =
             "SELECT Item1 FROM FBJ_MATRIX_ITEMS WHERE Email = ? AND FK_TestID = ?";
 
-    String GET_USER_STATISTICS_GET_EMAIL_LIST_SQL
-            = "SELECT DISTINCT FBJ_USER.Email" +
-            " FROM FBJ_USER JOIN FBJ_TEST ON FBJ_TEST.FK_UserID = FBJ_USER.PK_UserID" +
-            " JOIN FBJ_TEST_NAME ON FBJ_TEST.FK_TestNameID = FBJ_TEST_NAME.PK_TestNameID" +
-            " WHERE  FBJ_TEST_NAME.Name = ?";
-
-    String GET_USER_STATISTICS_GET_ITEM_LIST_SQL
-            = "SELECT DISTINCT FBJ_ITEM.Name" +
-            " FROM FBJ_ITEM JOIN FBJ_TEST_NAME_ITEM ON FBJ_TEST_NAME_ITEM.FK_ItemID = FBJ_ITEM.PK_ItemID" +
-            " JOIN FBJ_TEST_NAME ON FBJ_TEST_NAME.PK_TestNameID = FBJ_TEST_NAME_ITEM.FK_TestNameID" +
-            " WHERE FBJ_TEST_NAME.Name = ?";
-
-    String GET_USER_STATISTICS_GET_RESULT_LIST_SQL
-            = "SELECT FBJ_USER.Email " +
-            " ,FBJ_TEST.PK_TestID " +
-            " ,FBJ_RESULT.PK_ResultID " +
-            " ,I1.Name AS Item1 " +
-            " ,I2.Name AS Item2 " +
-            " ,FBJ_RESULT.Value " +
-            " FROM FBJ_USER     " +
-            " JOIN FBJ_TEST ON FBJ_USER.PK_UserID = FBJ_TEST.FK_UserID     " +
-            " JOIN FBJ_RESULT ON FBJ_TEST.PK_TestID = FBJ_RESULT.FK_TestID " +
-            " JOIN FBJ_ITEM I1 ON I1.PK_ItemID = FBJ_RESULT.FK_Item1ID " +
-            " JOIN FBJ_ITEM I2 ON I2.PK_ItemID = FBJ_RESULT.FK_Item2ID " +
-            " JOIN FBJ_TEST_NAME ON FBJ_TEST.FK_TestNameID = FBJ_TEST_NAME.PK_TestNameID " +
-            " WHERE FBJ_RESULT.FK_TestID IN (SELECT MAX(PK_TestID) FROM FBJ_TEST GROUP BY FBJ_TEST.FK_UserID) " +
-            " AND FBJ_TEST_NAME.Name = ? AND FBJ_USER.Email = ? " +
-            " ORDER BY FBJ_USER.Email,FBJ_TEST_NAME.Name, PK_TestID, PK_ResultID";
 
     Vector<String> getUserEmailList();
     Vector<String> getUserTestID(String email, String testName);
@@ -82,4 +54,5 @@ public interface ReportDAO
     Connection DBConnection();
     String getMessage();
     void setMessage(String msg);
+    void Config();
 }

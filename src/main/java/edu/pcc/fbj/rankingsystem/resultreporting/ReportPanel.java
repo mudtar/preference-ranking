@@ -30,10 +30,10 @@ public class ReportPanel extends JPanel implements ActionListener
     private JTable basicTable;
     private JTable matrixTable;
     private JTable statisticsTable;
-    private JComboBox userList;
+    private JComboBox<String> userList;
     private JLabel label;
-    private JComboBox testNameList;
-    private JComboBox userTestIDList;
+    private JComboBox<String> testNameList;
+    private JComboBox<String> userTestIDList;
     private int emailIndex;
     private int testNameIndex;
     private int testIDIndex;
@@ -79,7 +79,7 @@ public class ReportPanel extends JPanel implements ActionListener
         c.ipadx = 200;
         add(label, c);
 
-        userList = new JComboBox();
+        userList = new JComboBox<String>();
         userList.setPreferredSize(new Dimension(300, 25));
         userList.addActionListener(this);
         userList.setActionCommand("EmailList");
@@ -110,7 +110,7 @@ public class ReportPanel extends JPanel implements ActionListener
         c.ipadx = 200;
         add(testLabel, c);
 
-        testNameList = new JComboBox();
+        testNameList = new JComboBox<>();
         testNameList.setPreferredSize(new Dimension(300, 25));
         testNameList.addActionListener(this);
         testNameList.setActionCommand("TestNameList");
@@ -140,7 +140,7 @@ public class ReportPanel extends JPanel implements ActionListener
         c.ipadx = 200;
         add(testLabel, c);
 
-        userTestIDList = new JComboBox();
+        userTestIDList = new JComboBox<>();
         userTestIDList.setPreferredSize(new Dimension(300, 25));
         userTestIDList.addActionListener(this);
         userTestIDList.setActionCommand("TestIDList");
