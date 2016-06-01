@@ -1,7 +1,7 @@
 package edu.pcc.fbj.rankingsystem.dashboard;
 
 import edu.pcc.fbj.rankingsystem.adminsetup.AdminSetupController;
-import edu.pcc.fbj.rankingsystem.resultreporting.ReportTable;
+//import edu.pcc.fbj.rankingsystem.resultreporting.ReportTable;
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,6 +25,9 @@ public class AdminDashboard extends JPanel implements ActionListener
     private static final String REPORT = "report";
     private static final String SETUP = "setup";
     private static final String LOGOUT = "logout";
+
+    private final static int WIDTH = 910;
+    private final static int HEIGHT = 640;
 
     public AdminDashboard()
     {
@@ -58,22 +61,32 @@ public class AdminDashboard extends JPanel implements ActionListener
     public void actionPerformed(ActionEvent e)
     {
 
-        JFrame frame = new JFrame();
-        frame.setPreferredSize(new Dimension(800,600));
+
 
         if(e.getActionCommand().equals(REPORT))
         {
-            ReportTable report = new ReportTable();
-            frame.setContentPane(report.getReportPanel());
+            JFrame frame = new JFrame();
+            frame.setPreferredSize(new Dimension(800,600));
+            //ReportTable report = new ReportTable();
+            //frame.setContentPane(report.getReportPanel());
             frame.setTitle("Test Report");
+            frame.setLocationByPlatform(true);
+            frame.pack();
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
         }
         else if(e.getActionCommand().equals(SETUP))
         {
             try
             {
+                JFrame frame = new JFrame();
                 AdminSetupController adminSetupController = new AdminSetupController(frame);
                 frame.setContentPane(adminSetupController.getRootPanel());
                 frame.setTitle("Admin Setup");
+
+                Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+                frame.setLocation(dim.width/2 - WIDTH/2, dim.height/2 - HEIGHT/2);
+
                 frame.setLocationByPlatform(true);
                 frame.pack();
                 frame.setLocationRelativeTo(null);
@@ -100,10 +113,7 @@ public class AdminDashboard extends JPanel implements ActionListener
             System.exit(0);
         }
 
-        frame.setLocationByPlatform(true);
-        frame.pack();
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
+
     }
 
     public void showAdminDashboardDisplay()
