@@ -3,7 +3,7 @@ package edu.pcc.fbj.rankingsystem.adminsetup;
 /**
  * Class to represent
  * @author Eric Kristiansen
- * @version 5/23/2016.
+ * @version 5/31/2016.
  */
 public class Result
 {
@@ -13,6 +13,14 @@ public class Result
     int item2ID;
     int value;
 
+    /**
+     *  Constructor for Result
+     * @param passResultID
+     * @param passTestID
+     * @param passItem1ID
+     * @param passItem2ID
+     * @param passValue
+     */
     public Result(int passResultID, int passTestID, int passItem1ID, int passItem2ID, int passValue)
     {
         resultID = passResultID;

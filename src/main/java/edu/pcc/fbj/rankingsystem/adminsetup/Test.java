@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 
 /**
  * @author Eric Kristiansen
- * @version 5/23/2016.
+ * @version 5/31/2016.
  */
 public class Test
 {
@@ -14,6 +14,13 @@ public class Test
     int testNameID;
     Timestamp timeStamp;
 
+    /**
+     * Constructor
+     * @param passTestID
+     * @param passUserID
+     * @param passTestNameID
+     * @param passTimeStamp
+     */
     public Test(int passTestID, int passUserID, int passTestNameID, Timestamp passTimeStamp)
     {
         testID = passTestID;
@@ -22,21 +29,4 @@ public class Test
         timeStamp = passTimeStamp;
     }
 
-    /**
-     *
-     * @return
-     */
-    public int getTestID() { return testID; }
-
-    /**
-     *
-     * @return
-     */
-    public int getUserID() { return userID; }
-
-    /**
-     *
-     * @return
-     */
-    public int getTestNameID() { return testNameID; }
 }

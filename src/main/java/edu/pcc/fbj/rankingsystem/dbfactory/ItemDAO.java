@@ -19,7 +19,7 @@ import static java.lang.System.out;
  * FueledByJava database
  *
  * @author Eric Kristiansen
- * @version 5/26/2016
+ * @version 5/31/2016
  */
 public class ItemDAO {
 
@@ -28,7 +28,6 @@ public class ItemDAO {
     private static final String DELETE_ITEM_SQL = "DELETE FROM FBJ_ITEM WHERE Name = ?";
     private static final String INSERT_ITEM_NAME_AND_IMAGE_SQL =
             "INSERT INTO FBJ_ITEM(Name, ImageBinary) VALUES(?, ?)";
-    private static final String INSERT_ITEM_NAME_SQL = "INSERT INTO FBJ_ITEM(Name) VALUES(?)";
     private static final String UPDATE_IMAGE_SQL =
             "UPDATE FBJ_ITEM SET ImageBinary = ? WHERE Name = ?";
 
@@ -97,6 +96,7 @@ public class ItemDAO {
     }
 
     /**
+     * get the items in the db
      * @return list of items read from the FBJ Item database
      */
     public List<Item> getItems()
@@ -203,7 +203,7 @@ public class ItemDAO {
     }
 
     /**
-     * Insert appropriate recordsd
+     * Insert appropriate records
      * @param insertList
      */
     protected void insertRecords(List<Item> insertList)
@@ -249,7 +249,7 @@ public class ItemDAO {
     }
 
     /**
-     * Insert appropriate recordsd
+     * Insert appropriate records
      * @param updateList
      */
     protected void updateRecords(List<Item> updateList)
@@ -304,7 +304,8 @@ public class ItemDAO {
 
     /**
      * take image object, and return a bufferedImage object
-     * @passImage
+     * @param passImage
+     * @return buffered image
      */
     private BufferedImage getBufferedImageFromImage(Image passImage)
     {
@@ -319,7 +320,7 @@ public class ItemDAO {
      * return true if the item corresponding with passImageName in the image table
      * has a null image value
      * @param passImage
-     * @return
+     * @return true if images are different
      */
     private Boolean hasDifferentImage(Item passImage)
     {
@@ -363,11 +364,11 @@ public class ItemDAO {
      *
      * @param imgA the first image.
      * @param imgB the second image.
-     * @return whether the images are both the same or not.
+     * @return true if images are the same
      */
     public static boolean compareImages(BufferedImage imgA, BufferedImage imgB)
     {
-        Boolean result = false;
+        Boolean result = true;
 
         if (imgA.getWidth() != imgB.getWidth() || imgA.getHeight() != imgB.getHeight())
         {
@@ -393,28 +394,5 @@ public class ItemDAO {
 
         return result;
     }
-
-    /**
-     *
-     * @return
-     */
-    public List<Item> getTestItems()
-    {
-        //get TestNameID
-
-        //get Items Associated with TestNameID
-        return null;
-    }
-
-    /**
-     *
-     */
-    public void setTestItems()
-    {
-
-    }
-
-
-
 
 }

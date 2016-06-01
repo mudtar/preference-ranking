@@ -1,6 +1,5 @@
 package edu.pcc.fbj.rankingsystem.dbfactory;
 
-import edu.pcc.fbj.rankingsystem.adminsetup.Item;
 import edu.pcc.fbj.rankingsystem.adminsetup.Result;
 
 import java.sql.Connection;
@@ -15,7 +14,7 @@ import java.util.List;
  * FueledByJava database
  *
  * @author Eric Kristiansen
- * @version 5/23/2016
+ * @version 5/31/2016
  */
 public class ResultDAO {
 
@@ -24,7 +23,6 @@ public class ResultDAO {
             "Value FROM FBJ_RESULT;";
     private static final String GET_UNIQUE_ITEM_IDS = "SELECT FK_Item1ID AS UniqueItemID " +
             "FROM FBJ_Result UNION SELECT FK_Item2ID FROM FBJ_RESULT";
-
 
     //Object to hold items
     private Connection connection = null;
@@ -78,6 +76,7 @@ public class ResultDAO {
     }
 
     /**
+     * get the results
      * @return list of items read from the FBJ result table
      */
     public List<Result> getResults()
@@ -87,7 +86,8 @@ public class ResultDAO {
     }
 
     /**
-     *  get a List of ItemIDs used in Result objects
+     * get a List of ItemIDs used in Result objects
+     * @return List<Integer>
      */
     public List<Integer> getItemsUsed()
     {
@@ -110,8 +110,5 @@ public class ResultDAO {
         }
         return null;
     }
-
-
-
 
 }
