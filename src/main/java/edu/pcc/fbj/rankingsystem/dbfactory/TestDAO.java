@@ -11,7 +11,7 @@ import java.util.List;
 
 /**
  * @author Eric Kristiansen
- * @version 5/23/2016.
+ * @version 5/31/2016.
  */
 public class TestDAO
 {
@@ -20,7 +20,6 @@ public class TestDAO
             "FROM FBJ_TEST;";
     private static final String GET_UNIQUE_ITEM_IDS = "SELECT FK_Item1ID AS UniqueItemID " +
             "FROM FBJ_Result UNION SELECT FK_Item2ID FROM FBJ_RESULT";
-
 
     //Object to hold items
     private Connection connection = null;

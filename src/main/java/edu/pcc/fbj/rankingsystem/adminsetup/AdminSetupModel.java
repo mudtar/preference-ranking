@@ -8,7 +8,7 @@ import java.util.List;
  * This class coordinates all of the database operations necessary for our package
  *
  * @author Eric Kristiansen
- * @version 5/23/16
+ * @version 5/31/16
  */
 public class AdminSetupModel
 {
@@ -21,6 +21,7 @@ public class AdminSetupModel
 
     /**
      * get Items from items database object
+     * @return List<Item>
      */
     public List<Item> getItems()
     {
@@ -29,16 +30,19 @@ public class AdminSetupModel
 
     /**
      * set items in items database object
+     * @param passItems
      */
     public void setItems(List<Item> passItems) { itemDAO.setItems(passItems); }
 
     /**
      * set TestNames in TestNames database object
+     * @param passTestNames
      */
     public void setTestNames(List<TestName> passTestNames) { testNameDAO.setTestNames(passTestNames); }
 
     /**
-     *
+     * set the test Item
+     * @param passTestNameItems
      */
     public void setTestItems(List<ListTestNameItems> passTestNameItems)
     {
@@ -54,13 +58,12 @@ public class AdminSetupModel
                 testNameItemDAO.setTestNameItems(passTestNameItems);
             }
         }
-
-
     }
 
     /**
      * take an Item namme as a param, and return an item id
      * @param passItemName
+     * @return itemID as int
      */
     private int findItemID(String passItemName)
     {
@@ -76,39 +79,10 @@ public class AdminSetupModel
         return -1;
     }
 
-
-    /**
-     * take a TestNameID, and return a corresponding TestName
-     * @param passTestNameID
-     */
-    private String findTestName(int passTestNameID)
-    {
-        for(TestName tn: testNames)
-        {
-            if (tn.getTestNameID() == passTestNameID){ return tn.getName();}
-            System.out.println("setting test Name: " + tn.getName());
-        }
-        return null;
-    }
-
-    /**
-     * take a testname as a param, and return the corresponding testID
-     * @param passTestName
-     */
-    private int findTestNameID(String passTestName)
-    {
-        for(TestName tn: testNames)
-        {
-            System.out.println(tn.getName() + " : " + tn.getTestNameID());
-            if (tn.getName().equals(passTestName)){ return tn.getTestNameID();}
-        }
-        return -1;
-    }
-
-
     /**
      * get TestNameItems for selected test
      * @return List of Items associated with selected test
+     * @param passTestName
      */
     public ListTestNameItems getTestNameItemsList(String passTestName)
     {
@@ -132,6 +106,7 @@ public class AdminSetupModel
 
     /**
      * get TestNames from tests database object
+     * @return List<TestName>
      */
     public List<TestName> getTestNames()
     {

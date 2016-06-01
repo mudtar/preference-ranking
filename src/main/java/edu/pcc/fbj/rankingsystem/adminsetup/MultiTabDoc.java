@@ -11,7 +11,7 @@ import java.util.List;
 
 /**
  * @author Eric Kristiansen
- * @version 5/23/16
+ * @version 5/31/16
  */
 public class MultiTabDoc {
     private JTabbedPane tabbedPane1;
@@ -124,8 +124,6 @@ public class MultiTabDoc {
 
             setInitialFocus();
 
-            //List<Integer> uniqueItemsUsed = AdminSetupController.getUniqueItemsUsed();
-            //uniqueItemsUsed.forEach(i -> System.out.println(i));
         }
         catch(Exception ex)
         {
@@ -135,7 +133,7 @@ public class MultiTabDoc {
     }
 
     /**
-     *
+     * set the focus when the tab is clicked
      */
     private void setFocusInTab()
     {
@@ -274,6 +272,7 @@ public class MultiTabDoc {
 
     /**
      * Get the image from the fileChooser, and display at appropriate size
+     * @param passLabel
      */
     private void getImageFromFileChooser(JLabel passLabel)
     {
@@ -303,7 +302,9 @@ public class MultiTabDoc {
 
 
     /**
-     *
+     * set the Label image to the image passed in
+     * @param passLabel
+     * @param passImage
      */
     private void setLabelImage(JLabel passLabel, Image passImage)
     {
@@ -312,7 +313,9 @@ public class MultiTabDoc {
     }
 
     /**
-     *
+     * get the selected item image
+     * @param passList
+     * @param passLabel
      */
     private void getSelectedItemImage(JList passList, JLabel passLabel)
     {
@@ -397,11 +400,11 @@ public class MultiTabDoc {
     }
 
     /**
-     * @return true if length is less than 18
      * the database field is varchar(20)
      * Sets error label if appropriate
-     *
-     * @param passTextField and passLabel
+     * @param passTextField
+     * @param passLabel
+     * @return true if the field checks OK
      */
     private Boolean validateFieldLength(JTextField passTextField, JLabel passLabel)
     {
@@ -592,6 +595,8 @@ public class MultiTabDoc {
     /**
      * Enable or disable Remove Button
      * based on selected Index
+     * @param passList
+     * @param passButton
      */
     private void checkListSelection(JList passList, JButton passButton)
     {

@@ -5,7 +5,7 @@ import java.awt.*;
 /**
  * @author Eric Kristiansen
  *
- * version 5/17/16
+ * version 5/31/16
  * This class will represent data from the Item table in FBJ
  */
 public class Item

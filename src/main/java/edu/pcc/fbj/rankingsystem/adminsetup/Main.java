@@ -3,7 +3,7 @@
  * This is only a temporary parallel solution before I fully implement sprint 2 GUI
  *
  * @author Eric Kristiansen
- * @version 5/17/16
+ * @version 5/31/16
  */
 package edu.pcc.fbj.rankingsystem.adminsetup;
 
@@ -20,6 +20,10 @@ public class Main {
     private final static int WIDTH = 910;
     private final static int HEIGHT = 640;
 
+    /**
+     * Main method
+     * @param args
+     */
     public static void main(String[] args) {
         try
         {
@@ -32,6 +36,9 @@ public class Main {
         }
     }
 
+    /**
+     * create and show the GUI
+     */
     private static void createAndShowGUI()
     {
         try
@@ -46,8 +53,8 @@ public class Main {
             Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
             frame.setLocation(dim.width/2 - WIDTH/2, dim.height/2 - HEIGHT/2);
 
-            //tabDoc.setItemList(adminSetupModel.getItems());
-            //tabDoc.setTestNameList(adminSetupModel.getTestNames());
+            tabDoc.setItemList(adminSetupModel.getItems());
+            tabDoc.setTestNameList(adminSetupModel.getTestNames());
 
             // Display the window
             frame.pack();

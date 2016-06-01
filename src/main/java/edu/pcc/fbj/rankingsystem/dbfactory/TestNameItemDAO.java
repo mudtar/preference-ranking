@@ -123,7 +123,6 @@ public class TestNameItemDAO {
                     }
                 }
 
-
             deleteRecords(deleteList);
             insertRecords(insertList);
 
@@ -145,14 +144,13 @@ public class TestNameItemDAO {
             System.out.println(ex.toString());
             ex.printStackTrace();
         }
-
-
     }
 
     /**
-     *  Search a List of TestNameItem objects for a match to the string passed in
-     * @param
-     * @param
+     * Search a List of TestNameItem objects for a match to the string passed in
+     * @param passTestNameID
+     * @param passItemID
+     * @param passTestNameItems
      * @return true if not found
      */
     protected Boolean notFoundTestNameItem(int passTestNameID, int passItemID, List<ListTestNameItems> passTestNameItems)
@@ -179,6 +177,9 @@ public class TestNameItemDAO {
 
     /**
      * find testNameItem
+     * @param passTestID
+     * @param passItemID
+     * @return true if not found
      */
     private Boolean findItem(int passTestID, int passItemID)
     {
@@ -250,6 +251,9 @@ public class TestNameItemDAO {
     }
 
     /**
+     * get Test Name Item IDs
+     * @param passID
+     * @return List<Integer>
      */
     public List<Integer> getTestNameItemsIDs(int passID)
     {
