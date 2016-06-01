@@ -113,6 +113,7 @@ public class ItemDAO {
     {
         try
         {
+            items = readItems();
             boolean insertItem;
             boolean deleteItem;
             ArrayList<Item> deleteList = new ArrayList<>();
@@ -132,6 +133,7 @@ public class ItemDAO {
             for (Item j: passItems) //exists in passItems
             {
                 insertItem = notFoundItem(j.toString(), items);
+                System.out.println("insertItem = " + insertItem);
                 if (insertItem)
                 {
                     insertList.add(new Item(j.toString(), j.getImage())); // new item to insert
@@ -214,6 +216,7 @@ public class ItemDAO {
             {
                 //set name
                 st.setString(1, i.toString());
+
                 //set image
                 if (i.getImage() != null)
                 {
