@@ -55,22 +55,11 @@ class PreferencePairs
     Map<Integer, Set<Integer>> itemsPaired = new HashMap<>();
 
     /**
-     * The email address associated with the user who is currently
-     * logged in.
-     */
-    private String userEmail;
-
-    /**
      * The list index of the next element of preferencePairs to return.
      * Initialized to -1 so that the first time an item pair is
      * retrieved and this index is incremented, it begins at 0.
      */
     private int preferencePairIndex = -1;
-
-    /**
-     * The UserID associated with the user who is currently logged in.
-     */
-    private int userID;
 
     /**
      * The TestNameID associated with the test that is currently being
@@ -240,19 +229,6 @@ class PreferencePairs
     }
 
     /**
-     * Set the email address associated with the user who is currently
-     * logged in so that the preferences can be associated in the
-     * database with the proper user.
-     *
-     * @param userEmail the email address associated with the user who
-     *                  is currently logged in
-     */
-    void setUserEmail(String userEmail)
-    {
-        this.userEmail = userEmail;
-    }
-
-    /**
      * Register a user's preference test result with the local data
      * structure.
      *
@@ -295,13 +271,13 @@ class PreferencePairs
 
         // If the UserID associated with this user hasn't been pulled
         // from the database yet, do so.
-        if (userID == 0)
+        if (User.getID() == 0)
         {
             stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(
                 "SELECT PK_UserID " +
                 "FROM FBJ_USER " +
-                "WHERE Email = '" + userEmail + "' " +
+                "WHERE Email = '" + User.getEmail() + "' " +
                 ";");
 
             int resultCount = 0;
@@ -314,21 +290,21 @@ class PreferencePairs
                     // result is encountered, this email address is
                     // associated with multiple users in the database,
                     // and we can't know which one to trust.
-                    userID = 0;
+                    User.setID(0);
                     throw new NoSuchElementException("More than one user " +
-                        "with the email address '" + userEmail + "' was " +
+                        "with the email address '" + User.getEmail() + "' was " +
                         "found in the database. This is an invalid state.");
                 }
                 else
                 {
-                    userID = rs.getInt("PK_UserID");
+                    User.setID(rs.getInt("PK_UserID"));
                 }
             }
 
             if (resultCount == 0)
             {
                 throw new NoSuchElementException("No valid user with the " +
-                    "email address '" + userEmail + "' was found in the " +
+                    "email address '" + User.getEmail() + "' was found in the " +
                     "database.");
             }
 
@@ -340,7 +316,7 @@ class PreferencePairs
         stmt = con.createStatement();
         stmt.executeUpdate(
             "INSERT INTO FBJ_TEST (FK_UserID, FK_TestNameID) " +
-            "VALUES (" + userID + ", " + testNameID + ") " +
+            "VALUES (" + User.getID() + ", " + testNameID + ") " +
             ";",
             Statement.RETURN_GENERATED_KEYS);
 

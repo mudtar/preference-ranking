@@ -159,7 +159,7 @@ public class UserTestController implements Initializable
      */
     public void setUserEmail(String userEmail)
     {
-        preferencePairs.setUserEmail(userEmail);
+        User.setEmail(userEmail);
     }
 
     public void handleTestNameChange() throws SQLException
