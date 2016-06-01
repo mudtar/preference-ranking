@@ -1,12 +1,14 @@
 package edu.pcc.fbj.rankingsystem.dashboard;
 
 import edu.pcc.fbj.rankingsystem.adminsetup.AdminSetupController;
-//import edu.pcc.fbj.rankingsystem.resultreporting.ReportTable;
+import edu.pcc.fbj.rankingsystem.resultreporting.ReportTable;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+//import edu.pcc.fbj.rankingsystem.resultreporting.ReportTable;
 
 /**
  * AdminDashboard is used to test launching report panel.
@@ -61,14 +63,12 @@ public class AdminDashboard extends JPanel implements ActionListener
     public void actionPerformed(ActionEvent e)
     {
 
-
-
         if(e.getActionCommand().equals(REPORT))
         {
             JFrame frame = new JFrame();
             frame.setPreferredSize(new Dimension(800,600));
-            //ReportTable report = new ReportTable();
-            //frame.setContentPane(report.getReportPanel());
+            ReportTable report = new ReportTable();
+            frame.setContentPane(report.getReportPanel());
             frame.setTitle("Test Report");
             frame.setLocationByPlatform(true);
             frame.pack();
@@ -83,6 +83,8 @@ public class AdminDashboard extends JPanel implements ActionListener
                 AdminSetupController adminSetupController = new AdminSetupController(frame);
                 frame.setContentPane(adminSetupController.getRootPanel());
                 frame.setTitle("Admin Setup");
+
+                frame.setPreferredSize(new Dimension(WIDTH,HEIGHT));
 
                 Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
                 frame.setLocation(dim.width/2 - WIDTH/2, dim.height/2 - HEIGHT/2);

@@ -46,8 +46,8 @@ public class Main {
             Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
             frame.setLocation(dim.width/2 - WIDTH/2, dim.height/2 - HEIGHT/2);
 
-            tabDoc.setItemList(adminSetupModel.getItems());
-            tabDoc.setTestNameList(adminSetupModel.getTestNames());
+            //tabDoc.setItemList(adminSetupModel.getItems());
+            //tabDoc.setTestNameList(adminSetupModel.getTestNames());
 
             // Display the window
             frame.pack();

@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class AdminSetupController
 {
-    private static AdminSetupView view = new AdminSetupView();
+    private static MultiTabDoc view = new MultiTabDoc();
     private static AdminSetupModel model = new AdminSetupModel();
 
     private static JFrame frame;
