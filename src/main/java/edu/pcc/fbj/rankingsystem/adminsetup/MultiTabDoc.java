@@ -405,16 +405,23 @@ public class MultiTabDoc {
      */
     private Boolean validateFieldLength(JTextField passTextField, JLabel passLabel)
     {
-        if (passTextField.getText().length() < 18)
-        {
-            resetErrorLabels();
-            return true;
-        }
-        else
+        if (passTextField.getText().length() > 18 )
         {
             passTextField.requestFocus();
             passLabel.setText("<html>Item name must be less<br> than 18 characters long</html>");
             return false;
+
+        }
+        else if(passTextField.getText().length() != 0 && passTextField.getText().length() < 4)
+        {
+            passTextField.requestFocus();
+            passLabel.setText("<html>Item name must be more<br> than 3 characters long</html>");
+            return false;
+        }
+        else
+        {
+            resetErrorLabels();
+            return true;
         }
     }
 
