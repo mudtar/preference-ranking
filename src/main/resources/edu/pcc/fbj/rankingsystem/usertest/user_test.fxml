@@ -22,7 +22,10 @@
 
   <GridPane vgap="10" alignment="CENTER">
     <padding><Insets bottom="25"/></padding>
-    <ComboBox fx:id="testName"  />
+    <ComboBox
+      fx:id="testName"
+      onAction="#handleTestNameChange"
+    />
   </GridPane>
 
   <GridPane vgap="5" alignment="CENTER">

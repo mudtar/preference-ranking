@@ -73,12 +73,19 @@ class PreferencePairs
     private int userID;
 
     /**
+     * The TestNameID associated with the test that is currently being
+     * taken.
+     */
+    private int testNameID;
+
+    /**
      * Constructs the PreferencePairs object by getting the items from
      * the database and putting them into pairs.
      *
-     * @throws SQLException if a database access error occurs
+     * @param  selectedTestID the ID of the current test being taken
+     * @throws SQLException   if a database access error occurs
      */
-    PreferencePairs() throws SQLException
+    PreferencePairs(int selectedTestID) throws SQLException
     {
         // The database connection used throughout the application.
         Connection con = RSystemConnection.getConnection();
@@ -88,6 +95,9 @@ class PreferencePairs
         ResultSet rs = stmt.executeQuery(
             "SELECT DISTINCT PK_ItemID, Name " +
             "FROM FBJ_ITEM " +
+            "JOIN FBJ_TEST_NAME_ITEM " +
+            "ON FBJ_TEST_NAME_ITEM.FK_ItemID = FBJ_ITEM.PK_ItemID " +
+            "WHERE FK_TestNameID = " + selectedTestID +
             ";");
 
         // For each of the items in the database, add a new map entry.

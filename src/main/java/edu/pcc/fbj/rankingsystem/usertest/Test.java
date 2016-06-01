@@ -31,6 +31,11 @@ class Test
         this.name = name;
     }
 
+    int getID()
+    {
+        return ID;
+    }
+
     @Override
     public String toString()
     {

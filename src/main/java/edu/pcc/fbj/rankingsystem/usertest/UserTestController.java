@@ -62,7 +62,7 @@ public class UserTestController implements Initializable
      * The test that the user is currently taking.
      */
     @FXML
-    private ComboBox testName;
+    private ComboBox<Test> testName;
 
     @FXML
     private Button back;
@@ -89,16 +89,16 @@ public class UserTestController implements Initializable
     @FXML
     private ProgressBar progressBar;
 
-    /**
+    /*
      * Constructs the controller for the preference test.
      *
      * @throws SQLException if a database access error occurs
      */
+    /*
     public UserTestController() throws SQLException
     {
-        tests = new Tests();
-        preferencePairs = new PreferencePairs();
     }
+    */
 
     /**
      * Called to initialize a controller after its root element has been
@@ -113,7 +113,26 @@ public class UserTestController implements Initializable
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
-        updateTests();
+        try
+        {
+            tests = new Tests();
+            updateTests();
+            // The first test in the list is selected by default.
+            initializeSelectedTest(testName.getItems().get(0));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void initializeSelectedTest(Test selectedTest) throws SQLException
+    {
+        Toggle selectedToggle = options.getSelectedToggle();
+        if (selectedToggle != null)
+        {
+            selectedToggle.setSelected(false);
+        }
+
+        preferencePairs = new PreferencePairs(selectedTest.getID());
         updateOptionsNext();
         updateProgressBar();
     }
@@ -141,6 +160,11 @@ public class UserTestController implements Initializable
     public void setUserEmail(String userEmail)
     {
         preferencePairs.setUserEmail(userEmail);
+    }
+
+    public void handleTestNameChange() throws SQLException
+    {
+        initializeSelectedTest(testName.getValue());
     }
 
     /**
@@ -230,6 +254,10 @@ public class UserTestController implements Initializable
     private void updateTests()
     {
         testName.setItems(FXCollections.observableArrayList(tests.getTests()));
+        // Set the current selection of the ComboBox to the first test
+        // in the list.
+        Test selectedTest = testName.getItems().get(0);
+        testName.setValue(selectedTest);
     }
 
     private void updateOptionsNext() throws IndexOutOfBoundsException
