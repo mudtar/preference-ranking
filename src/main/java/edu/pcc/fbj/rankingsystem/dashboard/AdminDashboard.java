@@ -28,6 +28,10 @@ public class AdminDashboard extends JPanel implements ActionListener
     private static final String SETUP = "setup";
     private static final String LOGOUT = "logout";
 
+<<<<<<< HEAD
+    //setup consts for AdminSetup
+=======
+>>>>>>> master
     private final static int WIDTH = 910;
     private final static int HEIGHT = 640;
 
@@ -79,20 +83,36 @@ public class AdminDashboard extends JPanel implements ActionListener
         {
             try
             {
+<<<<<<< HEAD
+                JFrame setupFrame = new JFrame();
+                AdminSetupController adminSetupController = new AdminSetupController(setupFrame);
+                setupFrame.setContentPane(adminSetupController.getRootPanel());
+                setupFrame.setTitle("Admin Setup");
+                setupFrame.setLocationByPlatform(true);
+
+                setupFrame.setPreferredSize(new Dimension(WIDTH,HEIGHT));
+=======
                 JFrame frame = new JFrame();
                 AdminSetupController adminSetupController = new AdminSetupController(frame);
                 frame.setContentPane(adminSetupController.getRootPanel());
                 frame.setTitle("Admin Setup");
 
                 frame.setPreferredSize(new Dimension(WIDTH,HEIGHT));
+>>>>>>> master
 
                 Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
                 frame.setLocation(dim.width/2 - WIDTH/2, dim.height/2 - HEIGHT/2);
 
+<<<<<<< HEAD
+                setupFrame.pack();
+                setupFrame.setLocationRelativeTo(null);
+                setupFrame.setVisible(true);
+=======
                 frame.setLocationByPlatform(true);
                 frame.pack();
                 frame.setLocationRelativeTo(null);
                 frame.setVisible(true);
+>>>>>>> master
 
                 //set focus after frame is visible
                 adminSetupController.setInitialFocus();
