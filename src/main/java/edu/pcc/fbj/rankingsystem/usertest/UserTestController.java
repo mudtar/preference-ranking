@@ -17,7 +17,8 @@ import javafx.stage.Stage;
  * user.
  *
  * @author  Ian Burton
- * @version 2016.05.04.1
+ * @author  BeeYean Tan
+ * @version 2016.05.31.1
  */
 public class UserTestController implements Initializable
 {
@@ -281,26 +282,16 @@ public class UserTestController implements Initializable
 
     public void handleBack() throws SQLException {
         Toggle selectedToggle = options.getSelectedToggle();
-        //List<Map.Entry<List<Integer>, Integer>> tempPref = preferences.getPreferences();
         // Only register the user's preference if they actually made a
         // selection before pressing the submit button.
         if (selectedToggle != null)
         {
-            // This will just add a new preference rather than updating an existing one.
-            // Fix this.
-            // Use preferencePairs.getItemPairIndex() as the list index
-            // for storing the preference,
-            // that way we'll be able to go back and forward and still know exactly where
-            // to find each stored preference.
             registerPreference();
 
             // Unselect the selected button in preparation for the
             // buttons to be updated with new items.
             selectedToggle.setSelected(false);
         }
-
-        // NOTE: Reselect the proper toggle on the new screen after going back based on what the
-        // stored preference for this screen is.
 
         updateOptionsPrevious();
         updateProgressBar();
@@ -310,9 +301,9 @@ public class UserTestController implements Initializable
     {
         // I would have preferred to simply grab the fx:id of
         // selectedToggle in order to identify which toggle was
-        // selected, but there doesn't seem to be a convenient way
-        // to do so. Instead, I have to call each toggle by name and
-        // ask whether it's selected.
+        // selected, but there doesn't seem to be a convenient way to do
+        // so. Instead, I have to call each toggle by name and ask
+        // whether it's selected.
         if (option1.isSelected())
         {
             preferencePairs.registerPreference(
@@ -333,28 +324,15 @@ public class UserTestController implements Initializable
         }
     }
 
-    // Update the progress bar
     public void updateProgressBar()
     {
-        //items.getItemPairIndex();
-        /*
-        if (currentPairCount < items.getItemPairsCount())
-        {
-            currentPairCount++;
-            progressLabel.setText("Question " + (int)currentPairCount + " of " + items.getItemPairsCount());
-            System.out.println(items.getItemPairsCount());
-            progressBar.setProgress(currentPairCount/(items.getItemPairsCount()));
-            System.out.println(currentPairCount);
-
-        }
-        */
         int currentPairCount = preferencePairs.getPreferencePairIndex() + 1;
 
         progressLabel.setText("Question " + currentPairCount + " of " +
                               preferencePairs.getPreferencePairsCount());
         System.out.println(preferencePairs.getPreferencePairsCount());
-        // This question hasn't been answered yet, so we shouldn't count this current pair yet
-        // as progress.
+        // This question hasn't been answered yet, so we shouldn't count
+        // this current pair yet as progress.
         progressBar.setProgress((double) (currentPairCount - 1) /
             preferencePairs.getPreferencePairsCount());;
         System.out.println(currentPairCount);

@@ -13,7 +13,7 @@ import java.util.List;
  * The existing tests available to this test session.
  *
  * @author  Ian Burton
- * @version 2016.05.24.1
+ * @version 2016.05.31.1
  */
 class Tests
 {
@@ -32,6 +32,10 @@ class Tests
      */
     private Connection con;
 
+    /**
+     * Create a new collection of existing tests available to this test
+     * session.
+     */
     Tests() throws SQLException
     {
         con = RSystemConnection.getConnection();
@@ -39,6 +43,11 @@ class Tests
         System.out.println(tests);
     }
 
+    /**
+     * Populate the list of existing tests from the database.
+     *
+     * @throws SQLException if a database access error occurs
+     */
     private void populateTests() throws SQLException
     {
         PreparedStatement selectTestNames = con.prepareStatement(
@@ -54,6 +63,11 @@ class Tests
         }
     }
 
+    /**
+     * Return a List of all tests.
+     *
+     * @return a List of all tests
+     */
     List<Test> getTests()
     {
         return tests;

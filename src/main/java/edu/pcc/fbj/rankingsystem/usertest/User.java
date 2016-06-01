@@ -1,5 +1,11 @@
 package edu.pcc.fbj.rankingsystem.usertest;
 
+/**
+ * A class used to keep track of the user who is currently logged in.
+ *
+ * @author  Ian Burton
+ * @version 2016.05.31.1
+ */
 class User
 {
     /**
@@ -26,16 +32,37 @@ class User
         User.email = email;
     }
 
+    /**
+     * Return the email address associated with the user who is
+     * currently logged in.
+     *
+     * @return the email address associated with the user who is
+     *         currently logged in
+     */
     static String getEmail()
     {
         return email;
     }
 
+    /**
+     * Set the UserID associated with the user who is currently logged
+     * in.
+     *
+     * @param ID the UserID associated with the user who is currently
+     *           logged in
+     */
     static void setID(int ID)
     {
         User.ID = ID;
     }
 
+    /**
+     * Return the UserID associated with the user who is currently
+     * logged in.
+     *
+     * @return the UserID associated with the user who is currently
+     *         logged in
+     */
     static int getID()
     {
         return ID;

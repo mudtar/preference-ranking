@@ -5,7 +5,7 @@ package edu.pcc.fbj.rankingsystem.usertest;
  * of test items.
  *
  * @author  Ian Burton
- * @version 2016.05.24.1
+ * @version 2016.05.31.1
  */
 class Test
 {
@@ -31,11 +31,21 @@ class Test
         this.name = name;
     }
 
+    /**
+     * Return the ID of the test.
+     *
+     * @return the ID of the test
+     */
     int getID()
     {
         return ID;
     }
 
+    /**
+     * Returns a string representation of the object.
+     *
+     * @return a string representation of the object
+     */
     @Override
     public String toString()
     {

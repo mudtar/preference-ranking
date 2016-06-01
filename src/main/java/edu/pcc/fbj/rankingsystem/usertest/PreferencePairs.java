@@ -27,7 +27,8 @@ import java.util.concurrent.CompletionException;
  * ordering requirements.
  *
  * @author  Ian Burton
- * @version 2016.05.24.1
+ * @author  BeeYean Tan
+ * @version 2016.05.31.1
  */
 class PreferencePairs
 {

@@ -17,7 +17,7 @@ import javafx.stage.Stage;
  * preference test controller.
  *
  * @author  Ian Burton
- * @version 2016.05.04.1
+ * @version 2016.05.31.1
  */
 public class UserTest extends Application
 {
