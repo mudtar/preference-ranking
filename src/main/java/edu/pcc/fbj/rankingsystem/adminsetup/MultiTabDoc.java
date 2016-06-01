@@ -27,13 +27,13 @@ public class MultiTabDoc {
     private JList assignedItemListTestControl;
     private JButton assignItemButtonTestControl;
     private JButton removeItemButtonTestControl;
-    private JLabel errorLabelTestControl;
     private JLabel imageLabelItemControl;
     private JLabel imageLabelTestControl;
     private JFileChooser fileChooserItemControl;
-    private JLabel errorLabelItemControl;
     private JButton cancelAdminButton;
     private JButton removeImageButtonItemControl;
+    private JLabel errorLabelItemControl;
+    private JLabel errorLabelTestControl;
 
     private DefaultListModel itemListModel = new DefaultListModel();
     private DefaultListModel testListModel = new DefaultListModel();
@@ -41,8 +41,6 @@ public class MultiTabDoc {
     private List<Item> items;
 
     private List<ListTestNameItems> comprehensiveTestItemList = new ArrayList();
-
-    //private List<TestNameItem> currentTestNameItems = new ArrayList<>();
     private List<TestName> testNames;
     private Boolean isGood;
 
@@ -125,8 +123,6 @@ public class MultiTabDoc {
             defaultImageIcon = new ImageIcon(defaultImage);
 
             setInitialFocus();
-
-            //currentTestNameItems = AdminSetupController.getTestNameItems();
 
             //List<Integer> uniqueItemsUsed = AdminSetupController.getUniqueItemsUsed();
             //uniqueItemsUsed.forEach(i -> System.out.println(i));
@@ -409,16 +405,23 @@ public class MultiTabDoc {
      */
     private Boolean validateFieldLength(JTextField passTextField, JLabel passLabel)
     {
-        if (passTextField.getText().length() < 18)
-        {
-            resetErrorLabel(passLabel);
-            return true;
-        }
-        else
+        if (passTextField.getText().length() > 18 )
         {
             passTextField.requestFocus();
             passLabel.setText("<html>Item name must be less<br> than 18 characters long</html>");
             return false;
+
+        }
+        else if(passTextField.getText().length() != 0 && passTextField.getText().length() < 4)
+        {
+            passTextField.requestFocus();
+            passLabel.setText("<html>Item name must be more<br> than 3 characters long</html>");
+            return false;
+        }
+        else
+        {
+            resetErrorLabels();
+            return true;
         }
     }
 
@@ -428,22 +431,24 @@ public class MultiTabDoc {
      */
     private void finishAdminSetup()
     {
-        //ArrayList<Item> passItems = new ArrayList<>();
-        //ArrayList<TestName> passTestNames = new ArrayList<>();
-
-      /*  for(int i = 0; i < testListModel.size(); i++)
+        ArrayList<TestName> passTestNames = new ArrayList<>();
+        for(int i = 0; i < testListModel.size(); i++)
         {
             passTestNames.add(new TestName(testListModel.getElementAt(i).toString()));
         }
-        */
-        //String testName = testListTestControl.getSelect
 
-        resetErrorLabel(errorLabelItemControl);
-        resetErrorLabel(errorLabelTestControl);
+        resetErrorLabels();
         itemTextFieldItemControl.setText("");
         testTextFieldTestControl.setText("");
+        for (Item i: items)
+        {
+            System.out.println(i.toString());
+        }
+
         AdminSetupController.setItems(items);
-        AdminSetupController.setTestNames(testNames);
+
+
+        AdminSetupController.setTestNames(passTestNames);
         AdminSetupController.setTestItems(comprehensiveTestItemList);
         AdminSetupController.closeFrame();
     }
@@ -457,14 +462,15 @@ public class MultiTabDoc {
         testTextFieldTestControl.setText("");
         itemListModel.removeAllElements();
         testListModel.removeAllElements();
-        resetErrorLabel(errorLabelItemControl);
-        resetErrorLabel(errorLabelTestControl);
+
+        resetErrorLabels();
+
         // set data in Lists
         setItemList(AdminSetupController.getItems());
         setTestNameList(AdminSetupController.getTestNames());
         setInitialFocus();
-        setDefaultIcon(errorLabelItemControl);
-        setDefaultIcon(errorLabelTestControl);
+        setDefaultIcon(imageLabelItemControl);
+        setDefaultIcon(imageLabelTestControl);
     }
 
     /**
@@ -505,19 +511,14 @@ public class MultiTabDoc {
     }
 
 
-    /**
-     * reset error label blank
-     * @param passLabel
-     */
-    private void resetErrorLabel(JLabel passLabel) { passLabel.setText(""); }
 
     /**
      * reset error labels to blank
      */
     private void resetErrorLabels()
     {
-        errorLabelItemControl.setText("");
-        errorLabelTestControl.setText("");
+        errorLabelItemControl.setText("Add Items Here:");
+        errorLabelTestControl.setText("Add Test Here:");
     }
 
     /**

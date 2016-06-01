@@ -95,7 +95,6 @@ public class AdminDashboard extends JPanel implements ActionListener
 
                 //set focus after frame is visible
                 adminSetupController.setInitialFocus();
-                return;
             }
             catch (Exception ex)
             {

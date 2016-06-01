@@ -49,7 +49,7 @@
                   <text value="Remove Item"/>
                 </properties>
               </component>
-              <component id="fec4f" class="javax.swing.JLabel">
+              <component id="fec4f" class="javax.swing.JLabel" binding="errorLabelItemControl">
                 <constraints>
                   <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="10" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
@@ -203,7 +203,7 @@
                   <text value="Remove Test"/>
                 </properties>
               </component>
-              <component id="9d0bb" class="javax.swing.JLabel">
+              <component id="9d0bb" class="javax.swing.JLabel" binding="errorLabelTestControl">
                 <constraints>
                   <grid row="18" column="0" row-span="2" col-span="1" vsize-policy="0" hsize-policy="0" anchor="10" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
