@@ -365,8 +365,8 @@ public class ReportPanel extends JPanel implements ActionListener
     {
         if(listItem == null)
             return;
-        
-        System.out.println(listItem.size());
+
+        this.testNameList.removeAllItems();
         for(String item: listItem)
         {
             this.testNameList.addItem(item);
