@@ -367,11 +367,13 @@ public class ReportPanel extends JPanel implements ActionListener
             return;
 
         this.testNameList.removeAllItems();
+        System.out.println(listItem.size());
         for(String item: listItem)
         {
             this.testNameList.addItem(item);
         }
-        testNameList.setSelectedIndex(0);
+        System.out.println(listItem.size());
+        this.testNameList.setSelectedIndex(0);
     }
 
     /**
