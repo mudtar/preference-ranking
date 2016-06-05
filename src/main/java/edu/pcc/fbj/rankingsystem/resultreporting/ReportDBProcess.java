@@ -45,9 +45,12 @@ public class ReportDBProcess implements Runnable
             {
                 reportPane.setEmailListItem(userEmailList);
                 userTestNameList = dao.get("Basic").getUserTestNameList(userEmailList.get(reportPane.getEmailIndex()));
-                reportPane.setUserTestNameListItem(userTestNameList);
-                userTestIDList = dao.get("Basic").getUserTestID(userEmailList.get(reportPane.getEmailIndex()), userTestNameList.get(reportPane.getTestNameIndex()));
-                reportPane.setUserTestIDListItem(userTestIDList);
+                if(userTestNameList != null && userTestNameList.size() > 0)
+                {
+                    reportPane.setUserTestNameListItem(userTestNameList);
+                    userTestIDList = dao.get("Basic").getUserTestID(userEmailList.get(reportPane.getEmailIndex()), userTestNameList.get(reportPane.getTestNameIndex()));
+                    reportPane.setUserTestIDListItem(userTestIDList);
+                }
                 reportPane.setSignal(Signal.DATABASE_SIGNAL_RETRIEVE_DATA);
             }
         }
@@ -57,13 +60,16 @@ public class ReportDBProcess implements Runnable
             if(reportPane.getSignal() == signal.DATABASE_SIGNAL_UPDATE_EAMIL_LIST && userEmailList != null)
             {
                 userTestNameList = dao.get("Basic").getUserTestNameList(userEmailList.get(reportPane.getEmailIndex()));
-                reportPane.setUserTestNameListItem(userTestNameList);
-                userTestIDList = dao.get("Basic").getUserTestID(userEmailList.get(reportPane.getEmailIndex()), userTestNameList.get(reportPane.getTestNameIndex()));
-                reportPane.setUserTestIDListItem(userTestIDList);
+                if(userTestNameList != null && userTestNameList.size() > 0 )
+                {
+                    reportPane.setUserTestNameListItem(userTestNameList);
+                    userTestIDList = dao.get("Basic").getUserTestID(userEmailList.get(reportPane.getEmailIndex()), userTestNameList.get(reportPane.getTestNameIndex()));
+                    reportPane.setUserTestIDListItem(userTestIDList);
+                }
                 reportPane.setSignal(Signal.DATABASE_SIGNAL_RETRIEVE_DATA);
             }
 
-            if(reportPane.getSignal() == signal.DATABASE_SIGNAL_UPDATE_TESTNAME_LIST && userEmailList != null && userTestNameList != null)
+            if(reportPane.getSignal() == signal.DATABASE_SIGNAL_UPDATE_TESTNAME_LIST && userEmailList != null && userTestNameList != null && userTestNameList.size() > 0 )
             {
                 userTestIDList = dao.get("Basic").getUserTestID(userEmailList.get(reportPane.getEmailIndex()), userTestNameList.get(reportPane.getTestNameIndex()));
                 reportPane.setUserTestIDListItem(userTestIDList);
@@ -98,7 +104,7 @@ public class ReportDBProcess implements Runnable
 
                     if(reportPane.isStatisticsReportEnabled())
                     {
-                        if(dao.get("Statistics.FirstChoice").DBConnection() != null && userTestNameList != null)
+                        if(dao.get("Statistics.FirstChoice").DBConnection() != null && userTestNameList != null && userTestNameList.size() > 0)
                         {
                             elementForReport.put("TestName", userTestNameList.get(reportPane.getTestNameIndex()));
                             reportPane.setStatisticsTableColumns(dao.get("Statistics.FirstChoice").getUserTestTableColumns(null));
@@ -116,7 +122,7 @@ public class ReportDBProcess implements Runnable
             {
                 if(reportPane.isStatisticsReportEnabled())
                 {
-                    if(dao.get("Statistics.FirstChoice").DBConnection() != null && userTestNameList != null)
+                    if(dao.get("Statistics.FirstChoice").DBConnection() != null && userTestNameList != null && userTestNameList.size() > 0)
                     {
                         elementForReport.put("TestName", userTestNameList.get(reportPane.getTestNameIndex()));
                         reportPane.setStatisticsTableColumns(dao.get("Statistics.FirstChoice").getUserTestTableColumns(null));
@@ -131,7 +137,7 @@ public class ReportDBProcess implements Runnable
             {
                 if(reportPane.isStatisticsReportEnabled())
                 {
-                    if(dao.get("Statistics.XOverY").DBConnection() != null && userTestNameList != null)
+                    if(dao.get("Statistics.XOverY").DBConnection() != null && userTestNameList != null && userTestNameList.size() > 0)
                     {
                         elementForReport.put("TestName", userTestNameList.get(reportPane.getTestNameIndex()));
                         reportPane.setStatisticsTableColumns(dao.get("Statistics.XOverY").getUserTestTableColumns(null));
