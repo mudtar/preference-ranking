@@ -10,6 +10,10 @@
   -fx-alignment: center;
 }
 
+.hbox {
+  -fx-alignment: center;
+}
+
 #submitButton {
   -fx-background-insets: 10px 0 0 0;
   -fx-border-insets: 10px 0 0 0;
@@ -22,7 +26,8 @@
 }
 
 .toggle-button {
-  -fx-pref-width: 200px;
+  -fx-min-width: 225px;
+  -fx-min-height: 225px;
 }
 
 .toggle-button:selected {

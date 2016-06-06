@@ -9,6 +9,8 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 /**
@@ -233,9 +235,37 @@ public class UserTestController implements Initializable
         option2.getProperties().put("itemID",
                                     preferencePair.getOption2().getID());
 
-        // Create the text labels for the buttons from the items' names.
-        option1.setText(preferencePair.getOption1().getName());
-        option2.setText(preferencePair.getOption2().getName());
+        try
+        {
+            option1.setGraphic(new ImageView(new Image(
+                preferencePair.getOption1().getImage(), 200, 200, true, true)));
+            option1.setText("");
+        }
+        catch (NullPointerException e)
+        {
+            // This exception is thrown when the InputStream passed to
+            // the Image constructor is null. That's OK in this case; it
+            // just means that there's no image associated with this
+            // item. Set text instead.
+            option1.setGraphic(null);
+            option1.setText(preferencePair.getOption1().getName());
+        }
+
+        try
+        {
+            option2.setGraphic(new ImageView(new Image(
+                preferencePair.getOption2().getImage(), 200, 200, true, true)));
+            option2.setText("");
+        }
+        catch (NullPointerException e)
+        {
+            // This exception is thrown when the InputStream passed to
+            // the Image constructor is null. That's OK in this case; it
+            // just means that there's no image associated with thians
+            // item. Set text instead.
+            option2.setGraphic(null);
+            option2.setText(preferencePair.getOption2().getName());
+        }
 
         switch (preferencePair.getPreference())
         {

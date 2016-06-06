@@ -85,7 +85,7 @@ class PreferencePairs
 
         // Get from the database all existing items.
         PreparedStatement selectItems = con.prepareStatement(
-            "SELECT DISTINCT PK_ItemID, Name " +
+            "SELECT DISTINCT PK_ItemID, Name, ImageBinary " +
             "FROM FBJ_ITEM " +
             "JOIN FBJ_TEST_NAME_ITEM " +
             "ON FBJ_TEST_NAME_ITEM.FK_ItemID = FBJ_ITEM.PK_ItemID " +
@@ -98,8 +98,9 @@ class PreferencePairs
         while (rs.next())
         {
             // Add each item to the collection of items.
-            items.put(rs.getInt("PK_ItemID"), new Item(rs.getInt("PK_ItemID"),
-                                                       rs.getString("Name")));
+            items.put(rs.getInt("PK_ItemID"), new Item(
+                rs.getInt("PK_ItemID"), rs.getString("Name"),
+                rs.getBinaryStream("ImageBinary")));
 
             // Map<Integer, Set<Integer>> itemsPaired = new HashMap<>();
             // Initialize the itemsPaired collection so that there is an

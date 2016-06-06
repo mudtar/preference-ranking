@@ -59,7 +59,7 @@ public class UserTest extends Application
         controller.setUserEmail(userEmail);
 
         primaryStage.setTitle("Select Your Preference");
-        primaryStage.setScene(new Scene(root, 400, 300));
+        primaryStage.setScene(new Scene(root, 800, 500));
         primaryStage.show();
     }
 }

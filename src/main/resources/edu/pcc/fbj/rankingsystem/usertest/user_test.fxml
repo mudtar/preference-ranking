@@ -4,10 +4,10 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.control.ToggleGroup?>
-
 <?import javafx.scene.control.ProgressBar?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+
 <?import javafx.scene.layout.HBox?>
 <VBox
   xmlns:fx="http://javafx.com/fxml"
@@ -20,37 +20,42 @@
     />
   </fx:define>
 
-  <GridPane vgap="10" alignment="CENTER">
-    <padding><Insets bottom="25"/></padding>
-    <ComboBox
-      fx:id="testName"
-      onAction="#handleTestNameChange"
-    />
-  </GridPane>
-
-  <GridPane vgap="5" alignment="CENTER">
-    <padding><Insets bottom="10"/></padding>
-    <Label fx:id="progressLabel" alignment="CENTER" text="0 questions answered"/>
-  </GridPane>
-
-  <GridPane vgap="10" alignment="CENTER">
-    <padding><Insets bottom="25"/></padding>
-    <ProgressBar fx:id="progressBar"  />
-  </GridPane>
   <children>
-    <ToggleButton
-      fx:id="option1"
-      toggleGroup="$options"
-    />
-    <ToggleButton
-      fx:id="option2"
-      toggleGroup="$options"
-    />
-    <ToggleButton
-      fx:id="tie"
-      text="I Can't Decide"
-      toggleGroup="$options"
-    />
+    <GridPane vgap="10" alignment="CENTER">
+      <padding><Insets bottom="25"/></padding>
+      <ComboBox
+        fx:id="testName"
+        onAction="#handleTestNameChange"
+      />
+    </GridPane>
+
+    <GridPane vgap="5" alignment="CENTER">
+      <padding><Insets bottom="10"/></padding>
+      <Label fx:id="progressLabel" alignment="CENTER" text="0 questions answered"/>
+    </GridPane>
+
+    <GridPane vgap="10" alignment="CENTER">
+      <padding><Insets bottom="25"/></padding>
+      <ProgressBar fx:id="progressBar"  />
+    </GridPane>
+
+    <HBox alignment="CENTER">
+      <padding><Insets bottom="10" /></padding>
+      <ToggleButton
+        fx:id="option1"
+        toggleGroup="$options"
+      />
+      <ToggleButton
+        fx:id="option2"
+        toggleGroup="$options"
+      />
+      <ToggleButton
+        fx:id="tie"
+        text="I Can't Decide"
+        toggleGroup="$options"
+      />
+    </HBox>
+
     <Button
       fx:id="submit"
       text="Submit"
